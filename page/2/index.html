@@ -71,6 +71,243 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-数据结构·基本概念" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%C2%B7%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" class="article-date">
+  <time class="dt-published" datetime="2021-04-06T04:01:51.000Z" itemprop="datePublished">2021-04-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%C2%B7%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">数据结构·基本概念</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p> Data Structure Notes</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Author : <span class="string">&quot;blueflylabor&quot;</span></span><br><span class="line">Version : <span class="number">1.0</span></span><br><span class="line">Refresh Date <span class="number">2020.11</span><span class="number">.26</span></span><br><span class="line">Description : </span><br><span class="line">Just record <span class="keyword">and</span> review some points about Data Structure.</span><br><span class="line">Have mistakes that please correct it yourself.</span><br></pre></td></tr></table></figure>
+
+<p> 数据结构的基本概念</p>
+<p>  1.数据</p>
+<p>  2.数据元素：</p>
+<p>   数据的基本单位，一个数据元素可有若干个数据项构成，数据项是不可分割的最小单位</p>
+<p>  3.数据类型</p>
+<p>  4.抽象数据类型(ADT[Abstract Data Type]):</p>
+<p>  数学模型在计算机的一种实现，包括数据对象、数据关系、基本操作，如建立一个有限状态机模型</p>
+<p>  5.数据结构：数据元素之间的关系称之为结构，数据结构包括三方面：逻辑结构、存储结构、数据运算(程序&#x3D;算法+数据结构)</p>
+<p>  6.逻辑结构：数据间的逻辑关系，与数据存储独立，分为线性结构和非线性结构</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">逻辑结构--线性结构</span><br><span class="line">逻辑结构--非线性结构</span><br><span class="line">线性结构--一般线性表</span><br><span class="line">线性结构--受限线性表</span><br><span class="line">线性结构--线性表推广</span><br><span class="line">受限线性表--栈和队列</span><br><span class="line">受限线性表--串</span><br><span class="line">线性表推广--数组</span><br><span class="line">线性表推广--广义表</span><br><span class="line">非线性结构--非线性表</span><br><span class="line">非线性表--集合</span><br><span class="line">非线性表--树形结构</span><br><span class="line">非线性表--图形结构</span><br><span class="line">树形结构--一般树</span><br><span class="line">树形结构--二叉树</span><br><span class="line">图形结构--有向图</span><br><span class="line">图形结构--无向图</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>  7.物理结构：数据元素的表示以及关系的表示，主要有：顺序存储、链式存储、索引存储、散列存储</p>
+<p>  8.算法评估</p>
+<p>  （1）特性：有穷、确定、可行、输入、输出</p>
+<p>  （2）时间复杂度：衡量算法随问题规模的增大，算法执行的时间增长的快慢</p>
+<p>   T(n)&#x3D;O(f(n))，f(n)为算法运算频度，一般采用最坏情况下的时间复杂度</p>
+<p>   计算方法：取算法时间增长最快的函数项，忽略其系数</p>
+<p>   a加法规则：</p>
+<pre><code>$$
+T(n)=T_1(n)+T_2(n)=O(f(n))+O(g(n))=O(max(f(n),g(n)))
+$$
+
+多项式相加，只保留最高阶的项，且系数变为1
+</code></pre>
+<p>   b乘法规则：</p>
+<pre><code>$$
+T(n)=T_1(n)*T_2(n)=O(f(n))*O(g(n))=O(f(n)*g(n))
+$$
+
+多项式相乘，都保留
+</code></pre>
+<p>   从左到右性能依次降低：</p>
+<pre><code>$$
+O(1)&lt;O(log_2n)&lt;O(n)&lt;O(nlog_2n)&lt;O(n^2)&lt;O(n^3)&lt;O(2^n)
+$$
+</code></pre>
+<p>   单循环体型：</p>
+<pre><code>例题1：计算下列程序的时间复杂度
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i,sum	<span class="comment">//执行1次</span></span><br><span class="line">sum=<span class="number">0</span>	<span class="comment">//执行1次</span></span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;=n;i++)<span class="comment">//int i=0执行1次，i&lt;=n执行n+2次，i++执行n+1次</span></span><br><span class="line">	sum+=i;	<span class="comment">//执行n+1次</span></span><br></pre></td></tr></table></figure>
+
+时间分析： 该算法执行了3n+6个语句。 假设每个语句执行时间一致，均为常数t。则总时间 
+$$
+T=(3n+6)*t
+$$
+随着问题规模n的增大，总时间的增长率与n的增长率一致，所以复杂度为
+$$
+O(n)
+$$
+
+
+结论： 
+
+ 复杂度是关于增长率的，所以可以直接忽视常数项
+
+  一般可以直接关注循环段基本操作语句
+
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum+=i;</span><br></pre></td></tr></table></figure>
+ 
+  
+
+ 的执行次数
+</code></pre>
+<p>   例题2：</p>
+   <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> sum,i;</span><br><span class="line">sum=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">1</span>;i &lt;= n;i=<span class="number">2</span>*i)&#123;</span><br><span class="line">	sum=sum+i;</span><br></pre></td></tr></table></figure>
+<p>   时间分析：</p>
+<p>   i 取值：1,2,4,8…<br>   满足条件：2^𝑘 ≤ n<br>   K𝑙𝑜𝑔_2𝑛时， 跳出循环<br>   所以循环体执行次数：⌈𝑙𝑜𝑔_2𝑛⌉ 故时间复杂度为O(logn).i 取值：1,2,4,8</p>
+<p>  多循环体型</p>
+<p>  两个运算法则：乘法规则（嵌套循环）、加法规则（若干循环）</p>
+<p>  例题3：</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> x,y,i,j;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	x++;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=n;j++)</span><br><span class="line">		y++;</span><br></pre></td></tr></table></figure>
+<p>  两个循环体是独立的，采用加法规则：<br>  $$<br>  T(n)&#x3D;T_1(n)+T_2(n)<br>  $$</p>
+<p>  $$<br>  &#x3D;max(T_1(n),T_2(n)) &#x3D;O(n^2)<br>  $$</p>
+<p>  例题4：</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i,j,sum;</span><br><span class="line"><span class="keyword">for</span> (i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=n;j=<span class="number">2</span>*j)</span><br><span class="line">		sum=sum+j;</span><br></pre></td></tr></table></figure>
+<p>  两个循环体是嵌套的，采用乘法规则：</p>
+<p>  $$<br>  T(n)&#x3D;T_1(n)*T_2(n)<br>  $$</p>
+<p>  $$<br>  &#x3D;O(nlogn)<br>  $$</p>
+<p>  （3）空间复杂度：衡量算法随问题规模的增大，算法所需空间的快慢</p>
+<p>   S(n)&#x3D;O(g(n))，算法所需空间的增长率和g(n)的增长率相同</p>
+<p>   空间复杂度S(n)指算法运行过程中所使用的辅助空间的大小</p>
+<p>线性表</p>
+<p> 1.定义：线性表是具有相同数据类型的n个数据类型的有限序列，n为表长</p>
+<p> 线性表中第一个元素称为表头元素，最后一个元素称为表位元素</p>
+<p> 除第一个元素外，每个元素仅有一个直接前驱，除最后一个元素外，每个元素有且仅有一个直接后继</p>
+<p>顺序存储</p>
+<p>线性表的顺序存储又称顺序表</p>
+<p>使用一组地址连续的存储单元(数组等)依次存储线性表的数据元素，从而使得逻辑相邻的两个元素在物理位置上也相邻</p>
+<p>三个属性：</p>
+<p> 1.存储空间的起始位置</p>
+<p> 2.顺序表最大存储容量</p>
+<p> 3.顺序表当前的长度</p>
+<p>宏定义</p>
+<p>静态分配大小</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> MaxSize 100</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">int</span> Elemtype</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>&#123;</span><br><span class="line">Elemtype elem[MaxSize];</span><br><span class="line"><span class="type">int</span> length;</span><br><span class="line">&#125;SqList;</span><br></pre></td></tr></table></figure>
+
+<p>动态分配大小(这里动态指空间大小运行时决定，但分配大小后，空间大小被固定)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">int</span> Elemtype</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>&#123;</span><br><span class="line">Elemtype *elem;</span><br><span class="line"><span class="type">int</span> length;</span><br><span class="line">&#125;SqList;</span><br></pre></td></tr></table></figure>
+
+<p>优点：访问效率高、存储密度高</p>
+<p>缺点：插入删除操作复杂</p>
+<p>顺序存储线性表操作</p>
+<p>1.初始化顺序存储线性表</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">initLinklist</span><span class="params">(SqList &amp;L)</span></span>&#123;</span><br><span class="line">	L.elem=<span class="keyword">new</span> Elemtype[MaxSize];</span><br><span class="line"><span class="keyword">if</span>(!L.elem)</span><br><span class="line">   <span class="built_in">exit</span>(OVERFLOWS);</span><br><span class="line">L.length=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（1）创建一个顺序存储表后，需要初始化，首先根据数组大小通过new在堆空间开辟一段连续的空间赋值于先前创建的顺序存储表的elem空间</p>
+<p>（2）检查elem是否存在，不存在溢出退出程序</p>
+<p>（3）将length元素赋值为0，即设置顺序存储线性表长度为0</p>
+<p>2.销毁顺序存储线性表</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">destroyList</span><span class="params">(SqList &amp;L)</span></span>&#123;</span><br><span class="line"><span class="keyword">if</span>(L.elem)</span><br><span class="line">   <span class="built_in">delete</span>(L.elem);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果线性表存在，删除线性表elem开辟的空间</p>
+<p>3.清空顺序存储线性表</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">clearList</span><span class="params">(SqList &amp;L)</span></span>&#123;</span><br><span class="line">L.length=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将线性表的长度置为0</p>
+<p>4.判断顺序存储线性表是否为空</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isEmpty</span><span class="params">(SqList &amp;L)</span></span>&#123;</span><br><span class="line"><span class="keyword">if</span>(L.length==<span class="number">0</span>)</span><br><span class="line">   <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>判断线性表长度是否为0，并返回相应bool值</p>
+<p>5.引用类型按下表获取顺序存储线性表元素</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">getElem</span><span class="params">(SqList L,<span class="type">int</span> i,type&amp;e)</span></span>&#123;</span><br><span class="line"> <span class="keyword">if</span>(i&lt;<span class="number">1</span>||iL.length)</span><br><span class="line">     <span class="keyword">return</span> ERROR;</span><br><span class="line"> e=L.elem[i<span class="number">-1</span>];</span><br><span class="line"> <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> （1）先检查传递参数下标量是否正确</p>
+<p> （2）通过访问elem内数据存入引用类型变量内</p>
+<p>6.按下表获取顺序存储线性表元素</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Elemtype <span class="title">getElem</span><span class="params">(SqList L,<span class="type">int</span> i)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(i&lt;<span class="number">1</span>||iL.length)</span><br><span class="line">     <span class="keyword">return</span> ERROR;</span><br><span class="line"> <span class="keyword">return</span> L.elem[i<span class="number">-1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> （1）先检查传递参数下标量是否正确</p>
+<p> （2）通过访问elem内数据并返回</p>
+<p>7.引用类型按值查询顺序存储线性表元素下标</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">locateElem</span><span class="params">(SqList L,Elemtype e,<span class="type">int</span> &amp;i)</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;L.length;i++)</span><br><span class="line">     <span class="keyword">if</span>(L.elem[i]==e)</span><br><span class="line">         <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 按照elem开辟空间进行迭代，当迭代元素与目标元素值相等时，将迭代量赋值于引用类型下标变量</p>
+<p>8.按值获取顺序存储线性表元素下标</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">locateElem</span><span class="params">(SqList L,Elemtype e)</span></span>&#123;</span><br><span class="line"> <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;L.length;i++)</span><br><span class="line">     <span class="keyword">if</span>(L.elem[i]==e)</span><br><span class="line">         <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 按照elem开辟空间进行迭代，当迭代元素与目标元素值相等时，将迭代量返回</p>
+<p>9.按下标插入元素</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">listInsert</span><span class="params">(SqList &amp;L,type e,<span class="type">int</span> i)</span></span>&#123;</span><br><span class="line"> <span class="keyword">if</span>(i&lt;<span class="number">1</span>||iL.length)</span><br><span class="line">     <span class="keyword">return</span> ERROR;</span><br><span class="line"> ++L.length;</span><br><span class="line"> <span class="keyword">for</span>(<span class="type">int</span> j=L.length<span class="number">-1</span>;j=i<span class="number">-1</span>;j--)</span><br><span class="line">     L.elem[j+<span class="number">1</span>]=L.elem[j];</span><br><span class="line"> L.elem[i<span class="number">-1</span>]=e;</span><br><span class="line"> <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> （1）先检查传递参数下标量是否正确</p>
+<p> （2）增加线性表长度</p>
+<p> （3）按照目标元素位置，将其尾部元素后移1偏移量</p>
+<p> （4）将目标元素存入下标位置</p>
+<p> <strong>时间复杂度分析:</strong></p>
+<p>  （1）<br>  $$<br>  最好情况：在表尾插入(即i&#x3D;n+1)<br>  $$</p>
+<p>  $$<br>  元素后移语句执行的时间复杂度为O(1)<br>  $$</p>
+<p>  （2）<br>  $$<br>  最坏情况：在表头插入(即i&#x3D;1)<br>  $$</p>
+<p>  $$<br>  元素后移语句执行n次，时间复杂度为O(n)<br>  $$</p>
+<p>  （3）<br>  $$<br>  平均情况：假设p_i(p_i&#x3D;1&#x2F;(n+1))<br>  $$</p>
+<p>  $$<br>  是第i个位置上插入一个结点的概率<br>  $$</p>
+<p>  $$<br>  则在长度为n的线性表中插入一个节点是需要移动结点的平均次数为<br>  $$</p>
+<p>  $$<br>  \begin{equation*}</p>
+<p>  f &#x3D; \sum_{i&#x3D;1}^{n+1}p_i(n-i-1)</p>
+<p>  \end{equation*}<br>  $$</p>
+<p>  $$<br>  \begin{equation*}</p>
+<p>  &#x3D;\sum_{i&#x3D;1}^{n+1}{\frac{n+1}{n-i+1}}</p>
+<p>  \end{equation*}<br>  $$</p>
+<p>  $$<br>  \begin{equation*}</p>
+<p>  &#x3D;\frac{1}{n+1} \sum_{i&#x3D;1}^{n+1}(n-i-1)</p>
+<p>  \end{equation*}<br>  $$</p>
+<p>  $$<br>  &#x3D;\frac{1}{n+1}\frac{n(n+2)}{2}&#x3D;\frac{n}{2}<br>  $$</p>
+<p>  $$<br>  因此顺序存储线性表的插入算法平均时间复杂度为O(n)<br>  $$</p>
+<p>10.按下标删除元素</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">listDelete</span><span class="params">(SqList &amp;L, <span class="type">int</span> i)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> ((i &lt; <span class="number">1</span>) || (i  L.length))</span><br><span class="line">		<span class="keyword">return</span> ERROR;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> j = i; i &lt;= L.length - <span class="number">1</span>; j++) &#123;</span><br><span class="line">		L.elem[j - <span class="number">1</span>] = L.elem[j];</span><br><span class="line">		--L.length;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> （1）先检查传递参数下标量是否正确</p>
+<p> （2）按照目标元素位置，将其头部元素前移1偏移量</p>
+<p> （3）减少线性表长度</p>
+<p> <strong>时间复杂度分析:</strong></p>
+<p>  （1）<br>  $$<br>  最好情况：在表尾插入(即i&#x3D;n)<br>  $$</p>
+<p>  $$<br>  无需移动元素，时间复杂度为O(1)<br>  $$</p>
+<p>  （2）<br>  $$<br>  最坏情况：在表头插入(即i&#x3D;1)<br>  $$</p>
+<p>  $$<br>  需移动除第一个元素外的所有元素，时间复杂度为O(n)<br>  $$</p>
+<p>  （3）<br>  $$<br>  平均情况：假设p_i(p_i&#x3D;1&#x2F;(n+1))<br>  $$</p>
+<p>  $$<br>  是第i个位置上插入一个结点的概率<br>  $$</p>
+<p>  $$<br>  则在长度为n的线性表中插入一个节点是需要移动结点的平均次数为<br>  $$</p>
+<p>  $$<br>  \begin{equation*}</p>
+<p>  f &#x3D; \sum_{i&#x3D;1}^{n}p_i(n-i)</p>
+<p>  \end{equation*}<br>  $$</p>
+<p>  $$<br>  \begin{equation*}</p>
+<p>  &#x3D;\sum_{i&#x3D;1}^{n}{\frac{n}{n-i}}</p>
+<p>  \end{equation*}<br>  $$</p>
+<p>  $$<br>  \begin{equation*}</p>
+<p>  &#x3D;\frac{1}{n} \sum_{i&#x3D;1}^{n}(n-i)</p>
+<p>  \end{equation*}<br>  $$</p>
+<p>  $$<br>  &#x3D;\frac{1}{n}\frac{n(n-1)}{2}&#x3D;\frac{n-1}{2}<br>  $$</p>
+<p>  $$<br>  因此顺序存储线性表的插入算法平均时间复杂度为O(n)<br>  $$</p>
+<p>11.创建顺序存储线性表</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">createList</span><span class="params">(SqList &amp;L, <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">	type e;</span><br><span class="line">	L.length = n;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;Please in put an element:&quot;</span>;</span><br><span class="line">		cin  e;</span><br><span class="line">		L.elem[i] = e;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>11.打印顺序存储线性表内元素</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">printList</span><span class="params">(SqList L)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\nList&#x27;s element：\n&quot;</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; L.length; i++) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;elem[&quot;</span> &lt;&lt; i &lt;&lt; <span class="string">&quot;] =&quot;</span> &lt;&lt; L.elem[i] &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blueflylabor.github.io/2021/04/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%C2%B7%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" data-id="cly1ogrxl0006r0dq392m2el8" data-title="数据结构·基本概念" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-数据结构·栈和队列" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/04/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%C2%B7%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/" class="article-date">
@@ -1666,111 +1903,6 @@
 
 
   
-    <article id="post-高等数学·不定积分、定积分与反常积分" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/09/06/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%C2%B7%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86%E3%80%81%E5%AE%9A%E7%A7%AF%E5%88%86%E4%B8%8E%E5%8F%8D%E5%B8%B8%E7%A7%AF%E5%88%86/" class="article-date">
-  <time class="dt-published" datetime="2018-09-06T04:01:51.000Z" itemprop="datePublished">2018-09-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/09/06/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%C2%B7%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86%E3%80%81%E5%AE%9A%E7%A7%AF%E5%88%86%E4%B8%8E%E5%8F%8D%E5%B8%B8%E7%A7%AF%E5%88%86/">高等数学·不定积分、定积分与反常积分</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="不定积分、定积分与反常积分"><a href="#不定积分、定积分与反常积分" class="headerlink" title="不定积分、定积分与反常积分"></a>不定积分、定积分与反常积分</h1><h2 id="不定积分"><a href="#不定积分" class="headerlink" title="不定积分"></a>不定积分</h2><h3 id="一、不定积分概念"><a href="#一、不定积分概念" class="headerlink" title="一、不定积分概念"></a>一、不定积分概念</h3><h4 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h4><p>$$<br>\begin{align}<br>&amp;原函数：设对于区间I上的任意一点x均有F’(x)&#x3D;f(x),则称F(x)为f(x)在区间I上的一个原函数\<br>&amp;不定积分：设函数f(x)于区间I上有原函数,则其余原函数的全体称为f(x)于区间I上的不定积分,记为\int{f(x)dx}\<br>&amp;线性：\int[\alpha f(x)+\beta g(x)]dx&#x3D;\alpha\int f(x)dx+\beta\int g(x)dx\<br>\end{align}<br>$$</p>
-<h4 id="2-计算"><a href="#2-计算" class="headerlink" title="2.计算"></a>2.计算</h4><p>$$<br>\begin{align}<br>&amp;计算方法\begin{cases}&amp;1.基本公式\&amp;2.线性\&amp;3.积分法\begin{cases}&amp;1.换元法\&amp;2.分部积分法\\end{cases}\\end{cases}\<br>\end{align}<br>$$</p>
-<h5 id="1-第一换元法-凑微分"><a href="#1-第一换元法-凑微分" class="headerlink" title="(1)第一换元法(凑微分)"></a>(1)第一换元法(凑微分)</h5><p>$$<br>\begin{align}<br>&amp;设F’(u)&#x3D;f(u),则\int{f(\Phi(x))\Phi’(x)}dx&#x3D;\int{f(\Phi(x))d(\Phi(x))}&#x3D;F(\Phi(x))+C\<br>&amp;注解：找到合适的凑微分\Phi’(x)dx&#x3D;d(\Phi(x))<br>\end{align}<br>$$</p>
-<p>常见凑微分：<br>$$<br>\begin{align}<br>&amp;1.\int{f(ax+b)dx&#x3D;\frac{1}{a}\int{f(ax+b)d(ax+b)}}(a\neq0)\<br>&amp;eg1.\int{\sin (2x+3)}dx&#x3D;\frac{1}{2}\int\sin (2x+3)d(2x+3)&#x3D;\frac{1}{2}\cos{(2x+3)}+C\<br>&amp;2.\int{f(ax^n+b)x^{n-1}dx}&#x3D;\frac{1}{na}\int{f(ax^n+b)d(ax^n+b)}\<br>&amp;eg2.\int{\cos(2x^4+3)x^3dx}&#x3D;\frac{1}{4*2}\int{\cos(2x^4+3)d(2x^4+3)}&#x3D;\frac{1}{8}\cos{(2x^4+3)}+C\<br>&amp;3.\int{f(a^x+c)a^xdx}&#x3D;\frac{1}{\ln{a}}\int{f(a^x+c)}d(a^x+c)\<br>&amp;eg3.\int{\sin(2^x+3)2^xdx}&#x3D;\frac{1}{\ln2}\int{\sin{(2^x+3)}d(2^x+3)}&#x3D;\frac{1}{\ln 2}\cos{(2^x+3)}\<br>&amp;4.\int{f(\frac{1}{x})\frac{1}{x^2}}dx&#x3D;-\int{f(\frac{1}{x})}d(\frac{1}{x})\<br>&amp;eg4.\int{\ln(\frac{1}{x})}\frac{1}{x^2}dx&#x3D;-\int\ln (\frac{1}{x})d({\frac{1}{x}})+C\<br>&amp;5.\int{f(\ln |x|})\frac{1}{x}d(x)&#x3D;\int{f(\ln{|x|)}}{d(\ln|x|)}\<br>&amp;eg5.\int{\sin ({\ln{|x|}}})\frac{1}{x}dx&#x3D;\int{\sin(\ln(|x|)d(\ln{|x|})}&#x3D;\cos(\ln x)+C\<br>&amp;6.\int{f(\sqrt x)\frac{1}{\sqrt x}}dx&#x3D;2\int{f(\sqrt x)}d(\sqrt x)\<br>&amp;7.\int f(\sin x)\cos xdx&#x3D;-\int{(\sin x)}d(\sin x)\<br>&amp;8.\int{f(\cos x)\sin dx}&#x3D;\int{f(\cos x)d(\cos x)}\<br>&amp;9.\int{f(\tan x)\sec^2 xdx}&#x3D;\int{f(\tan x)d(\tan x)}\<br>&amp;10.\int{f(\cot x)\csc^2xdx}&#x3D;-\int{f(\cot x)d{(\cot x)}}\<br>&amp;11.\int{f{(\arcsin x)\frac{1}{\sqrt{1-x^2}}}}dx&#x3D;\int{f(\arcsin x)d({\arcsin x})}\<br>&amp;12.\int{f(\arccos x)(-\frac{1}{\sqrt{1-x^2}}})dx&#x3D;\int{f(\arccos x)d(\arccos x)}\<br>&amp;13.\int{f(\arctan x)\frac{1}{1+x^2}dx}&#x3D;\int{f(\arctan x)d(\arctan x)}\<br>&amp;14.\int{f(\sqrt{x^2+a})}\frac{x}{\sqrt{x^2+a}}dx&#x3D;\int{f(\sqrt{x^2+a})}d(\sqrt{x^2+a})\<br>&amp;注解：(\sqrt{x^2\pm a})’&#x3D;\frac{x}{\sqrt{x^2+a}},(\sqrt{a^2-x^2})’&#x3D;\frac{-x}{\sqrt{a^2-x^2}}\<br>\end{align}<br>$$</p>
-<h5 id="2-第二换元法"><a href="#2-第二换元法" class="headerlink" title="(2)第二换元法"></a>(2)第二换元法</h5><p>$$<br>\begin{align}<br>&amp;设F’(u)&#x3D;f(\Phi(u))\Phi’(u),则\<br>&amp;\int{f(x)dx}\overset{x&#x3D;\Phi(u)}{&#x3D;}\int{f(\Phi(u))\Phi’(u)du}&#x3D;F(u)+C&#x3D;F(\Phi^{-1}(x))+C\<br>&amp;注解：找到合适的x&#x3D;\Phi(u)\<br>\end{align}<br>$$</p>
-<p>1)三角换元<br>$$<br>\begin{align}<br>&amp;x&#x3D;a\sin u,x&#x3D;a\tan u,x&#x3D;a \sec u\<br>&amp;\sqrt{a^2-x^2}\overset{x&#x3D;a\sin u}{&#x3D;}a\cos u,u\in[-\frac{\pi}{2},\frac{\pi}{2}],x\in[-a,a]\<br>&amp;\sqrt{a^2+x^2}\overset{x&#x3D;a\tan u}{&#x3D;}a\sec u,u\in{(-\frac{\pi}{2},\frac{\pi}{2})},x\in{(-\infty,\infty)}\<br>&amp;\sqrt{x^2-a^2}\overset{x&#x3D;a\sec u}{&#x3D;}a\tan u,u\in(\frac{\pi}{2},\pi]\cup(0,\frac{\pi}{2}]\<br>\end{align}<br>$$<br>2)倒变换<br>$$<br>\begin{align}<br>&amp;x&#x3D;\frac{1}{u}常用于含\frac{1}{x}的函数\<br>\end{align}<br>$$<br>3）指数(或对数)变换<br>$$<br>\begin{align}<br>&amp;a^x&#x3D;u或x&#x3D;\frac{\ln u}{\ln a}常用于含a^x的函数\<br>\end{align}<br>$$<br>4）用于有理化的变换<br>$$<br>\begin{align}<br>&amp;\frac{1}{\sqrt{x}+\sqrt[3]{x}}用x&#x3D;u^6\<br>&amp;\sqrt[n]{\frac{ax+b}{cx+d}}用u&#x3D;\sqrt[n]{\frac{ax+b}{cx+d}}或x&#x3D;-\frac{du^n-b}{cu^n-a}\<br>\end{align}<br>$$</p>
-<h5 id="3-分部积分法"><a href="#3-分部积分法" class="headerlink" title="(3)分部积分法"></a>(3)分部积分法</h5><p>$$<br>\begin{align}<br>&amp;\int{u(x)v’(x)dx}&#x3D;\int{u(x)d(v(x))}&#x3D;u(x)v(x)-\int{v(x)u’(x)dx}\<br>&amp;注解：找到合适的u(x),v(x)\<br>\end{align}<br>$$</p>
-<p>1)降幂法<br>$$<br>\begin{align}<br>&amp;\int{x^ne^{ax}dx},\int{x^n\sin axdx},\int{x^n\cos ax dx}\<br>&amp;取u(x)&#x3D;x^n\<br>\end{align}<br>$$<br>2)升幂法<br>$$<br>\begin{align}<br>&amp;\int{x^a\ln xdx},\int{x^a\arcsin xdx},\int{x^a\arccos x dx},\int{x^a\arctan x dx}\<br>&amp;取u(x)&#x3D;\ln x\<br>\end{align}<br>$$<br>3)循环法<br>$$<br>\begin{align}<br>&amp;\int{e^{ax}\sin ax dx},\int{e^{ax}\cos {ax} dx}\<br>&amp;取u(x)&#x3D;e^{ax}或\sin{ax}<br>\end{align}<br>$$<br>4)递推公式法<br>$$<br>\begin{align}<br>&amp;与n有关的结果I_n，建立递推关系I_n&#x3D;f(I_{n-1})或f(I_{n-2})\<br>\end{align}<br>$$</p>
-<h2 id="定积分"><a href="#定积分" class="headerlink" title="定积分"></a>定积分</h2><h3 id="一、定积分概念"><a href="#一、定积分概念" class="headerlink" title="一、定积分概念"></a>一、定积分概念</h3><h4 id="1-定义-1"><a href="#1-定义-1" class="headerlink" title="1.定义"></a>1.定义</h4><p>$$<br>\begin{align}<br>&amp;定义:设函数f(x)在区间[a,b]上有定义且有界\<br>&amp;(1)分割：将[a,b]分成n个[x_{i-1},x_{i}]小区间\<br>&amp;(2)求和：[x_{i-1},x_{i}]上取一点\xi_{i},\sum_{i&#x3D;1}^{n}{f(\xi_{i})\Delta x_i},\lambda&#x3D;\max{\Delta x_{1},\Delta x_{2},…,\Delta x_{n}}\<br>&amp;(3)取极限：若\lim_{\lambda \rightarrow 0}{\sum_{i&#x3D;1}^{n}f(\xi_{i})\Delta x}\exist,且极值不依赖区间[a,b]分发以及点\xi_{i}的取法,则称f(x)在区间[a,b]上可积,\<br>&amp;\int^{b}<em>{a}{f(x)dx}&#x3D;\lim</em>{\lambda \rightarrow 0}{f(\xi)\Delta x_{i}}<br>&amp;\<br>&amp;注解：\<br>&amp;(1)\lambda \rightarrow0 \rightarrow \nleftarrow n\rightarrow \infty\<br>&amp;(2)定积分表示一个值,与积分区间[a,b]有关,与积分变化量x无关\<br>&amp;\int_{a}^{b}{f(x)dx}&#x3D;\int_{a}^{b}{f(t)dt}\<br>&amp;(3)如果积分\int_{0}^{1}{f(x)dx}\exist,将[0,1]n等分，此时\Delta{x_{i}}&#x3D;\frac{1}{n},取\xi_{i}&#x3D;\frac{i}{n},\<br>&amp;\int_{0}^{1}f(x)dx&#x3D;\lim_{\lambda \rightarrow 0}{\sum_{i&#x3D;1}{n}{f(\xi_{i})\Delta x_{i}}}&#x3D;\lim_{n\rightarrow \infty}\sum_{i&#x3D;1}^{n}f(\frac{i}{n})\<br>\end{align}<br>$$</p>
-<p>$$<br>\begin{align}<br>&amp;\int^{b}<em>{a}{f(x)dx}&#x3D;\lim</em>{\lambda \rightarrow 0}\sum^{n}<em>{i&#x3D;1}f(\xi_i)\Delta_i&#x3D;\begin{cases}&amp;\lim</em>{n\rightarrow \infty}{\sum_{i&#x3D;1}^{n}{f(a+(i-1)\frac{b-a}{n})\frac{b-a}{n}}},左侧\&amp;\lim_{n\rightarrow \infty}{\sum_{i&#x3D;1}^{n}{f(a+i\frac{b-a}{n})\frac{b-a}{n}}},右侧\\end{cases}\<br>&amp;中点：\Phi_i&#x3D;a+(i-1)\frac{b-a}{n}+\frac{b-a}{2n}\<br>\end{align}<br>$$</p>
-<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210613172601984.jpg" alt="image-20210613172601984"></p>
-<p>定理：(线性)<br>$$<br>\begin{align}<br>&amp;\int[\alpha f(x)+\beta g(x)]dx&#x3D;\alpha\int f(x)dx+\beta\int g(x)dx\<br>\end{align}<br>$$<br>注解：积分无小事<br>$$<br>\begin{align}<br>&amp;\int{e^{\pm x^2}dx,\int{\frac{\sin x}{x}}}积不出来\<br>&amp;F’(x)&#x3D;f(x),x\in I,连续函数一定存在原函数，无穷多个\<br>&amp;[F(x)+C]’&#x3D;f(x)<br>\end{align}<br>$$</p>
-<h4 id="2-定积分存在的充分条件"><a href="#2-定积分存在的充分条件" class="headerlink" title="2.定积分存在的充分条件"></a>2.定积分存在的充分条件</h4><p>$$<br>\begin{align}<br>&amp;若f(x)在[a,b]上连续,则\int^{b}<em>{a}{f(x)dx}必定存在\<br>&amp;若f(x)在[a,b]上有上界,且只有有限个间断点,则\int^{b}</em>{a}{f(x)dx}必定存在\<br>&amp;若f(x)在[a,b]上只有有限个第一类间断点,则\int^{b}_{a}{f(x)dx}必定存在\<br>\end{align}<br>$$</p>
-<h4 id="3-定积分的几何意义"><a href="#3-定积分的几何意义" class="headerlink" title="3.定积分的几何意义"></a>3.定积分的几何意义</h4><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210405155729433.jpg" alt="image-20210405155729433"><br>$$<br>\begin{align}<br>&amp;(1)f(x)\geqslant{0},\int_{a}^{b}{f(x)dx}&#x3D;S\<br>\end{align}<br>$$<br><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210405155859329.jpg" alt="image-20210405155859329"><br>$$<br>\begin{align}<br>&amp;(2)f(x)\leqslant{0},\int_{a}^{b}{f(x)dx}&#x3D;-S\<br>\end{align}<br>$$</p>
-<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210405155556537.jpg" alt="image-20210405155556537"><br>$$<br>\begin{align}<br>&amp;(3)f(x)\geqslant{0}\cup f(x)\leqslant{0},\int_{a}^{b}{f(x)dx}&#x3D;S_1+S_3-S_2\</p>
-<p>\end{align}<br>$$</p>
-<p>注解：<br>$$<br>\begin{align}<br>&amp;（1）当f(x)\geq0时,定积分的几何意义是,以区间[a,b]为底,y&#x3D;f(x)为曲边的曲边梯形面积\<br>&amp;（2）定积分是一个常数，只与f和区间[a,b]有关,与积分变量用什么字母无关\<br>&amp;\int_a^b{f(x)}dx&#x3D;\int_a^b{f(t)dt}\<br>&amp;（3）\int_a^bdx&#x3D;b-a\<br>&amp;（4）\int_{a}^{a}f(x)&#x3D;0,\int_a^bf(x)dx&#x3D;-\int_b^a{f(t)}dt<br>\end{align}<br>$$</p>
-<h3 id="二、定积分的性质"><a href="#二、定积分的性质" class="headerlink" title="二、定积分的性质"></a>二、定积分的性质</h3><h4 id="1-不等式性质"><a href="#1-不等式性质" class="headerlink" title="1.不等式性质"></a>1.不等式性质</h4><p>$$<br>\begin{align}<br>&amp;(1)保序性：若在区间[a,b]上f(x)\leqslant{g(x)},则\int_a^{b}{f(x)dx}\leqslant{\int_a^{b}{g(x)dx}}\<br>&amp;推论：\<br>&amp;(1)f(x)\geq0,\forall x\in[a,b],则\int_a^b{f(x)dx}\geq0\<br>&amp;(2)f(x)\geq0,\forall x\in[a,b],且[c,d]\subset[a,b],则\int_a^b{f(x)dx}\geq\int_c^d{f(x)dx}\<br>&amp;(3)|\int_a^bf(x)dx|\leq\int_a^b{|f(x)|dx}\<br>&amp;-|f|\leq f\leq |f|\Rightarrow \int_a^b-|f|\leq \int_a^bf\leq \int_a^b|f|\Rightarrow |\int_a^bf|\leq\int_a^b|f|\<br>&amp;如：x^2\leq x^3,x\in[0,1],则\int_0^1{x^3dx}\leq\int_0^1{x^2dx}\<br>\end{align}<br>$$</p>
-<p>$$<br>\begin{align}<br>&amp;(4)(估值不等式)若M及m分别是f(x)在[a,b]上的最大值和最小值,\<br>&amp;则m(b-a)\leqslant{\int_a^{b}{f(x)dx}\leqslant{M(b-a)}}\<br>\end{align}<br>$$</p>
-<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/geogebra-export.jpg" alt="geogebra-export"><br>$$<br>\begin{align}<br>&amp;证明：M(b-a)&#x3D;S_{AFDC}&#x3D;S_1+S_2+S_3\<br>&amp;m(b-a)&#x3D;S_{EBDC}&#x3D;S_3\<br>&amp;\int_a^{b}{f(x)dx}&#x3D;S_{ADBC}&#x3D;S_2+S_3\<br>&amp;S_3\leqslant{S_2+S_3\leqslant{S_1+S_2+S_3}}\<br>&amp;\Leftrightarrow{m(b-a)\leqslant{\int_a^{b}{f(x)dx}\leqslant{M(b-a)}}}\<br>\end{align}<br>$$</p>
-<p>$$<br>\begin{align}<br>&amp;(3)|\int_a^{b}{f(x)dx}|\leqslant{\int_a^{b}{|f(x)|dx}}\<br>\end{align}<br>$$</p>
-<h4 id="2-中值定理"><a href="#2-中值定理" class="headerlink" title="2.中值定理"></a>2.中值定理</h4><p>$$<br>\begin{align}<br>&amp;(1)若f(x)在[a,b]上连续,则\int_a^{b}{f(x)dx}&#x3D;f(\xi)(b-a),(a&lt;\xi&lt;b)\<br>&amp;称\frac{1}{b-a}{\int_{a}^{b}{f(x)dx}为函数y&#x3D;f(x)在区间[a,b]上的平均值}\<br>&amp;注解：F’(x)&#x3D;f(x),F(b)-F(a)&#x3D;\int_a^b{f(x)dx},f(\xi)(b-a)&#x3D;F’(\xi)(b-a)\<br>&amp;(2)若f(x),g(x)在[a,b]上连续，g(x)不变号,则\int_{a}^{b}{f(x)g(x)dx}&#x3D;f(\xi)\int_a^b{g(x)dx}\<br>\end{align}<br>$$</p>
-<p>注解：<br>$$<br>\begin{align}<br>&amp;\int_0^1{\frac{x}{\sin x}}dx\<br>&amp;f(x)&#x3D;\begin{cases}&amp;\frac{x}{\sin x},x\in[0,1]\&amp;1,x&#x3D;0\\end{cases}\<br>&amp;结论：有限处点的函数不影响定积分\<br>&amp;f(x)&#x3D;{\begin{cases}&amp;x+1,[1,2]\&amp;x,[0,1]\\end{cases}}\<br>&amp;\int_0^2{f(x)dx}&#x3D;\int_0^1{xdx}+\int_1^2{(x+1)dx}\<br>\end{align}<br>$$</p>
-<p>$$<br>\begin{align}<br>&amp;证明：\frac{1}{2}\leq\int_0^{\frac{1}{2}}\frac{1}{\sqrt{1-x^n}}dx\leq\frac{\pi}{6}\<br>&amp;估值积分：x\in[0,\frac{1}{2}]\<br>&amp;\<br>\end{align}<br>$$</p>
-<p>例题：<br>$$<br>\begin{align}<br>&amp;1.求极限\lim_{n\rightarrow \infty}\int_0^1{\frac{x^ne^x}{1+e^x}dx}\<br>&amp;根据积分容易知道0\leq\frac{x^ne^x}{1+e^x}\leq x^n,x\in[0,1],n\in N^*\<br>&amp;用积分的保号性\<br>&amp;0\leq\int_0^1{\frac{x^ne^x}{1+e^x}dx}\leq \int_0^1{x^n}dx&#x3D;\frac{1}{n+1}\<br>&amp;用夹逼定理\<br>&amp;\lim_{n\rightarrow\infty}\frac{1}{n+1}&#x3D;0\<br>&amp;\lim_{n\rightarrow \infty}\int_0^1{\frac{x^ne^x}{1+e^x}dx}&#x3D;0\<br>\end{align}<br>$$</p>
-<p>$$<br>\begin{align}<br>&amp;2.设I_1&#x3D;\int_0^{\frac{4}{\pi}}\frac{\tan x}{x}dx,I_2&#x3D;\int_0^{\frac{4}{\pi}}\frac{x}{\tan x}dx则\<br>&amp;(A)I_1I_21(B)1I_1I_2(C)I_2I_11(D)1I_2I_1\<br>&amp;解：用保序性a&lt;b,f(x)\leq g(x),\int_a^b f(x)\leq \int_a^b g(x)\<br>&amp;\tan xx,x\in[0,\frac{\pi}{2}]\<br>&amp;\frac{\tan x}{x}1\frac{x}{\tan x},x\in[0,\frac{\pi}{4}]\<br>&amp;根据保序性\<br>&amp;\int_0^{\frac{\pi}{4}}\frac{\tan x}{x}dx\int_0^{\frac{\pi}{4}}1dx&#x3D;\frac{\pi}{4}\int_0^{\frac{\pi}{4}}\frac{x}{\tan x},x\in[0,\frac{\pi}{4}]\<br>&amp;证：\int_0^{\frac{\pi}{4}}\frac{\tan x}{x}与1的关系\<br>&amp;积分中值定理\<br>&amp;\int_0^{\frac{\pi}{4}}\frac{\tan x}{x}&#x3D;f(\xi)(\frac{\pi}{4}-0)&#x3D;\frac{\tan \xi}{\xi}*\frac{\pi}{4},\xi\in{[0,\frac{\pi}{4}]}\<br>&amp;根据\frac{\tan x}{x}在x\in[0,\frac{\pi}{4}]上单调递增\<br>&amp;0&lt;f(\xi)&lt;\frac{4}{\pi},0&lt;\int_0^{\frac{\pi}{4}}\frac{\tan x}{x}&lt;1\<br>&amp;选(B)\<br>\end{align}<br>$$</p>
-<h3 id="三、积分上限函数"><a href="#三、积分上限函数" class="headerlink" title="三、积分上限函数"></a>三、积分上限函数</h3><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210405152647772.jpg" alt="image-20210405152647772"><br>$$<br>\begin{align}<br>&amp;如果f(x)在区间[a,b]上连续,则\Phi(x)&#x3D;\int_a^b{f(t)dt}在[a,b]上可导,且\int_a^b{f(t)dt})\<br>&amp;(\int_a^xf(t)dt)’&#x3D;f(x),(\int_a^{x^2}f(t)dt)’&#x3D;f(x^2)*2x\<br>&amp;如果f(x)在区间[a,b]上连续,\phi_1(x),\phi_2(x)为可导函数,则\Phi(x)&#x3D;\int_a^b{f(t)dt}在[a,b]上可导,且(\int_{\phi_1(x)}^{\phi_2(x)}{f(t)dt})’\<br>&amp;&#x3D;f[\phi_2(x)]*\phi_2’(x)-f[\phi_1(x)]*\phi_1’(x)&#x3D;(\int_{\phi_1(x)}^0{f(t)dt}+\int_{\phi_2(x)}^0{f(t)dt})’\<br>&amp;设函数f(x)在[-l,l]上连续,则\<br>&amp;如果f(x)为奇函数,那么\int_0^xf(t)dt必为偶函数\<br>&amp;如果f(x)为偶函数,那么\int_0^xf(t)dt必为奇函数\<br>\end{align}<br>$$</p>
-<p>$$<br>\begin{align}<br>&amp;任取x\in[a,b),取\Delta x0,使x+\Delta x\in[a,b)\<br>&amp;\frac{\Delta F}{\Delta x}&#x3D;\frac{F(x+\Delta x)-F(x)}{\Delta x}&#x3D;\frac{1}{\Delta x}[\int_a^{x+\Delta x}f(t)dt-\int_a^xf(t)dt]&#x3D;\frac{1}{\Delta x}\int_x^{x+\Delta x}f(t)dt&#x3D;f(x+\sigma\Delta x)\rightarrow f(x)(\Delta x\rightarrow 0^+)\<br>\end{align}<br>$$<br>推论：<br>$$<br>\begin{align}<br>&amp;若f(x)、\phi’(x)、\psi(x)于[a,b]上连续,则\<br>&amp;(1)(\int_a^{\phi(x)}f(t)dt)’&#x3D;f(\phi(x))\phi’(x)\<br>&amp;(2)(\int_b^{\psi(x)}f(t)dt)’&#x3D;-f(\psi(x))\psi’(x)\<br>&amp;(3)(\int_{\psi(x)}^{\phi(x)}f(t)dt)’&#x3D;f(\phi(x))\phi’(x)-f(\psi(x))\psi’(x)\<br>\end{align}<br>$$<br>例题<br>$$<br>\begin{align}<br>&amp;1.设函数f(x)在R上连续,且是奇函数,则其原函数均是偶函数.当f(x)是偶函数时？是周期函数？\<br>&amp;证：\<br>&amp;令F_0(x)\int_0^xf(t)dt,x\in R\<br>&amp;F_0(-x)&#x3D;\int_0^{-x}f(t)dt\overset{t&#x3D;-u}{&#x3D;}\int_0^xf(-u)d(u)&#x3D;\int_0^xf(u)du&#x3D;F_0(x)\Rightarrow F_0(x)为偶函数\<br>\end{align}<br>$$</p>
-<p>$$<br>\begin{align}<br>&amp;求变现积分导数\<br>&amp;(1)F(x)&#x3D;\int_x^{e^{-x}}f(t)dt\<br>&amp;(2)F(x)&#x3D;\int_0^{x^2}(x^2-t)f(t)dt\<br>&amp;(3)F(x)&#x3D;\int_0^{x}f(x^2-t)dt\<br>&amp;(4)设函数y&#x3D;y(x)由参数方程\begin{cases}&amp;x&#x3D;1+2t^2\&amp;y&#x3D;\int_1^{1+2\ln t}\frac{e^u}{u}du\\end{cases}(t1),求\frac{d^2y}{dx^2}|_{x&#x3D;9}\<br>&amp;解:\<br>&amp;(1)F(x)’&#x3D;(\int_x^{e^{-x}}f(t)dt)’&#x3D;f(e^{-x})(-e^{-x})-f(x)\<br>&amp;(2)F(x)’&#x3D;(\int_0^{x^2}(x^2-t)f(t)dt)’&#x3D;(\int_0^{x^2}x^2f(t)dt-\int_0^{x^2}tf(t)dt)’\<br>&amp;&#x3D;2x\int_0^{x^2}f(t)dt+x^2f(x^2)2x-x^2f(x^2)2x&#x3D;2x\int_0^{x^2}f(t)dt\<br>&amp;(3)F(x)&#x3D;\int_0^{x}f(x^2-t)dt&#x3D;-\frac{1}{2}\int_0^xf(x^2-t^2)d(x^2-t^2)\overset{u&#x3D;x^2-t^2}{&#x3D;}-\frac{1}{2}\int_0^xf(u)du\<br>&amp;F(x)’&#x3D;\frac{1}{2}f(x^2)2x&#x3D;xf(x^2)\<br>&amp;(4)\frac{dy}{dx}&#x3D;\frac{\frac{e^{1+2\ln t}}{1+2\ln t}\frac{2}{t}}{4t^2}&#x3D;\frac{e}{2(1+2\ln t)}\<br>&amp;\frac{d^2y}{dx^2}&#x3D;\frac{d(\frac{dy}{dx})}{dx}&#x3D;\frac{e}{2}(-\frac{\frac{2}{t}}{(1+2\ln t)^2})\frac{1}{4t}\<br>\end{align}<br>$$</p>
-<p>$$<br>\begin{align}<br>&amp;2.求变现积分的积分:\<br>&amp;(1)设f(x)&#x3D;\int_0^x{\frac{\sin t}{\pi -t}dt},求\int_0^\pi{f(x)}dx\<br>&amp;解:\<br>&amp;\int_0^\pi{f(x)}dx&#x3D;\int_0^{\pi}\int_0^x\frac{\sin t}{\pi -t}dt\space dx\<br>&amp;&#x3D;x\int_0^x\frac{\sin t}{\pi t}|<em>0^{\pi}-\int_0^{\pi}x\frac{\sin x}{\pi -x}dx\<br>&amp;&#x3D;\pi\int_0^{\pi}\frac{\sin x}{\pi t}+\int_0^{\pi}\frac{[(\pi-x)-\pi]\sin x}{\pi-x}dx&#x3D;\int_0^{\pi}\sin xdx&#x3D;2\<br>&amp;(2)\lim</em>{x\rightarrow\infty}{\frac{(\int_0^x{e^{t^2}}dt)^2}{\int_0^xe^{2t^2}dt}}&#x3D;\lim_{x\rightarrow\infty}{\frac{(2\int_0^{x}e^{t^2}dt)e^{x^2}}{e^{2x^2}}}&#x3D;\lim_{x\rightarrow\infty}\frac{2\int_0^{x}e^{t^2}}{e^{x^2}}&#x3D;\lim_{x\rightarrow\infty}\frac{1}{2x}&#x3D;0\<br>\end{align}<br>$$ { }</p>
-<p>$$<br>\begin{align}<br>&amp;(3)设f(x)连续,\phi(x)&#x3D;\int_0^1{f(tx)dt},且\lim_{x\rightarrow0}\frac{f(x)}{x}&#x3D;A(常数),求\phi’(x)并讨论\phi’(x)在x&#x3D;0处的连续性\<br>&amp;当x\neq0时\<br>&amp;令u&#x3D;tx,t\in[0,1],u&#x3D;tx\in[0,x],\phi(x)&#x3D;\int_0^1f(tx)dt\overset{tx&#x3D;u}{&#x3D;}\int_0^x{f(u)d(\frac{u}{x})}&#x3D;\frac{\int_0^xf(u)du}{x}\<br>&amp;\phi’(x)&#x3D;\frac{xf(x)-\int_0^xf(u)du}{x^2}\<br>&amp;当x&#x3D;0时,f(0)&#x3D;0,\phi(0)&#x3D;f(0)&#x3D;0,\phi’(0)&#x3D;\lim_{x\rightarrow0}\frac{\phi(x)\phi(0)}{x-0}&#x3D;\lim_{x\rightarrow0}\frac{\int_0^xf(u)du}{x^2}&#x3D;\lim_{x\rightarrow 0}\frac{f(x)}{2x}&#x3D;\frac{1}{2}A\<br>&amp;\lim_{x\rightarrow0}\phi’(x)&#x3D;\lim_{x\rightarrow 0}{\frac{xf(x)-\int_0^xf(u)du}{x^2}}&#x3D;A-\frac{1}{2}A&#x3D;\frac{1}{2}A&#x3D;\phi’(0)\Leftrightarrow\phi’(x)在x&#x3D;0处连续\<br>\end{align}<br>$$</p>
-<p>注解：<br>$$<br>\begin{align}<br>&amp;注意变限积分进行正逆运算时上下限的映射\<br>&amp;例如F(x)&#x3D;\int_0^x{f(t)dt}\overset{t&#x3D;-u}{&#x3D;}\int_{-a}^{x}f(-u)d(-u)\<br>\end{align}<br>$$</p>
-<h3 id="四、定积分的计算"><a href="#四、定积分的计算" class="headerlink" title="四、定积分的计算"></a>四、定积分的计算</h3><h4 id="1-牛顿莱布尼茨公式"><a href="#1-牛顿莱布尼茨公式" class="headerlink" title="1.牛顿莱布尼茨公式"></a>1.牛顿莱布尼茨公式</h4><p>$$<br>\int_a^bf(x)dx&#x3D;F(x)|_a^b&#x3D;F(b)-F(a)<br>$$</p>
-<h4 id="2-换元积分法"><a href="#2-换元积分法" class="headerlink" title="2.换元积分法"></a>2.换元积分法</h4><p>$$<br>\int_a^bf(x)dx&#x3D;\int_\alpha^\beta{f(\Phi(t))\Phi’(t)dt}<br>$$</p>
-<h4 id="3-分部积分法-1"><a href="#3-分部积分法-1" class="headerlink" title="3.分部积分法"></a>3.分部积分法</h4><p>$$<br>\int_a^budv&#x3D;uv|_a^b-\int_a^bvdu<br>$$</p>
-<h4 id="4-奇偶性和周期性"><a href="#4-奇偶性和周期性" class="headerlink" title="4.奇偶性和周期性"></a>4.奇偶性和周期性</h4><p>$$<br>\begin{align}<br>&amp;直接使用奇偶性周期性定义证明\<br>&amp;(1)设f(x)为[-a,a]上的连续函数(a0),则\<br>&amp;\int_{-a}{a}f(x)dx&#x3D;\begin{cases}0,&amp;f(x)奇函数\2\int_0^af(x)dx,&amp;f(x)偶函数\end{cases}\<br>&amp;证：\int_{-a}^0{f(x)dx}\overset{x&#x3D;-t}{&#x3D;}\int_0^a{f(-t)d(-t)}&#x3D;-\int_{0}^{a}f(t)d(t)&#x3D;-\int_0^a{f(x)dx}\<br>\end{align}<br>$$</p>
-<p>$$<br>\begin{align}<br>&amp;(2)设f(x)是以T为周期的连续函数,则对\forall A，有\int_a^{a+T}f(x)&#x3D;\int_0^T{f(x)dx}\<br>&amp;\int_a^{a+T}f(x)dx\overset{x&#x3D;a+t}{&#x3D;}\int_0^T{f(a+t)d(a+t)}&#x3D;\int_0^{a+t}f(a+t)dt\<br>\end{align}<br>$$</p>
-<p>$$<br>\begin{align}<br>&amp;\Phi:x\in[a,b]\rightarrow y\in[c,d],令\frac{x-a}{b-a}&#x3D;\frac{y-c}{d-c},y&#x3D;c+\frac{d-c}{b-a}(x-a)\<br>\end{align}\<br>$$</p>
-<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210617160041903.jpg" alt="image-20210617160041903"></p>
-<h4 id="5-奇偶函数积分后的奇偶性-奇偶函数求导后的奇偶性"><a href="#5-奇偶函数积分后的奇偶性-奇偶函数求导后的奇偶性" class="headerlink" title="5.奇偶函数积分后的奇偶性(奇偶函数求导后的奇偶性)"></a>5.奇偶函数积分后的奇偶性(奇偶函数求导后的奇偶性)</h4><h5 id="1-奇偶函数求导后的奇偶性"><a href="#1-奇偶函数求导后的奇偶性" class="headerlink" title="1.奇偶函数求导后的奇偶性"></a>1.奇偶函数求导后的奇偶性</h5><p>$$<br>\begin{align}<br>&amp;(1)f(x)为奇函数:\<br>&amp;f(-x)&#x3D;-f(x)\<br>&amp;\Leftrightarrow f’(-x)(-1)&#x3D;-f’(x)\<br>&amp;\Leftrightarrow f’(-x)&#x3D;f’(x)\<br>&amp;\Leftrightarrow f’(x)为偶函数\<br>&amp;(2)f(x)为偶函数:\<br>&amp;f(-x)&#x3D;f(x)\<br>&amp;\Leftrightarrow f’(-x)&#x3D;f’(x)\<br>&amp;\Leftrightarrow f’(-x)(-1)&#x3D;f’(x)\<br>&amp;\Leftrightarrow f’(-x)&#x3D;-f’(x)\<br>&amp;\Leftrightarrow f’(x)为奇函数\<br>\end{align}<br>$$</p>
-<h5 id="2-奇偶函数求积分后的奇偶性"><a href="#2-奇偶函数求积分后的奇偶性" class="headerlink" title="2.奇偶函数求积分后的奇偶性"></a>2.奇偶函数求积分后的奇偶性</h5><p>$$<br>\begin{align}<br>&amp;设F(x)为f(x)的原函数\<br>&amp;(1)f(x)为奇函数:\<br>&amp;f(-x)&#x3D;-f(x)\<br>&amp;\Leftrightarrow \int f(-x)dx&#x3D;-\int f(x)dx\<br>&amp;\Leftrightarrow -\int f(-x)d(-x)&#x3D;-\int f(x)dx\<br>&amp;\Leftrightarrow F(-x)&#x3D;F(x)\<br>&amp;\Leftrightarrow F(x)为偶函数\<br>&amp;(2)f(x)为偶函数:\<br>&amp;f(-x)&#x3D;f(x)\<br>&amp;\Leftrightarrow \int f(-x)dx&#x3D;\int f(x)dx\<br>&amp;\Leftrightarrow -\int f(-x)d(-x)&#x3D;\int f(x)dx\<br>&amp;\Leftrightarrow F(-x)&#x3D;-F(x)\<br>&amp;\Leftrightarrow F(x)为奇函数\<br>\end{align}<br>$$</p>
-<h5 id="3-奇偶函数复合后的奇偶性"><a href="#3-奇偶函数复合后的奇偶性" class="headerlink" title="3.奇偶函数复合后的奇偶性"></a>3.奇偶函数复合后的奇偶性</h5><p>$$<br>\begin{align}<br>&amp;\exist f(x),g(x),F(x)&#x3D;f(g(x))\<br>&amp;设f(x)为奇函数\<br>&amp;(1)g(x)为偶函数\<br>&amp;F(-x)&#x3D;f(g(-x))&#x3D;f(g(x))&#x3D;F(x),F(x)为偶函数\<br>&amp;(2)g(x)为奇函数\<br>&amp;F(-x)&#x3D;f(g(-x))&#x3D;f(-g(x))&#x3D;-f(g(x))&#x3D;-F(x),F(x)为奇函数\<br>&amp;设f(x)为偶函数\<br>&amp;(1)g(x)为奇函数\<br>&amp;F(-x)&#x3D;f(g(-x))&#x3D;f(g(x))&#x3D;F(x),F(x)为偶函数\<br>&amp;(2)g(x)为偶函数\<br>&amp;F(-x)&#x3D;f(g(-x))&#x3D;f(g(x))&#x3D;F(x),F(x)为偶函数\<br>&amp;注解:外偶全偶,外奇奇偶\<br>\end{align}<br>$$</p>
-<p>例题：<br>$$<br>\begin{align}<br>&amp;1.设M&#x3D;\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}{\frac{\sin x}{1+x^2}\cos^4xdx},N&#x3D;\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}{(\sin x^3+\cos^4x)dx},P&#x3D;\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}(x^2\sin^3x-\cos^4x)dx,则\<br>&amp;(A)N&lt;P&lt;M(B)M&lt;P&lt;N(C)N&lt;M&lt;P(D)P&lt;M&lt;N\<br>&amp;根据对称性判断\<br>&amp;M:f_M(x)为奇函数，F_M(x)为偶函数\<br>&amp;N:N&#x3D;\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}{(\sin x^3+\cos^4x)dx}&#x3D;\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}\sin ^3xdx+\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}\cos ^4xdx\<br>&amp;\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}\sin ^3xdx&#x3D;0,\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}\cos ^4xdx\geq 0,\Rightarrow N\geq 0\<br>&amp;P:P&#x3D;\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}(x^2\sin^3x-\cos^4x)dx&#x3D;\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}x^2\sin^3xdx-\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}\cos^4xdx\<br>&amp;\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}x^2\sin^3xdx&#x3D;0,\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}\cos^4xdx\geq0,\Rightarrow P\leq0\<br>&amp;\Leftrightarrow P&lt;M&lt;N,\space\space选(D)\<br>\end{align}<br>$$</p>
-<p>$$<br>\begin{align}<br>&amp;2.设f(x)&#x3D;\begin{cases}&amp;kx,0\leq x\leq \frac{1}{2}a\&amp;c,\frac{1}{2}a&lt;x\leq a\\end{cases},求F(x)&#x3D;\int_0^xf(t)dt,x\in[0,a]\<br>&amp;F(x)&#x3D;\begin{cases}&amp;\int_0^xktdt&#x3D;\frac{1}{2}kt^2|<em>0^x&#x3D;\frac{1}{2}kx^2,0\leq x\leq \frac{1}{2}a\&amp;\int_0^{\frac{1}{2}a}ktdt+\int</em>{\frac{1}{2}a}^c cdt&#x3D;\frac{1}{8}ka^2+c^2-\frac{1}{2}ac,\frac{1}{2}a&lt;x\leq a\\end{cases}\<br>\end{align}<br>$$</p>
-<p>$$<br>\begin{align}<br>&amp;3.证明：\int_0^{2\pi}f(|\cos x|)dx&#x3D;4\int_0^{\frac{\pi}{2}}f(|\cos x|)dx\<br>\end{align}<br>$$</p>
-<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/e0e1f27ff16b0cf00a8f3d155bfc3423.jpg" alt="1111"></p>
-<h4 id="6-已有公式"><a href="#6-已有公式" class="headerlink" title="6.已有公式"></a>6.已有公式</h4><p>$$<br>\begin{align}<br>&amp;(1)\int_0^{\frac{\pi}{2}}{\sin^nxdx&#x3D;\int_0^{\frac{\pi}{2}}\cos^n xdx&#x3D;\begin{cases}\frac{n-1}{n}<em>\frac{n-3}{n-2}</em>…*\frac{1}{2}*\frac{\pi}{2},&amp;n为偶数\\frac{n-1}{n}<em>\frac{n-3}{n-2}</em>…*\frac{2}{3},&amp;n为大于1的奇数\\end{cases}}\<br>&amp;(2)\int_0^{\pi}xf(\sin x)dx&#x3D;\frac{\pi}{2}\int_0^{\pi}f(\sin x)dx(f(x)为连续函数)\<br>\end{align}<br>$$</p>
-<h4 id="7-与定积分有关的证明"><a href="#7-与定积分有关的证明" class="headerlink" title="7.与定积分有关的证明"></a>7.与定积分有关的证明</h4><h4 id="8-经典例题："><a href="#8-经典例题：" class="headerlink" title="8.经典例题："></a>8.经典例题：</h4><h5 id="例题1"><a href="#例题1" class="headerlink" title="例题1:"></a>例题1:</h5><p>$$<br>\begin{align}<br>&amp;\lim_{n\rightarrow \infty}{(\frac{1}{n+1}+\frac{1}{n+2}+…+\frac{1}{n+n})}\<br>&amp;法1：夹逼定理+基本不等式\<br>&amp;\frac{1}{1+x}&lt;\ln(x+1)&lt;x\<br>&amp;令x&#x3D;\frac{1}{n}\<br>&amp;得\frac{1}{n+1}&#x3D;\frac{\frac{1}{n}}{\frac{1}{n}+1}&lt;\ln(\frac{1}{n}+1)&#x3D;\ln(n+1)-\ln(n)&lt;\frac{1}{n}\<br>&amp;得\frac{1}{n+2}&lt;ln(n+2)-ln(n+1)&lt;\frac{1}{n+1}\<br>&amp;得\frac{1}{n+n}&lt;\ln(n+n)-\ln(n+n-1)&lt;\frac{1}{n+n-1}\<br>&amp;得\frac{1}{n+1}+\frac{1}{n+2}+…+\frac{1}{n+n}&lt;ln(2n)-ln(n)&#x3D;ln2\<br>&amp;法2：\lim_{n\rightarrow \infty}{(\frac{1}{n+1}+\frac{1}{n+2}+…+\frac{1}{n+n})}中\<br>&amp;\frac{1}{n+1}中n为主体，1为变体\<br>&amp;\frac{变体}{主体}\rightarrow^{n \rightarrow{\infty}}\begin{cases}0,次(夹逼定理)\A\neq 0,同(定积分)\end{cases}\<br>&amp;\lim_{\lambda \rightarrow 0}{\sum_{i&#x3D;1}^{n}{f(\xi_i)\Delta x_i}&#x3D;\lim_{n\rightarrow \infty}\frac{1}{n}\sum_{i&#x3D;1}^{n}f(\xi_i)(b-a)}&#x3D;\int_0^1\frac{1}{1+x}&#x3D;\ln(1+x)|_{0}^{1}&#x3D;\ln2\<br>\end{align}<br>$$</p>
-<h5 id="例题2"><a href="#例题2" class="headerlink" title="例题2"></a>例题2</h5><p>$$<br>\begin{align}<br>&amp;设f(x)&#x3D;\int_0^{\pi}{\frac{\sin x}{\pi-t}dt},计算\int_0^{\pi}f(x)dx.\<br>&amp;法1：分部积分+换元法\<br>&amp;原式&#x3D;xf(x)|_0^{\pi}-\int_0^{\pi}{\frac{x\sin x}{\pi-x}dx}\<br>&amp;&#x3D;\pi{\int_0^{\pi}{\frac{\sin{t}}{\pi-t}dt}-\int_0^{\pi}{\frac{x\sin x}{\pi-x}}dx}\<br>&amp;&#x3D;\int_0^{\pi}{\frac{(\pi-x)\sin x}{\pi-x}dx}&#x3D;2\<br>&amp;法2：\<br>&amp;原式&#x3D;\int_0^\pi{f(x)d(x-{\pi})}&#x3D;(x-\pi)f(x)|_0^{\pi}-\int_0^{\pi}{\frac{(x-\pi)\sin x}{\pi-x}dx}&#x3D;2\<br>&amp;法3：二重积分转化为累次积分\<br>&amp;原式&#x3D;\int_0^{\pi}{\int_0^{\pi}\frac{x\sin t}{\pi-t}dt}dx\<br>\end{align}<br>$$</p>
-<h5 id="例题3"><a href="#例题3" class="headerlink" title="例题3"></a>例题3</h5><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/AN%L6IJ6TF[%1UB3OUWMRCR.jpg" alt="img"></p>
-<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/123.jpg" alt="123"><br>$$<br>\begin{align}<br>&amp;法1：构造辅助函数\<br>&amp;根据题意f(1)&#x3D;f(-1)&#x3D;1,f(0)&#x3D;-1\Rightarrow f(x)为偶函数,f最低点函数值为-1\<br>&amp;可以构造符合题意的辅助函数f(x)&#x3D;2x^2-1\<br>&amp;法2：根据函数的性质直接判断<br>\end{align}<br>$$</p>
-<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210408160543049.jpg" alt="image-20210408160543049"></p>
-<h5 id="例题4"><a href="#例题4" class="headerlink" title="例题4"></a>例题4</h5><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/Q8%7DOT_25(HC79%5BS_21)AZZK.jpg" alt="img"></p>
-<p>$$<br>\begin{align}<br>&amp;因为\lim_{x\rightarrow 0}{\frac{ax-\sin x}{\int_b^x{\frac{\ln{1+t^3}}{t}dt}}}&#x3D;c(c\neq 0)\<br>&amp;所以\lim_{x\rightarrow 0}{ax-\sin x}&#x3D;0并且\lim_{x \rightarrow 0}{\int_b^x{\frac{\ln{1+t^3}}{t}dt}}&#x3D;0\<br>&amp;化简,使用洛必达法则上下求导\<br>&amp;\lim_{x\rightarrow 0}{\frac{ax-\sin x}{\int_b^x{\frac{\ln{1+t^3}}{t}dt}}}&#x3D;\lim_{x\rightarrow 0}{\frac{a-\cos x}{\frac{\ln{1+x^3}}{x}}}&#x3D;\lim_{x\rightarrow 0}{\frac{a-\cos x}{x^2}}\<br>&amp;\Rightarrow a&#x3D;1,c&#x3D;\frac{1}{2},b&#x3D;0\<br>\end{align}<br>$$</p>
-<h2 id="反常积分"><a href="#反常积分" class="headerlink" title="反常积分"></a>反常积分</h2><h3 id="一、无穷区间上的反常积分"><a href="#一、无穷区间上的反常积分" class="headerlink" title="一、无穷区间上的反常积分"></a>一、无穷区间上的反常积分</h3><p>$$<br>\begin{align}<br>&amp;(1)\int_a^{+\infty}{f(x)}dx&#x3D;\lim_{t\rightarrow +\infty}{\int_{a}^{t}f(x)dx}\<br>&amp;(2)\int_{-\infty}^{b}{f(x)}dx&#x3D;\lim_{t\rightarrow -\infty}{\int_{t}^{b}f(x)dx}\<br>&amp;(3)\int_{-\infty}^{0}{f(x)}dx和{\int_{0}^{+\infty}f(x)dx}都收敛,则{\int_{-\infty}^{+\infty}f(x)dx}收敛\<br>&amp;且{\int_{-\infty}^{+\infty}f(x)dx}&#x3D;\int_{-\infty}^{0}{f(x)}dx+{\int_{0}^{+\infty}f(x)dx}\<br>&amp;如果其中一个发散,结果也发散\<br>&amp;常用结论：\int_a^{+\infty}{\frac{1}{x^p}dx}\begin{cases}&amp;p1,收敛\&amp;p\leq1 ,发散\\end{cases},(a0)\<br>\end{align}<br>$$</p>
-<h3 id="二、无界函数的反常积分"><a href="#二、无界函数的反常积分" class="headerlink" title="二、无界函数的反常积分"></a>二、无界函数的反常积分</h3><p>$$<br>\begin{align}<br>&amp;如果函数f(x)在点a的任一领域内都无界,那么点a为函数f(x)的瑕点(也称为无界点).无界函数的反常积分也成为瑕积分\<br>&amp;(1)设函数f(x)在(a,b]上连续,点a为f(x)的瑕点.如果极限\lim_{t\rightarrow a^+}{\int_{t}^{b}{f(x)dx}}\exist,\<br>&amp;则称此极限为函数f(x)在区间[a,b]上的反常区间,记作\int_{a}^{b}f(x)dx,即\int_{a}^{b}f(x)dx&#x3D;\lim_{t\rightarrow a^+}{\int_{t}^{b}{f(x)dx}}\<br>&amp;这时也称反常积分\int_a^b{f(x)dx}收敛,如果上述极限不存在，则反常积分\int_a^b{f(x)dx}发散\<br>&amp;(2)设函数f(x)在[a,b)上连续,点b为函数f(x)的瑕点,则可以类似定义函数f(x)在区间[a,b]上的反常积分\int_a^bf(x)dx&#x3D;\lim_{t\rightarrow b^-}{\int_a^tf(x)dx}\<br>&amp;设函数f(x)在[a,b]上除点c(a&lt;c&lt;b)外连续,点c为函数f(x)的瑕点,如果反常积分\int_a^c{f(x)dx}和\int_c^b{f(x)dx}都收敛\<br>&amp;则称反常积分\int_a^b{f(x)dx}收敛,且\int_a^b{f(x)dx}&#x3D;\int_a^c{f(x)dx}+\int_c^b{f(x)dx}\<br>&amp;如果至少一个发散,则称\int_a^b{f(x)dx}发散\<br>&amp;常用结论：\<br>&amp;\int_a^b{\frac{1}{(x-a)^p}}\begin{cases}&amp;p&lt;1,收敛\&amp;p\geq 1,发散\\end{cases}\<br>&amp;\int_a^b{\frac{1}{(x-a)^p}}\begin{cases}&amp;p&lt;1,收敛\&amp;p\geq 1,发散\\end{cases}\<br>\end{align}<br>$$</p>
-<h3 id="三、例题"><a href="#三、例题" class="headerlink" title="三、例题"></a>三、例题</h3><h5 id="例题1-1"><a href="#例题1-1" class="headerlink" title="例题1"></a>例题1</h5><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/12edsadada.jpg" alt="12edsadada"><br>$$<br>\begin{align}<br>&amp;\int\frac{1}{\ln^{\alpha}x}d(\ln x)\rightarrow^{\ln x&#x3D;u}\int{\frac{du}{u^{\alpha+1}}}\begin{cases}&amp;{\alpha-1&lt; 1}\&amp;{\alpha+11}\\end{cases}\Rightarrow 0&lt;\alpha&lt;2\<br>\end{align}<br>$$</p>
-<h2 id="定积分的应用"><a href="#定积分的应用" class="headerlink" title="定积分的应用"></a>定积分的应用</h2><h4 id="微元法"><a href="#微元法" class="headerlink" title="微元法"></a>微元法</h4><p>$$<br>\begin{align}<br>&amp;\<br>\end{align}<br>$$</p>
-<h3 id="一、几何应用"><a href="#一、几何应用" class="headerlink" title="一、几何应用"></a>一、几何应用</h3><h4 id="1-平面图形的面积"><a href="#1-平面图形的面积" class="headerlink" title="1.平面图形的面积"></a>1.平面图形的面积</h4><p>$$<br>\begin{align}<br>&amp;(1)若平面域D由曲线y&#x3D;f(x),y&#x3D;g(x)(f(x)\geq g(x)),x&#x3D;a,x&#x3D;b(a&lt;b)所围成,则平面域D的面积为\<br>&amp;S&#x3D;\int_a^b{[f(x)-g(x)]dx}\<br>&amp;(2)若平面域D由曲线由\rho&#x3D;\rho(\theta),\theta&#x3D;\alpha,\theta&#x3D;\beta(\alpha&lt;\beta)所围成,则其面积为S&#x3D;\frac{1}{2}\int_{\alpha}^{\beta}{\rho^2(\theta)d\theta}<br>\end{align}<br>$$</p>
-<h4 id="2-旋转体的体积"><a href="#2-旋转体的体积" class="headerlink" title="2.旋转体的体积"></a>2.旋转体的体积</h4><p>$$<br>\begin{align}<br>&amp;若区域D由曲线y&#x3D;f(x)(f(x)\geq 0)和直线x&#x3D;a,x&#x3D;b(0\leq a&lt;b)及x轴所围成,则\<br>&amp;(1)区域D绕x轴旋转一周所得到的旋转体体积为V_x&#x3D;\pi\int_a^b{f^2(x)dx}\<br>&amp;(2)区域D绕y轴旋转一周所得到的旋转体体积为V_y&#x3D;2\pi\int_a^b{xf(x)dx}\<br>&amp;(3)区域D绕y&#x3D;kx+b轴旋转一周所得到的旋转体体积为V&#x3D;2\pi\int_D\int{r(x,y)d\sigma}\<br>&amp;例如：求y&#x3D;x,y&#x3D;x^2在第一象限的封闭图形绕转轴的体积\<br>\end{align}<br>$$</p>
-<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/U1%7D97(ZE)HIN4FCVUKI$%5DZB.jpg" alt="img"><br>$$<br>\begin{align}<br>&amp;V_x&#x3D;2\pi\int_D\int yd\sigma&#x3D;2\pi\int_0^1{dx}\int_{x^2}^{x}ydy\<br>&amp;V_y&#x3D;2\pi\int_D\int xd\sigma&#x3D;2\pi\int_0^1{dx}\int_{x^2}^{x}xdy\<br>&amp;V_{x&#x3D;1}&#x3D;2\pi\int_D\int (1-x)d\sigma\<br>&amp;V_{y&#x3D;2}&#x3D;2\pi\int_D\int (2-y)d\sigma\<br>\end{align}<br>$$</p>
-<h4 id="3-曲线弧长"><a href="#3-曲线弧长" class="headerlink" title="3.曲线弧长"></a>3.曲线弧长</h4><p>$$<br>\begin{align}<br>&amp;(1)C:y&#x3D;y(x),a\leq x\leq b,s&#x3D;\int_a^b{\sqrt{1+y’^2}dx}\<br>&amp;(2)C:\begin{cases}&amp;x&#x3D;x(t)\&amp;y&#x3D;y(t)\\end{cases},\alpha \leq t\leq  \beta,s&#x3D;\int_{\alpha}^{\beta}{\sqrt{x’^2+y’^2}dx}\<br>&amp;(3)C:\rho&#x3D;\rho(\theta),\alpha \leq \theta\leq  \beta,s&#x3D;\int_{\alpha}^{\beta}{\sqrt{\rho^2+\rho’^2}dx}\<br>\end{align}<br>$$</p>
-<h4 id="4-旋转体侧面积"><a href="#4-旋转体侧面积" class="headerlink" title="4.旋转体侧面积"></a>4.旋转体侧面积</h4><p>$$<br>\begin{align}<br>&amp;曲线y&#x3D;f(x)(f(x)\geq 0)和直线x&#x3D;a,x&#x3D;b(0\leq a&lt;b)及x轴所围成的区域绕x轴旋转所得到的旋转体的侧面积为\<br>&amp;S&#x3D;2\pi\int_a^b{f(x)\sqrt{1+f’^2(x)}dx}\<br>\end{align}<br>$$</p>
-<h3 id="二、物理应用"><a href="#二、物理应用" class="headerlink" title="二、物理应用"></a>二、物理应用</h3><h4 id="1-压力"><a href="#1-压力" class="headerlink" title="1.压力"></a>1.压力</h4><h4 id="2-变力做功"><a href="#2-变力做功" class="headerlink" title="2.变力做功"></a>2.变力做功</h4><h4 id="3-引力（较少考）"><a href="#3-引力（较少考）" class="headerlink" title="3.引力（较少考）"></a>3.引力（较少考）</h4><h4 id="例题1-2"><a href="#例题1-2" class="headerlink" title="例题1"></a>例题1<img src="https://raw.githubusercontent.com/blueflylabor/images/main/X2PPU~%@L@NM4Y%7DW6GZTT_R.jpg" alt="img"></h4><p>$$<br>\begin{align}<br>&amp;分析题意可知,该容器由x^2+y^2&#x3D;1的圆和x^2+(y-1)^2&#x3D;1的偏心圆组成\<br>&amp;根据图像的对称性可以避免不同表达式带来的困难\<br>&amp;对圆的小带子进行积分，带子长度为x，积分区间为-1到\frac{1}{2}，\int_{-1}^{\frac{1}{2}}{\pi x^2dy}\<br>&amp;由于图像的对称性，将积分结果乘二\<br>&amp;(1)V&#x3D;2\pi\int_{-1}^{\frac{1}{2}}{x^2}dy&#x3D;2\pi\int_{-1}^{\frac{1}{2}}{(1-y^2)dy}&#x3D;\frac{9\pi}{4}\<br>\end{align}<br>$$</p>
-<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-04-19%20203327.jpg" alt="屏幕截图 2021-04-19 203327"><br>$$<br>\begin{align}<br>&amp;(2)W&#x3D;F<em>S&#x3D;G</em>S&#x3D;mg<em>S&#x3D;\rho VSg\<br>&amp;上部为W_1&#x3D;\int_{\frac{1}{2}}^{2}(2y-y^2)(2-y)dy</em>\rho g\<br>&amp;下部为W_2&#x3D;\int^{\frac{1}{2}}_{-1}(1-y^2)(2-y)dy*\rho g\<br>&amp;W&#x3D;W_1+W_2\<br>\end{align}<br>$$<br><img src="https://raw.githubusercontent.com/blueflylabor/images/main/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202021-04-19%20204534.jpg" alt="屏幕截图 2021-04-19 204534"></p>
-<h4 id="例题2-1"><a href="#例题2-1" class="headerlink" title="例题2"></a>例题2</h4><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210419211039410.jpg" alt="image-20210419211039410"><br>$$<br>\begin{align}<br>&amp;F_p&#x3D;P<em>A&#x3D;\rho gh</em>A\<br>&amp;将图像分为上部和下部，上部为矩形区域和下部的抛物线围成的面积区域，对其进行依次求解\<br>&amp;P_1&#x3D;2\rho gh\int_1^{h+1}{h+1-y}dy&#x3D;\rho gh^2\<br>&amp;P_2&#x3D;2\rho gh\int_0^1{(h+1-y)\sqrt{y}dy&#x3D;4\rho g(\frac{1}{3}h+\frac{2}{15})}\<br>&amp;\frac{P_1}{P_2}&#x3D;\frac{4}{5}\Rightarrow h&#x3D;2,h&#x3D;-\frac{1}{3}(舍去)<br>\end{align}<br>$$</p>
-<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/1618837868(1).jpg" alt="1618837868(1)"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blueflylabor.github.io/2018/09/06/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%C2%B7%E4%B8%8D%E5%AE%9A%E7%A7%AF%E5%88%86%E3%80%81%E5%AE%9A%E7%A7%AF%E5%88%86%E4%B8%8E%E5%8F%8D%E5%B8%B8%E7%A7%AF%E5%88%86/" data-id="cly1ogrxw000kr0dq7jcufjol" data-title="高等数学·不定积分、定积分与反常积分" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1794,7 +1926,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">六月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">五月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">十二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/1970/01/">一月 1970</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/07/">七月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">六月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">五月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">十二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/1970/01/">一月 1970</a></li></ul>
     </div>
   </div>
 
@@ -1805,6 +1937,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2024/07/12/%E8%BF%87%E5%8E%BB%E4%B8%89%E5%B9%B4%E7%9A%84%E5%B0%8F%E7%BB%93/">过去三年的小结</a>
+          </li>
         
           <li>
             <a href="/2024/06/22/%E6%94%BE%E4%B8%8B%E5%B0%8F%E5%B1%8F%E6%97%97%E8%88%B0%E7%9A%84%E5%A5%A2%E6%B1%82/">放下小屏旗舰的奢求</a>
@@ -1820,10 +1956,6 @@
         
           <li>
             <a href="/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%C2%B7%E4%BC%A0%E8%BE%93%E5%B1%82/">计算机网络·传输层</a>
-          </li>
-        
-          <li>
-            <a href="/2023/09/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%C2%B7%E7%BD%91%E7%BB%9C%E5%B1%82/">计算机网络·网络层</a>
           </li>
         
       </ul>

@@ -71,6 +71,45 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-过去三年的小结" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/07/12/%E8%BF%87%E5%8E%BB%E4%B8%89%E5%B9%B4%E7%9A%84%E5%B0%8F%E7%BB%93/" class="article-date">
+  <time class="dt-published" datetime="2024-07-11T23:59:11.000Z" itemprop="datePublished">2024-07-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/07/12/%E8%BF%87%E5%8E%BB%E4%B8%89%E5%B9%B4%E7%9A%84%E5%B0%8F%E7%BB%93/">过去三年的小结</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>三年，一次一次失败，不论是可控还是不可控因素，最终结果都是那样，有什么办法呢，你想过怎样的人生？看到相似经历的人，会不会有动念，在这个背景下失败又怎么不会是常态，小镇做题家的路已经没了，那就适应新的环境，作为千千万万个小镇做题家，你有机会换道，已经是不幸中的万幸了，放下执念吧，过去的已经过去了，你又能怎样呢，专注手上的事情吧，如果二十岁你的生命就结束了，那高考对于你来说就是最重要的事，因为在那以后，你还会有更多比它更辉煌更值得纪念的事，对过去的事情，也一样，走出高考梦魇，走出噩梦吧。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blueflylabor.github.io/2024/07/12/%E8%BF%87%E5%8E%BB%E4%B8%89%E5%B9%B4%E7%9A%84%E5%B0%8F%E7%BB%93/" data-id="clyhyl8hf0000ppdq2syr977g" data-title="过去三年的小结" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-放下小屏旗舰的奢求" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2024/06/22/%E6%94%BE%E4%B8%8B%E5%B0%8F%E5%B1%8F%E6%97%97%E8%88%B0%E7%9A%84%E5%A5%A2%E6%B1%82/" class="article-date">
@@ -2099,7 +2138,7 @@
 <p>异常（内中断、陷入）：CPU执行指令内部的事件【非法操作码、地址越界、算术溢出、虚拟存储系统的缺页、陷入指令】</p>
 <h2 id="中断处理过程"><a href="#中断处理过程" class="headerlink" title="中断处理过程"></a>中断处理过程</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">关中断1--保存断点</span><br><span class="line">保存断点--中断服务程序寻址</span><br><span class="line">中断服务程序寻址--保存现场和屏蔽字</span><br><span class="line">保存现场和屏蔽字--开中断1</span><br><span class="line">开中断1--执行中断服务程序</span><br><span class="line">执行中断服务程序--关中断2</span><br><span class="line">关中断2--恢复现场和屏蔽字</span><br><span class="line">恢复现场和屏蔽字--开中断2</span><br><span class="line">开中断2--中断返回</span><br></pre></td></tr></table></figure>
 
-<p><img src="/./imgs/OS/os_1.png" alt="os_1"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/os_1.png" alt="os_1"></p>
 <h2 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h2><p>用户程序中调用操作系统提供的子功能</p>
 <p>程序员可以使用高级语言，估计又要可以调用库函数，有的库函数封装了系统调用</p>
 <p>用户进程执行 调用系统调用 <strong>进入核心态</strong> 执行系统调用 <strong>退出核心态</strong> 从系统调用返回</p>
@@ -2163,7 +2202,7 @@
 
 <p>利用信号量实现前驱关系：</p>
 <p>对不同的临界资源设置不同的互斥信号量，PV必须成对出现</p>
-<p><img src="/./imgs/OS/OS_mutex.png" alt="OS_mutex"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/OS_mutex.png" alt="OS_mutex"></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">semaphore a1 = a2 = b1 = b2 = c = d = e = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">S1</span>()&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">V</span>(a1);</span><br><span class="line">    <span class="built_in">V</span>(a2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">S2</span>()&#123;</span><br><span class="line">    <span class="built_in">P</span>(a1);</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">V</span>(b1);</span><br><span class="line">    <span class="built_in">V</span>(b2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">S3</span>()&#123;</span><br><span class="line">    <span class="built_in">P</span>(a2);</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">V</span>(c);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">S4</span>()&#123;</span><br><span class="line">    <span class="built_in">P</span>(b1);</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">V</span>(d);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">S5</span>()&#123;</span><br><span class="line">    <span class="built_in">P</span>(b2);</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">V</span>(e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">S6</span>()&#123;</span><br><span class="line">    <span class="built_in">P</span>(c);</span><br><span class="line">    <span class="built_in">P</span>(d);</span><br><span class="line">    <span class="built_in">P</span>(e);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>另一角度：图论出度（P）入度（V）</p>
@@ -2253,7 +2292,7 @@
 <ul>
 <li>资源分配图</li>
 </ul>
-<p><img src="/./imgs/OS/source_allocation.png" alt="source_allocation"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/source_allocation.png" alt="source_allocation"></p>
 <p>请求边：从进程到资源<br>分配边：从资源到进程</p>
 <ul>
 <li>死锁定理：依次消除与不阻塞进程相连接的边，直到无边可消除</li>
@@ -2326,13 +2365,13 @@
 <li><p>地址结构</p>
 </li>
 </ul>
-<p><img src="/./imgs/OS/single_page.png" alt="single_page"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/single_page.png" alt="single_page"></p>
 <ul>
 <li>页表：通过查找页表即可找到相应的物理块</li>
 </ul>
 <p>基本地址变换：</p>
 <p>将逻辑地址变换为内存中的物理地址，在系统中设置页表寄存器（PTR）存放内存起始地址F和页表长度M。</p>
-<p><img src="/./imgs/OS/page_allocation_transform.png" alt="page_allocation_transform"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/page_allocation_transform.png" alt="page_allocation_transform"></p>
 <p>$$<br>\begin{aligned}<br>&amp;（1）页号P&#x3D;\frac{A}{L}\<br>&amp;（2）页内偏移量W&#x3D;A%L\<br>&amp;（3）比较页号P和页表长度M，P\geq M产生越界中断\<br>&amp;（4）页表中页号P对应的页表项地址A&#x3D;F+P<em>M\<br>&amp;（5）物理地址E&#x3D;b</em>L+W\<br>\end{aligned}<br>$$<br><em>页式管理中空间地址是一维的</em></p>
 <p>问题</p>
 <ul>
@@ -2340,7 +2379,7 @@
 <li>每个进程引入页表，用于存储映射机制，页表不能过大</li>
 </ul>
 <p>引入快表机制：在地址变换过程中加入具有并行查找能力的高速缓冲存储器——<strong>快表</strong>（相联存储器TLB，主存中的页表为<strong>慢表</strong>）</p>
-<p><img src="/./imgs/OS/add_TLB_page_allocation_transform.png" alt="add_TLB_page_allocation_transform"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/add_TLB_page_allocation_transform.png" alt="add_TLB_page_allocation_transform"></p>
 <p>一次地址变换流程</p>
 <p>（1）CPU给出逻辑地址，将页号送入高速缓冲寄存器，查询此页号是否存在于快表内</p>
 <p>（2）若匹配到，直接取出对应页的页框号，与页内偏移拼接为物理地址，访存</p>
@@ -2350,21 +2389,21 @@
 <ul>
 <li>引入页表，执行时不需要调入所有内存页框，为了压缩页表，采取多级映射</li>
 </ul>
-<p><img src="/./imgs/OS/2_dim_page.png" alt="2_dim_page"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/2_dim_page.png" alt="2_dim_page"></p>
 <ul>
 <li>多级页表大小不能超过一个页面</li>
 </ul>
-<p><img src="/./imgs/OS/2_dim_page_arch.png" alt="2_dim_page_arch"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/2_dim_page_arch.png" alt="2_dim_page_arch"></p>
 <p>$$<br>\begin{aligned}<br>&amp;逻辑地址：32bit\<br>&amp;以字节编址\<br>&amp;页表项：4B\<br>&amp;页面大小：4KB&#x3D;2^{12}B （页内偏移量）\<br>&amp;页号：32-12&#x3D;20\<br>&amp;全映射需要2^{20}个页表项\<br>&amp;共需4B<em>2^{20}&#x3D;4MB大小空间存储页表\<br>&amp;\<br>&amp;以40MB进程为例\<br>&amp;页表项：\frac{40MB}{4B</em>4KB}&#x3D;40KB\<br>&amp;需要\frac{40KB}{4KB}&#x3D;10页面\<br>&amp;整个进程需要\frac{40MB}{4KB}&#x3D;10*2^{10}个页面\<br>&amp;\<br>&amp;为了压缩页表，采取二级页表机制\<br>&amp;页表10页进行映射只需要10个页表项\<br>&amp;上一级页表只需要1页就已经足够2^{10}&#x3D;1024个页表项\<br>&amp;进程执行时，仅需将这一页的上级页表调入即可\<br>&amp;页面大小：4KB&#x3D;2^{12}B （页内偏移量）\<br>&amp;页号：32-12&#x3D;20\<br>&amp;顶级（一级）页表为1个页面\<br>&amp;一级页表项\frac{4KB}{4B}&#x3D;1K\<br>&amp;一级页表占用log_2{1K}&#x3D;10位\<br>&amp;二级页表占用20-10&#x3D;10位\<br>&amp;二级页表大小2^{10}*4B&#x3D;4KB\leq页面大小4KB\<br>\end{aligned}<br>$$</p>
 <p><strong>基本分段存储管理方式</strong></p>
 <p>分页管理是从计算机角度考虑设计，提高内存利用率，分页通过硬件机制实现</p>
 <p>分段管理是从用户和程序员出发，方便编程、信息保护和共享、动态增长以及动态链接等方面的需要</p>
-<p><img src="/./imgs/OS/single_seg.png" alt="single_seg"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/single_seg.png" alt="single_seg"></p>
 <p>段号决定每个进程最多可以分几个段，段内地址决定每个段内的最大长度</p>
 <p>段表：每个进程都有一张逻辑空间与内存空间映射的段表</p>
-<p><img src="/./imgs/OS/seg.png" alt="seg"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/seg.png" alt="seg"></p>
 <p>地址变换机构</p>
-<p><img src="/./imgs/OS/segment_address_translation_mechanism.png" alt="分段地址变换机构"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/segment_address_translation_mechanism.png" alt="分段地址变换机构"></p>
 <p>$$<br>从逻辑地址A中取出前几位为段号S，后几位为段内偏移量W\<br>比较段号S和段表长度M，S\geq M,产生越界中断，否则继续执行\<br>段表中段号S对应段表项地址&#x3D;段表始址F+段号S*段表项长度\<br>段内偏移量\geq C，产生越界中断，否则继续执行\<br>取出段表项中该段的起始地址b，E&#x3D;b+W，得到物理地址E去访问内存\<br>$$</p>
 <p>段的共享与保护：分段系统，通过两个作业的段表中相应表项指向被共享的段同一个物理副本，当地一个作业从共享段读取数据，必须防止另一个修改数据，不能修改的的代码称为<strong>纯代码、可重入代码</strong></p>
 <p>段号和段内偏移需要显示给出，地址空间为二维</p>
@@ -2379,10 +2418,10 @@
 </li>
 </ul>
 <p>段页式系统的逻辑地址结构：</p>
-<p><img src="/./imgs/OS/OS_page_seg_add.png" alt="OS_page_seg_add"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/OS_page_seg_add.png" alt="OS_page_seg_add"></p>
 <p>地址变换</p>
 <p>需要三次访存，可以使用快表机制</p>
-<p><img src="/./imgs/OS/segment_page_address_translation_mechanism.png" alt="segment_page_address_translation_mechanism"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/segment_page_address_translation_mechanism.png" alt="segment_page_address_translation_mechanism"></p>
 <p><strong>虚拟内存管理</strong></p>
 <p>传统存储管理方式</p>
 <ul>
@@ -2408,12 +2447,12 @@
 <p><strong>请求分页管理方式</strong></p>
 <p>访问不存在内存中的页面，通过调页将其调入，通过置换算法将暂时不需要的页面调到外存上</p>
 <p>页表机制</p>
-<p><img src="/./imgs/OS/Request_paging_page_table_mechanism.png" alt="Request_paging_page_table_mechanism"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/Request_paging_page_table_mechanism.png" alt="Request_paging_page_table_mechanism"></p>
 <p>$$<br>状态位P：指示是否调入内存\<br>访问字段A：记录一段时间内被访问的次数\<br>修改位M：标识页面调入内存后是否被修改过\<br>外存地址：指出该页在外存上的地址，通常是物理块号\<br>$$</p>
 <p>缺页中断机制</p>
 <p>访问页面不在内存中时，产生一个缺页中断，请求操作系统将缺页调入内存，将缺页的进程阻塞，若内存有闲置的空闲块，则分配一个块，将页面装入，并修改页表相应的页表项，若内存中无空闲块，则淘汰某页，淘汰页若在内存中修改过需要同步，写回外存</p>
 <p>地址变换机构</p>
-<p><img src="/./imgs/OS/request_paging_address_translation_mechanism.png" alt="request_paging_address_translation_mechanism"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/request_paging_address_translation_mechanism.png" alt="request_paging_address_translation_mechanism"></p>
 <p>页面置换算法</p>
 <ul>
 <li>最佳置换算法OPT</li>
@@ -2954,243 +2993,6 @@
 
 
   
-    <article id="post-数据结构·基本概念" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%C2%B7%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" class="article-date">
-  <time class="dt-published" datetime="2021-04-06T04:01:51.000Z" itemprop="datePublished">2021-04-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%C2%B7%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">数据结构·基本概念</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p> Data Structure Notes</p>
-  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Author : <span class="string">&quot;blueflylabor&quot;</span></span><br><span class="line">Version : <span class="number">1.0</span></span><br><span class="line">Refresh Date <span class="number">2020.11</span><span class="number">.26</span></span><br><span class="line">Description : </span><br><span class="line">Just record <span class="keyword">and</span> review some points about Data Structure.</span><br><span class="line">Have mistakes that please correct it yourself.</span><br></pre></td></tr></table></figure>
-
-<p> 数据结构的基本概念</p>
-<p>  1.数据</p>
-<p>  2.数据元素：</p>
-<p>   数据的基本单位，一个数据元素可有若干个数据项构成，数据项是不可分割的最小单位</p>
-<p>  3.数据类型</p>
-<p>  4.抽象数据类型(ADT[Abstract Data Type]):</p>
-<p>  数学模型在计算机的一种实现，包括数据对象、数据关系、基本操作，如建立一个有限状态机模型</p>
-<p>  5.数据结构：数据元素之间的关系称之为结构，数据结构包括三方面：逻辑结构、存储结构、数据运算(程序&#x3D;算法+数据结构)</p>
-<p>  6.逻辑结构：数据间的逻辑关系，与数据存储独立，分为线性结构和非线性结构</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">逻辑结构--线性结构</span><br><span class="line">逻辑结构--非线性结构</span><br><span class="line">线性结构--一般线性表</span><br><span class="line">线性结构--受限线性表</span><br><span class="line">线性结构--线性表推广</span><br><span class="line">受限线性表--栈和队列</span><br><span class="line">受限线性表--串</span><br><span class="line">线性表推广--数组</span><br><span class="line">线性表推广--广义表</span><br><span class="line">非线性结构--非线性表</span><br><span class="line">非线性表--集合</span><br><span class="line">非线性表--树形结构</span><br><span class="line">非线性表--图形结构</span><br><span class="line">树形结构--一般树</span><br><span class="line">树形结构--二叉树</span><br><span class="line">图形结构--有向图</span><br><span class="line">图形结构--无向图</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>  7.物理结构：数据元素的表示以及关系的表示，主要有：顺序存储、链式存储、索引存储、散列存储</p>
-<p>  8.算法评估</p>
-<p>  （1）特性：有穷、确定、可行、输入、输出</p>
-<p>  （2）时间复杂度：衡量算法随问题规模的增大，算法执行的时间增长的快慢</p>
-<p>   T(n)&#x3D;O(f(n))，f(n)为算法运算频度，一般采用最坏情况下的时间复杂度</p>
-<p>   计算方法：取算法时间增长最快的函数项，忽略其系数</p>
-<p>   a加法规则：</p>
-<pre><code>$$
-T(n)=T_1(n)+T_2(n)=O(f(n))+O(g(n))=O(max(f(n),g(n)))
-$$
-
-多项式相加，只保留最高阶的项，且系数变为1
-</code></pre>
-<p>   b乘法规则：</p>
-<pre><code>$$
-T(n)=T_1(n)*T_2(n)=O(f(n))*O(g(n))=O(f(n)*g(n))
-$$
-
-多项式相乘，都保留
-</code></pre>
-<p>   从左到右性能依次降低：</p>
-<pre><code>$$
-O(1)&lt;O(log_2n)&lt;O(n)&lt;O(nlog_2n)&lt;O(n^2)&lt;O(n^3)&lt;O(2^n)
-$$
-</code></pre>
-<p>   单循环体型：</p>
-<pre><code>例题1：计算下列程序的时间复杂度
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i,sum	<span class="comment">//执行1次</span></span><br><span class="line">sum=<span class="number">0</span>	<span class="comment">//执行1次</span></span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;=n;i++)<span class="comment">//int i=0执行1次，i&lt;=n执行n+2次，i++执行n+1次</span></span><br><span class="line">	sum+=i;	<span class="comment">//执行n+1次</span></span><br></pre></td></tr></table></figure>
-
-时间分析： 该算法执行了3n+6个语句。 假设每个语句执行时间一致，均为常数t。则总时间 
-$$
-T=(3n+6)*t
-$$
-随着问题规模n的增大，总时间的增长率与n的增长率一致，所以复杂度为
-$$
-O(n)
-$$
-
-
-结论： 
-
- 复杂度是关于增长率的，所以可以直接忽视常数项
-
-  一般可以直接关注循环段基本操作语句
-
-  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum+=i;</span><br></pre></td></tr></table></figure>
- 
-  
-
- 的执行次数
-</code></pre>
-<p>   例题2：</p>
-   <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> sum,i;</span><br><span class="line">sum=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">1</span>;i &lt;= n;i=<span class="number">2</span>*i)&#123;</span><br><span class="line">	sum=sum+i;</span><br></pre></td></tr></table></figure>
-<p>   时间分析：</p>
-<p>   i 取值：1,2,4,8…<br>   满足条件：2^𝑘 ≤ n<br>   K𝑙𝑜𝑔_2𝑛时， 跳出循环<br>   所以循环体执行次数：⌈𝑙𝑜𝑔_2𝑛⌉ 故时间复杂度为O(logn).i 取值：1,2,4,8</p>
-<p>  多循环体型</p>
-<p>  两个运算法则：乘法规则（嵌套循环）、加法规则（若干循环）</p>
-<p>  例题3：</p>
-  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> x,y,i,j;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	x++;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=n;j++)</span><br><span class="line">		y++;</span><br></pre></td></tr></table></figure>
-<p>  两个循环体是独立的，采用加法规则：<br>  $$<br>  T(n)&#x3D;T_1(n)+T_2(n)<br>  $$</p>
-<p>  $$<br>  &#x3D;max(T_1(n),T_2(n)) &#x3D;O(n^2)<br>  $$</p>
-<p>  例题4：</p>
-  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i,j,sum;</span><br><span class="line"><span class="keyword">for</span> (i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	<span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=n;j=<span class="number">2</span>*j)</span><br><span class="line">		sum=sum+j;</span><br></pre></td></tr></table></figure>
-<p>  两个循环体是嵌套的，采用乘法规则：</p>
-<p>  $$<br>  T(n)&#x3D;T_1(n)*T_2(n)<br>  $$</p>
-<p>  $$<br>  &#x3D;O(nlogn)<br>  $$</p>
-<p>  （3）空间复杂度：衡量算法随问题规模的增大，算法所需空间的快慢</p>
-<p>   S(n)&#x3D;O(g(n))，算法所需空间的增长率和g(n)的增长率相同</p>
-<p>   空间复杂度S(n)指算法运行过程中所使用的辅助空间的大小</p>
-<p>线性表</p>
-<p> 1.定义：线性表是具有相同数据类型的n个数据类型的有限序列，n为表长</p>
-<p> 线性表中第一个元素称为表头元素，最后一个元素称为表位元素</p>
-<p> 除第一个元素外，每个元素仅有一个直接前驱，除最后一个元素外，每个元素有且仅有一个直接后继</p>
-<p>顺序存储</p>
-<p>线性表的顺序存储又称顺序表</p>
-<p>使用一组地址连续的存储单元(数组等)依次存储线性表的数据元素，从而使得逻辑相邻的两个元素在物理位置上也相邻</p>
-<p>三个属性：</p>
-<p> 1.存储空间的起始位置</p>
-<p> 2.顺序表最大存储容量</p>
-<p> 3.顺序表当前的长度</p>
-<p>宏定义</p>
-<p>静态分配大小</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> MaxSize 100</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">int</span> Elemtype</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>&#123;</span><br><span class="line">Elemtype elem[MaxSize];</span><br><span class="line"><span class="type">int</span> length;</span><br><span class="line">&#125;SqList;</span><br></pre></td></tr></table></figure>
-
-<p>动态分配大小(这里动态指空间大小运行时决定，但分配大小后，空间大小被固定)</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">int</span> Elemtype</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>&#123;</span><br><span class="line">Elemtype *elem;</span><br><span class="line"><span class="type">int</span> length;</span><br><span class="line">&#125;SqList;</span><br></pre></td></tr></table></figure>
-
-<p>优点：访问效率高、存储密度高</p>
-<p>缺点：插入删除操作复杂</p>
-<p>顺序存储线性表操作</p>
-<p>1.初始化顺序存储线性表</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">initLinklist</span><span class="params">(SqList &amp;L)</span></span>&#123;</span><br><span class="line">	L.elem=<span class="keyword">new</span> Elemtype[MaxSize];</span><br><span class="line"><span class="keyword">if</span>(!L.elem)</span><br><span class="line">   <span class="built_in">exit</span>(OVERFLOWS);</span><br><span class="line">L.length=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>（1）创建一个顺序存储表后，需要初始化，首先根据数组大小通过new在堆空间开辟一段连续的空间赋值于先前创建的顺序存储表的elem空间</p>
-<p>（2）检查elem是否存在，不存在溢出退出程序</p>
-<p>（3）将length元素赋值为0，即设置顺序存储线性表长度为0</p>
-<p>2.销毁顺序存储线性表</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">destroyList</span><span class="params">(SqList &amp;L)</span></span>&#123;</span><br><span class="line"><span class="keyword">if</span>(L.elem)</span><br><span class="line">   <span class="built_in">delete</span>(L.elem);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果线性表存在，删除线性表elem开辟的空间</p>
-<p>3.清空顺序存储线性表</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">clearList</span><span class="params">(SqList &amp;L)</span></span>&#123;</span><br><span class="line">L.length=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>将线性表的长度置为0</p>
-<p>4.判断顺序存储线性表是否为空</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isEmpty</span><span class="params">(SqList &amp;L)</span></span>&#123;</span><br><span class="line"><span class="keyword">if</span>(L.length==<span class="number">0</span>)</span><br><span class="line">   <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>判断线性表长度是否为0，并返回相应bool值</p>
-<p>5.引用类型按下表获取顺序存储线性表元素</p>
- <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">getElem</span><span class="params">(SqList L,<span class="type">int</span> i,type&amp;e)</span></span>&#123;</span><br><span class="line"> <span class="keyword">if</span>(i&lt;<span class="number">1</span>||iL.length)</span><br><span class="line">     <span class="keyword">return</span> ERROR;</span><br><span class="line"> e=L.elem[i<span class="number">-1</span>];</span><br><span class="line"> <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> （1）先检查传递参数下标量是否正确</p>
-<p> （2）通过访问elem内数据存入引用类型变量内</p>
-<p>6.按下表获取顺序存储线性表元素</p>
- <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Elemtype <span class="title">getElem</span><span class="params">(SqList L,<span class="type">int</span> i)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(i&lt;<span class="number">1</span>||iL.length)</span><br><span class="line">     <span class="keyword">return</span> ERROR;</span><br><span class="line"> <span class="keyword">return</span> L.elem[i<span class="number">-1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> （1）先检查传递参数下标量是否正确</p>
-<p> （2）通过访问elem内数据并返回</p>
-<p>7.引用类型按值查询顺序存储线性表元素下标</p>
- <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">locateElem</span><span class="params">(SqList L,Elemtype e,<span class="type">int</span> &amp;i)</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;L.length;i++)</span><br><span class="line">     <span class="keyword">if</span>(L.elem[i]==e)</span><br><span class="line">         <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> 按照elem开辟空间进行迭代，当迭代元素与目标元素值相等时，将迭代量赋值于引用类型下标变量</p>
-<p>8.按值获取顺序存储线性表元素下标</p>
- <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">locateElem</span><span class="params">(SqList L,Elemtype e)</span></span>&#123;</span><br><span class="line"> <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;L.length;i++)</span><br><span class="line">     <span class="keyword">if</span>(L.elem[i]==e)</span><br><span class="line">         <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> 按照elem开辟空间进行迭代，当迭代元素与目标元素值相等时，将迭代量返回</p>
-<p>9.按下标插入元素</p>
- <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">listInsert</span><span class="params">(SqList &amp;L,type e,<span class="type">int</span> i)</span></span>&#123;</span><br><span class="line"> <span class="keyword">if</span>(i&lt;<span class="number">1</span>||iL.length)</span><br><span class="line">     <span class="keyword">return</span> ERROR;</span><br><span class="line"> ++L.length;</span><br><span class="line"> <span class="keyword">for</span>(<span class="type">int</span> j=L.length<span class="number">-1</span>;j=i<span class="number">-1</span>;j--)</span><br><span class="line">     L.elem[j+<span class="number">1</span>]=L.elem[j];</span><br><span class="line"> L.elem[i<span class="number">-1</span>]=e;</span><br><span class="line"> <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> （1）先检查传递参数下标量是否正确</p>
-<p> （2）增加线性表长度</p>
-<p> （3）按照目标元素位置，将其尾部元素后移1偏移量</p>
-<p> （4）将目标元素存入下标位置</p>
-<p> <strong>时间复杂度分析:</strong></p>
-<p>  （1）<br>  $$<br>  最好情况：在表尾插入(即i&#x3D;n+1)<br>  $$</p>
-<p>  $$<br>  元素后移语句执行的时间复杂度为O(1)<br>  $$</p>
-<p>  （2）<br>  $$<br>  最坏情况：在表头插入(即i&#x3D;1)<br>  $$</p>
-<p>  $$<br>  元素后移语句执行n次，时间复杂度为O(n)<br>  $$</p>
-<p>  （3）<br>  $$<br>  平均情况：假设p_i(p_i&#x3D;1&#x2F;(n+1))<br>  $$</p>
-<p>  $$<br>  是第i个位置上插入一个结点的概率<br>  $$</p>
-<p>  $$<br>  则在长度为n的线性表中插入一个节点是需要移动结点的平均次数为<br>  $$</p>
-<p>  $$<br>  \begin{equation*}</p>
-<p>  f &#x3D; \sum_{i&#x3D;1}^{n+1}p_i(n-i-1)</p>
-<p>  \end{equation*}<br>  $$</p>
-<p>  $$<br>  \begin{equation*}</p>
-<p>  &#x3D;\sum_{i&#x3D;1}^{n+1}{\frac{n+1}{n-i+1}}</p>
-<p>  \end{equation*}<br>  $$</p>
-<p>  $$<br>  \begin{equation*}</p>
-<p>  &#x3D;\frac{1}{n+1} \sum_{i&#x3D;1}^{n+1}(n-i-1)</p>
-<p>  \end{equation*}<br>  $$</p>
-<p>  $$<br>  &#x3D;\frac{1}{n+1}\frac{n(n+2)}{2}&#x3D;\frac{n}{2}<br>  $$</p>
-<p>  $$<br>  因此顺序存储线性表的插入算法平均时间复杂度为O(n)<br>  $$</p>
-<p>10.按下标删除元素</p>
- <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">listDelete</span><span class="params">(SqList &amp;L, <span class="type">int</span> i)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> ((i &lt; <span class="number">1</span>) || (i  L.length))</span><br><span class="line">		<span class="keyword">return</span> ERROR;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> j = i; i &lt;= L.length - <span class="number">1</span>; j++) &#123;</span><br><span class="line">		L.elem[j - <span class="number">1</span>] = L.elem[j];</span><br><span class="line">		--L.length;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> （1）先检查传递参数下标量是否正确</p>
-<p> （2）按照目标元素位置，将其头部元素前移1偏移量</p>
-<p> （3）减少线性表长度</p>
-<p> <strong>时间复杂度分析:</strong></p>
-<p>  （1）<br>  $$<br>  最好情况：在表尾插入(即i&#x3D;n)<br>  $$</p>
-<p>  $$<br>  无需移动元素，时间复杂度为O(1)<br>  $$</p>
-<p>  （2）<br>  $$<br>  最坏情况：在表头插入(即i&#x3D;1)<br>  $$</p>
-<p>  $$<br>  需移动除第一个元素外的所有元素，时间复杂度为O(n)<br>  $$</p>
-<p>  （3）<br>  $$<br>  平均情况：假设p_i(p_i&#x3D;1&#x2F;(n+1))<br>  $$</p>
-<p>  $$<br>  是第i个位置上插入一个结点的概率<br>  $$</p>
-<p>  $$<br>  则在长度为n的线性表中插入一个节点是需要移动结点的平均次数为<br>  $$</p>
-<p>  $$<br>  \begin{equation*}</p>
-<p>  f &#x3D; \sum_{i&#x3D;1}^{n}p_i(n-i)</p>
-<p>  \end{equation*}<br>  $$</p>
-<p>  $$<br>  \begin{equation*}</p>
-<p>  &#x3D;\sum_{i&#x3D;1}^{n}{\frac{n}{n-i}}</p>
-<p>  \end{equation*}<br>  $$</p>
-<p>  $$<br>  \begin{equation*}</p>
-<p>  &#x3D;\frac{1}{n} \sum_{i&#x3D;1}^{n}(n-i)</p>
-<p>  \end{equation*}<br>  $$</p>
-<p>  $$<br>  &#x3D;\frac{1}{n}\frac{n(n-1)}{2}&#x3D;\frac{n-1}{2}<br>  $$</p>
-<p>  $$<br>  因此顺序存储线性表的插入算法平均时间复杂度为O(n)<br>  $$</p>
-<p>11.创建顺序存储线性表</p>
- <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">createList</span><span class="params">(SqList &amp;L, <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">	type e;</span><br><span class="line">	L.length = n;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;Please in put an element:&quot;</span>;</span><br><span class="line">		cin  e;</span><br><span class="line">		L.elem[i] = e;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>11.打印顺序存储线性表内元素</p>
- <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">printList</span><span class="params">(SqList L)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\nList&#x27;s element：\n&quot;</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; L.length; i++) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;elem[&quot;</span> &lt;&lt; i &lt;&lt; <span class="string">&quot;] =&quot;</span> &lt;&lt; L.elem[i] &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blueflylabor.github.io/2021/04/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%C2%B7%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" data-id="cly1ogrxl0006r0dq392m2el8" data-title="数据结构·基本概念" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -3214,7 +3016,7 @@ $$
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">六月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">五月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">十二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/1970/01/">一月 1970</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/07/">七月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">六月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">五月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">十二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/1970/01/">一月 1970</a></li></ul>
     </div>
   </div>
 
@@ -3225,6 +3027,10 @@ $$
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2024/07/12/%E8%BF%87%E5%8E%BB%E4%B8%89%E5%B9%B4%E7%9A%84%E5%B0%8F%E7%BB%93/">过去三年的小结</a>
+          </li>
         
           <li>
             <a href="/2024/06/22/%E6%94%BE%E4%B8%8B%E5%B0%8F%E5%B1%8F%E6%97%97%E8%88%B0%E7%9A%84%E5%A5%A2%E6%B1%82/">放下小屏旗舰的奢求</a>
@@ -3240,10 +3046,6 @@ $$
         
           <li>
             <a href="/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%C2%B7%E4%BC%A0%E8%BE%93%E5%B1%82/">计算机网络·传输层</a>
-          </li>
-        
-          <li>
-            <a href="/2023/09/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%C2%B7%E7%BD%91%E7%BB%9C%E5%B1%82/">计算机网络·网络层</a>
           </li>
         
       </ul>
