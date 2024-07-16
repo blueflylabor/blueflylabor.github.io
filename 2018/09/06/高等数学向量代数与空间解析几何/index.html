@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <meta name="author" content="蓝翔技工">
+
+
+
+  <meta name="description" content="blueflylabor">
+
+
+
+<title>高等数学向量代数与空间解析几何 | 蓝翔技工(blueflylabor)</title>
+
+
+
+<link rel="icon" href="/favicon.png">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/nprogress/nprogress.css">
+
+
+
+<script src="/lib/jquery.min.js"></script>
+
+
+<script src="/lib/iconify-icon.min.js"></script>
+
+
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+  };
+</script>
+
+
+<script src="/lib/nprogress/nprogress.js"></script>
+
+<script>
+  $(document).ready(() => {
+    NProgress.configure({
+      showSpinner: false,
+    });
+    NProgress.start();
+    $("#nprogress .bar").css({
+      background: "#de7441",
+    });
+    $("#nprogress .peg").css({
+      "box-shadow": "0 0 2px #de7441, 0 0 4px #de7441",
+    });
+    $("#nprogress .spinner-icon").css({
+      "border-top-color": "#de7441",
+      "border-left-color": "#de7441",
+    });
+    setTimeout(function () {
+      NProgress.done();
+      $(".fade").removeClass("out");
+    }, 800);
+  });
+</script>
+
+<script>
+  (function () {
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+    if (setting === "dark" || (prefersDark && setting !== "light"))
+      document.documentElement.classList.toggle("dark", true);
+    let isDark = document.documentElement.classList.contains("dark");
+  })();
+
+  $(document).ready(function () {
+    // init icon
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = document.documentElement.classList.contains("dark");
+    $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
+
+    function toggleGiscusTheme() {
+      const isDark = document.documentElement.classList.contains("dark");
+      const giscusFrame = document.querySelector("iframe.giscus-frame");
+      if (giscusFrame) {
+        giscusFrame.contentWindow.postMessage(
+          {
+            giscus: {
+              setConfig: {
+                theme: isDark ? "dark" : "light",
+              },
+            },
+          },
+          "https://giscus.app"
+        );
+      }
+    }
+
+
+    // toggle dark mode
+    function toggleDark() {
+      let isDark = document.documentElement.classList.contains("dark");
+      const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+      isDark = !isDark;
+      document.documentElement.classList.toggle("dark", isDark);
+      $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
+      if (prefersDark === isDark) {
+        localStorage.setItem("hexo-color-scheme", "auto");
+      } else {
+        localStorage.setItem("hexo-color-scheme", isDark ? "dark" : "light");
+      }
+      toggleGiscusTheme();
+    }
+    $("#toggle-dark").click(toggleDark);
+
+    // listen dark mode change
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (e) => {
+        const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+        if (setting === "auto") {
+          document.documentElement.classList.toggle("dark", e.matches);
+          $("#theme-icon").attr(
+            "icon",
+            e.matches ? "ri:moon-line" : "ri:sun-line"
+          );
+          toggleGiscusTheme();
+        }
+      });
+  });
+</script>
+
+
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+<body class="font-sans bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200 relative">
+  <header class="fixed w-full px-5 py-1 z-10 backdrop-blur-xl backdrop-saturate-150 border-b border-black/5">
+  <div class="max-auto">
+    <nav class="flex items-center text-base">
+      <a href="/" class="group">
+        <h2 class="font-medium tracking-tighterp text-l p-2">
+          <img class="w-5 mr-2 inline-block transition-transform group-hover:rotate-[30deg]" id="logo" src="/images/logo.svg" alt="蓝翔技工(blueflylabor)" />
+          蓝翔技工(blueflylabor)
+        </h2>
+      </a>
+      <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
+        高等数学向量代数与空间解析几何
+      </div>
+      <div class="flex-1"></div>
+      <div class="flex items-center gap-3">
+        
+          <a class="hidden sm:flex" href="/archives">Posts</a>
+        
+        
+          
+            <a class="w-5 h-5 hidden sm:flex" title="Github" target="_blank" rel="noopener" href="https://github.com/blueflylabor">
+              <iconify-icon width="20" icon="ri:github-line"></iconify-icon>
+            </a>
+          
+        
+        <a class="w-5 h-5 hidden sm:flex" title="Github" href="rss2.xml">
+          <iconify-icon width="20" icon="ri:rss-line"></iconify-icon>
+        </a>
+        <a class="w-5 h-5" title="toggle theme" id="toggle-dark">
+          <iconify-icon width="20" icon="" id="theme-icon"></iconify-icon>
+        </a>
+      </div>
+      <div class="flex items-center justify-center gap-3 ml-3 sm:hidden">
+        <span class="w-5 h-5" aria-hidden="true" role="img" id="open-menu">
+          <iconify-icon width="20" icon="carbon:menu" ></iconify-icon>
+        </span>
+        <span class="w-5 h-5 hidden" aria-hidden="true" role="img" id="close-menu">
+          <iconify-icon  width="20" icon="carbon:close" ></iconify-icon>
+        </span>
+      </div>
+    </nav>
+  </div>
+</header>
+<div id="menu-panel" class="h-0 overflow-hidden sm:hidden fixed left-0 right-0 top-12 bottom-0 z-10">
+  <div id="menu-content" class="relative z-20 bg-white/80 px-6 sm:px-8 py-2 backdrop-blur-xl -translate-y-full transition-transform duration-300">
+    <ul class="nav flex flex-col sm:flex-row text-sm font-medium">
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/archives" class="flex h-12 sm:h-auto items-center">Posts</a>
+        </li>
+      
+    </ul>
+  </div>
+  <div class="mask bg-black/20 absolute inset-0"></div>
+</div>
+
+  <main class="pt-14">
+    <!-- css -->
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
+
+
+<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
+
+<!-- toc -->
+
+  <!-- tocbot -->
+<nav class="post-toc toc text-sm w-48 relative top-32 right-0 opacity-70 hidden lg:block" style="position: fixed !important;"></nav>
+
+
+<section class="px-6 max-w-prose mx-auto md:px-0">
+  <!-- header -->
+  <header class="overflow-hidden pt-6 pb-6 md:pt-12">
+    <div class="pt-4 md:pt-6">
+      <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
+        高等数学向量代数与空间解析几何
+      </h1>
+      <div>
+        <section class="flex items-center gap-3 text-sm">
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
+            <time>2024-07-17</time>
+          </span>
+          <span class="text-gray-400">·</span>
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
+            <span>5 min</span>
+          </span>
+          <span class="text-gray-400">·</span>
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
+            <span>1k words</span>
+          </span>
+          
+        </section>
+      </div>
+    </div>
+  </header>
+  <!-- content -->
+  <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
+    <h1 id="第四章-向量代数与空间解析几何"><a href="#第四章-向量代数与空间解析几何" class="headerlink" title="第四章 向量代数与空间解析几何"></a>第四章 向量代数与空间解析几何</h1><h2 id="第一节-向量及向量代数"><a href="#第一节-向量及向量代数" class="headerlink" title="第一节 向量及向量代数"></a>第一节 向量及向量代数</h2><h3 id="定义1："><a href="#定义1：" class="headerlink" title="定义1："></a>定义1：</h3><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210709112236540.jpg" alt="image-20210709112236540"><br>$$<br>\begin{align}<br>&amp;(1)向量:\vec{a}&#x3D;x\vec{i}+y\vec{j}+z\vec{k}&#x3D;{x,y,z}\<br>&amp;(2)向量的模: |\vec{a}|&#x3D;\sqrt{x^2+y^2+z^2}\<br>&amp;(3)单位向量: |\vec a|&#x3D;1,\vec a&#x3D;(\frac{x}{\sqrt{x^2+y^2+z^2}},\frac{y}{\sqrt{x^2+y^2+z^2}},\frac{z}{\sqrt{x^2+y^2+z^2}})&#x3D;(\cos \alpha,\cos\beta,\cos \gamma)\<br>&amp;(4)向量\vec{a}的方向余弦(方向数):<br>方向角\alpha,\beta,\gamma\in[0,\pi]\<br>&amp;\vec{a}&#x3D;(\cos \alpha,\cos\beta,\cos \gamma)\<br>\end{align}<br>$$<br><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210709112311950.jpg" alt="image-20210709112311950"></p>
+<h3 id="定理1："><a href="#定理1：" class="headerlink" title="定理1："></a>定理1：</h3><p>$$<br>\begin{align}<br>&amp;设A(a_1,a_2,a_3),B(b_1,b_2,b_3)\in R^3,则\vec{AB}&#x3D;{b_1,b_2,b_3}-{a_1,a_2,a_3}&#x3D;{b_1-a_1,b_2-a_2,b_3-a_3}\<br>\end{align}<br>$$</p>
+<h3 id="定义2"><a href="#定义2" class="headerlink" title="定义2"></a>定义2</h3><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210709121110125.jpg" alt="image-20210709121110125"><br>$$<br>\begin{align}<br>&amp;(1)线性运算:\vec{a}+\vec{b},\vec{a}-\vec{b}\<br>&amp;\lambda\vec{a}&#x3D;\begin{cases}&amp;|\lambda\vec a|\vec a,\lambda0,即与\vec a同向\&amp;\vec{0},\lambda&#x3D;0,即为零向量\&amp;-|\lambda\vec a|\vec a,\lambda&lt;0,即与\vec a反向\\end{cases}<br>\end{align}<br>$$<br><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210709121037300.jpg" alt="image-20210709121037300"><br>$$<br>\begin{align}<br>&amp;(2)数积(内积,点积):数积\vec{a}\cdot\vec{b}是一个数\<br>&amp;\vec{a}\cdot\vec{b}&#x3D;|\vec a||\vec b|\cos \theta\<br>&amp;注解：判定垂直\<br>&amp;(3)矢积(外积,叉积):矢积\vec{a}<em>\vec{b}是一个向量,满足:\<br>&amp;[1]|\vec a</em>\vec b|&#x3D;|\vec{a}||\vec{b}|\sin \theta\<br>&amp;[2]\vec a<em>\vec b\perp\vec{a}和\vec{b},\vec{a},\vec{b}和\vec a</em>\vec b的方向满足右手法则\<br>&amp;注解：\<br>&amp;1)判断平行\<br>&amp;2)|\vec{a}*\vec{b}|的几何意义：\<br>\end{align}<br>$$<br><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210709122353830.jpg" alt="image-20210709122353830"><br>$$<br>\begin{align}<br>&amp;(4)混合积:[\vec a\vec b \vec c]\overset{\Delta}{&#x3D;}(\vec a *\vec b)\cdot \vec c&#x3D;\vec c\cdot(\vec a *\vec b)&#x3D;(\vec b *\vec c)\cdot \vec a\<br>&amp;注解:[\vec a\vec b \vec c]的几何意义是体积\<br>\end{align}<br>$$<br><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210709123026193.jpg" alt="image-20210709123026193"></p>
+<h3 id="定理-2"><a href="#定理-2" class="headerlink" title="定理 2"></a>定理 2</h3><p>$$<br>\begin{align}<br>&amp;设\vec{a}&#x3D;{a_1,a_2,a_3},\vec{b}&#x3D;{b_1,b_2,b_3}\<br>&amp;则\lambda\vec{a}+\mu\vec{b}&#x3D;{\lambda a_1+\mu b_1,\lambda a_2+\mu b_2,\lambda a_3+\mu b_3}\<br>\end{align}<br>$$</p>
+<h3 id="定理-3"><a href="#定理-3" class="headerlink" title="定理 3"></a>定理 3</h3><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210709135655589.jpg" alt="image-20210709135655589"></p>
+<h3 id="定理-4"><a href="#定理-4" class="headerlink" title="定理 4"></a>定理 4</h3><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210709135720672.jpg" alt="image-20210709135720672"></p>
+<h3 id="定理-5"><a href="#定理-5" class="headerlink" title="定理 5"></a>定理 5</h3><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210709150311140.jpg" alt="image-20210709150311140"></p>
+<h3 id="定理-6"><a href="#定理-6" class="headerlink" title="定理 6"></a>定理 6</h3><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210709150345143.jpg" alt="image-20210709150345143"></p>
+<p>例题</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210709150453265.jpg" alt="image-20210709150453265"><br>$$<br>\begin{align}<br>&amp;解：\<br>&amp;(a,b,c)表示a,b,c的混合积,即(a,b,c)&#x3D;(aXb)..c .且(aXb)..c&#x3D;(bXc)..a&#x3D;(cXa)..b\<br>&amp;混合积几何意义为三向量空间围成的体积\<br>&amp;AXB方向尊崇右手定则 值为ABsin A..B&#x3D;ABcos\<br>&amp;因为 (a+b)X(b+c)&#x3D;aXb+aXc+bXb+bXc<br>&#x3D;aXb+aXc+bXc\<br>&amp;所以 (a+b)X(b+c)..(c+a)&#x3D;(aXb+aXc+bXc)..(c+a)&#x3D;(a,b,c)+(a,b,a)+(a,c,c)+(a,c,a)+(b,c,c)+(b,c,a).\<br>&amp;因为 (aXb) 垂直于a\<br>&amp;所以 (a,b,a)&#x3D;(aXb)*a&#x3D;0,\<br>&amp;同理,(a,c,c)&#x3D;(a,c,a)&#x3D;(b,c,c)&#x3D;0.\<br>&amp;又因为 (a,b,c)&#x3D;2,\<br>&amp;所以 (b,c,a)&#x3D;(a,b,c)&#x3D;2.\<br>&amp;所以 (a+b)x(b+c)..(c+a) &#x3D;4.<br>\end{align}<br>$$</p>
+<h2 id="第二节-平面与直线"><a href="#第二节-平面与直线" class="headerlink" title="第二节 平面与直线"></a>第二节 平面与直线</h2><h3 id="平面"><a href="#平面" class="headerlink" title="平面"></a>平面</h3><h4 id="点法式方程"><a href="#点法式方程" class="headerlink" title="点法式方程"></a>点法式方程</h4><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210720163141583.jpg" alt="image-20210720163141583"><br>$$<br>\begin{align}<br>&amp;\vec{p_0p}\cdot\vec{n}&#x3D;0\<br>&amp;\Leftrightarrow a(x-x_0)+b(y-y_0)+c(z-z_0)&#x3D;0\<br>&amp;\vec{n}&#x3D;{a,b,c}\neq0为法向量,P_0(x_0,y_0,z_0)为平面上的一点\<br>\end{align}<br>$$</p>
+<h4 id="一般式方程"><a href="#一般式方程" class="headerlink" title="一般式方程"></a>一般式方程</h4><p>$$<br>\begin{align}<br>&amp;ax+by+cz+d&#x3D;0,\vec{n}&#x3D;{a,b,c}\neq0为法向量\<br>\end{align}<br>$$</p>
+<p>注解：</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210720165839118.jpg" alt="image-20210720165839118"></p>
+<h4 id="截距式方程"><a href="#截距式方程" class="headerlink" title="截距式方程"></a>截距式方程</h4><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210720165758211.jpg" alt="image-20210720165758211"><br>$$<br>\begin{align}<br>&amp;\frac{x}{a}+\frac{y}{b}+\frac{z}{c}&#x3D;1\<br>&amp;a,b,c为平面在三个坐标轴上的截距\<br>&amp;注解:截距式方程只能表示和三个坐标轴都相交的平面<br>\end{align}<br>$$</p>
+<h4 id="点到面的距离"><a href="#点到面的距离" class="headerlink" title="点到面的距离"></a>点到面的距离</h4><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210720170315037.jpg" alt="image-20210720170315037"><br>$$<br>\begin{align}<br>&amp;点P_0(x_0,y_0,z_0)到平面ax+by+cz+d&#x3D;0的距离\<br>&amp;\rho&#x3D;\frac{|ax_0+by_0+cz_0+d|}{\sqrt{a^2+b^2+c^2}}<br>\end{align}<br>$$</p>
+<h4 id="两平面夹角（法向量夹角）"><a href="#两平面夹角（法向量夹角）" class="headerlink" title="两平面夹角（法向量夹角）"></a>两平面夹角（法向量夹角）</h4><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210720170411120.jpg" alt="image-20210720170411120"><br>$$<br>\begin{align}<br>&amp;cos\theta&#x3D;\frac{\vec{n_1}\cdot\vec{n_2}}{|\vec{n_1}||\vec{n_2}|}\<br>\end{align}<br>$$</p>
+<h4 id="平面与平面的位置关系"><a href="#平面与平面的位置关系" class="headerlink" title="平面与平面的位置关系"></a>平面与平面的位置关系</h4><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210720170615555.jpg" alt="image-20210720170615555"></p>
+<h3 id="直线"><a href="#直线" class="headerlink" title="直线"></a>直线</h3><h4 id="标准式方程（点向式）"><a href="#标准式方程（点向式）" class="headerlink" title="标准式方程（点向式）"></a>标准式方程（点向式）</h4><p>$$<br>\begin{align}<br>&amp;\vec{p}&#x2F;&#x2F;\vec{p_0p}\<br>&amp;\frac{x-x_0}{l}&#x3D;\frac{y-y_0}{m}&#x3D;\frac{z-z_0}{n}\<br>&amp;其中P_0(x_0,y_0,z_0)为直线上一点,\vec{L}&#x3D;{l,m,n}\neq0为直线的方向向量<br>\end{align}<br>$$</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210720170902650.jpg" alt="image-20210720170902650"></p>
+<h4 id="一般式方程-1"><a href="#一般式方程-1" class="headerlink" title="一般式方程"></a>一般式方程</h4><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210720171628330.jpg" alt="image-20210720171628330"></p>
+<h4 id="参数式方程"><a href="#参数式方程" class="headerlink" title="参数式方程"></a>参数式方程</h4><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210720171558344.jpg" alt="image-20210720171558344"></p>
+<h4 id="点到直线的距离"><a href="#点到直线的距离" class="headerlink" title="点到直线的距离"></a>点到直线的距离</h4><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210720171649489.jpg" alt="image-20210720171649489"></p>
+<h4 id="两直线夹角"><a href="#两直线夹角" class="headerlink" title="两直线夹角"></a>两直线夹角</h4><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210720171701565.jpg" alt="image-20210720171701565"></p>
+<h4 id="直线与直线的位置"><a href="#直线与直线的位置" class="headerlink" title="直线与直线的位置"></a>直线与直线的位置</h4><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210720171527919.jpg" alt="image-20210720171527919"></p>
+<h3 id="直线与平面的位置关系"><a href="#直线与平面的位置关系" class="headerlink" title="直线与平面的位置关系"></a>直线与平面的位置关系</h3><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210720171500856.jpg" alt="image-20210720171500856"></p>
+<h3 id="基本方法"><a href="#基本方法" class="headerlink" title="基本方法"></a>基本方法</h3>
+  </article>
+  <!-- tag -->
+  <div class="mt-12 pt-6 border-t border-gray-200">
+    
+  </div>
+  <!-- prev and next -->
+  <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
+    <div>
+      
+        <a href="/2018/09/06/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%AE%9A%E7%A7%AF%E5%88%86%E4%B8%8E%E5%8F%8D%E5%B8%B8%E7%A7%AF%E5%88%86/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
+          高等数学定积分与反常积分
+        </a>
+      
+    </div>
+    <div>
+      
+        <a href="/2018/09/06/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E5%A4%9A%E5%85%83%E5%87%BD%E6%95%B0%E5%BE%AE%E5%88%86%E5%AD%A6/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          高等数学多元函数微分学
+          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
+        </a>
+      
+    </div>
+  </div>
+  <!-- comment -->
+  <div class="article-comments mt-12">
+    
+
+  </div>
+</section>
+<!-- js inspect -->
+
+<script src="/lib/clipboard.min.js"></script>
+
+
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  $(document).ready(() => {
+    const maraidConfig = {
+      theme: "default",
+      logLevel: 3,
+      flowchart: { curve: "linear" },
+      gantt: { axisFormat: "%m/%d/%Y" },
+      sequence: { actorMargin: 50 },
+    };
+    mermaid.initialize(maraidConfig);
+  });
+</script>
+
+
+
+<script src="/lib/fancybox/fancybox.umd.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+    $('.post-content').each(function(i){
+      $(this).find('img').each(function(){
+        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
+        var alt = this.alt;
+        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
+        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
+      });
+      $(this).find('.fancybox').each(function(){
+        $(this).attr('rel', 'article' + i);
+      });
+    });
+
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        // options
+    })
+  })
+</script>
+
+<!-- tocbot begin -->
+
+<script src="/lib/tocbot/tocbot.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+      tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.post-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.post-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true,
+    });
+  })
+</script>
+<!-- tocbot end -->
+
+
+  </main>
+  <footer class="flex flex-col h-40 items-center justify-center text-gray-400 text-sm">
+  <!-- busuanzi -->
+  
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- Busuanzi Analytics -->
+<div class="flex items-center gap-2">
+  <span>Visitors</span>
+  <span id="busuanzi_value_site_uv"></span>
+  <span>Page Views</span>
+  <span id="busuanzi_value_site_pv"></span>
+</div>
+<!-- End Busuanzi Analytics -->
+
+
+  <!-- copyright -->
+  <div class="flex items-center gap-2">
+    <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style="color: inherit;">CC BY-NC-SA 4.0</a>
+    <span>© 2024</span>
+    <iconify-icon width="18" icon="emojione-monotone:maple-leaf" ></iconify-icon>
+    <a href="https://github.com/blueflylabor" target="_blank" rel="noopener noreferrer">blueflylabor</a>
+  </div>
+  <!-- powered by -->
+  <div class="flex items-center gap-2">
+    <span>Powered by</span>
+    <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
+    <span>&</span>
+    <a href="https://github.com/blueflylabor" target="_blank" rel="noopener noreferrer">Maple</a>
+  </div>
+
+</footer>
+
+  <div class="back-to-top box-border fixed right-6 z-1024 -bottom-20 rounded py-1 px-1 bg-slate-900 opacity-60 text-white cursor-pointer text-center dark:bg-slate-600">
+    <span class="flex justify-center items-center text-sm">
+      <iconify-icon width="18" icon="ion:arrow-up-c" id="go-top"></iconify-icon>
+      <span id="scrollpercent"><span>0</span> %</span>
+    </span>
+  </div>
+  
+<script src="/js/main.js"></script>
+
+
+  <script>
+    $(document).ready(function () {
+      const mapleCount = "30";
+      const speed = "0.5";
+      const mapleEl = document.getElementById("maple");
+      const maples = Array.from({ length: mapleCount }).map(() => {
+        const maple = document.createElement("div");
+        const scale = Math.random() * 0.5 + 0.5;
+        const offset = Math.random() * 2 - 1;
+        const x = Math.random() * mapleEl.clientWidth;
+        const y = -Math.random() * mapleEl.clientHeight;
+        const duration = 10 / speed;
+        const delay = -duration;
+        maple.className = "maple";
+        maple.style.width = `${24 * scale}px`;
+        maple.style.height = `${24 * scale}px`;
+        maple.style.left = `${x}px`;
+        maple.style.top = `${y}px`;
+        maple.style.setProperty("--maple-fall-offset", offset);
+        maple.style.setProperty("--maple-fall-height", `${Math.abs(y) + mapleEl.clientHeight}px`);
+        maple.style.animation = `fall ${duration}s linear infinite`;
+        maple.style.animationDelay = `${delay}s`;
+        mapleEl.appendChild(maple)
+        return maple
+      })
+    });
+  </script>
+  
+
+
+  <div class="fixed top-0 bottom-0 left-0 right-0 pointer-events-none print:hidden" id="maple"></div>
+</body>
+
+</html>
