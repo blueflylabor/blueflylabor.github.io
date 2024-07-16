@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <meta name="author" content="蓝翔技工">
+
+
+
+  <meta name="description" content="blueflylabor">
+
+
+
+<title>高等数学·极限 | 蓝翔技工(blueflylabor)</title>
+
+
+
+<link rel="icon" href="/favicon.png">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/nprogress/nprogress.css">
+
+
+
+<script src="/lib/jquery.min.js"></script>
+
+
+<script src="/lib/iconify-icon.min.js"></script>
+
+
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+  };
+</script>
+
+
+<script src="/lib/nprogress/nprogress.js"></script>
+
+<script>
+  $(document).ready(() => {
+    NProgress.configure({
+      showSpinner: false,
+    });
+    NProgress.start();
+    $("#nprogress .bar").css({
+      background: "#de7441",
+    });
+    $("#nprogress .peg").css({
+      "box-shadow": "0 0 2px #de7441, 0 0 4px #de7441",
+    });
+    $("#nprogress .spinner-icon").css({
+      "border-top-color": "#de7441",
+      "border-left-color": "#de7441",
+    });
+    setTimeout(function () {
+      NProgress.done();
+      $(".fade").removeClass("out");
+    }, 800);
+  });
+</script>
+
+<script>
+  (function () {
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+    if (setting === "dark" || (prefersDark && setting !== "light"))
+      document.documentElement.classList.toggle("dark", true);
+    let isDark = document.documentElement.classList.contains("dark");
+  })();
+
+  $(document).ready(function () {
+    // init icon
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = document.documentElement.classList.contains("dark");
+    $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
+
+    function toggleGiscusTheme() {
+      const isDark = document.documentElement.classList.contains("dark");
+      const giscusFrame = document.querySelector("iframe.giscus-frame");
+      if (giscusFrame) {
+        giscusFrame.contentWindow.postMessage(
+          {
+            giscus: {
+              setConfig: {
+                theme: isDark ? "dark" : "light",
+              },
+            },
+          },
+          "https://giscus.app"
+        );
+      }
+    }
+
+
+    // toggle dark mode
+    function toggleDark() {
+      let isDark = document.documentElement.classList.contains("dark");
+      const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+      isDark = !isDark;
+      document.documentElement.classList.toggle("dark", isDark);
+      $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
+      if (prefersDark === isDark) {
+        localStorage.setItem("hexo-color-scheme", "auto");
+      } else {
+        localStorage.setItem("hexo-color-scheme", isDark ? "dark" : "light");
+      }
+      toggleGiscusTheme();
+    }
+    $("#toggle-dark").click(toggleDark);
+
+    // listen dark mode change
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (e) => {
+        const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+        if (setting === "auto") {
+          document.documentElement.classList.toggle("dark", e.matches);
+          $("#theme-icon").attr(
+            "icon",
+            e.matches ? "ri:moon-line" : "ri:sun-line"
+          );
+          toggleGiscusTheme();
+        }
+      });
+  });
+</script>
+
+
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+<body class="font-sans bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200 relative">
+  <header class="fixed w-full px-5 py-1 z-10 backdrop-blur-xl backdrop-saturate-150 border-b border-black/5">
+  <div class="max-auto">
+    <nav class="flex items-center text-base">
+      <a href="/" class="group">
+        <h2 class="font-medium tracking-tighterp text-l p-2">
+          <img class="w-5 mr-2 inline-block transition-transform group-hover:rotate-[30deg]" id="logo" src="/images/logo.svg" alt="蓝翔技工(blueflylabor)" />
+          蓝翔技工(blueflylabor)
+        </h2>
+      </a>
+      <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
+        高等数学·极限
+      </div>
+      <div class="flex-1"></div>
+      <div class="flex items-center gap-3">
+        
+          <a class="hidden sm:flex" href="/archives">Posts</a>
+        
+        
+          
+            <a class="w-5 h-5 hidden sm:flex" title="Github" target="_blank" rel="noopener" href="https://github.com/blueflylabor">
+              <iconify-icon width="20" icon="ri:github-line"></iconify-icon>
+            </a>
+          
+        
+        <a class="w-5 h-5 hidden sm:flex" title="Github" href="rss2.xml">
+          <iconify-icon width="20" icon="ri:rss-line"></iconify-icon>
+        </a>
+        <a class="w-5 h-5" title="toggle theme" id="toggle-dark">
+          <iconify-icon width="20" icon="" id="theme-icon"></iconify-icon>
+        </a>
+      </div>
+      <div class="flex items-center justify-center gap-3 ml-3 sm:hidden">
+        <span class="w-5 h-5" aria-hidden="true" role="img" id="open-menu">
+          <iconify-icon width="20" icon="carbon:menu" ></iconify-icon>
+        </span>
+        <span class="w-5 h-5 hidden" aria-hidden="true" role="img" id="close-menu">
+          <iconify-icon  width="20" icon="carbon:close" ></iconify-icon>
+        </span>
+      </div>
+    </nav>
+  </div>
+</header>
+<div id="menu-panel" class="h-0 overflow-hidden sm:hidden fixed left-0 right-0 top-12 bottom-0 z-10">
+  <div id="menu-content" class="relative z-20 bg-white/80 px-6 sm:px-8 py-2 backdrop-blur-xl -translate-y-full transition-transform duration-300">
+    <ul class="nav flex flex-col sm:flex-row text-sm font-medium">
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/archives" class="flex h-12 sm:h-auto items-center">Posts</a>
+        </li>
+      
+    </ul>
+  </div>
+  <div class="mask bg-black/20 absolute inset-0"></div>
+</div>
+
+  <main class="pt-14">
+    <!-- css -->
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
+
+
+<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
+
+<!-- toc -->
+
+  <!-- tocbot -->
+<nav class="post-toc toc text-sm w-48 relative top-32 right-0 opacity-70 hidden lg:block" style="position: fixed !important;"></nav>
+
+
+<section class="px-6 max-w-prose mx-auto md:px-0">
+  <!-- header -->
+  <header class="overflow-hidden pt-6 pb-6 md:pt-12">
+    <div class="pt-4 md:pt-6">
+      <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
+        高等数学·极限
+      </h1>
+      <div>
+        <section class="flex items-center gap-3 text-sm">
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
+            <time>2024-06-30</time>
+          </span>
+          <span class="text-gray-400">·</span>
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
+            <span>8 min</span>
+          </span>
+          <span class="text-gray-400">·</span>
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
+            <span>1.7k words</span>
+          </span>
+          
+        </section>
+      </div>
+    </div>
+  </header>
+  <!-- content -->
+  <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
+    <h1 id="极限"><a href="#极限" class="headerlink" title="极限"></a>极限</h1><h4 id="极限的定义"><a href="#极限的定义" class="headerlink" title="极限的定义"></a>极限的定义</h4><h5 id="1）数列极限"><a href="#1）数列极限" class="headerlink" title="1）数列极限"></a>1）数列极限</h5><p>$$<br>\begin{align}<br>&amp;\lim_{n \rightarrow \infty}{x_n}&#x3D;A \Leftrightarrow对于\forall \epsilon0,\exist N,使得当nN时,有|x_n-A|&lt;\epsilon\<br>&amp;\lim_{x\rightarrow \infty}f(x)&#x3D;A\Leftrightarrow \forall \epsilon0,\exist M0,使得当|x|M时,有|f(x)-A|&lt;\epsilon\<br>&amp;\lim_{x\rightarrow +\infty}f(x)&#x3D;A\Leftrightarrow \forall \epsilon0,\exist M0,使得当xM时,有|f(x)-A|&lt;\epsilon\<br>&amp;\lim_{x\rightarrow -\infty}f(x)&#x3D;A\Leftrightarrow \forall \epsilon0,\exist M0,使得当x&lt;M时,有|f(x)-A|&lt;\epsilon\<br>&amp;\lim_{x\rightarrow x_0}f(x)&#x3D;A\Leftrightarrow \forall \epsilon0,\exist M0,使得当xM时,有|f(x)-A|&lt;\epsilon\<br>\end{align}<br>$$</p>
+<h4 id="极限的性质"><a href="#极限的性质" class="headerlink" title="极限的性质"></a>极限的性质</h4><h5 id="1）局部保号性"><a href="#1）局部保号性" class="headerlink" title="1）局部保号性"></a>1）局部保号性</h5><p>$$<br>\begin{align}<br>&amp;若\lim_{x\rightarrow x_0}f(x)&#x3D;A0(&lt;0),\<br>&amp;则\exist \delta 0,使得当x \in U^0(x_0,\delta)时,f(x)0(&lt;0)\<br>\end{align}<br>$$</p>
+<p>推论：保序性：<br>$$<br>\begin{align}<br>&amp;若\lim_{x\rightarrow x_0}f(x)&#x3D;A0(&lt;0),则\forall \alpha &lt;A(\beta A),\<br>&amp;\exist \delta0,使得当x \in U^0(x_0,\delta)时,f(x)\alpha(f(x)&lt;\beta)\<br>\end{align}<br>$$</p>
+<h5 id="2）局部有界性"><a href="#2）局部有界性" class="headerlink" title="2）局部有界性"></a>2）局部有界性</h5><p>$$<br>\begin{align}<br>若\lim_{x\rightarrow x_0}f(x)&#x3D;A,则\exist U^0(x_0),使得f(x)在U^0(x_0)内有界<br>\end{align}<br>$$</p>
+<h5 id="3）不等式性质"><a href="#3）不等式性质" class="headerlink" title="3）不等式性质"></a>3）不等式性质</h5><p>$$<br>\begin{align}<br>&amp;若\lim_{x \rightarrow x_0}f(x)&#x3D;A,\<br>&amp;\lim_{x \rightarrow x_0}g(x)&#x3D;B都存在,\<br>&amp;且f(x)\geq g(x),\<br>&amp;则A\geq B\<br>&amp;\<br>&amp;注解：若将f(x)\geq g(x)条件换为f(x)g(x),结论AB不一定成立\<br>&amp;x\rightarrow +\infty,\frac{1}{x}\frac{1}{x+1}不能推出\lim_{x\rightarrow +\infty}\frac{1}{x}\lim_{x\rightarrow +\infty}\frac{1}{x+1}\<br>&amp;但可以推出\lim_{x\rightarrow +\infty}\frac{1}{x}\geq\lim_{x\rightarrow +\infty}\frac{1}{x+1}<br>\end{align}<br>$$</p>
+<p>推论：<br>$$<br>若\lim_{x\rightarrow x_0}存在,且f(x)\geq0(\leq 0),则A\geq 0(A\leq 0)<br>$$</p>
+<h5 id="4）四则运算"><a href="#4）四则运算" class="headerlink" title="4）四则运算"></a>4）四则运算</h5><p>$$<br>\begin{align}<br>&amp;若\lim f(x)&#x3D;A,\lim g(x)&#x3D;B,则\<br>&amp;\lim [f(x) \pm g(x)]&#x3D;A \pm B\<br>&amp;\lim f(x)g(x)&#x3D;A*B\<br>&amp;\lim \frac{f(x)}{g(x)}&#x3D;\frac{A}{B},(B \neq 0)\<br>&amp;\<br>&amp;注解：若\lim f(x)不存在,\lim g(x)&#x3D;B存在,\<br>&amp;则\lim [f(x) \pm g(x)]必不存在,\<br>&amp;但\lim f(x)g(x)不一定必存在\<br>&amp;\<br>\end{align}<br>$$</p>
+<h4 id="数列极限"><a href="#数列极限" class="headerlink" title="数列极限"></a>数列极限</h4><p>$$<br>\begin{align}<br>&amp;定义1 \lim_{n\rightarrow \infty}x_n&#x3D;A:\<br>&amp;\forall \epsilon0,\exist N0,当nN时,恒有|x_n-A|&lt;\epsilon\<br>&amp;注解：\<br>&amp;(1)\epsilon与N的作用：\<br>&amp;\epsilon刻画x_n与A的接近程度,N是描述n\rightarrow \infty的过程\<br>&amp;(2)几何意义：\<br>&amp;对任意一个给定的\epsilon，在\epsilon领域，当n足够大时，前有限项落在领域外，其余都落在(A-\epsilon,A+\epsilon)内\<br>\end{align}<br>$$</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/%7DK27TS8@YE9O01$JFWZL%7BGI.jpg" alt="img"><br>$$<br>\begin{align}<br>&amp;(3)一个数列有没有极限与前有限项无关\<br>\end{align}<br>$$<br><img src="https://raw.githubusercontent.com/blueflylabor/images/main/EYFSSCG11QCROZVR6BRRWCW.jpg" alt="img"><br>$$<br>\begin{align}<br>&amp;(4)\lim_{n\rightarrow\infty}x_n&#x3D;a\Leftrightarrow\lim_{k\rightarrow\infty}x_{2k-1}&#x3D;\lim_{k\rightarrow\infty}x_{2k}&#x3D;a:\<br>&amp;数列极限\exist\overset{\Rightarrow}{\nLeftarrow}奇数列偶数列极限\exist\<br>&amp;数列极限\exist\overset{\Rightarrow}{\Leftarrow}奇数列极限\exist&#x3D;偶数列极限\exist\<br>&amp;eg:a_n&#x3D;(-1)^n,a_{2k-1}&#x3D;-1,-1,-1,…,-1;a_{2k}&#x3D;1,1,1,…,1;\lim_{k\rightarrow \infty}a_{2k-1}\neq\lim_{k\rightarrow \infty}a_{2k}<br>\end{align}<br>$$</p>
+<h6 id="例题1"><a href="#例题1" class="headerlink" title="例题1"></a>例题1</h6><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/%5BPJU%608@8W1YOB(~)XA%60J%7BYA.jpg" alt="img"><br>$$<br>\begin{align}<br>&amp;法1：分奇偶数列\<br>&amp;奇数项：\lim_{n\rightarrow\infty}(\frac{n+1}{n})^{-1}&#x3D;1\<br>&amp;偶数项：\lim_{n\rightarrow\infty}(\frac{n+1}{n})^{1}&#x3D;1\<br>&amp;法2：缩放法+夹逼原理\<br>&amp;(\frac{n+1}{n})^{-1}\leq(\frac{n+1}{n})^{(-1)^n}\leq\frac{n+1}{n}\<br>&amp;\lim_{n\rightarrow \infty}(\frac{n+1}{n})^{-1}&#x3D;1\leq\lim_{n\rightarrow \infty}(\frac{n+1}{n})^{(-1)^n}\leq\lim_{n\rightarrow \infty}\frac{n+1}{n}&#x3D;1\<br>&amp;I&#x3D;\lim_{n\rightarrow \infty}(\frac{n+1}{n})^{(-1)^n}&#x3D;1\<br>\end{align}<br>$$</p>
+<h6 id="例题2"><a href="#例题2" class="headerlink" title="例题2"></a>例题2</h6><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/eqfdsfas1312dsafdwftht.jpg" alt="eqfdsfas1312dsafdwftht"><br>$$<br>\begin{align}<br>&amp;(1)解法:重要不等式||a|-|b||\leq|a-b|\<br>&amp;因为\lim_{n\rightarrow\infty}x_n&#x3D;a由极限定义可知\<br>&amp;\forall \epsilon0,\exist N0,当nN时,|x_n-a|&lt;\epsilon\<br>&amp;根据||x_n|-|a||\leq|x_n-a|,\<br>&amp;则\forall \epsilon0,\exist N0,当nN时,||x_n|-|a||&lt;\epsilon\<br>&amp;反之不成立,例如x_n&#x3D;(-1)^n,则\lim_{n\rightarrow \infty}|x_n|&#x3D;1&#x3D;|1|,但\lim_{n\rightarrow \infty}(-1)^n不存在\<br>&amp;(2)由(1)可知,若\lim_{n\rightarrow\infty}x_n&#x3D;0,则\lim_{n\rightarrow \infty}|x_n|&#x3D;|0|&#x3D;0\<br>&amp;由\lim_{n\rightarrow\infty}|x_n|&#x3D;0,\forall \epsilon0,\exist N0,当nN时,||x_n|-0|&lt;\epsilon\<br>&amp;即|x_n-0|&lt;\epsilon\<br>\end{align}<br>$$</p>
+<h4 id="求数列极限的方法："><a href="#求数列极限的方法：" class="headerlink" title="求数列极限的方法："></a>求数列极限的方法：</h4><p>$$<br>\begin{align}<br>&amp;（1）将数列极限转化为函数极限\</p>
+<p>\end{align}<br>$$</p>
+<h4 id="函数极限"><a href="#函数极限" class="headerlink" title="函数极限"></a>函数极限</h4><h5 id="1-自变量趋于无穷大时函数的极限"><a href="#1-自变量趋于无穷大时函数的极限" class="headerlink" title="1)自变量趋于无穷大时函数的极限"></a>1)自变量趋于无穷大时函数的极限</h5><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210428170621601.jpg" alt="image-20210428170621601"></p>
+<h6 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h6><p>$$<br>\begin{align}<br>&amp;极限\lim_{x\rightarrow \infty}\frac{\sqrt{x^2+1}}{x}&#x3D;?\<br>&amp;解：\<br>&amp;\sqrt x^2&#x3D;|x|\<br>&amp;分左右\<br>&amp;\lim_{x\rightarrow +\infty}\frac{x\sqrt{1+\frac{1}{x^2}}}{x}&#x3D;1\<br>&amp;\lim_{x\rightarrow -\infty}\frac{x\sqrt{1+\frac{1}{x^2}}}{x}&#x3D;-1\<br>&amp;\lim_{x\rightarrow -\infty}\frac{x\sqrt{1+\frac{1}{x^2}}}{x}\neq\lim_{x\rightarrow +\infty}\frac{x\sqrt{1+\frac{1}{x^2}}}{x}\<br>&amp;\lim_{x\rightarrow \infty}\frac{\sqrt{x^2+1}}{x}不存在<br>\end{align}<br>$$</p>
+<h5 id="2-自变量趋于有限值时函数的极限"><a href="#2-自变量趋于有限值时函数的极限" class="headerlink" title="2)自变量趋于有限值时函数的极限"></a>2)自变量趋于有限值时函数的极限</h5><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210428172430632.jpg" alt="image-20210428172430632"><br>$$<br>\begin{align}<br>&amp;注解：(1)\epsilon的任意性,\epsilon与\delta时,恒有|f(x)-A|&lt;\epsilon\<br>&amp;\Rightarrow A-\epsilon&lt;f(x)&lt;A+\epsilon\<br>&amp;(2)几何意义：f(x_0)这一点可无定义，与去心邻域的函数值有关系\<br>\end{align}<br>$$<br><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210502180033951.jpg" alt="image-20210502180033951"></p>
+<h5 id="易错点："><a href="#易错点：" class="headerlink" title="易错点："></a>易错点：</h5><p>$$<br>\begin{align}<br>&amp;正确：\lim_{x\rightarrow 0}\frac{\sin x}{x}&#x3D;1(x\rightarrow 0,x\neq 0)\<br>&amp;错误：\lim_{x\rightarrow 0}\frac{\sin(x\sin \frac{1}{x})}{x\sin\frac{1}{x}}&#x3D;1\<br>&amp;需保证x{\sin\frac{1}{x}}\rightarrow 0,x{\sin\frac{1}{x}}\neq 0\<br>&amp;即在0点的去心领域内x{\sin\frac{1}{x}}\neq0\<br>&amp;但当x&#x3D;\frac{1}{n\pi},使得x{\sin\frac{1}{x}}&#x3D;0\<br>&amp;所以原始极限不存在\<br>\end{align}<br>$$</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210502181857574.jpg" alt="image-20210502181857574"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/223567833.jpg" alt="223567833"></p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/1619951164(1).jpg" alt="1619951164(1)"></p>
+<h4 id="极限性质"><a href="#极限性质" class="headerlink" title="极限性质"></a>极限性质</h4><p>$$<br>\begin{align}<br>&amp;1)有界性\<br>&amp;(1)数列有界性：如果数列[x_n],那么数列[x_n]一定有界\<br>&amp;x_n\rightarrow a,nN,因为x_n\leq M<br>\end{align}<br>$$</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/1222222222222222321.jpg" alt="123"><br>$$<br>\begin{align}<br>&amp;x_n前n项为有限元,必有一个数M大于前n项最大值\<br>&amp;收敛\overset{\Rightarrow}{\nLeftarrow}有界\<br>&amp;eg:x_n&#x3D;(-1)^n\<br>&amp;(2)局部有界性：若\lim_{x\rightarrow x_0}f(x)\exist,则f(x)在x_0某去心邻域有界\<br>&amp;\lim_{x\rightarrow x_0}f(x)\exist\overset{\Rightarrow}{\nLeftarrow}f(x)局部有界(去心邻域有界)\<br>&amp;eg:f(x)&#x3D;\sin\frac{1}{x},\lim_{x\rightarrow 0}{\sin\frac{1}{x}}有界,但不存在\<br>&amp;2)保号性\<br>&amp;(1)数列极限保号性\<br>&amp;设\lim_{n\rightarrow \infty}{x_n}&#x3D;A\<br>&amp;[1]如果A0(或A&lt;0),则存在N0,当nN,x_n0(或x_n&lt;0)\<br>&amp;[2]如果存在N0,当nN时,x_n\geq 0(或x_n\leq0),则A\geq0(或A\leq 0)\<br>&amp;(2)函数极限保号性\<br>&amp;[1]如果A0(或A&lt;0),则存在\delta0,当x\in \dot{U}(x_0,\delta)时,f(x)0(或f(x_0)&lt;0)\<br>&amp;[2]如果存在\delta0,当x\in \dot{U}(x_0,\delta)时,f(x)\geq0(或f(x)\leq0),那么A\geq0(或A\leq0)<br>\end{align}<br>$$</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/sssaaaa.jpg"></p>
+
+  </article>
+  <!-- tag -->
+  <div class="mt-12 pt-6 border-t border-gray-200">
+    
+  </div>
+  <!-- prev and next -->
+  <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
+    <div>
+      
+        <a href="/2018/09/06/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%C2%B7%E5%AF%BC%E6%95%B0%E4%B8%8E%E5%BE%AE%E5%88%86/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
+          高等数学·导数与微分
+        </a>
+      
+    </div>
+    <div>
+      
+        <a href="/2018/09/06/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%C2%B7%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          高等数学·微分方程
+          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
+        </a>
+      
+    </div>
+  </div>
+  <!-- comment -->
+  <div class="article-comments mt-12">
+    
+
+  </div>
+</section>
+<!-- js inspect -->
+
+<script src="/lib/clipboard.min.js"></script>
+
+
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  $(document).ready(() => {
+    const maraidConfig = {
+      theme: "default",
+      logLevel: 3,
+      flowchart: { curve: "linear" },
+      gantt: { axisFormat: "%m/%d/%Y" },
+      sequence: { actorMargin: 50 },
+    };
+    mermaid.initialize(maraidConfig);
+  });
+</script>
+
+
+
+<script src="/lib/fancybox/fancybox.umd.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+    $('.post-content').each(function(i){
+      $(this).find('img').each(function(){
+        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
+        var alt = this.alt;
+        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
+        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
+      });
+      $(this).find('.fancybox').each(function(){
+        $(this).attr('rel', 'article' + i);
+      });
+    });
+
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        // options
+    })
+  })
+</script>
+
+<!-- tocbot begin -->
+
+<script src="/lib/tocbot/tocbot.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+      tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.post-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.post-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true,
+    });
+  })
+</script>
+<!-- tocbot end -->
+
+
+  </main>
+  <footer class="flex flex-col h-40 items-center justify-center text-gray-400 text-sm">
+  <!-- busuanzi -->
+  
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- Busuanzi Analytics -->
+<div class="flex items-center gap-2">
+  <span>Visitors</span>
+  <span id="busuanzi_value_site_uv"></span>
+  <span>Page Views</span>
+  <span id="busuanzi_value_site_pv"></span>
+</div>
+<!-- End Busuanzi Analytics -->
+
+
+  <!-- copyright -->
+  <div class="flex items-center gap-2">
+    <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style="color: inherit;">CC BY-NC-SA 4.0</a>
+    <span>© 2022</span>
+    <iconify-icon width="18" icon="emojione-monotone:maple-leaf" ></iconify-icon>
+    <a href="https://github.com/xbmlz" target="_blank" rel="noopener noreferrer">xbmlz</a>
+  </div>
+  <!-- powered by -->
+  <div class="flex items-center gap-2">
+    <span>Powered by</span>
+    <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
+    <span>&</span>
+    <a href="https://github.com/xbmlz/hexo-theme-maple" target="_blank" rel="noopener noreferrer">Maple</a>
+  </div>
+
+</footer>
+
+  <div class="back-to-top box-border fixed right-6 z-1024 -bottom-20 rounded py-1 px-1 bg-slate-900 opacity-60 text-white cursor-pointer text-center dark:bg-slate-600">
+    <span class="flex justify-center items-center text-sm">
+      <iconify-icon width="18" icon="ion:arrow-up-c" id="go-top"></iconify-icon>
+      <span id="scrollpercent"><span>0</span> %</span>
+    </span>
+  </div>
+  
+<script src="/js/main.js"></script>
+
+
+  <script>
+    $(document).ready(function () {
+      const mapleCount = "10";
+      const speed = "0.5";
+      const mapleEl = document.getElementById("maple");
+      const maples = Array.from({ length: mapleCount }).map(() => {
+        const maple = document.createElement("div");
+        const scale = Math.random() * 0.5 + 0.5;
+        const offset = Math.random() * 2 - 1;
+        const x = Math.random() * mapleEl.clientWidth;
+        const y = -Math.random() * mapleEl.clientHeight;
+        const duration = 10 / speed;
+        const delay = -duration;
+        maple.className = "maple";
+        maple.style.width = `${24 * scale}px`;
+        maple.style.height = `${24 * scale}px`;
+        maple.style.left = `${x}px`;
+        maple.style.top = `${y}px`;
+        maple.style.setProperty("--maple-fall-offset", offset);
+        maple.style.setProperty("--maple-fall-height", `${Math.abs(y) + mapleEl.clientHeight}px`);
+        maple.style.animation = `fall ${duration}s linear infinite`;
+        maple.style.animationDelay = `${delay}s`;
+        mapleEl.appendChild(maple)
+        return maple
+      })
+    });
+  </script>
+  
+
+
+  <div class="fixed top-0 bottom-0 left-0 right-0 pointer-events-none print:hidden" id="maple"></div>
+</body>
+
+</html>
