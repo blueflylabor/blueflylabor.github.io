@@ -222,7 +222,7 @@
         <section class="flex items-center gap-3 text-sm">
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
-            <time>2024-06-30</time>
+            <time>2024-07-17</time>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
@@ -253,7 +253,24 @@
 <p>  数学模型在计算机的一种实现，包括数据对象、数据关系、基本操作，如建立一个有限状态机模型</p>
 <p>  5.数据结构：数据元素之间的关系称之为结构，数据结构包括三方面：逻辑结构、存储结构、数据运算(程序&#x3D;算法+数据结构)</p>
 <p>  6.逻辑结构：数据间的逻辑关系，与数据存储独立，分为线性结构和非线性结构</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">逻辑结构--线性结构</span><br><span class="line">逻辑结构--非线性结构</span><br><span class="line">线性结构--一般线性表</span><br><span class="line">线性结构--受限线性表</span><br><span class="line">线性结构--线性表推广</span><br><span class="line">受限线性表--栈和队列</span><br><span class="line">受限线性表--串</span><br><span class="line">线性表推广--数组</span><br><span class="line">线性表推广--广义表</span><br><span class="line">非线性结构--非线性表</span><br><span class="line">非线性表--集合</span><br><span class="line">非线性表--树形结构</span><br><span class="line">非线性表--图形结构</span><br><span class="line">树形结构--一般树</span><br><span class="line">树形结构--二叉树</span><br><span class="line">图形结构--有向图</span><br><span class="line">图形结构--无向图</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  <pre class="mermaid">  graph TD
+  逻辑结构--线性结构
+  逻辑结构--非线性结构
+  线性结构--一般线性表
+  线性结构--受限线性表
+  线性结构--线性表推广
+  受限线性表--栈和队列
+  受限线性表--串
+  线性表推广--数组
+  线性表推广--广义表
+  非线性结构--非线性表
+  非线性表--集合
+  非线性表--树形结构
+  非线性表--图形结构
+  树形结构--一般树
+  树形结构--二叉树
+  图形结构--有向图
+  图形结构--无向图</pre>
 <p>  7.物理结构：数据元素的表示以及关系的表示，主要有：顺序存储、链式存储、索引存储、散列存储</p>
 <p>  8.算法评估</p>
 <p>  （1）特性：有穷、确定、可行、输入、输出</p>
@@ -596,7 +613,7 @@ $$
     <span>Powered by</span>
     <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
     <span>&</span>
-    <a href="https://github.com/blueflylabor/hexo-theme-maple" target="_blank" rel="noopener noreferrer">Maple</a>
+    <a href="https://github.com/blueflylabor" target="_blank" rel="noopener noreferrer">Maple</a>
   </div>
 
 </footer>
@@ -613,7 +630,7 @@ $$
 
   <script>
     $(document).ready(function () {
-      const mapleCount = "10";
+      const mapleCount = "30";
       const speed = "0.5";
       const mapleEl = document.getElementById("maple");
       const maples = Array.from({ length: mapleCount }).map(() => {
