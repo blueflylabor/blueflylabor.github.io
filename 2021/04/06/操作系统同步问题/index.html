@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+
+
+
+
+
+
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet"
+/>
+<link
+    href="https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code@4.2.1/index.min.css"
+    rel="stylesheet"
+/>
+
+
+<link rel="stylesheet" href="/styles/main.css">
+
+
+    
+<link rel="stylesheet" href="/styles/post.css">
+
+
+
+<title>操作系统同步问题 - 蓝翔技工(blueflylabor)</title>
+
+    <meta name="generator" content="Hexo 7.2.0"></head>
+    <body>
+        <header>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            
+                
+
+    <li><a href="/posts"><span>Posts</span></a></li>
+    <li><a href="/tags"><span>Tags</span></a></li>
+    <li><a href="/categories"><span>Categories</span></a></li>
+    <li><a href="/archives"><span>Archives</span></a></li>
+
+
+            
+        </ul>
+    </nav>
+</header>
+
+        <main>
+    <header>
+        <h1>
+            
+                操作系统同步问题
+            
+        </h1>
+        <div>
+            <time>2021-04-06</time>
+            <div class="post-categories">
+                
+            </div>
+            <div class="post-tags">
+                
+            </div>
+        </div>
+    </header>
+    <p><strong>经典同步问题</strong></p>
+<p><em>1.生产者消费者问题</em></p>
+<ul>
+<li><p>一组生产者进程(Producer)</p>
+</li>
+<li><p>一组消费者进程(Consumer)</p>
+</li>
+<li><p>共享初始为空 大小为n的缓冲区(Buffer)</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">semaphore mutex = 1;  //mutex</span><br><span class="line">semaphore empty = n;  //buffer</span><br><span class="line">semaphore full = 0;   //full</span><br><span class="line"></span><br><span class="line">Producer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		Produce();</span><br><span class="line">		P(mutex);</span><br><span class="line">		add2Buffer();</span><br><span class="line">		V(mutex);</span><br><span class="line">		V(full);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Consumer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(full);</span><br><span class="line">		P(mutex);</span><br><span class="line">		getFromBuffer();</span><br><span class="line">		V(mutex);</span><br><span class="line">		Consume();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>2.读者写者问题</em></p>
+<ul>
+<li>读者进程(Reader)</li>
+<li>写者进程(Writer)</li>
+<li>共享一个文档(Document)</li>
+<li>多进程读，不可多进程写</li>
+<li>写进程写，不可读</li>
+<li>写进程检查是否有读进程读</li>
+</ul>
+<p><strong>读进程优先</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">int count = 0;</span><br><span class="line">semaphore mutex = 1;</span><br><span class="line">semaphore rw = 1;</span><br><span class="line">Reader()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(mutex);</span><br><span class="line">		if(count == 0)</span><br><span class="line">			P(rw);</span><br><span class="line">		count++;</span><br><span class="line">		V(mutex);</span><br><span class="line">		Read();</span><br><span class="line">		P(mutex);</span><br><span class="line">		count--;</span><br><span class="line">		if(count == 0)</span><br><span class="line">			V(rw);</span><br><span class="line">		V(mutex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Writer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(rw);</span><br><span class="line">		write();</span><br><span class="line">		v(rw);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>写进程优先</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">int count = 0;</span><br><span class="line">semaphore mutex = 1;</span><br><span class="line">semaphore rw = 1;</span><br><span class="line">semaphore w = 1;</span><br><span class="line">Writer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(w);</span><br><span class="line">		P(rw);</span><br><span class="line">		Write();</span><br><span class="line">		V(rw);</span><br><span class="line">		V(w);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Reader()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(w);</span><br><span class="line">		P(mutex);</span><br><span class="line">		if(count == 0)</span><br><span class="line">			P(rw);</span><br><span class="line">		count++;</span><br><span class="line">		V(mutex);</span><br><span class="line">		V(w);</span><br><span class="line">		Read();</span><br><span class="line">		P(mutex);</span><br><span class="line">		count--;</span><br><span class="line">		if(count == 0)</span><br><span class="line">			V(rw);</span><br><span class="line">		V(mutex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>3.哲学家进餐问题</em></p>
+<ul>
+<li>5名哲学家(Philosopher)</li>
+<li>每两名之间有一根筷子(Chopstick)</li>
+<li>每名有一碗饭</li>
+<li>吃完饭思考</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">semaphore Chopsticks[5] = &#123;1, 1, 1, 1, 1&#125;;</span><br><span class="line">semaphore mutex = 1;</span><br><span class="line">Philosopher()&#123;</span><br><span class="line">	do&#123;</span><br><span class="line">		P(mutex);</span><br><span class="line">		P(Chopsticks[i]);</span><br><span class="line">		P(Chopsticks[(i+1)%5]);</span><br><span class="line">		V(mutex);</span><br><span class="line">		eat();</span><br><span class="line">		V(Chopsticks[i]);</span><br><span class="line">		V(Chopsticks[(i+1)%5]);</span><br><span class="line">		think();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>4.吸烟者问题</strong></p>
+<ul>
+<li>3个吸烟者进程(Smoker)</li>
+<li>1个提供者进程(Offer)</li>
+<li>Smoker1(paper, glue)</li>
+<li>Smoker2(tobacco, glue)</li>
+<li>Smoker3(paper, tobacco)</li>
+<li>Offer(offer1) return paper, glue</li>
+<li>Offer(offer2) return tobacco, glue</li>
+<li>Offer(offer3) return paper, tobacco</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">int num = 0;	//store random num</span><br><span class="line">semaphore offer1 = 0;</span><br><span class="line">semaphore offer2 = 0;</span><br><span class="line">semaphore offer3 = 0;</span><br><span class="line">semaphore end = 0;</span><br><span class="line">Offer()&#123;</span><br><span class="line">	whlie(1)&#123;</span><br><span class="line">		num++;</span><br><span class="line">		num = num % 3;</span><br><span class="line">		if(num == 0)</span><br><span class="line">			V(offer1);</span><br><span class="line">		else if(num == 1)</span><br><span class="line">			V(offer2);</span><br><span class="line">		else</span><br><span class="line">			V(offer3);</span><br><span class="line">		P(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Smoker1()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(offer3);</span><br><span class="line">		smoke();</span><br><span class="line">		V(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Smoker2()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(offer2);</span><br><span class="line">		smoke();</span><br><span class="line">		V(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Smoker3()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(offer1);</span><br><span class="line">		smoke();</span><br><span class="line">		V(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>eg1</em></p>
+<ul>
+<li>3个进程P1 P2 P3</li>
+<li>互斥使用N个单元的缓冲区(Buffer)</li>
+<li>P1 produce() return (int num) put() @Buffer</li>
+<li>P2</li>
+</ul>
+
+    <div class="gallery">
+        
+    </div>
+</main>
+
+        
+    <nav class="pagination">
+        <span class="prev">
+            
+                <a href="/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%BD%91%E7%BB%9C%E5%B1%82/">
+                    计算机网络网络层
+                </a>
+            
+        </span>
+        <span class="next">
+            
+                <a href="/2021/04/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E8%BF%B0/" >
+                    操作系统简述
+                </a>
+            
+        </span>
+    </nav>
+
+
+        <footer>
+    <p>&copy; 蓝翔技工</p>
+    <p>
+        Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>,
+        <a target="_blank" rel="noopener" href="https://github.com/sunnybyeon/hexo-theme-dashed">Theme</a> by
+        <a target="_blank" rel="noopener" href="https://github.com/sunnybyeon">sunnybyeon</a>
+    </p>
+</footer>
+
+    </body>
+</html>

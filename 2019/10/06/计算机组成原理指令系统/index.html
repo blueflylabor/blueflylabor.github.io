@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+
+
+
+
+
+
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet"
+/>
+<link
+    href="https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code@4.2.1/index.min.css"
+    rel="stylesheet"
+/>
+
+
+<link rel="stylesheet" href="/styles/main.css">
+
+
+    
+<link rel="stylesheet" href="/styles/post.css">
+
+
+
+<title>计算机组成原理指令系统 - 蓝翔技工(blueflylabor)</title>
+
+    <meta name="generator" content="Hexo 7.2.0"></head>
+    <body>
+        <header>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            
+                
+
+    <li><a href="/posts"><span>Posts</span></a></li>
+    <li><a href="/tags"><span>Tags</span></a></li>
+    <li><a href="/categories"><span>Categories</span></a></li>
+    <li><a href="/archives"><span>Archives</span></a></li>
+
+
+            
+        </ul>
+    </nav>
+</header>
+
+        <main>
+    <header>
+        <h1>
+            
+                计算机组成原理指令系统
+            
+        </h1>
+        <div>
+            <time>2019-10-06</time>
+            <div class="post-categories">
+                
+            </div>
+            <div class="post-tags">
+                
+            </div>
+        </div>
+    </header>
+    <h1 id="指令系统"><a href="#指令系统" class="headerlink" title="指令系统"></a>指令系统</h1><h2 id="指令系统-1"><a href="#指令系统-1" class="headerlink" title="指令系统"></a>指令系统</h2><p>是指令集体系结构ISA的核心<br>ISA主要包括：</p>
+<ul>
+<li>指令格式</li>
+<li>数据类型及格式</li>
+<li>操作数的存放方式</li>
+<li>程序可访问的寄存器个数、位数和编号 </li>
+<li>存储空间大小和编址方式</li>
+<li>寻址方式</li>
+<li>指令执行过程的控制方式等</li>
+</ul>
+<h3 id="指令的基本格式"><a href="#指令的基本格式" class="headerlink" title="指令的基本格式"></a>指令的基本格式</h3><p>一条指令包括操作码和地址码字段</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>操作码</td>
+<td>地址码</td>
+</tr>
+</tbody></table>
+<p>操作码:</p>
+<ul>
+<li>指出指令应执行的操作</li>
+<li>识别指令</li>
+<li>了解指令功能</li>
+<li>区分操作数地址内容的组成和使用方法</li>
+</ul>
+<p>地址码：</p>
+<ul>
+<li>给出被操作的信息的地址</li>
+<li>参加运算的一个或多个操作数所在的地址</li>
+<li>运算结果的保存地址</li>
+<li>程序的转移地址</li>
+<li>被调用的子程序的入口地址等</li>
+</ul>
+<p>指令长度是指一条指令中包含的二进制代码的位数<br>指令字长取决于</p>
+<ul>
+<li>操作码的长度</li>
+<li>操作数地址码的长度</li>
+<li>操作数地址个数</li>
+</ul>
+<p>单字长指令：等于机器字长<br>半字长指令：一半机器字长<br>双字长指令：二倍机器字长<br>定长指令字结构：一个指令系统所有指令的长度都是相等的  </p>
+<h4 id="零地址指令：无显示地址"><a href="#零地址指令：无显示地址" class="headerlink" title="零地址指令：无显示地址"></a>零地址指令：无显示地址</h4><table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OP</td>
+</tr>
+</tbody></table>
+<ul>
+<li>不需要操作数的指令</li>
+<li>零地址运算指令仅用于堆栈计算机，通常参与运算的两个操作数隐含的从栈顶和次栈顶弹出，送至运算器，运算结果再隐含的压入堆栈</li>
+</ul>
+<p>一地址指令：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OP</td>
+<td>$A_1$</td>
+</tr>
+</tbody></table>
+<p>OP($A_1$) $\to$ $A_1$</p>
+<ul>
+<li>只有目的操作数，按$A_1$地址读取操作数，进行OP操作后，结果存回原地址</li>
+</ul>
+<p>(ACC)OP($A_1$) $\to$ ACC</p>
+<ul>
+<li>隐含约定目的地址的双操作数指令，按指令地址$A_1$地址读取操作数，指令可隐含约定另一个操作数由ACC提供，运算结果也将存放在ACC中</li>
+<li>若指令长度为32位，操作码占8位，1个地址码字段占24位，指令操作数直接寻址范围$2^{24}&#x3D;16M$</li>
+</ul>
+<h4 id="二地址指令"><a href="#二地址指令" class="headerlink" title="二地址指令"></a>二地址指令</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OP</td>
+<td>$A_1$</td>
+<td>$A_2$</td>
+</tr>
+</tbody></table>
+<p>($A_1$)OP($A_2$) $\to$ $A_1$</p>
+<ul>
+<li>常用的算术和逻辑运算指令，需要两个操作数，需要分别给出目的操作数和源操作数，其中目的操作数地址还用于存放本次运算结果</li>
+<li>指令字长位32位，操作码占8位，两个地址码各占12位，则指令操作数的直接寻址范围$2^{12}&#x3D;4K$</li>
+</ul>
+<h4 id="三地址指令"><a href="#三地址指令" class="headerlink" title="三地址指令"></a>三地址指令</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OP</td>
+<td>$A_1$</td>
+<td>$A_2$</td>
+<td>$A_3$(结果)</td>
+</tr>
+</tbody></table>
+<p>($A_1$)OP($A_2$) $\to$ $A_3$</p>
+<ul>
+<li>指令字长位32位，操作码占8位，3个地址码各占8位，直接寻址范围$2^8&#x3D;256$，地址字段为主存地址，则完成一条三地址需要4次访存，取指令1次，取两个操作数2次，存放结果1次</li>
+</ul>
+<h4 id="四地址指令"><a href="#四地址指令" class="headerlink" title="四地址指令"></a>四地址指令</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OP</td>
+<td>$A_1$</td>
+<td>$A_2$</td>
+<td>$A_3$</td>
+<td>$A_4$</td>
+</tr>
+</tbody></table>
+<p>($A_1$)OP($A_2$) $\to$ $A_3$ ，$A_4$ &#x3D; 下一条执行指令的地址</p>
+<ul>
+<li>地址字长为32位，操作码占8位，4个地址码各占6位，直接寻址范围$2^6&#x3D;64$</li>
+</ul>
+<h3 id="定长操作码指令格式"><a href="#定长操作码指令格式" class="headerlink" title="定长操作码指令格式"></a>定长操作码指令格式</h3><p>在指令字的最高位部分分配固定的若干位（定长）表示操作码。<br>n位操作码字段的指令系统最大能表示$2^{n}$条指令</p>
+<h3 id="扩展操作码指令格式"><a href="#扩展操作码指令格式" class="headerlink" title="扩展操作码指令格式"></a>扩展操作码指令格式</h3><ul>
+<li>不允许短码是长码的前缀</li>
+<li>各指令的操作码一定不能重复</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0000</td>
+<td>0001</td>
+<td>0010</td>
+<td>0011</td>
+</tr>
+<tr>
+<td>0100</td>
+<td>0101</td>
+<td>0110</td>
+<td>0111</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>1001</td>
+<td>1010</td>
+<td>1011</td>
+</tr>
+<tr>
+<td>1100</td>
+<td>1101</td>
+<td>1110</td>
+<td>1111</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>操作码情况</td>
+<td>OP</td>
+<td>$A_1$</td>
+<td>$A_2$</td>
+<td>$A_3$</td>
+<td>说明</td>
+</tr>
+<tr>
+<td>15条三地址</td>
+<td>0000-1110</td>
+<td></td>
+<td></td>
+<td></td>
+<td>余出16-15&#x3D;1，1*2^4&#x3D;16种</td>
+</tr>
+<tr>
+<td>12条二地址</td>
+<td>1111</td>
+<td>0000-1011</td>
+<td></td>
+<td></td>
+<td>余出16-12&#x3D;4，4*2^4&#x3D;64种</td>
+</tr>
+<tr>
+<td>62条一地址</td>
+<td>1111</td>
+<td>(1100-1110)&#x2F;1111</td>
+<td>(0000-1111)&#x2F;(0000-1101)</td>
+<td></td>
+<td>余出64-62&#x3D;2，2*2^4&#x3D;32种</td>
+</tr>
+<tr>
+<td>32条零地址</td>
+<td>1111</td>
+<td>1111</td>
+<td>1110-1111</td>
+<td>0000-1111</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="指令的操作类型"><a href="#指令的操作类型" class="headerlink" title="指令的操作类型"></a>指令的操作类型</h3><ul>
+<li>数据传送</li>
+<li>算术和逻辑运算</li>
+<li>移位</li>
+<li>转移</li>
+<li>输入输出</li>
+</ul>
+<h2 id="指令寻址方式"><a href="#指令寻址方式" class="headerlink" title="指令寻址方式"></a>指令寻址方式</h2><p>确定本条指令的数据地址以及下一条待执行指令的地址，分为：</p>
+<ul>
+<li><p>指令寻址：寻找下条要执行的指令<br>（1）顺序寻址<br>通过PC+(1)，自动形成下一条指令<br>（2）跳跃寻址<br>通过转移指令实现，下条指令的地址不由PC自动给出，而由本条指令给出下条指令地址的计算方式。是否可跳跃受到状态寄存器和操作数的控制，跳跃的结果是当前指令修改PC值，下一条指令仍通过PC给出</p>
+</li>
+<li><p>数据寻址：寻找本条指令的数据<br>通常在指令字中设一个字段指明寻址方式</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>操作码</td>
+<td>寻址特征</td>
+<td>形式地址A</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h3 id="常见数据寻址方式"><a href="#常见数据寻址方式" class="headerlink" title="常见数据寻址方式"></a>常见数据寻址方式</h3><h4 id="隐含寻址"><a href="#隐含寻址" class="headerlink" title="隐含寻址"></a>隐含寻址</h4><p>不明显的给出操作数，在指令中隐含操作数地址</p>
+<ul>
+<li>优：有利于缩短指令字长</li>
+<li>缺：需要增加存储操作数或隐含地址的硬件</li>
+</ul>
+<h4 id="立即（数）寻址"><a href="#立即（数）寻址" class="headerlink" title="立即（数）寻址"></a>立即（数）寻址</h4><p>指令的地址字段指出的不是操作数地址，而是操作数本身，又称立即数，#表示立即寻址特征，使用补码表示</p>
+<ul>
+<li>优：指令在执行阶段不访问主存，指令执行时间最短</li>
+<li>缺：A的位数限制立即数的范围</li>
+</ul>
+<h4 id="直接寻址"><a href="#直接寻址" class="headerlink" title="直接寻址"></a>直接寻址</h4><p>指令中的形式地址A是操作数的真实地址EA，EA&#x3D;A  </p>
+<ul>
+<li>优：简单，访存1次，不需要专门计算操作数的地址</li>
+<li>缺：A的位数决定了指令操作数的寻址范围，操作数的地址不易修改</li>
+</ul>
+<h4 id="间接寻址"><a href="#间接寻址" class="headerlink" title="间接寻址"></a>间接寻址</h4><p>指令的地址字段给出的形式地址不是操作数的真正地址，而是操作数有效地址的存储单元地址，EA&#x3D;(A)，间接寻址可以迭代多次<br>间接寻址，主存第一位表示是否为多次间址</p>
+<ul>
+<li>优：可扩大寻址范围（有效地址EA的位数大于形式地址A的位数），便于编制程序（用间址寻址可方便的完成子程序返回）</li>
+<li>缺：访问速度慢</li>
+</ul>
+<h4 id="寄存器寻址"><a href="#寄存器寻址" class="headerlink" title="寄存器寻址"></a>寄存器寻址</h4><p>指令字中直接给出操作数所在的寄存器编号EA&#x3D; $R_i$，操作数在由$R_i$所指的寄存器内</p>
+<ul>
+<li>优：指令执行阶段不访存，只访问寄存器，寄存器对应地址码长度较小，使得指令字短且因不用访存，所以执行速度快，支持向量&#x2F;矩阵运算</li>
+<li>缺:寄存器昂贵，有限</li>
+</ul>
+<h4 id="寄存器间接寻址"><a href="#寄存器间接寻址" class="headerlink" title="寄存器间接寻址"></a>寄存器间接寻址</h4><p>寄存器$R_i$中给出的不是一个操作数，而是操作数所在主存单元的地址EA&#x3D;($R_i$)</p>
+<ul>
+<li>优：与一般间址寻址速度快</li>
+<li>缺：需要访存</li>
+</ul>
+<h4 id="相对寻址"><a href="#相对寻址" class="headerlink" title="相对寻址"></a>相对寻址</h4><p>PC的内容加上指令格式的形式地址A而形成操作数的有效地址EA&#x3D;(PC)+A，A是相对于当前PC的值的位移量，可正可负，用补码表示，A的位数决定寻址范围</p>
+<ul>
+<li>操作数的地址是不固定的，随PC的值变化而变化，且与指令地址之间相差一个固定值，便于程序浮动，广泛用于转移指令</li>
+<li>JMP A，CPU从存储器取出一字节，自动执行(PC)+1 $\to$ PC，若转移指令的地址为X，且占2B，取出该指令后，PC自增2，(PC)&#x3D;X+2，执行完该指令，会自动跳转至X+2+A的地址继续执行</li>
+</ul>
+<h4 id="基址寻址"><a href="#基址寻址" class="headerlink" title="基址寻址"></a>基址寻址</h4><p>将CPU的基址寄存器BR的内容加上指令格式的形式地址A形成操作数的有效地址EA&#x3D;(BR)+A，基址寄存器可采用专用寄存器也可为通用寄存器</p>
+<ul>
+<li><p>基址寄存器面向操作系统，内容通过操作系统或管理程序确定，主要用于解决程序逻辑空间与存储器物理空间的无关性</p>
+</li>
+<li><p>执行过程中基址寄存器内容不变，形式地址可变（偏移量）</p>
+</li>
+<li><p>采用通用寄存器作为基址寄存器，用户可决定使用哪个寄存器，内容由操作系统确定</p>
+</li>
+<li><p>优：可扩大寻址范围（基址寄存器位数大于形式地址A的位数），用户不必考虑自己的程序存于主存哪个区域，有利于多道程序设计，可用于制成浮动程序</p>
+</li>
+<li><p>缺：偏移量位数较短</p>
+</li>
+</ul>
+<h4 id="变址寻址"><a href="#变址寻址" class="headerlink" title="变址寻址"></a>变址寻址</h4><p>有效地址EA等于指令字中的形式地址A与变址寄存器IX的内容之和，EA&#x3D;(IX)+A</p>
+<ul>
+<li>IX可使用专用寄存器或通用寄存器</li>
+<li>变址寄存器面向用户，在程序执行过程，变址寄存器内容可由用户改变（作为偏移量），形式地址A不变（作为基地址）</li>
+<li>可扩大寻址范围（变址寄存器位数大于形式地址A的位数），适合编制循环程序，偏移量的位数（IX）足以表示整个存储空间</li>
+</ul>
+<h4 id="堆栈寻址"><a href="#堆栈寻址" class="headerlink" title="堆栈寻址"></a>堆栈寻址</h4><p>堆栈是存储器（或专用寄存器组）中一块特定的、按照后进先出（LIFO）的原则管理的存储区，存储区读写单元地址是用一个特定寄存器给出的称为堆栈指针(SP)，分为硬堆栈（不适合做大容量堆栈）和软堆栈（主存划出一段区域）</p>
+<table>
+<thead>
+<tr>
+<th>寻址方式</th>
+<th>有效地址</th>
+<th>访存次数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>隐含寻址</td>
+<td>程序指定</td>
+<td>0</td>
+</tr>
+<tr>
+<td>立即寻址</td>
+<td>A是操作数</td>
+<td>0</td>
+</tr>
+<tr>
+<td>直接寻址</td>
+<td>EA&#x3D;A</td>
+<td>1</td>
+</tr>
+<tr>
+<td>一次间接寻址</td>
+<td>EA&#x3D;(A)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>寄存器寻址</td>
+<td>EA&#x3D; $R_i$</td>
+<td>0</td>
+</tr>
+<tr>
+<td>寄存器间接一次寻址</td>
+<td>EA &#x3D; ($R_i$)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>相对寻址</td>
+<td>EA&#x3D;(PC)+A</td>
+<td>1</td>
+</tr>
+<tr>
+<td>基址寻址</td>
+<td>EA&#x3D;(BR)+A</td>
+<td>1</td>
+</tr>
+<tr>
+<td>变址寻址</td>
+<td>EA&#x3D;(IX)+A</td>
+<td>1</td>
+</tr>
+</tbody></table>
+
+    <div class="gallery">
+        
+    </div>
+</main>
+
+        
+    <nav class="pagination">
+        <span class="prev">
+            
+                <a href="/2019/10/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%A4%BA%E4%B8%8E%E8%BF%90%E7%AE%97/">
+                    计算机组成原理数据表示与运算
+                </a>
+            
+        </span>
+        <span class="next">
+            
+                <a href="/2019/10/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/" >
+                    计算机组成原理中央处理器
+                </a>
+            
+        </span>
+    </nav>
+
+
+        <footer>
+    <p>&copy; 蓝翔技工</p>
+    <p>
+        Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>,
+        <a target="_blank" rel="noopener" href="https://github.com/sunnybyeon/hexo-theme-dashed">Theme</a> by
+        <a target="_blank" rel="noopener" href="https://github.com/sunnybyeon">sunnybyeon</a>
+    </p>
+</footer>
+
+    </body>
+</html>
