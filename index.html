@@ -1,506 +1,3540 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-  <meta charset="UTF-8">
-
-
-
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-  <meta name="author" content="蓝翔技工">
-
-
-
+  <meta charset="utf-8">
+  
+  
+  <title>蓝翔技工(blueflylabor)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="blueflylabor">
+<meta property="og:type" content="website">
+<meta property="og:title" content="蓝翔技工(blueflylabor)">
+<meta property="og:url" content="http://blueflylabor.github.io/index.html">
+<meta property="og:site_name" content="蓝翔技工(blueflylabor)">
+<meta property="og:description" content="blueflylabor">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="蓝翔技工">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="蓝翔技工(blueflylabor)" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-
-<title>蓝翔技工(blueflylabor)</title>
-
-
-
-<link rel="icon" href="/favicon.png">
-
-
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/nprogress/nprogress.css">
-
-
-
-<script src="/lib/jquery.min.js"></script>
-
-
-<script src="/lib/iconify-icon.min.js"></script>
-
-
-<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-<script>
-  tailwind.config = {
-    darkMode: "class",
-  };
-</script>
-
-
-<script src="/lib/nprogress/nprogress.js"></script>
-
-<script>
-  $(document).ready(() => {
-    NProgress.configure({
-      showSpinner: false,
-    });
-    NProgress.start();
-    $("#nprogress .bar").css({
-      background: "#de7441",
-    });
-    $("#nprogress .peg").css({
-      "box-shadow": "0 0 2px #de7441, 0 0 4px #de7441",
-    });
-    $("#nprogress .spinner-icon").css({
-      "border-top-color": "#de7441",
-      "border-left-color": "#de7441",
-    });
-    setTimeout(function () {
-      NProgress.done();
-      $(".fade").removeClass("out");
-    }, 800);
-  });
-</script>
-
-<script>
-  (function () {
-    const prefersDark =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const setting = localStorage.getItem("hexo-color-scheme") || "auto";
-    if (setting === "dark" || (prefersDark && setting !== "light"))
-      document.documentElement.classList.toggle("dark", true);
-    let isDark = document.documentElement.classList.contains("dark");
-  })();
-
-  $(document).ready(function () {
-    // init icon
-    const prefersDark =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const isDark = document.documentElement.classList.contains("dark");
-    $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
-
-    function toggleGiscusTheme() {
-      const isDark = document.documentElement.classList.contains("dark");
-      const giscusFrame = document.querySelector("iframe.giscus-frame");
-      if (giscusFrame) {
-        giscusFrame.contentWindow.postMessage(
-          {
-            giscus: {
-              setConfig: {
-                theme: isDark ? "dark" : "light",
-              },
-            },
-          },
-          "https://giscus.app"
-        );
-      }
-    }
-
-
-    // toggle dark mode
-    function toggleDark() {
-      let isDark = document.documentElement.classList.contains("dark");
-      const setting = localStorage.getItem("hexo-color-scheme") || "auto";
-      isDark = !isDark;
-      document.documentElement.classList.toggle("dark", isDark);
-      $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
-      if (prefersDark === isDark) {
-        localStorage.setItem("hexo-color-scheme", "auto");
-      } else {
-        localStorage.setItem("hexo-color-scheme", isDark ? "dark" : "light");
-      }
-      toggleGiscusTheme();
-    }
-    $("#toggle-dark").click(toggleDark);
-
-    // listen dark mode change
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", (e) => {
-        const setting = localStorage.getItem("hexo-color-scheme") || "auto";
-        if (setting === "auto") {
-          document.documentElement.classList.toggle("dark", e.matches);
-          $("#theme-icon").attr(
-            "icon",
-            e.matches ? "ri:moon-line" : "ri:sun-line"
-          );
-          toggleGiscusTheme();
-        }
-      });
-  });
-</script>
-
-
-
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
 
 <meta name="generator" content="Hexo 7.2.0"></head>
-<body class="font-sans bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200 relative">
-  <header class="fixed w-full px-5 py-1 z-10 backdrop-blur-xl backdrop-saturate-150 border-b border-black/5">
-  <div class="max-auto">
-    <nav class="flex items-center text-base">
-      <a href="/" class="group">
-        <h2 class="font-medium tracking-tighterp text-l p-2">
-          <img class="w-5 mr-2 inline-block transition-transform group-hover:rotate-[30deg]" id="logo" src="/images/logo.svg" alt="蓝翔技工(blueflylabor)" />
-          蓝翔技工(blueflylabor)
-        </h2>
-      </a>
-      <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">蓝翔技工(blueflylabor)</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
         
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blueflylabor.github.io"></form>
       </div>
-      <div class="flex-1"></div>
-      <div class="flex items-center gap-3">
-        
-          <a class="hidden sm:flex" href="/archives">Posts</a>
-        
-        
-          
-            <a class="w-5 h-5 hidden sm:flex" title="Github" target="_blank" rel="noopener" href="https://github.com/blueflylabor">
-              <iconify-icon width="20" icon="ri:github-line"></iconify-icon>
-            </a>
-          
-        
-        <a class="w-5 h-5 hidden sm:flex" title="Github" href="rss2.xml">
-          <iconify-icon width="20" icon="ri:rss-line"></iconify-icon>
-        </a>
-        <a class="w-5 h-5" title="toggle theme" id="toggle-dark">
-          <iconify-icon width="20" icon="" id="theme-icon"></iconify-icon>
-        </a>
-      </div>
-      <div class="flex items-center justify-center gap-3 ml-3 sm:hidden">
-        <span class="w-5 h-5" aria-hidden="true" role="img" id="open-menu">
-          <iconify-icon width="20" icon="carbon:menu" ></iconify-icon>
-        </span>
-        <span class="w-5 h-5 hidden" aria-hidden="true" role="img" id="close-menu">
-          <iconify-icon  width="20" icon="carbon:close" ></iconify-icon>
-        </span>
-      </div>
-    </nav>
+    </div>
   </div>
 </header>
-<div id="menu-panel" class="h-0 overflow-hidden sm:hidden fixed left-0 right-0 top-12 bottom-0 z-10">
-  <div id="menu-content" class="relative z-20 bg-white/80 px-6 sm:px-8 py-2 backdrop-blur-xl -translate-y-full transition-transform duration-300">
-    <ul class="nav flex flex-col sm:flex-row text-sm font-medium">
-      
-        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
-          <a href="/archives" class="flex h-12 sm:h-auto items-center">Posts</a>
-        </li>
-      
-    </ul>
-  </div>
-  <div class="mask bg-black/20 absolute inset-0"></div>
-</div>
 
-  <main class="pt-14">
-    <section class="px-6 max-w-prose mx-auto gap-12 grid grid-cols-1">
-  <div class="flex flex-col h-48 items-center justify-center">
-    <h1 class="site-title text-4xl leading-relaxed">
-      蓝翔技工(blueflylabor)
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-环境配置Ubuntu22.04安装Nodejs" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/05/14/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AEUbuntu22.04%E5%AE%89%E8%A3%85Nodejs/" class="article-date">
+  <time class="dt-published" datetime="2024-05-14T04:01:51.000Z" itemprop="datePublished">2024-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/05/14/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AEUbuntu22.04%E5%AE%89%E8%A3%85Nodejs/">环境配置Ubuntu22.04安装Nodejs</a>
     </h1>
-    <p class="text-gray-500 mt-2">
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
       
-    </p>
+        <h3 id="run-bash-code"><a href="#run-bash-code" class="headerlink" title="run bash code"></a>run bash code</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - &amp;&amp;sudo apt-get install -y nodejs</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blueflylabor.github.io/2024/05/14/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AEUbuntu22.04%E5%AE%89%E8%A3%85Nodejs/" data-id="clyoz625b000agadqcga1d8ge" data-title="环境配置Ubuntu22.04安装Nodejs" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
   </div>
   
+</article>
+
+
+
   
+    <article id="post-考研英语作文模板" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/10/06/%E8%80%83%E7%A0%94%E8%8B%B1%E8%AF%AD%E4%BD%9C%E6%96%87%E6%A8%A1%E6%9D%BF/" class="article-date">
+  <time class="dt-published" datetime="2023-10-06T04:01:51.000Z" itemprop="datePublished">2023-10-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
     
     
-      <div class="relative pointer-events-none">
-        <span class="text-9xl opacity-10 absolute -left-11 -top-6 font-bold">2024</span>
-      </div>
-    
-    <a style="--stagger:0" href="/2024/07/16/%E5%85%B3%E4%BA%8E%E5%AD%A6%E5%8E%86%E7%84%A6%E8%99%91%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" data-animate>
-      <header>
-        <h2 class="font-bold text-xl">
-          关于学历焦虑的一些思考
-        </h2>
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/10/06/%E8%80%83%E7%A0%94%E8%8B%B1%E8%AF%AD%E4%BD%9C%E6%96%87%E6%A8%A1%E6%9D%BF/">考研英语作文模板</a>
+    </h1>
+  
+
       </header>
-      <section class="text-gray-400 my-2 text-sm time">
-        <p class="line-clamp-4">
-          
-        </p>
-        <p class="line-clamp-4">
-          7月 16
-          ·
-          1 min
-        </p>
-      </section>
-    </a>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>The visual representation illustrated is highly relatable among a great number of individuals and depicts the image sth</p>
+<p>Upon critically analysing this photo most individuals would agree that the topic is a contentious issue which needs additional consideration</p>
+<p>Therefore we should seriously discuss this important issue</p>
+<p>Why is such a phenomenon A couple of reasons could account for it<br>Going forward to pay attention to this topic we can see where the society is going ride on the trend of the times and turn our people’s longing for a better life into reality Quite the opposite the indifference to this topic in variably just kind of nudges us off life path and if it remains unresolved Sometimes we can dangerous lost down pretty dark corridors</p>
+<p>With all issues considered from the discussion in the essay We should put our ideas into concrete and practical actions to ensure that issue of topic diminishes through systematic practices</p>
+<p>We are supposed to enrich our horizons and promote the publicity of this issue Thus trough social media platforms awareness can hopefully be raised in a shot amount of time reaching a range of people</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blueflylabor.github.io/2023/10/06/%E8%80%83%E7%A0%94%E8%8B%B1%E8%AF%AD%E4%BD%9C%E6%96%87%E6%A8%A1%E6%9D%BF/" data-id="clyoz625d000dgadqhany41tl" data-title="考研英语作文模板" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
   
+</article>
+
+
+
+  
+    <article id="post-计算机网络传输层" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BC%A0%E8%BE%93%E5%B1%82/" class="article-date">
+  <time class="dt-published" datetime="2023-09-11T04:01:51.000Z" itemprop="datePublished">2023-09-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
     
     
-    <a style="--stagger:1" href="/2024/07/12/%E8%BF%87%E5%8E%BB%E4%B8%89%E5%B9%B4%E7%9A%84%E5%B0%8F%E7%BB%93/" data-animate>
-      <header>
-        <h2 class="font-bold text-xl">
-          过去三年的小结
-        </h2>
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BC%A0%E8%BE%93%E5%B1%82/">计算机网络传输层</a>
+    </h1>
+  
+
       </header>
-      <section class="text-gray-400 my-2 text-sm time">
-        <p class="line-clamp-4">
-          
-        </p>
-        <p class="line-clamp-4">
-          7月 12
-          ·
-          1 min
-        </p>
-      </section>
-    </a>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h1><ul>
+<li>功能概述<ul>
+<li>提供应用进程间的逻辑通信</li>
+<li>复用和分用<ul>
+<li>复用<ul>
+<li>发送方不同的应用进程使用同一个传输层协议</li>
+</ul>
+</li>
+<li>分用<ul>
+<li>接收方的传输层在剥去报文首部后能把这些数据正确交付至目的应用进程</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>差错检测（首部和数据部分）</li>
+<li>TCP和UDP</li>
+</ul>
+</li>
+<li>寻址与端口<ul>
+<li>端口作用<ul>
+<li>让应用层各应用程序将其数据通过端口向下交付给传输层</li>
+<li>让传输层知道应当将其报文段中的数据向上通过端口交付给应用层相应的进程</li>
+</ul>
+</li>
+<li>端口号<ul>
+<li>长度16bit $2^{16}&#x3D;65536$个不同的端口号</li>
+<li>端口划分<ul>
+<li><p>服务器端使用</p>
+<ul>
+<li>熟知端口<ul>
+<li>0 ~ 1023</li>
+<li>FTP<ul>
+<li>21</li>
+</ul>
+</li>
+<li>TELNET<ul>
+<li>23</li>
+</ul>
+</li>
+<li>SMTP<ul>
+<li>25</li>
+</ul>
+</li>
+<li>DNS<ul>
+<li>53</li>
+</ul>
+</li>
+<li>TFTP<ul>
+<li>69</li>
+</ul>
+</li>
+<li>HTTP<ul>
+<li>80</li>
+</ul>
+</li>
+<li>SNMP<ul>
+<li>161</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>登记端口<ul>
+<li>1024 ~ 49151</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>客户端使用</p>
+<ul>
+<li>客户进程运行时动态选择</li>
+<li>又称临时端口</li>
+</ul>
+</li>
+<li><p>套接字</p>
+<ul>
+<li>端口和IP拼接</li>
+<li>Socket &#x3D; (IP地址:端口号)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>UDP<ul>
+<li>概述<ul>
+<li>在IP数据报基础上增加<ul>
+<li>复用</li>
+<li>分用</li>
+<li>差错检测</li>
+</ul>
+</li>
+<li>无需建立连接</li>
+<li>无连接状态</li>
+<li>分组首部开销小</li>
+<li>不保证可靠交付</li>
+<li>面向报文</li>
+<li>IP协议字段17</li>
+<li>报文长度由发送程序决定</li>
+</ul>
+</li>
+<li>首部格式<ul>
+<li>8B 4字段构成<ul>
+<li>源端口<ul>
+<li>需要对方回信时选用</li>
+<li>不需要可用全0</li>
+</ul>
+</li>
+<li>目的端口<ul>
+<li>终点交付报文时必须使用</li>
+</ul>
+</li>
+<li>长度<ul>
+<li>最小值8（仅首部）</li>
+</ul>
+</li>
+<li>校验和<ul>
+<li>检测UDP数据报传输过程是否有错</li>
+<li>有错丢弃</li>
+<li>源主机不想计算校验和填写全0</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>校验<ul>
+<li>计算校验和在UDP数据报前增加12B伪首部</li>
+<li>伪首部不是UDP真正首部只用于计算校验和</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>TCP<ul>
+<li>概述<ul>
+<li>面向连接</li>
+<li>可靠交付</li>
+<li>全双工通信<ul>
+<li>允许双方任何时候都能发送数据</li>
+<li>两端设有缓存暂存数据<ul>
+<li>发送缓存    <ul>
+<li>发送程序传给发送方TCP准备的数据</li>
+<li>TCP已发送尚未收到确认的数据</li>
+</ul>
+</li>
+<li>接收缓存<ul>
+<li>按序到达但尚未被接收程序读取的数据</li>
+<li>不按序到达的数据</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>面向字节流<ul>
+<li>仅视为一连串无结构的字节流</li>
+</ul>
+</li>
+<li>报文长度由接受方给出的窗口值和当前网络拥塞程度决定</li>
+</ul>
+</li>
+<li>报文段<ul>
+<li>源端口和目的端口<ul>
+<li>2B + 2B</li>
+</ul>
+</li>
+<li>序号<ul>
+<li>4B</li>
+<li>0 ~ $2^{32}-1$</li>
+<li>面向字节流</li>
+<li>TCP连接传送的字节流的每个字节都按顺序编号</li>
+<li>本报文段发送的数据的第一个字节的序号</li>
+</ul>
+</li>
+<li>确认号<ul>
+<li>4B</li>
+<li>期望收到对方下一报文段的第一个数据字节的序号</li>
+<li>确认号为N表明到序号N-1为止的所有数据都已正确收到</li>
+</ul>
+</li>
+<li>数据偏移<ul>
+<li>表示首部长度</li>
+<li>指出TCP报文段的数据起始处距离TCP报文段的起始处有多远</li>
+</ul>
+</li>
+<li>保留<ul>
+<li>占6位</li>
+<li>今后使用</li>
+<li>目前置0</li>
+</ul>
+</li>
+<li>紧急位URG<ul>
+<li>URG&#x3D;1<ul>
+<li>表明紧急指针字段有效</li>
+<li>应尽快传送</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>确认位ACK<ul>
+<li>ACK&#x3D;1<ul>
+<li>确认号字段才有效</li>
+</ul>
+</li>
+<li>ACK&#x3D;0<ul>
+<li>确认号无效</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>推送位PSH<ul>
+<li>接收方TCP收到PSH&#x3D;1的报文段</li>
+<li>尽快交付给接收应用进程</li>
+<li>不等到缓存满在交付</li>
+</ul>
+</li>
+<li>复位位RST<ul>
+<li>RST&#x3D;1<ul>
+<li>表明TCP连接中出现严重错误</li>
+<li>必须释放链接</li>
+<li>重新建立连接</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>同步位SYN<ul>
+<li>SYN&#x3D;1表明这是一个连接请求或连接接受报文</li>
+<li>SYN&#x3D;1 ACK&#x3D;0表明这是一个连接请求报文<br>  对方同意建立连接<br>  则响应报文中使用SYN&#x3D;1 ACK&#x3D;1</li>
+</ul>
+</li>
+<li>终止位FIN<ul>
+<li>用来释放一个连接</li>
+<li>FIN&#x3D;1 表明此报文段的发送方的数据已经发送完毕</li>
+<li>并要求释放运输链接</li>
+</ul>
+</li>
+<li>窗口<ul>
+<li>2B</li>
+<li>$2^{16}-1$</li>
+<li>现在允许对方发送的数据量</li>
+<li>设确认号为701 窗口字段1000<ul>
+<li>从701起发送此报文段的一方<br>  还有接受1000字节数据的接受缓存空间<br>  701~1700</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>校验和<ul>
+<li>2B</li>
+<li>校验和字段检验的范围包括首部和数据两部分</li>
+<li>计算校验和<ul>
+<li>报文段前加入12B伪首部</li>
+<li>协议字段6</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>紧急指针<ul>
+<li>2B</li>
+<li>URG&#x3D;1有意义</li>
+<li>指出在本报文段中紧急数据共多少字节</li>
+</ul>
+</li>
+<li>选项<ul>
+<li>长度可变</li>
+<li>最大报文段长度MSS<ul>
+<li>TCP报文段的数据字段最大长度</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>填充<ul>
+<li>为了使整个首部长度为4B的整数倍</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>连接管理<ul>
+<li>三阶段<ul>
+<li>连接建立</li>
+<li>数据传输</li>
+<li>连接释放</li>
+</ul>
+</li>
+<li>客户&#x2F;服务器模式</li>
+<li>连接建立<ul>
+<li>三次握手</li>
+<li>建立前 服务器进程进入LISTEN 等待客户连接请求</li>
+<li>客户机TCP首先向服务器TCP发送请求报文段<ul>
+<li>SYN&#x3D;1 seq&#x3D;x</li>
+<li>SYN报文段不能携带数据</li>
+<li>消耗一个序号</li>
+<li>客户机进入SYN-SENT</li>
+</ul>
+</li>
+<li>服务器TCP收到连接请求报文段同意连接<ul>
+<li>发回确认报文段并配置该TCP缓存和变量</li>
+<li>SYN&#x3D;1 ACK&#x3D;1 seq&#x3D;y ack&#x3D;x+1</li>
+<li>确认报文段不能携带数据</li>
+<li>消耗一个序号</li>
+<li>服务器进入SYN-RCVD同步收到状态</li>
+</ul>
+</li>
+<li>客户机收到确认报文段还要向服务器给出确认<ul>
+<li>并为该TCP连接配置缓存和变量</li>
+<li>ACK&#x3D;1 seq&#x3D;x+1 ack&#x3D;y+1</li>
+<li>该报文段可携带数据</li>
+<li>不携带数据不消耗序号</li>
+<li>客户机进入ESTABLISHED</li>
+</ul>
+</li>
+<li>三次握手易受到SYN洪泛攻击</li>
+</ul>
+</li>
+<li>连接释放<ul>
+<li>四次握手</li>
+<li>客户机打算关闭连接 发送TCP连接释放报文段<ul>
+<li>主动关闭TCP连接</li>
+<li>FIN&#x3D;1 seq&#x3D;u</li>
+<li>seq为先前传输的最后一个序号+1</li>
+<li>客户进程进入FIN-WAIT-1终止等待1</li>
+</ul>
+</li>
+<li>服务器收到连接释放报文段<ul>
+<li>ack&#x3D;u+1 seq&#x3D;v</li>
+<li>序号等于前面传过的数据最后一个字节的序号+1</li>
+<li>服务器CLOSE-WAIT关闭等待</li>
+<li>客户机到服务器方向连接关闭</li>
+<li>服务器到客户机方向连接未关闭</li>
+<li>半关闭状态</li>
+<li>服务器若发送数据</li>
+<li>客户机仍要接收</li>
+</ul>
+</li>
+<li>服务器无数据发送至客户机 发送通知TCP释放连接报文段<ul>
+<li>FIN&#x3D;1 ACK&#x3D;1 seq&#x3D;w ack&#x3D;u+1</li>
+<li>设报文段的序号为w 在半关闭状态又传输部分数据</li>
+<li>需重复上次发送的确认号ack&#x3D;u+1</li>
+<li>服务器进入LAST-ACK最后确认状态</li>
+</ul>
+</li>
+<li>客户机收到连接释放报文段后 必须发出确认<ul>
+<li>ACK&#x3D;1 ack&#x3D;w+1 seq&#x3D;u+1</li>
+<li>此时TCP连接还未释放</li>
+<li>必须经过时间等待计时器设置的时间2MSL最长报文段寿命</li>
+<li>客户机进入CLOSED连接关闭状态</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>可靠传输<ul>
+<li>序号<ul>
+<li>序号保证数据能有序提交至应用层</li>
+<li>TCP视数据为无结构但有序的字节流</li>
+<li>序号建立在传输的字节流</li>
+<li>序号字段值是指本报文段所发送的数据的第一个字节的序号</li>
+</ul>
+</li>
+<li>确认<ul>
+<li>期望收到对方的下一个报文段的数据的第一个字节的序号</li>
+<li>默认使用累积确认<ul>
+<li>只确认数据流中至第一个丢失字节为止的字节</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>重传<ul>
+<li>只针对两种情况进行重传<ul>
+<li>超时</li>
+<li>冗余ACK</li>
+</ul>
+</li>
+<li>超时<ul>
+<li>TCP发送一个报文段就对这个报文段设置一次计时器</li>
+<li>超时未收到确认就要重传这一报文段</li>
+<li>采用自适应算法记录一个报文段发出的时间和收到确认的时间<ul>
+<li>${RTT}_S$加权平均往返时间</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>冗余ACK<ul>
+<li>超时触发重传存在的一个问题是周期往往太长</li>
+<li>是再次确认某个报文段的ACK 而发送方先前已经收到过该报文段的确认</li>
+<li>发送方收到对同一个报文段的3个冗余ACK 就可以认为跟在这个被确认报文段之后的报文段已经丢失</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>流量传输<ul>
+<li>使用流量控制消除发送方速率过快使接收方缓存区溢出的可能性</li>
+<li>基于滑动窗口协议的流量控制机制</li>
+<li>rwnd<ul>
+<li>接收方根据自己的接收缓存 动态调整发送方的发送窗口大小</li>
+</ul>
+</li>
+<li>cwnd<ul>
+<li>发送方根据其对当前网络拥塞程度的估计而确定的窗口值</li>
+</ul>
+</li>
+<li>发送窗口&#x3D;min{rwnd, cwnd}</li>
+</ul>
+</li>
+<li>拥塞控制<ul>
+<li>防止过多数据注入网络 保证网络中的路由器或链路不致过载</li>
+<li>慢开始<ul>
+<li>TCP连接好并开始发送报文段 cwnd&#x3D;1 即一个最大报文段长度MSS</li>
+<li>每收到一个对新报文段的确认后 cwnd+1</li>
+<li>使用慢开始算法后 每经过一个传输轮次RTT cwnd加倍 指数增长</li>
+<li>一直增长到一个规定的慢开始门限值ssthresh</li>
+</ul>
+</li>
+<li>拥塞避免<ul>
+<li>让拥塞窗口cwnd缓慢增大</li>
+<li>每经过一个往返时延RTT就把发送方的拥塞窗口cwnd+1 加法增大</li>
+<li>根据cwnd大小选择算法<ul>
+<li>cwnd &lt; ssthresh<ul>
+<li>慢开始</li>
+</ul>
+</li>
+<li>cwnd &gt; ssthresh<ul>
+<li>拥塞避免算法</li>
+</ul>
+</li>
+<li>cwnd &#x3D; ssthresh<ul>
+<li>均可</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>拥塞处理<ul>
+<li>初始<ul>
+<li>拥塞窗口置1 cwnd&#x3D;1 慢开始门限ssthresh&#x3D;16</li>
+</ul>
+</li>
+<li>慢开始<ul>
+<li>cwnd&#x3D;1 发送方每收到一个确认ACK cwnd+1</li>
+<li>经过每个RTT cwnd指数增长</li>
+<li>达到门限值ssthresh 使用拥塞避免算法</li>
+</ul>
+</li>
+<li>拥塞避免<ul>
+<li>假定cwnd&#x3D;24出现超时 更新ssthresh&#x3D;12 cwnd&#x3D;1 执行慢开始</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>快重传<ul>
+<li>当发送方连续收到三个重复的ACK报文</li>
+<li>直接重传对方未收到的报文段</li>
+<li>不必等待那个报文段设置的重传计算器超时</li>
+</ul>
+</li>
+<li>快恢复<ul>
+<li>发生黄连续收到三个冗余ACK</li>
+<li>乘法减小</li>
+<li>将慢开始门限ssthresh设置为此时发送方cwnd的一半</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blueflylabor.github.io/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BC%A0%E8%BE%93%E5%B1%82/" data-id="clyoz625m000hgadq3d1e0rwg" data-title="计算机网络传输层" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
   
+</article>
+
+
+
+  
+    <article id="post-计算机网络网络层" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%BD%91%E7%BB%9C%E5%B1%82/" class="article-date">
+  <time class="dt-published" datetime="2023-09-11T04:01:51.000Z" itemprop="datePublished">2023-09-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
     
     
-    <a style="--stagger:2" href="/2024/06/22/%E6%94%BE%E4%B8%8B%E5%B0%8F%E5%B1%8F%E6%97%97%E8%88%B0%E7%9A%84%E5%A5%A2%E6%B1%82/" data-animate>
-      <header>
-        <h2 class="font-bold text-xl">
-          放下小屏旗舰的奢求
-        </h2>
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%BD%91%E7%BB%9C%E5%B1%82/">计算机网络网络层</a>
+    </h1>
+  
+
       </header>
-      <section class="text-gray-400 my-2 text-sm time">
-        <p class="line-clamp-4">
-          
-        </p>
-        <p class="line-clamp-4">
-          6月 22
-          ·
-          1 min
-        </p>
-      </section>
-    </a>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h1><h2 id="功能概述"><a href="#功能概述" class="headerlink" title="功能概述"></a>功能概述</h2><ul>
+<li>数据报服务<ul>
+<li>简单灵活 </li>
+<li>无连接</li>
+<li>尽最大努力交付</li>
+<li>为了使路由器简单<br>  可靠通信由传输层负责<br>  传送分组可能<ul>
+<li>出错</li>
+<li>丢失</li>
+<li>重复</li>
+<li>失序</li>
+<li>超时</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>异构网络互连<ul>
+<li>各层中继系统<ul>
+<li>物理层<ul>
+<li>转发器</li>
+<li>集线器</li>
+</ul>
+</li>
+<li>数据链路层<ul>
+<li>网桥</li>
+<li>交换机</li>
+</ul>
+</li>
+<li>网络层<ul>
+<li><strong>路由器</strong></li>
+</ul>
+</li>
+<li>网络层以上<ul>
+<li>网关</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>路由与转发<ul>
+<li>路由选择（确定哪一条路径）<ul>
+<li>按照分布式算法<br>  根据从各相邻的路由器<br>  所得的关于整个网络拓扑的变化情况<br>  动态改变选择的路由</li>
+</ul>
+</li>
+<li>分组转发（一个分组到达时采取的动作）<ul>
+<li>根据转发表<br>  将用户IP数据报<br>  从合适端口转发出去</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>SDN Software Define Network<ul>
+<li>网络层定义<ul>
+<li>数据平面<ul>
+<li>转发</li>
+</ul>
+</li>
+<li>控制平面<ul>
+<li>路由选择</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>SDN网络<ul>
+<li>数据、控制平面分离</li>
+<li><h2 id="数据平面"><a href="#数据平面" class="headerlink" title="数据平面"></a>数据平面</h2></li>
+<li>控制平面<ul>
+<li>集中式</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>拥塞控制<ul>
+<li>开环控制</li>
+<li>闭环控制</li>
+</ul>
+</li>
+</ul>
+<h2 id="路由算法"><a href="#路由算法" class="headerlink" title="路由算法"></a>路由算法</h2><ul>
+<li>静态路由算法<ul>
+<li>非自适应路由算法</li>
+<li>网络管理员手动配置</li>
+<li>拓扑结构发生变化手动修改静态路由</li>
+<li>小型网络</li>
+</ul>
+</li>
+<li>动态路由算法<ul>
+<li>自适应路由算法</li>
+<li>互连的路由器间彼此交换路由表</li>
+</ul>
+</li>
+<li>距离-向量算法<ul>
+<li>所有节点定期<br>  将各自整个路由选择表<br>  转发到相邻节点<ul>
+<li>每条路径的目的地</li>
+<li>路径的代价（距离）</li>
+<li>RIP算法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>链路状态路由算法<ul>
+<li>每个参与算法的节点<br>  均具有完全的拓扑信息<ul>
+<li>主动测试所有相邻节点</li>
+<li>定期将链路状态传播所有其他节点</li>
+</ul>
+</li>
+<li>OSPF算法</li>
+<li>洪泛法发送信息</li>
+<li>所有路由器</li>
+<li>路由器相邻的所有路由链路状态</li>
+<li>度量 metric<ul>
+<li>费用</li>
+<li>距离</li>
+<li>时延</li>
+<li>带宽</li>
+</ul>
+</li>
+<li>链路状态变化才发送</li>
+</ul>
+</li>
+<li>层次路由<ul>
+<li>网络规模增大<br>  路由表增大</li>
+<li>整个互联网划分<br>  划分为很多较小的自治系统</li>
+<li>内部网关协议<ul>
+<li>RIP</li>
+<li>OSPF</li>
+</ul>
+</li>
+<li>外部网关协议<ul>
+<li>BGP</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="IPV4"><a href="#IPV4" class="headerlink" title="IPV4"></a>IPV4</h2><ul>
+<li>IPV4分组<ul>
+<li>首部长度<ul>
+<li>占4位</li>
+<li>最大十进制数15</li>
+<li>最大值15 * 4B &#x3D; 60B</li>
+</ul>
+</li>
+<li>总长度<ul>
+<li>首部和数据之和</li>
+<li>单位为字节</li>
+<li>以太网帧的最大传送单元<br>  MTU&#x3D;1500B</li>
+<li>最大长度$2^{16}&#x3D;65535B$</li>
+<li>标识 <ul>
+<li>占16位</li>
+<li>计数器 i++</li>
+<li>数据报长度超过网络MTU<br>  必须分片<br>  此时每个数据报片<br>  均复制一次标识号</li>
+</ul>
+</li>
+<li>标志<ul>
+<li>占3位</li>
+<li>标志字段最低位MF<br>  MF&#x3D;1表示后面还有分片<br>  MF&#x3D;0表示最后一个分片</li>
+<li>标志字段中间的一位DF<br>  DF&#x3D;0时才允许分片</li>
+</ul>
+</li>
+<li>片偏移<ul>
+<li>占13位</li>
+<li>较长的分组在分片后<br>  某片在原分组中相对位置</li>
+<li>以8个字节为偏移单位</li>
+<li>除最后一个分片<br>  每个分片的长度一定<br>  是8B的整数倍</li>
+</ul>
+</li>
+<li>生存时间 TTL<ul>
+<li>占8位</li>
+<li>数据报可通过路由数最大值</li>
+<li>确保分组不会永远在网络中循环</li>
+</ul>
+</li>
+<li>协议<ul>
+<li>占8位</li>
+<li>TCP : 6</li>
+<li>UDP : 17</li>
+</ul>
+</li>
+<li>首部校验和<ul>
+<li>占16位</li>
+<li>只校验分组的首部</li>
+<li>不校验数据部分</li>
+</ul>
+</li>
+<li>源地址字段<ul>
+<li>占4B</li>
+</ul>
+</li>
+<li>目的地址字段<ul>
+<li>占4B</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>数据报分片<ul>
+<li>链路承载最大数据量<br>  最大传送单元MTU</li>
+<li>IP数据报4000B<br>  首部20B 数据3980B<br>  MTU&#x3D;1500B 标识&#x3D;777<br>  MF&#x3D;0 DF&#x3D;0<br>  <strong>分片大小为8B的倍数&#x3D;1480</strong><ul>
+<li>分片1<ul>
+<li>标识&#x3D;777 </li>
+<li>片偏移&#x3D;0</li>
+<li>MF&#x3D;1 DF&#x3D;0</li>
+<li>有效数据1480B</li>
+</ul>
+</li>
+<li>分片2<ul>
+<li>标识&#x3D;777 </li>
+<li>片偏移&#x3D;185</li>
+<li>MF&#x3D;1 DF&#x3D;0</li>
+<li>有效数据1480B</li>
+</ul>
+</li>
+<li>分片3<ul>
+<li>标识&#x3D;777 </li>
+<li>片偏移&#x3D;370</li>
+<li>MF&#x3D;0 DF&#x3D;0</li>
+<li>有效数据(3980-1480*2)B</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>IPV4地址<ul>
+<li>A类<ul>
+<li>1 ~ 126</li>
+<li><strong>0</strong>000,0000;0;0;0 ~<br>  <strong>0</strong>111,1111;1;1;1</li>
+</ul>
+</li>
+<li>B类<ul>
+<li>128 ~ 191</li>
+<li><strong>10</strong>00,0000;0;0;0<br>  <strong>10</strong>11,1111;1;1</li>
+</ul>
+</li>
+<li>C类<ul>
+<li>192 ~ 223</li>
+<li><strong>110</strong>0,0000;0;0;0 ~<br>  <strong>110</strong>1,1111;1;1;1</li>
+</ul>
+</li>
+<li>D类<ul>
+<li>224 ~ 239</li>
+<li><strong>1110</strong>,0000;0;0;0 ~<br>  <strong>1110</strong>,1111;1;1;1</li>
+</ul>
+</li>
+<li>E类<ul>
+<li>240 ~ 255</li>
+<li><strong>1111</strong>,0000;0;0;0 ~<br>  <strong>1111</strong>,1111;1;1;1</li>
+</ul>
+</li>
+<li>IP::&#x3D;{&lt;网络号&gt;,&lt;主机号&gt;}<ul>
+<li>主机号全为0表示本网络</li>
+<li>主机号全1表示本网络广播地址</li>
+<li>127.x.x.x为环回自检地址</li>
+<li>表示任意主机自身</li>
+<li>目的地址为127.x的<br>  IP数据报不会出现在任何网络</li>
+<li>32位全为0表示本网络上本主机</li>
+<li>32位全为1表示整个TCP&#x2F;IP网络的广播地址</li>
+<li>IP地址使用范围<ul>
+<li>A<ul>
+<li>最大网络可用数&#x3D;$2^{7}-2$</li>
+<li>第一个可用的网络号&#x3D;1</li>
+<li>最后一个可用的网络号&#x3D;126</li>
+<li>每个网络中最大的主机&#x3D;$2^{24}-2$</li>
+</ul>
+</li>
+<li>B<ul>
+<li>最大网络可用数&#x3D;$2^{14}$</li>
+<li>第一个可用的网络号&#x3D;128.0</li>
+<li>最后一个可用的网络号&#x3D;191.255</li>
+<li>每个网络中最大的主机&#x3D;$2^{16}-2$</li>
+</ul>
+</li>
+<li>C<ul>
+<li>最大网络可用数&#x3D;$2^{21}$</li>
+<li>第一个可用的网络号&#x3D;192.0.0</li>
+<li>最后一个可用的网络号&#x3D;223.255.255</li>
+<li>每个网络中最大的主机&#x3D;$2^{8}-2$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>NAT<ul>
+<li>专门网络地址转换为公用地址<br>  而对外隐藏内部管理的IP</li>
+<li>划分私有IP<ul>
+<li>只用于LAN</li>
+<li>不用于WAN</li>
+<li>私有IP不能直接接入Internet</li>
+<li>通过网关利用NAT</li>
+<li>私有IP转为Internet中合法的全球IP</li>
+<li>网段<ul>
+<li>A<ul>
+<li>1个A类</li>
+<li>10.0.0.0 ~ 10.255.255.255</li>
+</ul>
+</li>
+<li>B<ul>
+<li>16个B类</li>
+<li>172.16.0.0 ~ 172.31.255.255</li>
+</ul>
+</li>
+<li>C<ul>
+<li>256个C类</li>
+<li>192.168.0.0 ~ 192.168.255.255</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>目的地址为私有IP不进行转发：本地互联网</li>
+</ul>
+</li>
+<li>NAT转换表<ul>
+<li>WAN : LAN</li>
+<li>138.76.29.7:5001 | 192.168.0.2:2233</li>
+</ul>
+</li>
+<li>普通路由器转发IP数据报，不改变源IP和目的IP</li>
+<li>NAT路由器转发IP数据报，一定改变</li>
+</ul>
+</li>
+<li>子网划分<ul>
+<li>两级IP<ul>
+<li>缺点<ul>
+<li>地址空间利用率低</li>
+<li>每分配一个网络号会是路由表变得太大</li>
+<li>网络性能变坏</li>
+<li>不够灵活</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>划分<ul>
+<li>对内表现为子网划分，对外表现为没有划分的网络</li>
+<li>从主机号借用若干比特作为子网号</li>
+<li>IP &#x3D; {&lt;网络号&gt;,&lt;子网号&gt;,&lt;主机号&gt;}</li>
+<li>从其他网络发送给本单位某主机的IP<br>  仍然根据IP目的网络<br>  找到连接本单位网络的路由<br>  该路由收到IP<br>  按目的网络和子网找到目的子网<br>  最后交付IP至目的主机</li>
+<li>划分只根据主机号借用位作子网号<br>  不改变网络号<br>  从一个IP地址或首部无法判断是否子网划分</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>子网掩码<ul>
+<li>表达对原网络主机号的借位</li>
+<li>将IP与子网掩码按位相与<em>AND</em></li>
+<li>得到相应的子网地址</li>
+<li>要求<ul>
+<li>主机设置IP地址必须设置子网掩码</li>
+<li>同属一个子网的所有主机及路由器的相应端口必须设置相同的子网掩码</li>
+<li>路由器的路由表所包含信息：目的网络地址、子网掩码、下一跳地址</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>CIDR<ul>
+<li>在变成子网掩码基础上消除ABC类网络划分</li>
+<li>在软件下实现超网构成</li>
+<li>IP &#x3D; {&lt;网络前缀&gt;,&lt;主机号&gt;}</li>
+<li>斜线记法<ul>
+<li>IP地址&#x2F;网络前缀所占比特数</li>
+<li>128.14.32.5&#x2F;20<ul>
+<li>IP:      1000,0000;0000,1110;0010,0000;0000,0101</li>
+<li>子网掩码: 1111,1111;1111,1111;1111,0000;0000,0000</li>
+<li>网络前缀: <em>1000,0000;0000,1110;0010</em>,0000;0000,0000<br>  128.14.32.0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>CIDR不使用子网，仍使用掩码</li>
+<li>CIDR地址块<ul>
+<li>网络前缀相同的连续IP组成</li>
+<li>206.1.0.0&#x2F;17<ul>
+<li><em>1100,1010;0000,0001;0</em>000,0000;0000,0000</li>
+</ul>
+</li>
+<li>206.1.128.0&#x2F;17<ul>
+<li><em>1100,1010;0000,0001;1</em>000,0000;0000,0000</li>
+</ul>
+</li>
+<li>206.1.0.0&#x2F;16<ul>
+<li><em>1100,1010;0000,0001</em>;0000,0000;0000,0000</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>最长前缀匹配（最佳匹配）<ul>
+<li>路由表中的每个项目由&lt;网络前缀&gt;&lt;下一跳地址&gt;组成<br>  在查找路由表时可能不止一个匹配结果<br>  匹配结果中选择具有最长网络前缀的路由<br>  网络前缀越长<br>  地址块越小<br>  路由越具体</li>
+</ul>
+</li>
+<li>网络层转发分组<ul>
+<li>基于目的主机所在的网络<br>  网络数远小于主机数</li>
+<li>分组到达路由器<br>  路由器根据目的IP地址的网络前缀查找转发表<br>  确定下一跳应到哪个路由器</li>
+<li>转发表中每条路由必须有下面两条信息<br>  (目的网络, 下一跳地址)<br>  IP数据报最终一定可以找到目的主机所在目的网络上的路由器<br>  达到最后一个路由器，向目的主机进行直接交付</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ARP、DHCP、ICMP<ul>
+<li>IP地址与硬件地址<ul>
+<li>IP地址是网络层使用</li>
+<li>MAC地址是数据链路层使用</li>
+<li>网络层及网络层之上使用IP<br>  IP地址放在IP数据报首部<br>  MAC地址放在MAC帧首部<br>  数据封装后<br>  IP数据报分组封装为MAC帧<br>  数据链路层看不见数据报分组中的IP地址</li>
+<li>决定了MAC地址无法跨网络通信</li>
+</ul>
+</li>
+<li>ARP Address Resolution Protocol<ul>
+<li>无论网络层使用什么协议<br>  在实际网络的链路上传输数据帧<br>  必须使用硬件地址</li>
+<li>使用ARP进行映射</li>
+<li>每台主机设有ARP映射表</li>
+<li>工作原理<ul>
+<li>主机A向本局域网上某台主机B发送IP数据报<br>  先在ARP高速缓存中查找有无主机B的IP<br>  有则将对应MAC地址写入MAC帧<br>  无则通过目的MAC地址<br>  FFFF-FF-FF-FF-FF的帧封装并广播ARP请求分组</li>
+<li>主机B收到该ARP请求分组，向ARP响应分组（单播）<br>  分组包含B的IP与MAC地址的映射</li>
+<li>主机A收到ARP响应分组<br>  写入ARP缓存<br>  按查询到的硬件地址发送MAC帧</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>DHCP Dynamic Host Configuration Protocol<ul>
+<li>动态分配地址</li>
+<li>即插即用联网机制</li>
+<li>应用层协议</li>
+<li>UDP</li>
+<li>客户&#x2F;服务器模式</li>
+<li>工作原理<ul>
+<li>需要IP地址的主机在启动时<br>  就向DHCP服务器广播发送发现报文<br>  主机成为DHCP客户</li>
+<li>DHCP客户只能在一段有限的时间内<br>  使用分配到的IP地址：租用期</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ICMP Internet Control Message Protocol<ul>
+<li>提高IP数据报交付成功机会<br>  在网络层使用网际控制报文协议<br>  让主机或路由器报告差错和异常情况</li>
+<li>ICMP报文作为IP层数据报的数据<br>  加上数据报的首部<br>  组成IP数据报发送出去</li>
+<li>网络层协议</li>
+<li>报文种类<ul>
+<li>差错报告报文</li>
+<li>询问报文</li>
+</ul>
+</li>
+<li>5种常用类型<ul>
+<li>终点不可达</li>
+<li>源点抑制</li>
+<li>时间超过</li>
+<li>参数问题</li>
+<li>改变路由</li>
+</ul>
+</li>
+<li>PING使用ICMP回答请求和回答报文</li>
+<li>Tracert使用ICMP时间超过报文</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="IPV6"><a href="#IPV6" class="headerlink" title="IPV6"></a>IPV6</h2><pre><code>- 特点
+    - 解决IP地址耗尽问题
+    - 采用CIDR、NAT
+    - 128位
+    - 即插即用
+    - 只有在包的源结点才能分片
+    - 传输路径中的路由器不能分片
+    - 首部长度必须8B的整数倍
+- 地址
+    - 目的地址
+        - 单播
+            - 点对点
+        - 多播
+            - 一对多
+        - 任播
+            - 目的站是一组计算机
+            - 数据报交付其中的一台计算机
+            - 距离最近的计算机
+    - 缩写表示法
+        - 4BF5:0000:0000:0000:BA5F:039A:000A:2176
+        - 4BF5:0:0:0:BA5F:39A:A:2176
+    - 双冒号缩写[::]
+        - 4BF5:0000:0000:0000:BA5F:039A:000A:2176
+        - 4BF5::BA5F:39A:A:2176
+- 双协议栈
+    - 设备同时安装IPV4和IPV6协议栈
+    - 路由器不同接口配置
+- 隧道技术
+    - IPV6数据报进入IPV4网络
+        封装到IPV4数据报的数据部分
+</code></pre>
+<h2 id="路由协议"><a href="#路由协议" class="headerlink" title="路由协议"></a>路由协议</h2><pre><code>- 自治系统 AS Autonomous System
+    - 本自治系统内必须连通
+- 域内路由与域间路由
+    - 域内路由 RIP、OSPF
+    - 域间路由 BGP
+- RIP
+    - 基于距离-向量算法
+    - 简单
+    - 距离称为跳数，经过一个路由距离+1
+    - 路由器维护自身到其他每个目的网络的距离记录
+    - 定义好的路由就是通过路由器数目少
+    - 一跳路径最多15跳
+    - 距离为16表示网络不可达
+        为了防止出现环路
+    - 默认两个使用RIP的路由之间30秒广播一次RIP路由更新信息
+    - 仅和相邻路由器交换信息
+    - 交换自己的路由表（全部信息）
+    - 距离向量算法
+        - 路由表项
+            - &lt;目的网络N,距离d,下一跳路由器地址&gt;
+        - 地址X的相邻路由器发来的RIP报文
+            修改下一跳字段的地址改为X
+            距离向量+1
+        - 原有路由表没有目的网络N，加入
+        - 有目的网络N，下一跳地址为X，替换
+        - 有目的网络N，下一跳地址不为X
+            发来的d小于路由表的d，替换
+            否则什么也不做
+    - 限制了网络的规模
+    - 坏消息传得慢，收敛时间长
+    - 应用层协议
+    - UDP端口520
+- OSPF
+    - 分布式链路状态路由算法
+    - 洪泛法
+    - 向自治系统所有路由器发送信息
+    - 发送与本路由器相邻的所有路由器链路状态
+    - 只有链路发生变化，才发送
+    - 快收敛
+    - 网络层协议
+    - IP 协议字段89
+    - 每个链路状态都带一个32位序号
+        序号越大代表状态越新
+    - 使用Dijkstra算法计算最优路径
+    - OSPF五种分组
+        - 问候
+        - 数据库描述
+        - 链路状态请求
+        - 链路状态更新
+        - 链路状态确认
+- BGP
+    - 基于路径-向量算法
+    - 寻找一条能够达到目的网络且比较好的路由
+        不能有环路并非最佳路由
+    - 应用层协议
+    - 基于TCP
+    - 每个自治系统的管理员
+        至少选择一个路由作为BGP发言人
+    - BGP-4使用4种报文
+        - 打开
+        - 更新
+        - 保活
+        - 通知
+</code></pre>
+<h2 id="IP组播"><a href="#IP组播" class="headerlink" title="IP组播"></a>IP组播</h2><pre><code>- 组播
+    - 应用于UDP
+    - 有的应用程序把一个分组发送给多个目的主机
+    - IPV4的D类地址
+- IP组播地址
+    - D类地址前4位：1110
+        - 224.0.0.0 ~ 239.255.255.255
+    - D类IP与以太网组播地址映射
+        - IP组播地址1110,**xxxx;x**yyy,yyyy;y;y
+            xxxxx不做映射
+        - 48位MAC地址后23位装载IP组播地址后23位
+- IGMP Internet Group Management Protocol
+    - 组播路由选择
+        - 找出以源主机为根节点的组播转发树
+    - 三种算法
+        - 基于链路状态
+        - 基于距离-向量
+        - 建立在任何路由器协议，协议无关组播
+</code></pre>
+<h2 id="移动IP"><a href="#移动IP" class="headerlink" title="移动IP"></a>移动IP</h2><pre><code>- 概念
+    - 以固定的网络IP地址实现跨越不同网段的漫游功能
+    - 并保证基于网络IP的网络权限在漫游过程不发生改变
+- 功能实体
+    - 移动节点
+    - 本地代理
+    - 外地代理
+- 通信过程
+    - 移动站在归属网络，按照TCP/IP通信
+    - 漫游到外地网络，向外地代理登记获得临时转交地址
+        外地代理向移动站归属代理登记转交地址
+    - 归属代理登记转交地址后，构建一条通向转交地址的隧道
+        并将截获的发送给移动站的IP分组进行封装
+        通过隧道发送给被访问网络的外地代理
+    - 外地代理收到封装的数据报进行拆封
+        恢复原始IP分组转发给移动站
+    - 移动站向外部发送数据报仍使用自己的永久地址作为源地址
+        无需通过归属代理转发直接通过被访网络的外部代理
+</code></pre>
+<h2 id="网络层设备"><a href="#网络层设备" class="headerlink" title="网络层设备"></a>网络层设备</h2><pre><code>- 冲突域
+    - 连接在同一物理介质上的所有节点集合
+    - 节点存在对介质的争用现象
+    - 集线器、中继器不能划分冲突域
+    - 网桥、交换机、路由器可以划分冲突域
+- 广播域
+    - 接收同样广播消息的节点集合
+    - 路由器可以划分广播域
+    - LAN特指使用路由器分割的网络也就是广播域
+- 路由器组成和功能
+    - 多输入/输出的专用计算机
+    - 连接不同的网络完成路由转发
+- 直接交付
+    - 源主机和目标主机在同一个网络
+        无需通过路由器
+- 间接交付
+    - 源主机和目标主机不在同一个网络
+        需要路由器按照转发表指出的路由
+        将数据报转发给下一个路由器
+</code></pre>
+<h1 id="网络层-1"><a href="#网络层-1" class="headerlink" title="网络层"></a>网络层</h1><h2 id="功能概述-1"><a href="#功能概述-1" class="headerlink" title="功能概述"></a>功能概述</h2><ul>
+<li>数据报服务<ul>
+<li>简单灵活 </li>
+<li>无连接</li>
+<li>尽最大努力交付</li>
+<li>为了使路由器简单<br>  可靠通信由传输层负责<br>  传送分组可能<ul>
+<li>出错</li>
+<li>丢失</li>
+<li>重复</li>
+<li>失序</li>
+<li>超时</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>异构网络互连<ul>
+<li>各层中继系统<ul>
+<li>物理层<ul>
+<li>转发器</li>
+<li>集线器</li>
+</ul>
+</li>
+<li>数据链路层<ul>
+<li>网桥</li>
+<li>交换机</li>
+</ul>
+</li>
+<li>网络层<ul>
+<li><strong>路由器</strong></li>
+</ul>
+</li>
+<li>网络层以上<ul>
+<li>网关</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>路由与转发<ul>
+<li>路由选择（确定哪一条路径）<ul>
+<li>按照分布式算法<br>  根据从各相邻的路由器<br>  所得的关于整个网络拓扑的变化情况<br>  动态改变选择的路由</li>
+</ul>
+</li>
+<li>分组转发（一个分组到达时采取的动作）<ul>
+<li>根据转发表<br>  将用户IP数据报<br>  从合适端口转发出去</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>SDN Software Define Network<ul>
+<li>网络层定义<ul>
+<li>数据平面<ul>
+<li>转发</li>
+</ul>
+</li>
+<li>控制平面<ul>
+<li>路由选择</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>SDN网络<ul>
+<li>数据、控制平面分离</li>
+<li><h2 id="数据平面-1"><a href="#数据平面-1" class="headerlink" title="数据平面"></a>数据平面</h2></li>
+<li>控制平面<ul>
+<li>集中式</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>拥塞控制<ul>
+<li>开环控制</li>
+<li>闭环控制</li>
+</ul>
+</li>
+</ul>
+<h2 id="路由算法-1"><a href="#路由算法-1" class="headerlink" title="路由算法"></a>路由算法</h2><ul>
+<li>静态路由算法<ul>
+<li>非自适应路由算法</li>
+<li>网络管理员手动配置</li>
+<li>拓扑结构发生变化手动修改静态路由</li>
+<li>小型网络</li>
+</ul>
+</li>
+<li>动态路由算法<ul>
+<li>自适应路由算法</li>
+<li>互连的路由器间彼此交换路由表</li>
+</ul>
+</li>
+<li>距离-向量算法<ul>
+<li>所有节点定期<br>  将各自整个路由选择表<br>  转发到相邻节点<ul>
+<li>每条路径的目的地</li>
+<li>路径的代价（距离）</li>
+<li>RIP算法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>链路状态路由算法<ul>
+<li>每个参与算法的节点<br>  均具有完全的拓扑信息<ul>
+<li>主动测试所有相邻节点</li>
+<li>定期将链路状态传播所有其他节点</li>
+</ul>
+</li>
+<li>OSPF算法</li>
+<li>洪泛法发送信息</li>
+<li>所有路由器</li>
+<li>路由器相邻的所有路由链路状态</li>
+<li>度量 metric<ul>
+<li>费用</li>
+<li>距离</li>
+<li>时延</li>
+<li>带宽</li>
+</ul>
+</li>
+<li>链路状态变化才发送</li>
+</ul>
+</li>
+<li>层次路由<ul>
+<li>网络规模增大<br>  路由表增大</li>
+<li>整个互联网划分<br>  划分为很多较小的自治系统</li>
+<li>内部网关协议<ul>
+<li>RIP</li>
+<li>OSPF</li>
+</ul>
+</li>
+<li>外部网关协议<ul>
+<li>BGP</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="IPV4-1"><a href="#IPV4-1" class="headerlink" title="IPV4"></a>IPV4</h2><ul>
+<li>IPV4分组<ul>
+<li>首部长度<ul>
+<li>占4位</li>
+<li>最大十进制数15</li>
+<li>最大值15 * 4B &#x3D; 60B</li>
+</ul>
+</li>
+<li>总长度<ul>
+<li>首部和数据之和</li>
+<li>单位为字节</li>
+<li>以太网帧的最大传送单元<br>  MTU&#x3D;1500B</li>
+<li>最大长度$2^{16}&#x3D;65535B$</li>
+<li>标识 <ul>
+<li>占16位</li>
+<li>计数器 i++</li>
+<li>数据报长度超过网络MTU<br>  必须分片<br>  此时每个数据报片<br>  均复制一次标识号</li>
+</ul>
+</li>
+<li>标志<ul>
+<li>占3位</li>
+<li>标志字段最低位MF<br>  MF&#x3D;1表示后面还有分片<br>  MF&#x3D;0表示最后一个分片</li>
+<li>标志字段中间的一位DF<br>  DF&#x3D;0时才允许分片</li>
+</ul>
+</li>
+<li>片偏移<ul>
+<li>占13位</li>
+<li>较长的分组在分片后<br>  某片在原分组中相对位置</li>
+<li>以8个字节为偏移单位</li>
+<li>除最后一个分片<br>  每个分片的长度一定<br>  是8B的整数倍</li>
+</ul>
+</li>
+<li>生存时间 TTL<ul>
+<li>占8位</li>
+<li>数据报可通过路由数最大值</li>
+<li>确保分组不会永远在网络中循环</li>
+</ul>
+</li>
+<li>协议<ul>
+<li>占8位</li>
+<li>TCP : 6</li>
+<li>UDP : 17</li>
+</ul>
+</li>
+<li>首部校验和<ul>
+<li>占16位</li>
+<li>只校验分组的首部</li>
+<li>不校验数据部分</li>
+</ul>
+</li>
+<li>源地址字段<ul>
+<li>占4B</li>
+</ul>
+</li>
+<li>目的地址字段<ul>
+<li>占4B</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>数据报分片<ul>
+<li>链路承载最大数据量<br>  最大传送单元MTU</li>
+<li>IP数据报4000B<br>  首部20B 数据3980B<br>  MTU&#x3D;1500B 标识&#x3D;777<br>  MF&#x3D;0 DF&#x3D;0<br>  <strong>分片大小为8B的倍数&#x3D;1480</strong><ul>
+<li>分片1<ul>
+<li>标识&#x3D;777 </li>
+<li>片偏移&#x3D;0</li>
+<li>MF&#x3D;1 DF&#x3D;0</li>
+<li>有效数据1480B</li>
+</ul>
+</li>
+<li>分片2<ul>
+<li>标识&#x3D;777 </li>
+<li>片偏移&#x3D;185</li>
+<li>MF&#x3D;1 DF&#x3D;0</li>
+<li>有效数据1480B</li>
+</ul>
+</li>
+<li>分片3<ul>
+<li>标识&#x3D;777 </li>
+<li>片偏移&#x3D;370</li>
+<li>MF&#x3D;0 DF&#x3D;0</li>
+<li>有效数据(3980-1480*2)B</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>IPV4地址<ul>
+<li>A类<ul>
+<li>1 ~ 126</li>
+<li><strong>0</strong>000,0000;0;0;0 ~<br>  <strong>0</strong>111,1111;1;1;1</li>
+</ul>
+</li>
+<li>B类<ul>
+<li>128 ~ 191</li>
+<li><strong>10</strong>00,0000;0;0;0<br>  <strong>10</strong>11,1111;1;1</li>
+</ul>
+</li>
+<li>C类<ul>
+<li>192 ~ 223</li>
+<li><strong>110</strong>0,0000;0;0;0 ~<br>  <strong>110</strong>1,1111;1;1;1</li>
+</ul>
+</li>
+<li>D类<ul>
+<li>224 ~ 239</li>
+<li><strong>1110</strong>,0000;0;0;0 ~<br>  <strong>1110</strong>,1111;1;1;1</li>
+</ul>
+</li>
+<li>E类<ul>
+<li>240 ~ 255</li>
+<li><strong>1111</strong>,0000;0;0;0 ~<br>  <strong>1111</strong>,1111;1;1;1</li>
+</ul>
+</li>
+<li>IP::&#x3D;{&lt;网络号&gt;,&lt;主机号&gt;}<ul>
+<li>主机号全为0表示本网络</li>
+<li>主机号全1表示本网络广播地址</li>
+<li>127.x.x.x为环回自检地址</li>
+<li>表示任意主机自身</li>
+<li>目的地址为127.x的<br>  IP数据报不会出现在任何网络</li>
+<li>32位全为0表示本网络上本主机</li>
+<li>32位全为1表示整个TCP&#x2F;IP网络的广播地址</li>
+<li>IP地址使用范围<ul>
+<li>A<ul>
+<li>最大网络可用数&#x3D;$2^{7}-2$</li>
+<li>第一个可用的网络号&#x3D;1</li>
+<li>最后一个可用的网络号&#x3D;126</li>
+<li>每个网络中最大的主机&#x3D;$2^{24}-2$</li>
+</ul>
+</li>
+<li>B<ul>
+<li>最大网络可用数&#x3D;$2^{14}$</li>
+<li>第一个可用的网络号&#x3D;128.0</li>
+<li>最后一个可用的网络号&#x3D;191.255</li>
+<li>每个网络中最大的主机&#x3D;$2^{16}-2$</li>
+</ul>
+</li>
+<li>C<ul>
+<li>最大网络可用数&#x3D;$2^{21}$</li>
+<li>第一个可用的网络号&#x3D;192.0.0</li>
+<li>最后一个可用的网络号&#x3D;223.255.255</li>
+<li>每个网络中最大的主机&#x3D;$2^{8}-2$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>NAT<ul>
+<li>专门网络地址转换为公用地址<br>  而对外隐藏内部管理的IP</li>
+<li>划分私有IP<ul>
+<li>只用于LAN</li>
+<li>不用于WAN</li>
+<li>私有IP不能直接接入Internet</li>
+<li>通过网关利用NAT</li>
+<li>私有IP转为Internet中合法的全球IP</li>
+<li>网段<ul>
+<li>A<ul>
+<li>1个A类</li>
+<li>10.0.0.0 ~ 10.255.255.255</li>
+</ul>
+</li>
+<li>B<ul>
+<li>16个B类</li>
+<li>172.16.0.0 ~ 172.31.255.255</li>
+</ul>
+</li>
+<li>C<ul>
+<li>256个C类</li>
+<li>192.168.0.0 ~ 192.168.255.255</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>目的地址为私有IP不进行转发：本地互联网</li>
+</ul>
+</li>
+<li>NAT转换表<ul>
+<li>WAN : LAN</li>
+<li>138.76.29.7:5001 | 192.168.0.2:2233</li>
+</ul>
+</li>
+<li>普通路由器转发IP数据报，不改变源IP和目的IP</li>
+<li>NAT路由器转发IP数据报，一定改变</li>
+</ul>
+</li>
+<li>子网划分<ul>
+<li>两级IP<ul>
+<li>缺点<ul>
+<li>地址空间利用率低</li>
+<li>每分配一个网络号会是路由表变得太大</li>
+<li>网络性能变坏</li>
+<li>不够灵活</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>划分<ul>
+<li>对内表现为子网划分，对外表现为没有划分的网络</li>
+<li>从主机号借用若干比特作为子网号</li>
+<li>IP &#x3D; {&lt;网络号&gt;,&lt;子网号&gt;,&lt;主机号&gt;}</li>
+<li>从其他网络发送给本单位某主机的IP<br>  仍然根据IP目的网络<br>  找到连接本单位网络的路由<br>  该路由收到IP<br>  按目的网络和子网找到目的子网<br>  最后交付IP至目的主机</li>
+<li>划分只根据主机号借用位作子网号<br>  不改变网络号<br>  从一个IP地址或首部无法判断是否子网划分</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>子网掩码<ul>
+<li>表达对原网络主机号的借位</li>
+<li>将IP与子网掩码按位相与<em>AND</em></li>
+<li>得到相应的子网地址</li>
+<li>要求<ul>
+<li>主机设置IP地址必须设置子网掩码</li>
+<li>同属一个子网的所有主机及路由器的相应端口必须设置相同的子网掩码</li>
+<li>路由器的路由表所包含信息：目的网络地址、子网掩码、下一跳地址</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>CIDR<ul>
+<li>在变成子网掩码基础上消除ABC类网络划分</li>
+<li>在软件下实现超网构成</li>
+<li>IP &#x3D; {&lt;网络前缀&gt;,&lt;主机号&gt;}</li>
+<li>斜线记法<ul>
+<li>IP地址&#x2F;网络前缀所占比特数</li>
+<li>128.14.32.5&#x2F;20<ul>
+<li>IP:      1000,0000;0000,1110;0010,0000;0000,0101</li>
+<li>子网掩码: 1111,1111;1111,1111;1111,0000;0000,0000</li>
+<li>网络前缀: <em>1000,0000;0000,1110;0010</em>,0000;0000,0000<br>  128.14.32.0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>CIDR不使用子网，仍使用掩码</li>
+<li>CIDR地址块<ul>
+<li>网络前缀相同的连续IP组成</li>
+<li>206.1.0.0&#x2F;17<ul>
+<li><em>1100,1010;0000,0001;0</em>000,0000;0000,0000</li>
+</ul>
+</li>
+<li>206.1.128.0&#x2F;17<ul>
+<li><em>1100,1010;0000,0001;1</em>000,0000;0000,0000</li>
+</ul>
+</li>
+<li>206.1.0.0&#x2F;16<ul>
+<li><em>1100,1010;0000,0001</em>;0000,0000;0000,0000</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>最长前缀匹配（最佳匹配）<ul>
+<li>路由表中的每个项目由&lt;网络前缀&gt;&lt;下一跳地址&gt;组成<br>  在查找路由表时可能不止一个匹配结果<br>  匹配结果中选择具有最长网络前缀的路由<br>  网络前缀越长<br>  地址块越小<br>  路由越具体</li>
+</ul>
+</li>
+<li>网络层转发分组<ul>
+<li>基于目的主机所在的网络<br>  网络数远小于主机数</li>
+<li>分组到达路由器<br>  路由器根据目的IP地址的网络前缀查找转发表<br>  确定下一跳应到哪个路由器</li>
+<li>转发表中每条路由必须有下面两条信息<br>  (目的网络, 下一跳地址)<br>  IP数据报最终一定可以找到目的主机所在目的网络上的路由器<br>  达到最后一个路由器，向目的主机进行直接交付</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ARP、DHCP、ICMP<ul>
+<li>IP地址与硬件地址<ul>
+<li>IP地址是网络层使用</li>
+<li>MAC地址是数据链路层使用</li>
+<li>网络层及网络层之上使用IP<br>  IP地址放在IP数据报首部<br>  MAC地址放在MAC帧首部<br>  数据封装后<br>  IP数据报分组封装为MAC帧<br>  数据链路层看不见数据报分组中的IP地址</li>
+<li>决定了MAC地址无法跨网络通信</li>
+</ul>
+</li>
+<li>ARP Address Resolution Protocol<ul>
+<li>无论网络层使用什么协议<br>  在实际网络的链路上传输数据帧<br>  必须使用硬件地址</li>
+<li>使用ARP进行映射</li>
+<li>每台主机设有ARP映射表</li>
+<li>工作原理<ul>
+<li>主机A向本局域网上某台主机B发送IP数据报<br>  先在ARP高速缓存中查找有无主机B的IP<br>  有则将对应MAC地址写入MAC帧<br>  无则通过目的MAC地址<br>  FFFF-FF-FF-FF-FF的帧封装并广播ARP请求分组</li>
+<li>主机B收到该ARP请求分组，向ARP响应分组（单播）<br>  分组包含B的IP与MAC地址的映射</li>
+<li>主机A收到ARP响应分组<br>  写入ARP缓存<br>  按查询到的硬件地址发送MAC帧</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>DHCP Dynamic Host Configuration Protocol<ul>
+<li>动态分配地址</li>
+<li>即插即用联网机制</li>
+<li>应用层协议</li>
+<li>UDP</li>
+<li>客户&#x2F;服务器模式</li>
+<li>工作原理<ul>
+<li>需要IP地址的主机在启动时<br>  就向DHCP服务器广播发送发现报文<br>  主机成为DHCP客户</li>
+<li>DHCP客户只能在一段有限的时间内<br>  使用分配到的IP地址：租用期</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ICMP Internet Control Message Protocol<ul>
+<li>提高IP数据报交付成功机会<br>  在网络层使用网际控制报文协议<br>  让主机或路由器报告差错和异常情况</li>
+<li>ICMP报文作为IP层数据报的数据<br>  加上数据报的首部<br>  组成IP数据报发送出去</li>
+<li>网络层协议</li>
+<li>报文种类<ul>
+<li>差错报告报文</li>
+<li>询问报文</li>
+</ul>
+</li>
+<li>5种常用类型<ul>
+<li>终点不可达</li>
+<li>源点抑制</li>
+<li>时间超过</li>
+<li>参数问题</li>
+<li>改变路由</li>
+</ul>
+</li>
+<li>PING使用ICMP回答请求和回答报文</li>
+<li>Tracert使用ICMP时间超过报文</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="IPV6-1"><a href="#IPV6-1" class="headerlink" title="IPV6"></a>IPV6</h2><pre><code>- 特点
+    - 解决IP地址耗尽问题
+    - 采用CIDR、NAT
+    - 128位
+    - 即插即用
+    - 只有在包的源结点才能分片
+    - 传输路径中的路由器不能分片
+    - 首部长度必须8B的整数倍
+- 地址
+    - 目的地址
+        - 单播
+            - 点对点
+        - 多播
+            - 一对多
+        - 任播
+            - 目的站是一组计算机
+            - 数据报交付其中的一台计算机
+            - 距离最近的计算机
+    - 缩写表示法
+        - 4BF5:0000:0000:0000:BA5F:039A:000A:2176
+        - 4BF5:0:0:0:BA5F:39A:A:2176
+    - 双冒号缩写[::]
+        - 4BF5:0000:0000:0000:BA5F:039A:000A:2176
+        - 4BF5::BA5F:39A:A:2176
+- 双协议栈
+    - 设备同时安装IPV4和IPV6协议栈
+    - 路由器不同接口配置
+- 隧道技术
+    - IPV6数据报进入IPV4网络
+        封装到IPV4数据报的数据部分
+</code></pre>
+<h2 id="路由协议-1"><a href="#路由协议-1" class="headerlink" title="路由协议"></a>路由协议</h2><pre><code>- 自治系统 AS Autonomous System
+    - 本自治系统内必须连通
+- 域内路由与域间路由
+    - 域内路由 RIP、OSPF
+    - 域间路由 BGP
+- RIP
+    - 基于距离-向量算法
+    - 简单
+    - 距离称为跳数，经过一个路由距离+1
+    - 路由器维护自身到其他每个目的网络的距离记录
+    - 定义好的路由就是通过路由器数目少
+    - 一跳路径最多15跳
+    - 距离为16表示网络不可达
+        为了防止出现环路
+    - 默认两个使用RIP的路由之间30秒广播一次RIP路由更新信息
+    - 仅和相邻路由器交换信息
+    - 交换自己的路由表（全部信息）
+    - 距离向量算法
+        - 路由表项
+            - &lt;目的网络N,距离d,下一跳路由器地址&gt;
+        - 地址X的相邻路由器发来的RIP报文
+            修改下一跳字段的地址改为X
+            距离向量+1
+        - 原有路由表没有目的网络N，加入
+        - 有目的网络N，下一跳地址为X，替换
+        - 有目的网络N，下一跳地址不为X
+            发来的d小于路由表的d，替换
+            否则什么也不做
+    - 限制了网络的规模
+    - 坏消息传得慢，收敛时间长
+    - 应用层协议
+    - UDP端口520
+- OSPF
+    - 分布式链路状态路由算法
+    - 洪泛法
+    - 向自治系统所有路由器发送信息
+    - 发送与本路由器相邻的所有路由器链路状态
+    - 只有链路发生变化，才发送
+    - 快收敛
+    - 网络层协议
+    - IP 协议字段89
+    - 每个链路状态都带一个32位序号
+        序号越大代表状态越新
+    - 使用Dijkstra算法计算最优路径
+    - OSPF五种分组
+        - 问候
+        - 数据库描述
+        - 链路状态请求
+        - 链路状态更新
+        - 链路状态确认
+- BGP
+    - 基于路径-向量算法
+    - 寻找一条能够达到目的网络且比较好的路由
+        不能有环路并非最佳路由
+    - 应用层协议
+    - 基于TCP
+    - 每个自治系统的管理员
+        至少选择一个路由作为BGP发言人
+    - BGP-4使用4种报文
+        - 打开
+        - 更新
+        - 保活
+        - 通知
+</code></pre>
+<h2 id="IP组播-1"><a href="#IP组播-1" class="headerlink" title="IP组播"></a>IP组播</h2><pre><code>- 组播
+    - 应用于UDP
+    - 有的应用程序把一个分组发送给多个目的主机
+    - IPV4的D类地址
+- IP组播地址
+    - D类地址前4位：1110
+        - 224.0.0.0 ~ 239.255.255.255
+    - D类IP与以太网组播地址映射
+        - IP组播地址1110,**xxxx;x**yyy,yyyy;y;y
+            xxxxx不做映射
+        - 48位MAC地址后23位装载IP组播地址后23位
+- IGMP Internet Group Management Protocol
+    - 组播路由选择
+        - 找出以源主机为根节点的组播转发树
+    - 三种算法
+        - 基于链路状态
+        - 基于距离-向量
+        - 建立在任何路由器协议，协议无关组播
+</code></pre>
+<h2 id="移动IP-1"><a href="#移动IP-1" class="headerlink" title="移动IP"></a>移动IP</h2><pre><code>- 概念
+    - 以固定的网络IP地址实现跨越不同网段的漫游功能
+    - 并保证基于网络IP的网络权限在漫游过程不发生改变
+- 功能实体
+    - 移动节点
+    - 本地代理
+    - 外地代理
+- 通信过程
+    - 移动站在归属网络，按照TCP/IP通信
+    - 漫游到外地网络，向外地代理登记获得临时转交地址
+        外地代理向移动站归属代理登记转交地址
+    - 归属代理登记转交地址后，构建一条通向转交地址的隧道
+        并将截获的发送给移动站的IP分组进行封装
+        通过隧道发送给被访问网络的外地代理
+    - 外地代理收到封装的数据报进行拆封
+        恢复原始IP分组转发给移动站
+    - 移动站向外部发送数据报仍使用自己的永久地址作为源地址
+        无需通过归属代理转发直接通过被访网络的外部代理
+</code></pre>
+<h2 id="网络层设备-1"><a href="#网络层设备-1" class="headerlink" title="网络层设备"></a>网络层设备</h2><pre><code>- 冲突域
+    - 连接在同一物理介质上的所有节点集合
+    - 节点存在对介质的争用现象
+    - 集线器、中继器不能划分冲突域
+    - 网桥、交换机、路由器可以划分冲突域
+- 广播域
+    - 接收同样广播消息的节点集合
+    - 路由器可以划分广播域
+    - LAN特指使用路由器分割的网络也就是广播域
+- 路由器组成和功能
+    - 多输入/输出的专用计算机
+    - 连接不同的网络完成路由转发
+- 直接交付
+    - 源主机和目标主机在同一个网络
+        无需通过路由器
+- 间接交付
+    - 源主机和目标主机不在同一个网络
+        需要路由器按照转发表指出的路由
+        将数据报转发给下一个路由器
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blueflylabor.github.io/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%BD%91%E7%BB%9C%E5%B1%82/" data-id="clyoz625n000jgadq0yz31kuz" data-title="计算机网络网络层" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
   
+</article>
+
+
+
+  
+    <article id="post-操作系统同步问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/" class="article-date">
+  <time class="dt-published" datetime="2021-04-06T04:01:51.000Z" itemprop="datePublished">2021-04-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
     
     
-    <a style="--stagger:3" href="/2024/05/14/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AEUbuntu22.04%E5%AE%89%E8%A3%85Nodejs/" data-animate>
-      <header>
-        <h2 class="font-bold text-xl">
-          环境配置Ubuntu22.04安装Nodejs
-        </h2>
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/">操作系统同步问题</a>
+    </h1>
+  
+
       </header>
-      <section class="text-gray-400 my-2 text-sm time">
-        <p class="line-clamp-4">
-          
-        </p>
-        <p class="line-clamp-4">
-          5月 14
-          ·
-          1 min
-        </p>
-      </section>
-    </a>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>经典同步问题</strong></p>
+<p><em>1.生产者消费者问题</em></p>
+<ul>
+<li><p>一组生产者进程(Producer)</p>
+</li>
+<li><p>一组消费者进程(Consumer)</p>
+</li>
+<li><p>共享初始为空 大小为n的缓冲区(Buffer)</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">semaphore mutex = 1;  //mutex</span><br><span class="line">semaphore empty = n;  //buffer</span><br><span class="line">semaphore full = 0;   //full</span><br><span class="line"></span><br><span class="line">Producer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		Produce();</span><br><span class="line">		P(mutex);</span><br><span class="line">		add2Buffer();</span><br><span class="line">		V(mutex);</span><br><span class="line">		V(full);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Consumer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(full);</span><br><span class="line">		P(mutex);</span><br><span class="line">		getFromBuffer();</span><br><span class="line">		V(mutex);</span><br><span class="line">		Consume();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>2.读者写者问题</em></p>
+<ul>
+<li>读者进程(Reader)</li>
+<li>写者进程(Writer)</li>
+<li>共享一个文档(Document)</li>
+<li>多进程读，不可多进程写</li>
+<li>写进程写，不可读</li>
+<li>写进程检查是否有读进程读</li>
+</ul>
+<p><strong>读进程优先</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">int count = 0;</span><br><span class="line">semaphore mutex = 1;</span><br><span class="line">semaphore rw = 1;</span><br><span class="line">Reader()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(mutex);</span><br><span class="line">		if(count == 0)</span><br><span class="line">			P(rw);</span><br><span class="line">		count++;</span><br><span class="line">		V(mutex);</span><br><span class="line">		Read();</span><br><span class="line">		P(mutex);</span><br><span class="line">		count--;</span><br><span class="line">		if(count == 0)</span><br><span class="line">			V(rw);</span><br><span class="line">		V(mutex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Writer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(rw);</span><br><span class="line">		write();</span><br><span class="line">		v(rw);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>写进程优先</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">int count = 0;</span><br><span class="line">semaphore mutex = 1;</span><br><span class="line">semaphore rw = 1;</span><br><span class="line">semaphore w = 1;</span><br><span class="line">Writer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(w);</span><br><span class="line">		P(rw);</span><br><span class="line">		Write();</span><br><span class="line">		V(rw);</span><br><span class="line">		V(w);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Reader()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(w);</span><br><span class="line">		P(mutex);</span><br><span class="line">		if(count == 0)</span><br><span class="line">			P(rw);</span><br><span class="line">		count++;</span><br><span class="line">		V(mutex);</span><br><span class="line">		V(w);</span><br><span class="line">		Read();</span><br><span class="line">		P(mutex);</span><br><span class="line">		count--;</span><br><span class="line">		if(count == 0)</span><br><span class="line">			V(rw);</span><br><span class="line">		V(mutex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>3.哲学家进餐问题</em></p>
+<ul>
+<li>5名哲学家(Philosopher)</li>
+<li>每两名之间有一根筷子(Chopstick)</li>
+<li>每名有一碗饭</li>
+<li>吃完饭思考</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">semaphore Chopsticks[5] = &#123;1, 1, 1, 1, 1&#125;;</span><br><span class="line">semaphore mutex = 1;</span><br><span class="line">Philosopher()&#123;</span><br><span class="line">	do&#123;</span><br><span class="line">		P(mutex);</span><br><span class="line">		P(Chopsticks[i]);</span><br><span class="line">		P(Chopsticks[(i+1)%5]);</span><br><span class="line">		V(mutex);</span><br><span class="line">		eat();</span><br><span class="line">		V(Chopsticks[i]);</span><br><span class="line">		V(Chopsticks[(i+1)%5]);</span><br><span class="line">		think();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>4.吸烟者问题</strong></p>
+<ul>
+<li>3个吸烟者进程(Smoker)</li>
+<li>1个提供者进程(Offer)</li>
+<li>Smoker1(paper, glue)</li>
+<li>Smoker2(tobacco, glue)</li>
+<li>Smoker3(paper, tobacco)</li>
+<li>Offer(offer1) return paper, glue</li>
+<li>Offer(offer2) return tobacco, glue</li>
+<li>Offer(offer3) return paper, tobacco</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">int num = 0;	//store random num</span><br><span class="line">semaphore offer1 = 0;</span><br><span class="line">semaphore offer2 = 0;</span><br><span class="line">semaphore offer3 = 0;</span><br><span class="line">semaphore end = 0;</span><br><span class="line">Offer()&#123;</span><br><span class="line">	whlie(1)&#123;</span><br><span class="line">		num++;</span><br><span class="line">		num = num % 3;</span><br><span class="line">		if(num == 0)</span><br><span class="line">			V(offer1);</span><br><span class="line">		else if(num == 1)</span><br><span class="line">			V(offer2);</span><br><span class="line">		else</span><br><span class="line">			V(offer3);</span><br><span class="line">		P(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Smoker1()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(offer3);</span><br><span class="line">		smoke();</span><br><span class="line">		V(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Smoker2()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(offer2);</span><br><span class="line">		smoke();</span><br><span class="line">		V(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Smoker3()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(offer1);</span><br><span class="line">		smoke();</span><br><span class="line">		V(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>eg1</em></p>
+<ul>
+<li>3个进程P1 P2 P3</li>
+<li>互斥使用N个单元的缓冲区(Buffer)</li>
+<li>P1 produce() return (int num) put() @Buffer</li>
+<li>P2</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blueflylabor.github.io/2021/04/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/" data-id="clyoz624f0000gadq7yu22d9q" data-title="操作系统同步问题" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
   
+</article>
+
+
+
+  
+    <article id="post-操作系统简述" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E8%BF%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-04-06T04:01:51.000Z" itemprop="datePublished">2021-04-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
     
     
-      <div class="relative pointer-events-none">
-        <span class="text-9xl opacity-10 absolute -left-11 -top-6 font-bold">2023</span>
-      </div>
-    
-    <a style="--stagger:4" href="/2023/10/06/%E8%80%83%E7%A0%94%E8%8B%B1%E8%AF%AD%E4%BD%9C%E6%96%87%E6%A8%A1%E6%9D%BF/" data-animate>
-      <header>
-        <h2 class="font-bold text-xl">
-          考研英语作文模板
-        </h2>
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E8%BF%B0/">操作系统简述</a>
+    </h1>
+  
+
       </header>
-      <section class="text-gray-400 my-2 text-sm time">
-        <p class="line-clamp-4">
-          
-        </p>
-        <p class="line-clamp-4">
-          10月 06
-          ·
-          1 min
-        </p>
-      </section>
-    </a>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="第一章-计算机系统概述"><a href="#第一章-计算机系统概述" class="headerlink" title="第一章 计算机系统概述"></a>第一章 计算机系统概述</h1><h2 id="并发、共享、虚拟、异步"><a href="#并发、共享、虚拟、异步" class="headerlink" title="并发、共享、虚拟、异步"></a>并发、共享、虚拟、异步</h2><p>没有并发和共享，就没有虚拟和异步</p>
+<p>并发和共享互为存在条件</p>
+<p>只有系统有并发性，才能导致异步性</p>
+<h2 id="命令接口"><a href="#命令接口" class="headerlink" title="命令接口"></a>命令接口</h2><p>联机：交互式</p>
+<p>脱机：批处理</p>
+<h2 id="程序接口"><a href="#程序接口" class="headerlink" title="程序接口"></a>程序接口</h2><p>系统调用（广义指令）</p>
+<h2 id="操作系统用作扩充机器"><a href="#操作系统用作扩充机器" class="headerlink" title="操作系统用作扩充机器"></a>操作系统用作扩充机器</h2><p>没有任何软件支持的计算机称为裸机</p>
+<p>覆盖了软件的机器称为<strong>扩充机器</strong>或<strong>虚拟机</strong></p>
+<h2 id="操作系统发展"><a href="#操作系统发展" class="headerlink" title="操作系统发展"></a>操作系统发展</h2><p>手工操作系统：独占全机、CPU等待手工操作</p>
+<p>单道批处理操作系统：解决人机矛盾、CPU和I&#x2F;O设备速率不匹配、每次主机内存仅存放一道作业</p>
+<p>多道批处理操作系统：资源利用率高、用户响应时间长、不提供人机交互</p>
+<p>分时操作系统：同时、交互、独立、及时</p>
+<p>实时操作系统：及时、可靠</p>
+<p>网络操作系统</p>
+<p>分布式计算机系统</p>
+<p>个人操作系统</p>
+<h2 id="操作系统运行机制"><a href="#操作系统运行机制" class="headerlink" title="操作系统运行机制"></a>操作系统运行机制</h2><p>CPU的状态划分为用户态、核心态</p>
+<h2 id="中断和异常"><a href="#中断和异常" class="headerlink" title="中断和异常"></a>中断和异常</h2><p>中断（外中断）：CPU执行指令意外的事件【设备发出的I&#x2F;O结束中断】</p>
+<p>异常（内中断、陷入）：CPU执行指令内部的事件【非法操作码、地址越界、算术溢出、虚拟存储系统的缺页、陷入指令】</p>
+<h2 id="中断处理过程"><a href="#中断处理过程" class="headerlink" title="中断处理过程"></a>中断处理过程</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">关中断1--保存断点</span><br><span class="line">保存断点--中断服务程序寻址</span><br><span class="line">中断服务程序寻址--保存现场和屏蔽字</span><br><span class="line">保存现场和屏蔽字--开中断1</span><br><span class="line">开中断1--执行中断服务程序</span><br><span class="line">执行中断服务程序--关中断2</span><br><span class="line">关中断2--恢复现场和屏蔽字</span><br><span class="line">恢复现场和屏蔽字--开中断2</span><br><span class="line">开中断2--中断返回</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/os_1.png" alt="os_1"></p>
+<h2 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h2><p>用户程序中调用操作系统提供的子功能</p>
+<p>程序员可以使用高级语言，估计又要可以调用库函数，有的库函数封装了系统调用</p>
+<p>用户进程执行 调用系统调用 <strong>进入核心态</strong> 执行系统调用 <strong>退出核心态</strong> 从系统调用返回</p>
+<h2 id="大内核-微内核"><a href="#大内核-微内核" class="headerlink" title="大内核 微内核"></a>大内核 微内核</h2><p>大内核：内核代码庞大、结构混乱、难以维护、提供高性能系统服务</p>
+<p>微内核：分离内核与服务、频繁切换用户核心态、操作系统执行开销大、内核内容少、方便维护</p>
+<h1 id="第二章-进程管理"><a href="#第二章-进程管理" class="headerlink" title="第二章 进程管理"></a>第二章 进程管理</h1><p>进程:程序段、数据段、PCB进程控制块</p>
+<p>进程映像是静态的，进程是动态的</p>
+<p>动态、并发、独立、异步、结构</p>
+<h2 id="进程状态"><a href="#进程状态" class="headerlink" title="进程状态"></a>进程状态</h2><p>运行、就绪、阻塞、创建、结束</p>
+<h2 id="进程通信"><a href="#进程通信" class="headerlink" title="进程通信"></a>进程通信</h2><p>共享存储（需要同步互斥工具PV操作、低级：基于共享数据结构、高级：基于存储区）</p>
+<p>消息传递（进程间数据交换以格式化消息为单位、直接&#x2F;间接）</p>
+<p>管道通信（pipe文件用于连接一个读进程和写进程通信、半双工、全双工需要两条管道）</p>
+<h2 id="线程-多线程"><a href="#线程-多线程" class="headerlink" title="线程 多线程"></a>线程 多线程</h2><p>引入进程目的：更好的使多道程序<strong>并发</strong>执行</p>
+<p>引入线程目的：减小程序在并发执行付出的时空开销，提高并发性能</p>
+<p>线程：线程ID、程序计数器、寄存器结合、堆栈组合、三态【就绪、阻塞、运行】</p>
+<p>轻量实体，无系统资源，唯一ID和线程控制块</p>
+<p>用户级线程ULT：操作系统意识不到ULT的存在，有关线程管理由应用程序完成</p>
+<p>内核级线程KLT：有关线程管理由内核完成</p>
+<p>多线程模型：多对一、一对一、多对多（m&lt;&#x3D;n）</p>
+<h2 id="处理机调度"><a href="#处理机调度" class="headerlink" title="处理机调度"></a>处理机调度</h2><p>调度层次：作业调度（高）、内存调度（中）、进程调度（低）</p>
+<p>不能进行进程调度与切换：处理中断、进程处于内核态、其他需要完全屏蔽中断的原子操作</p>
+<p>调度方式：非剥夺调度（非抢占方式、适用于大多批处理系统、不能用于分时系统和大多数的实时系统）、剥夺调度（抢占方式、有优先权、短进程优先、时间片原则）</p>
+<p>调度基本原则：CPU利用率、系统吞吐量、周转时间、等待时间、响应时间</p>
+<p>系统吞吐量：单位时间内CPU完成作业的数量</p>
+<p>周转时间：从作业提交到作业完成所用时间</p>
+<p>$$<br>T&#x3D;t_{等待}+t_{就绪队列排队}+t_{上处理机运行及输入输出}\<br>t_{周转时间}&#x3D;t_{作业完成时间}-t_{作业提交时间}\<br>t_{平均周转时间}&#x3D;\frac{\sum_i^n{t_i}}{n}(作业i的周转时间：t_i)\<br>t_{带权周转时间}&#x3D;\frac{t_{作业周转时间}}{t_{作业实际运转}}\geq{1}\<br>t_{带权平均周转时间}&#x3D;\frac{\sum_i^n{t_i}}{n}(作业i的带权周转时间：t_i)\<br>$$</p>
+<p>等待时间：进程处于等处理机状态的时间和</p>
+<p>响应时间：从用户提交请求到系统首次产生响应所用时间</p>
+<p><strong>调度算法</strong>：先来先服务（FCFS、非抢占）、短作业优先（SJF、SPF）、抢占式短作业优先（SRTN）、优先级调度、高响应比优先（HRRN）、时间片轮转调度（RR）、多级反馈队列调度</p>
+<p>1.先来先服务（FCFS）：简单，效率低；对长作业有利，对短作业不利；有利于CPU繁忙型作业，不利于I&#x2F;O繁忙型作业；不会导致饥饿；多用于早期批处理系统</p>
+<p>2.短作业优先（SJF、SPF）：当前已到达的最短作业先上处理机；有优先权、短进程优先、时间片原则；适用于实时&#x2F;分时操作系统；调度机制导致长作业长时间不被调度（饥饿）；多用于早期批处理系统</p>
+<p>3.抢占式短作业优先（SRTN）：最短剩余时间算法</p>
+<p>4.优先级调度：适用于实时操作系统；剥夺、非剥夺、静态优先级、动态优先级；系统进程用户进程 交互型进程非交互型进程 I&#x2F;O型进程计算型进程;不导致饥饿</p>
+<p>5.高响应比优先（HRRN）：多用于早期批处理系统</p>
+<p>$$<br>响应比R_p&#x3D;\frac{t_{等待时间}+t_{要求服务时间}}{t_{要求服务时间}}\geq{1}\<br>$$</p>
+<p>6.时间片轮转调度（RR）：时间片大小设置对系统性能影响很大，时间片足够大，以至于所有进程都能在一个时间片完成，退化为先来先服务算法；时间片太小，处理机频繁在进程间切换，增加处理机开销；时间片长短由系统的响应时间、就绪队列的进程数目、系统处理能力决定；不会导致饥饿</p>
+<p>7.多级反馈队列调度：设置多个就绪队列，各个队列赋予不同优先级，赋予各个队列中进程执行时间片的大小各个不同，一个进程进入内存后挂在一级队列队尾，时间片内未完成进入第二级队列队尾，第一级队列为空下一级运行；课本认为是抢占式算法；</p>
+<h2 id="进程同步"><a href="#进程同步" class="headerlink" title="进程同步"></a>进程同步</h2><p>临界资源：进入区、临界区、退出区、剩余区</p>
+<p>同步：完成某种任务而建立的两个或多个进程，需要协调制约关系</p>
+<p>互斥：一个进程使用临界资源另一个进程必须等待，当占用临界资源的进程退出临界区后，另一进程允许访问临界资源</p>
+<p>为禁止两个进程进入同一个临界区，指定准则：</p>
+<p>（1）空闲让进</p>
+<p>（2）忙则等待</p>
+<p>（3）有限等待</p>
+<p>（4）让权等待</p>
+<p>实现互斥基本方法：</p>
+<p>（1）软件：单标志法（违背空闲让进）、双标志法先检查（违法忙则等待）、双标志法后检查（导致饥饿、违背空闲让进、有限等待）、皮特森算法Peterson’s Algorithm（违法让权等待）</p>
+<p>（2）硬件：中断屏蔽方法（禁止一切中断发生、优：简单高效 &#x2F; 缺：不适用多处理机、用户进程，只适用于系统内核进程）、硬件指令方法TS&#x2F;TSL（优：适用于任意数目的进程，无论是单处理机还是多处理机，简单容易验证其正确性 &#x2F; 缺：不能实现让权等待，从等待中随机选择一个进临界区，可能导致饥饿）</p>
+<p><strong>信号量</strong></p>
+<p>整型信号量：用于表示资源数目的整型量S，只要信号量S&lt;&#x3D;0，就会不断测试，违背让权等待</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">wait</span>(S)&#123;</span><br><span class="line">    <span class="keyword">while</span>(S &lt;= <span class="number">0</span>)</span><br><span class="line">        S = S - <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">signal</span>(S)&#123;</span><br><span class="line">    S = S + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>记录型信号量：一个用于记录资源数目的整型量value，一个进程链表L，链接等待资源的进程,S.L解决了让权等待的问题</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>&#123;</span><br><span class="line">    <span class="type">int</span> value;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">process</span> *L;</span><br><span class="line">&#125;semaphore;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">wait</span><span class="params">(semaphore S)</span></span>&#123;</span><br><span class="line">    S.value --;</span><br><span class="line">    <span class="keyword">if</span>(S.value &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        add <span class="keyword">this</span> process P to S.L;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">block</span>(S.L);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">signal</span><span class="params">(semaphore S)</span></span>&#123;</span><br><span class="line">    S.value ++;</span><br><span class="line">    <span class="keyword">if</span>(S.value &lt;= <span class="number">0</span>)&#123;</span><br><span class="line">        remove a process P from S.L;</span><br><span class="line">        <span class="built_in">wakeup</span>(P);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>利用信号量实现同步：前V后P，必须保证一前一后，实现同步关系</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">semaphore S = <span class="number">0</span>;</span><br><span class="line"><span class="built_in">P1</span>()&#123;</span><br><span class="line">    x;</span><br><span class="line">    <span class="built_in">V</span>(S);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">P2</span>()&#123;</span><br><span class="line">    <span class="built_in">P</span>(S);</span><br><span class="line">    y;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>利用信号量实现互斥：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">seamphore S = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">P1</span>()&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">P</span>(S);</span><br><span class="line">    进程P1的临界区;</span><br><span class="line">    <span class="built_in">V</span>(S);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">P2</span>()&#123;</span><br><span class="line">   ...</span><br><span class="line">   <span class="built_in">P</span>(S);</span><br><span class="line">   进程P2的临界区</span><br><span class="line">   <span class="built_in">V</span>(S);</span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>利用信号量实现前驱关系：</p>
+<p>对不同的临界资源设置不同的互斥信号量，PV必须成对出现</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/OS_mutex.png" alt="OS_mutex"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">semaphore a1 = a2 = b1 = b2 = c = d = e = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">S1</span>()&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">V</span>(a1);</span><br><span class="line">    <span class="built_in">V</span>(a2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">S2</span>()&#123;</span><br><span class="line">    <span class="built_in">P</span>(a1);</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">V</span>(b1);</span><br><span class="line">    <span class="built_in">V</span>(b2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">S3</span>()&#123;</span><br><span class="line">    <span class="built_in">P</span>(a2);</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">V</span>(c);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">S4</span>()&#123;</span><br><span class="line">    <span class="built_in">P</span>(b1);</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">V</span>(d);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">S5</span>()&#123;</span><br><span class="line">    <span class="built_in">P</span>(b2);</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">V</span>(e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">S6</span>()&#123;</span><br><span class="line">    <span class="built_in">P</span>(c);</span><br><span class="line">    <span class="built_in">P</span>(d);</span><br><span class="line">    <span class="built_in">P</span>(e);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另一角度：图论出度（P）入度（V）</p>
+<p><strong>管程</strong></p>
+<p>名称、共享结构数据、一组过程（函数）、设置共享结构数据初值</p>
+<p>互斥特性由编译器负责实现</p>
+<p>各外部进程&#x2F;线程，只能从管程提供的特定入口才能访问共享数据</p>
+<p>每次只允许一个进程在管程内执行某个内部过程</p>
+<p><strong>经典同步问题</strong></p>
+<p><em>1.生产者消费者问题</em></p>
+<ul>
+<li><p>一组生产者进程(Producer)</p>
+</li>
+<li><p>一组消费者进程(Consumer)</p>
+</li>
+<li><p>共享初始为空 大小为n的缓冲区(Buffer)</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">semaphore mutex = 1;  //mutex</span><br><span class="line">semaphore empty = n;  //buffer</span><br><span class="line">semaphore full = 0;   //full</span><br><span class="line"></span><br><span class="line">Producer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		Produce();</span><br><span class="line">		P(mutex);</span><br><span class="line">		add2Buffer();</span><br><span class="line">		V(mutex);</span><br><span class="line">		V(full);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Consumer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(full);</span><br><span class="line">		P(mutex);</span><br><span class="line">		getFromBuffer();</span><br><span class="line">		V(mutex);</span><br><span class="line">		Consume();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>2.读者写者问题</em></p>
+<ul>
+<li>读者进程(Reader)</li>
+<li>写者进程(Writer)</li>
+<li>共享一个文档(Document)</li>
+<li>多进程读，不可多进程写</li>
+<li>写进程写，不可读</li>
+<li>写进程检查是否有读进程读</li>
+</ul>
+<p><strong>读进程优先</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">int count = 0;</span><br><span class="line">semaphore mutex = 1;</span><br><span class="line">semaphore rw = 1;</span><br><span class="line">Reader()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(mutex);</span><br><span class="line">		if(count == 0)</span><br><span class="line">			P(rw);</span><br><span class="line">		count++;</span><br><span class="line">		V(mutex);</span><br><span class="line">		Read();</span><br><span class="line">		P(mutex);</span><br><span class="line">		count--;</span><br><span class="line">		if(count == 0)</span><br><span class="line">			V(rw);</span><br><span class="line">		V(mutex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Writer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(rw);</span><br><span class="line">		write();</span><br><span class="line">		v(rw);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>写进程优先</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">int count = 0;</span><br><span class="line">semaphore mutex = 1;</span><br><span class="line">semaphore rw = 1;</span><br><span class="line">semaphore w = 1;</span><br><span class="line">Writer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(w);</span><br><span class="line">		P(rw);</span><br><span class="line">		Write();</span><br><span class="line">		V(rw);</span><br><span class="line">		V(w);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Reader()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(w);</span><br><span class="line">		P(mutex);</span><br><span class="line">		if(count == 0)</span><br><span class="line">			P(rw);</span><br><span class="line">		count++;</span><br><span class="line">		V(mutex);</span><br><span class="line">		V(w);</span><br><span class="line">		Read();</span><br><span class="line">		P(mutex);</span><br><span class="line">		count--;</span><br><span class="line">		if(count == 0)</span><br><span class="line">			V(rw);</span><br><span class="line">		V(mutex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>3.哲学家进餐问题</em></p>
+<ul>
+<li>5名哲学家(Philosopher)</li>
+<li>每两名之间有一根筷子(Chopstick)</li>
+<li>每名有一碗饭</li>
+<li>吃完饭思考</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">semaphore Chopsticks[5] = &#123;1, 1, 1, 1, 1&#125;;</span><br><span class="line">semaphore mutex = 1;</span><br><span class="line">Philosopher()&#123;</span><br><span class="line">	do&#123;</span><br><span class="line">		P(mutex);</span><br><span class="line">		P(Chopsticks[i]);</span><br><span class="line">		P(Chopsticks[(i+1)%5]);</span><br><span class="line">		V(mutex);</span><br><span class="line">		eat();</span><br><span class="line">		V(Chopsticks[i]);</span><br><span class="line">		V(Chopsticks[(i+1)%5]);</span><br><span class="line">		think();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>4.吸烟者问题</strong></p>
+<ul>
+<li>3个吸烟者进程(Smoker)</li>
+<li>1个提供者进程(Offer)</li>
+<li>Smoker1(paper, glue)</li>
+<li>Smoker2(tobacco, glue)</li>
+<li>Smoker3(paper, tobacco)</li>
+<li>Offer(offer1) return paper, glue</li>
+<li>Offer(offer2) return tobacco, glue</li>
+<li>Offer(offer3) return paper, tobacco</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">int num = 0;	//store random num</span><br><span class="line">semaphore offer1 = 0;</span><br><span class="line">semaphore offer2 = 0;</span><br><span class="line">semaphore offer3 = 0;</span><br><span class="line">semaphore end = 0;</span><br><span class="line">Offer()&#123;</span><br><span class="line">	whlie(1)&#123;</span><br><span class="line">		num++;</span><br><span class="line">		num = num % 3;</span><br><span class="line">		if(num == 0)</span><br><span class="line">			V(offer1);</span><br><span class="line">		else if(num == 1)</span><br><span class="line">			V(offer2);</span><br><span class="line">		else</span><br><span class="line">			V(offer3);</span><br><span class="line">		P(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Smoker1()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(offer3);</span><br><span class="line">		smoke();</span><br><span class="line">		V(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Smoker2()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(offer2);</span><br><span class="line">		smoke();</span><br><span class="line">		V(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Smoker3()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(offer1);</span><br><span class="line">		smoke();</span><br><span class="line">		V(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>eg1</em></p>
+<ul>
+<li>3个进程P1 P2 P3</li>
+<li>互斥使用N个单元的缓冲区(Buffer)</li>
+<li>P1 produce() return (int num) put() @Buffer</li>
+<li>P2</li>
+</ul>
+<p><strong>死锁</strong></p>
+<p>多个进程因竞争资源造成的一种互相等待，若无外力作用，这些进程都将无法向前推进</p>
+<p>死锁产生的原因：（1）系统资源的竞争（2）进程推进顺序非法（3）死锁产生的必要条件：互斥条件、不剥夺条件（已经至少保持了一个资源）、请求并保持条件、循环等待条件</p>
+<p><strong>发生死锁一定有循环等待，但发生循环等待未必死锁</strong></p>
+<p><strong>死锁的处理策略</strong></p>
+<p><strong>死锁预防</strong>：破坏四个必要条件之一即可</p>
+<ul>
+<li><p>破坏互斥条件</p>
+</li>
+<li><p>破坏不剥夺条件</p>
+</li>
+<li><p>破坏请求并保持条件</p>
+</li>
+<li><p>破坏循环等待条件</p>
+</li>
+</ul>
+<p>死锁避免：在资源分配过程，防止进入不安全状态</p>
+<ul>
+<li>银行家算法</li>
+</ul>
+<p>$$Need &#x3D; Max -Allocation$$</p>
+<p>死锁检测和解除：系统分配进程时不做措施，应该提供死锁检测和解除的手段</p>
+<ul>
+<li>资源分配图</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/source_allocation.png" alt="source_allocation"></p>
+<p>请求边：从进程到资源<br>分配边：从资源到进程</p>
+<ul>
+<li>死锁定理：依次消除与不阻塞进程相连接的边，直到无边可消除</li>
+<li>死锁解除：资源剥夺法、撤销进程法、进程回退法</li>
+</ul>
+<h1 id="第三章-内存管理"><a href="#第三章-内存管理" class="headerlink" title="第三章 内存管理"></a>第三章 内存管理</h1><p><strong>程序装入和链接</strong></p>
+<ul>
+<li>编译：编译程序将源代码编译成若干目标模块</li>
+<li>链接：链接程序将编译后形成一组目标模块及所需的库函数链接在一起，形成一个完整的装入模块</li>
+<li>装入：装入程序装入模块装入内存运行</li>
+</ul>
+<p>链接方式</p>
+<ul>
+<li>静态：程序运行前，链接为一个完整可执行的程序</li>
+<li>装入时动态：装入过程中，边装入边链接</li>
+<li>运行时动态：程序执行过程需要该模块才进行</li>
+</ul>
+<p>装入方式：</p>
+<ul>
+<li>绝对装入：仅适用于单道程序，装入程序按照装入模块中的地址，将程序数据装入内存，逻辑地址与物理地址完全相同</li>
+<li>可重定位装入（静态重定位）：一个作业装入内存，<strong>必须给它分配要求的全部内存空间</strong>，若没有足够的内存，则无法装入。一旦运行，作业进入内存，整个运行期间不能在内存中移动，也不能再申请内存空间</li>
+<li>动态运行时装入（动态重定位）：程序在内存中发生移动，则需要采用动态的装入方式。装入程序把装入内存后，并不立即将装入模块中的相对地址转换为绝对地址，而是将<strong>地址转换推迟到程序真正要执行时才进行</strong>，需要重定位寄存器的支持</li>
+</ul>
+<p>逻辑地址和物理地址</p>
+<ul>
+<li>地址重定位：当装入程序将可执行代码装入内存时，必须通过地址转换将逻辑地址转换成为物理地址</li>
+</ul>
+<p>内存保护</p>
+<ul>
+<li>在CPU中设置一堆上、下限寄存器，CPU要访问一个地址，分别和两个寄存器值相比，判断有无越界</li>
+<li>采用重定位寄存器（基址寄存器）和界地址寄存器（限长寄存器）来实现这种保护</li>
+</ul>
+<p><strong>连续分配管理方式</strong></p>
+<p>单一连续分配</p>
+<p>内存分为系统区、用户区，无需进行内存保护，内存中只允许有有一道程序</p>
+<ul>
+<li>优 简单无外部碎片</li>
+<li>缺 只能用于单用户、单任务的操作系统中，有内部碎片，存储器利用率极低</li>
+</ul>
+<p><strong>固定分区分配</strong></p>
+<p>将用户内存空间划分为若干固定大小的区域，每个分区只装入一道作业。当有空闲分区时，可从外存的后备作业队列中选择适当大小的作业装入</p>
+<ul>
+<li>划分分区方式：分区大小相等、分区大小不等</li>
+</ul>
+<p>问题</p>
+<ul>
+<li>程序可能太大放不进任何一块分区，用户不得不使用覆盖技术使用内存空间</li>
+<li>主存利用率低，程序小也要占用一个分区，现象称为<strong>内部碎片</strong></li>
+</ul>
+<p><strong>动态分区分配</strong></p>
+<p>又称可变分区分配，不预先划分内存，在进程装入内存时，根据进程大小动态地建立分区，并使分区的大小正好适合进程的需要</p>
+<p>问题：所有分区外的存储空间会产生越来越多的碎片，克服外部碎片可以通过紧凑技术来解决</p>
+<p>动态分区策略</p>
+<ul>
+<li><p>首次适应Fiist Fit：空闲分区以地址递增的次序链接，找到大小能满足要求的第一个空间。会使得内存的低地址部分出现很多小的空闲分区，每次分配查找时，都要经过这些分区，增加了查找的开销</p>
+</li>
+<li><p>最佳适应Best Fit：空闲分区按容量递增的方式形成分区链，找到第一个能满足要求的空间。性能通常很差，因为每次最佳的分配会留下很小难以利用的内存块，会产生最多的外部碎片。</p>
+</li>
+<li><p>最坏适应Worst Fit（最大适应Lasgest Fit）:以容量递减的次序链接，找到第一个能满足要求的空闲分区。选择最大的块，但却把最大的连续内存的划分开，会很快导致没有可用的大内存块，导致性能很差</p>
+</li>
+<li><p>邻近适用Next Fit（循环首次适应算法）：分配内存时从上次查询结束的位置开始继续查找。在一次扫描中，内存前面部分使用后再释放时，不会参与分配，导致在内存的末尾分配空间分裂为小碎片。</p>
+</li>
+</ul>
+<p><em><strong>非连续分配</strong></em> </p>
+<p><strong>基本分页存储管理方式</strong>：主存空间划分为大小相等且固定的块，块相对较小，作为主存的基本单位。每个进程以块为单位进行划分，进程在执行时，以块为单位逐个申请贮存中的空间</p>
+<p>分页管理不会产生外部碎片，块的大小相对分区要小，进程按块划分，进程运行时按块申请主存可用空间并执行，进程只会在最后一个不完整的块，不产生主存碎片，，每个进程平均只产生半个块大小的内部碎片</p>
+<ul>
+<li><p>页面和页面大小：进程中的块称为页（page），内存中的块称为页框（page frame、或页帧）。外存也以同样的单位进行划分，称为块（block）。进程在执行时需要申请主存空间，要为每个页面分配主存中的可用页框，页和页框一一对应</p>
+</li>
+<li><p>地址结构</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/single_page.png" alt="single_page"></p>
+<ul>
+<li>页表：通过查找页表即可找到相应的物理块</li>
+</ul>
+<p>基本地址变换：</p>
+<p>将逻辑地址变换为内存中的物理地址，在系统中设置页表寄存器（PTR）存放内存起始地址F和页表长度M。</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/page_allocation_transform.png" alt="page_allocation_transform"></p>
+<p>$$<br>\begin{aligned}<br>&amp;（1）页号P&#x3D;\frac{A}{L}\<br>&amp;（2）页内偏移量W&#x3D;A%L\<br>&amp;（3）比较页号P和页表长度M，P\geq M产生越界中断\<br>&amp;（4）页表中页号P对应的页表项地址A&#x3D;F+P<em>M\<br>&amp;（5）物理地址E&#x3D;b</em>L+W\<br>\end{aligned}<br>$$<br><em>页式管理中空间地址是一维的</em></p>
+<p>问题</p>
+<ul>
+<li>每次访存均需地址变换，地址变换必须足够快，否则访存速度会降低</li>
+<li>每个进程引入页表，用于存储映射机制，页表不能过大</li>
+</ul>
+<p>引入快表机制：在地址变换过程中加入具有并行查找能力的高速缓冲存储器——<strong>快表</strong>（相联存储器TLB，主存中的页表为<strong>慢表</strong>）</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/add_TLB_page_allocation_transform.png" alt="add_TLB_page_allocation_transform"></p>
+<p>一次地址变换流程</p>
+<p>（1）CPU给出逻辑地址，将页号送入高速缓冲寄存器，查询此页号是否存在于快表内</p>
+<p>（2）若匹配到，直接取出对应页的页框号，与页内偏移拼接为物理地址，访存</p>
+<p>（3）若未匹配到，访问慢表查询，读取页表项后复制到快表中，进行地址变换后访存</p>
+<p><em>值得注意的是，题中是否说明快表初始为空以及快表慢表的查询机制，是否同时查询！</em></p>
+<p>两级页表</p>
+<ul>
+<li>引入页表，执行时不需要调入所有内存页框，为了压缩页表，采取多级映射</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/2_dim_page.png" alt="2_dim_page"></p>
+<ul>
+<li>多级页表大小不能超过一个页面</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/2_dim_page_arch.png" alt="2_dim_page_arch"></p>
+<p>$$<br>\begin{aligned}<br>&amp;逻辑地址：32bit\<br>&amp;以字节编址\<br>&amp;页表项：4B\<br>&amp;页面大小：4KB&#x3D;2^{12}B （页内偏移量）\<br>&amp;页号：32-12&#x3D;20\<br>&amp;全映射需要2^{20}个页表项\<br>&amp;共需4B<em>2^{20}&#x3D;4MB大小空间存储页表\<br>&amp;\<br>&amp;以40MB进程为例\<br>&amp;页表项：\frac{40MB}{4B</em>4KB}&#x3D;40KB\<br>&amp;需要\frac{40KB}{4KB}&#x3D;10页面\<br>&amp;整个进程需要\frac{40MB}{4KB}&#x3D;10*2^{10}个页面\<br>&amp;\<br>&amp;为了压缩页表，采取二级页表机制\<br>&amp;页表10页进行映射只需要10个页表项\<br>&amp;上一级页表只需要1页就已经足够2^{10}&#x3D;1024个页表项\<br>&amp;进程执行时，仅需将这一页的上级页表调入即可\<br>&amp;页面大小：4KB&#x3D;2^{12}B （页内偏移量）\<br>&amp;页号：32-12&#x3D;20\<br>&amp;顶级（一级）页表为1个页面\<br>&amp;一级页表项\frac{4KB}{4B}&#x3D;1K\<br>&amp;一级页表占用log_2{1K}&#x3D;10位\<br>&amp;二级页表占用20-10&#x3D;10位\<br>&amp;二级页表大小2^{10}*4B&#x3D;4KB\leq页面大小4KB\<br>\end{aligned}<br>$$</p>
+<p><strong>基本分段存储管理方式</strong></p>
+<p>分页管理是从计算机角度考虑设计，提高内存利用率，分页通过硬件机制实现</p>
+<p>分段管理是从用户和程序员出发，方便编程、信息保护和共享、动态增长以及动态链接等方面的需要</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/single_seg.png" alt="single_seg"></p>
+<p>段号决定每个进程最多可以分几个段，段内地址决定每个段内的最大长度</p>
+<p>段表：每个进程都有一张逻辑空间与内存空间映射的段表</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/seg.png" alt="seg"></p>
+<p>地址变换机构</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/segment_address_translation_mechanism.png" alt="分段地址变换机构"></p>
+<p>$$<br>从逻辑地址A中取出前几位为段号S，后几位为段内偏移量W\<br>比较段号S和段表长度M，S\geq M,产生越界中断，否则继续执行\<br>段表中段号S对应段表项地址&#x3D;段表始址F+段号S*段表项长度\<br>段内偏移量\geq C，产生越界中断，否则继续执行\<br>取出段表项中该段的起始地址b，E&#x3D;b+W，得到物理地址E去访问内存\<br>$$</p>
+<p>段的共享与保护：分段系统，通过两个作业的段表中相应表项指向被共享的段同一个物理副本，当地一个作业从共享段读取数据，必须防止另一个修改数据，不能修改的的代码称为<strong>纯代码、可重入代码</strong></p>
+<p>段号和段内偏移需要显示给出，地址空间为二维</p>
+<p><strong>段页式管理方式</strong></p>
+<p>作业的地址空间被分为若干逻辑段，每段都有自己的段号，将每段分为若干大小的固定的页，内存空间分为若干和页面大小相同的存储块，对内存的分配以块为单位。</p>
+<ul>
+<li><p>段号位数决定每个进程最多可以分几个段</p>
+</li>
+<li><p>页号位数决定最多有几个页</p>
+</li>
+<li><p>页内偏移量决定页面大小、内存块的大小</p>
+</li>
+</ul>
+<p>段页式系统的逻辑地址结构：</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/OS_page_seg_add.png" alt="OS_page_seg_add"></p>
+<p>地址变换</p>
+<p>需要三次访存，可以使用快表机制</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/segment_page_address_translation_mechanism.png" alt="segment_page_address_translation_mechanism"></p>
+<p><strong>虚拟内存管理</strong></p>
+<p>传统存储管理方式</p>
+<ul>
+<li>一次性：一次全部装入，才能开始</li>
+<li>驻留性：装入后，常驻内存，任何部分都不会被换出，直至结束</li>
+</ul>
+<p>局部性原理</p>
+<p>一个程序，一段时间内，只有一部分会被访问</p>
+<ul>
+<li>空间</li>
+<li>时间</li>
+</ul>
+<p>虚拟存储器</p>
+<p>将程序的一部分装入内存，其余部分留在外存，当所访问的部分不在内存，操作系统将需要的部分调入内存，将暂时不需要的内容换到外存</p>
+<ul>
+<li>多次性：无需一次全部装入，允许分为多次调入</li>
+<li>对换性：无需常驻内存</li>
+<li>虚拟性：从逻辑上扩充内存容量，使用户看到的内存容量远大于内存容量</li>
+</ul>
+<p>本质：用时间换空间</p>
+<p>实现：请求分页、请求分段、请求段页式</p>
+<p>支持：内存、外存、页表机制、段表机制、中断机构、地址变换机构</p>
+<p><strong>请求分页管理方式</strong></p>
+<p>访问不存在内存中的页面，通过调页将其调入，通过置换算法将暂时不需要的页面调到外存上</p>
+<p>页表机制</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/Request_paging_page_table_mechanism.png" alt="Request_paging_page_table_mechanism"></p>
+<p>$$<br>状态位P：指示是否调入内存\<br>访问字段A：记录一段时间内被访问的次数\<br>修改位M：标识页面调入内存后是否被修改过\<br>外存地址：指出该页在外存上的地址，通常是物理块号\<br>$$</p>
+<p>缺页中断机制</p>
+<p>访问页面不在内存中时，产生一个缺页中断，请求操作系统将缺页调入内存，将缺页的进程阻塞，若内存有闲置的空闲块，则分配一个块，将页面装入，并修改页表相应的页表项，若内存中无空闲块，则淘汰某页，淘汰页若在内存中修改过需要同步，写回外存</p>
+<p>地址变换机构</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/blueflylabor/main/imgs/OS/request_paging_address_translation_mechanism.png" alt="request_paging_address_translation_mechanism"></p>
+<p>页面置换算法</p>
+<ul>
+<li>最佳置换算法OPT</li>
+</ul>
+<p>选择的被淘汰页是以后永不使用的页面，或是最长时间内不再被访问的页面</p>
+<ul>
+<li>先进先出算法FIFO</li>
+</ul>
+<p>优先淘汰最早进入内存的页面，即内存中驻留时间最久的页面</p>
+<p>会产生所分配的物理块增大页故障数不减反增的异常现象，<strong>Belady异常</strong></p>
+<ul>
+<li>最近最久未使用算法LRU</li>
+</ul>
+<p>选择最近最长时间未访问过的页面予以淘汰，为每个页面设置一个访问字段记录上次被访问所经历的时间</p>
+<p>性能较好，需要寄存器和栈的硬件支持</p>
+<ul>
+<li>时钟置换算法CLOCK</li>
+</ul>
+<p>简单的CLOCK算法：每帧关联一个附加位，使用位<strong>u</strong>，连成一个循环队列。某页装入时，使用位置为1；被访问时，使用位置为1；置换时，操作系统扫描缓冲区，每当遇到一个使用位为1的帧，置为0；最后停留在第一个使用位为0的帧</p>
+<p>CLOCK算法性能比较接近LRU算法</p>
+<p>改进的CLOCK算法：再增加一个修改位<strong>m</strong>，<strong>P(u,m)</strong></p>
+<p>第一轮扫描，指针扫描过的页面使用位<strong>u</strong>置为0</p>
+<p>第一轮扫描中，未找到使用位<strong>u</strong>为0的页面进行第二轮扫描</p>
+<p>第二轮扫描，第一个页面置换出，换入页面<strong>m</strong>修改位置为1，并将指针后移</p>
+<p><strong>页面分配策略</strong></p>
+<p>一个进程分配的物理页框的集合，分配给一个进程的存储量越小，任何时候驻留在主存中的进程数就越多，从而提高处理机的效率；一个进程页数过少，基于局部性原理，页错误率会相对较高；页数过多，基于局部性原理，给特定的进程分配更多主存空间对该进程的错误率没有明显改善。</p>
+<p>策略：固定分配局部置换、可变分配全局置换、可变分配局部置换（没有固定分配全局分配）</p>
+<p>调入时机：预调页策略、请求调页策略</p>
+<p>从何处调页：系统拥有足够的对换区间、系统缺少足够的对换区间、UNIX方式</p>
+<p><strong>抖动</strong></p>
+<p>某进程频繁访问的页面数目高于可用的物理页帧数目</p>
+<p><strong>工作集</strong></p>
+<p>在某段时间间隔内，进程要访问的页面集合</p>
+<p>一般，分配给进程的物理块数（驻留集大小）要大于工作集大小</p>
+<h1 id="第四章-文件系统"><a href="#第四章-文件系统" class="headerlink" title="第四章 文件系统"></a>第四章 文件系统</h1><p><strong>文件</strong></p>
+<p>文件结构：数据项、记录、文件</p>
+<p>属性：名称、标识符、类型、位置、大小、保护、时间</p>
+<p>所有文件的信息都保存在目录结构中，而目录结构保存在外存上，文件信息在需要时调入内存。</p>
+<p>基本操作：创建、写、读、重定位、删除、截断</p>
+<p>文件逻辑结构</p>
+<ul>
+<li>无结构文件（流式文件）</li>
+</ul>
+<p>二进制式字符流组成</p>
+<ul>
+<li>有结构文件（记录式文件）</li>
+</ul>
+<p>顺序文件</p>
+<p>索引文件</p>
+<p>索引顺序文件</p>
+<p>直接文件或散列文件</p>
+<p><strong>目录结构</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blueflylabor.github.io/2021/04/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E8%BF%B0/" data-id="clyoz624z0001gadq6hama3b3" data-title="操作系统简述" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
   
+</article>
+
+
+
+  
+    <article id="post-环境配置Ubuntu1804安装CUDA和Pytorch" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/06/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AEUbuntu1804%E5%AE%89%E8%A3%85CUDA%E5%92%8CPytorch/" class="article-date">
+  <time class="dt-published" datetime="2021-04-06T04:01:51.000Z" itemprop="datePublished">2021-04-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
     
     
-    <a style="--stagger:5" href="/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BC%A0%E8%BE%93%E5%B1%82/" data-animate>
-      <header>
-        <h2 class="font-bold text-xl">
-          计算机网络传输层
-        </h2>
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/06/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AEUbuntu1804%E5%AE%89%E8%A3%85CUDA%E5%92%8CPytorch/">环境配置Ubuntu1804安装CUDA和Pytorch</a>
+    </h1>
+  
+
       </header>
-      <section class="text-gray-400 my-2 text-sm time">
-        <p class="line-clamp-4">
-          
-        </p>
-        <p class="line-clamp-4">
-          9月 11
-          ·
-          9 min
-        </p>
-      </section>
-    </a>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Init-Ubuntu-and-change-deb-pip-source"><a href="#Init-Ubuntu-and-change-deb-pip-source" class="headerlink" title="Init Ubuntu and change deb&amp;pip source"></a>Init Ubuntu and change deb&amp;pip source</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://fastly.jsdelivr.net/gh/blueflylabor/_ebxeax.github.io@0.0/toolbox/initUbuntu/initUbuntu.sh</span><br><span class="line">bash ./initUbuntu.sh</span><br></pre></td></tr></table></figure>
+
+<h2 id="CUDA11-6"><a href="#CUDA11-6" class="headerlink" title="CUDA11.6"></a>CUDA11.6</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin</span><br><span class="line">sudo <span class="built_in">mv</span> cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600</span><br><span class="line">wget https://developer.download.nvidia.com/compute/cuda/11.6.2/local_installers/cuda-repo-wsl-ubuntu-11-6-local_11.6.2-1_amd64.deb</span><br><span class="line">sudo dpkg -i cuda-repo-wsl-ubuntu-11-6-local_11.6.2-1_amd64.deb</span><br><span class="line">sudo apt-key add /var/cuda-repo-wsl-ubuntu-11-6-<span class="built_in">local</span>/7fa2af80.pub</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get -y install cuda</span><br></pre></td></tr></table></figure>
+<h2 id="Load-library-path"><a href="#Load-library-path" class="headerlink" title="Load library path"></a>Load library path</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gedit ~/.bashrc</span><br><span class="line"><span class="built_in">export</span> PATH=/usr/local/cuda/bin:<span class="variable">$PATH</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/local/cuda/lib64:<span class="variable">$LD_LIBRARY_PAT</span></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<h2 id="Test-nvidia-smi"><a href="#Test-nvidia-smi" class="headerlink" title="Test nvidia-smi"></a>Test nvidia-smi</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi</span><br></pre></td></tr></table></figure>
+
+<h2 id="Test-nvcc-V"><a href="#Test-nvcc-V" class="headerlink" title="Test nvcc -V"></a>Test nvcc -V</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc -V</span><br></pre></td></tr></table></figure>
+
+<h2 id="Pytorch"><a href="#Pytorch" class="headerlink" title="Pytorch"></a>Pytorch</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113</span><br></pre></td></tr></table></figure>
+<h3 id="get-file-when-network-worse"><a href="#get-file-when-network-worse" class="headerlink" title="get file when network worse"></a>get file when network worse</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.pytorch.org/whl/cu113/torch-1.10.2%2Bcu113-cp36-cp36m-linux_x86_64.whl</span><br><span class="line">wget https://download.pytorch.org/whl/cu113/torchvision-0.11.3%2Bcu113-cp36-cp36m-linux_x86_64.whl</span><br><span class="line">wget </span><br><span class="line">pip3 install ./torch-1.10.2+cu113-cp36-cp36m-linux_x86_64.whl</span><br><span class="line">pip3 install ./torchvision-0.11.3+cu113-cp36-cp36m-linux_x86_64.whl</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blueflylabor.github.io/2021/04/06/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AEUbuntu1804%E5%AE%89%E8%A3%85CUDA%E5%92%8CPytorch/" data-id="clyoz625c000bgadq6x9j0wjv" data-title="环境配置Ubuntu1804安装CUDA和Pytorch" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
   
+</article>
+
+
+
+  
+    <article id="post-数据库简述" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/02/04/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%80%E8%BF%B0/" class="article-date">
+  <time class="dt-published" datetime="2020-02-04T02:01:51.000Z" itemprop="datePublished">2020-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
     
     
-    <a style="--stagger:6" href="/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%BD%91%E7%BB%9C%E5%B1%82/" data-animate>
-      <header>
-        <h2 class="font-bold text-xl">
-          计算机网络网络层
-        </h2>
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/02/04/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%80%E8%BF%B0/">数据库简述</a>
+    </h1>
+  
+
       </header>
-      <section class="text-gray-400 my-2 text-sm time">
-        <p class="line-clamp-4">
-          
-        </p>
-        <p class="line-clamp-4">
-          9月 11
-          ·
-          30 min
-        </p>
-      </section>
-    </a>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="数据库DB"><a href="#数据库DB" class="headerlink" title="数据库DB"></a>数据库DB</h1><h2 id="一、数据库系统概论"><a href="#一、数据库系统概论" class="headerlink" title="一、数据库系统概论"></a>一、数据库系统概论</h2><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p>数据库的四个基本概念：数据、数据库、数据库管理系统、数据库系统  </p>
+<ul>
+<li>数据DATA：描述事物的符号记录，数据的含义称为数据的语义，数据与其语义不可分  </li>
+<li>数据库DB：长期存储在计算机内、有组织的、可共享的大量数据的集合，数据库中的数据按一定数据模型组织、描述和存储，具有较小的冗余度、较高的数据独立性、易扩展性 </li>
+<li>数据库管理系统DBMS：位于操作系统和用户之间的一层数据管理软件，包括：数据定义、组织、存储、管理、操纵；数据库的事务管理、运行管理、建立、维护；其他；</li>
+<li>数据库系统DBS：由数据库、数据库管理系统、应用程序、数据库管理员DBA组成的存储、管理、处理和维护的系统</li>
+</ul>
+<h4 id="数据库技术发展"><a href="#数据库技术发展" class="headerlink" title="数据库技术发展"></a>数据库技术发展</h4><p>人工管理阶段、文件系统阶段、数据库系统阶段</p>
+<h4 id="数据库系统特点"><a href="#数据库系统特点" class="headerlink" title="数据库系统特点"></a>数据库系统特点</h4><ul>
+<li>数据结构化：是与文件系统的本质区别</li>
+<li>数据的共享性高、冗余度低且易扩充</li>
+<li>数据独立性高</li>
+<li>数据由数据库管理系统统一管理和控制：安全性保护、完整性保护、并发控制、数据库恢复</li>
+</ul>
+<h3 id="数据模型：是对现实世界数据特征的抽象，是数据库系统的核心和基础"><a href="#数据模型：是对现实世界数据特征的抽象，是数据库系统的核心和基础" class="headerlink" title="数据模型：是对现实世界数据特征的抽象，是数据库系统的核心和基础"></a>数据模型：是对现实世界数据特征的抽象，是数据库系统的核心和基础</h3><h4 id="两类数据模型"><a href="#两类数据模型" class="headerlink" title="两类数据模型"></a>两类数据模型</h4><ul>
+<li>第一类概念模型（信息模型）：按用户的观点对数据和信息建模，主要用于数据库设计——<em>面向用户</em></li>
+<li>第二类逻辑模型：包括层次模型、网状模型、关系模型、面向对象模型、对象关系模型、半结构化模型；是按计算机系统的观点对数据建模——<em>面向设计人员</em></li>
+<li>第二类物理模型：是对数据最底层的抽象，面向计算机系统</li>
+</ul>
+<h4 id="概念模型"><a href="#概念模型" class="headerlink" title="概念模型"></a>概念模型</h4><h5 id="基本概念-1"><a href="#基本概念-1" class="headerlink" title="基本概念"></a>基本概念</h5><ul>
+<li>实体：客观存在并且可相互区别的事物</li>
+<li>属性：实体具有的某一特性  </li>
+<li>码：唯一标识实体的属性集  </li>
+<li>实体型：用实体名及属性名集合来抽象和刻画同类实体  </li>
+<li>实体集：同一类型实体的集合  </li>
+<li>联系：实体之间的联系通常是指不同实体集之间的联系，一对一、一对多、多对多等类型</li>
+</ul>
+<h5 id="一种表示方法：实体-联系方法"><a href="#一种表示方法：实体-联系方法" class="headerlink" title="一种表示方法：实体-联系方法"></a>一种表示方法：实体-联系方法</h5><ul>
+<li>E-R模型</li>
+</ul>
+<h4 id="组成要素：数据模型通常由数据结构、数据操作、数据的完整性约束条件组成"><a href="#组成要素：数据模型通常由数据结构、数据操作、数据的完整性约束条件组成" class="headerlink" title="组成要素：数据模型通常由数据结构、数据操作、数据的完整性约束条件组成"></a>组成要素：数据模型通常由<strong>数据结构</strong>、<strong>数据操作</strong>、<strong>数据的完整性约束条件</strong>组成</h4><ul>
+<li>数据结构：描述数据库的组成对象以及对象之间的关系 </li>
+<li>数据操作：对数据库中的各种对象的实例允许执行的操作的集合，包括操作及有关的操作规则（SQL）</li>
+<li>数据的完整性约束条件：是一组完整性规则，保证数据的正确、有效和相容，任何关系需满足实体完整性和参照完整性（DBMS自动完成，之外的由设计人员完成，用户自己的完整性也需设计人员完成）；在某个表中某一个属性不能重复且不能为空</li>
+</ul>
+<h4 id="常用数据模型"><a href="#常用数据模型" class="headerlink" title="常用数据模型"></a>常用数据模型</h4><ul>
+<li>层次模型（非关系模型）</li>
+<li>网状模型（非关系模型）</li>
+<li>关系模型（表）</li>
+<li>面向对象模型（对象）</li>
+<li>对象关系模型</li>
+<li>半结构化模型</li>
+</ul>
+<h4 id="层次模型"><a href="#层次模型" class="headerlink" title="层次模型"></a>层次模型</h4><p>早期的数据组织方式，IBM的IMS，在数据库中定义满足  </p>
+<ul>
+<li>有且只有一个结点没有双亲结点，这个结点叫根结点</li>
+<li>根以外的其他结点有且只有一个双亲结点</li>
+</ul>
+<p>层次模型更像是一颗倒立的树</p>
+<h4 id="网状模型"><a href="#网状模型" class="headerlink" title="网状模型"></a>网状模型</h4><ul>
+<li>允许一个以上的结点无双亲  </li>
+<li>一个结点可以有多于一个的双亲</li>
+</ul>
+<p>层次模型中子女结点与双亲结点的联系是唯一的，网状模型不唯一</p>
+<h4 id="关系模型"><a href="#关系模型" class="headerlink" title="关系模型"></a>关系模型</h4><p>IBM E.F.Codd</p>
+<h5 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h5><ul>
+<li>关系：一个关系对应一个表</li>
+<li>元组：表中的一行</li>
+<li>属性：表中的一列</li>
+<li>码：表中某个属性组，可以唯一确定一个元组</li>
+<li>域：一组有相同数据类型的集合</li>
+<li>分量：元组的一个属性值</li>
+<li>关系模式：关系的描述（关系名（属性1，属性2，…，属性n））</li>
+</ul>
+<p>要求关系必须规范化，每一个分量必须是一个不可分的数据项</p>
+<h3 id="数据库系统的结构"><a href="#数据库系统的结构" class="headerlink" title="数据库系统的结构"></a>数据库系统的结构</h3><ul>
+<li>单用户结构</li>
+<li>主从式结构</li>
+<li>分布式结构</li>
+<li>客户-浏览器结构</li>
+<li>浏览器-应用服务器、数据库服务器多层结构</li>
+</ul>
+<h4 id="系统模式的概念"><a href="#系统模式的概念" class="headerlink" title="系统模式的概念"></a>系统模式的概念</h4><p>在数据模型中有“型”和“值”的概念，型是指对某一类数据的结构和属性的说明，值是型的一个具体赋值<br>模式是数据库中全体数据的逻辑结构和特征的描述，涉及型的描述，不涉及具体的值<br>模式是相对稳定的，而实例是相对变动的</p>
+<h4 id="数据库系统的三级模式：外模式、模式、内模式"><a href="#数据库系统的三级模式：外模式、模式、内模式" class="headerlink" title="数据库系统的三级模式：外模式、模式、内模式"></a>数据库系统的三级模式：外模式、模式、内模式</h4><ul>
+<li>模式：又称逻辑模式或用户模式，是数据库用户能够看见和使用的局部数据的逻辑结构和特征的描述，是数据库用户的数据试图，是与某一用户有关的数据的逻辑表示</li>
+<li>外模式：通常是模式的子集，一个数据库可以有多个外模式，如果不同的用户在应用需求、看待的数据方式、对数据保密的要求等方面存在差异，则其外模式描述是不同的；同一模式也可以为某一用户的多个应用系统所使用，但一个应用程序只能使用一个外模式</li>
+<li>内模式：又称存储模式或物理模式，一个数据库只有一个内模式，是数据物理结构和存储方式的描述，是数据在数据库内部的组织方式</li>
+</ul>
+<h4 id="数据库二级映像功能与数据独立性"><a href="#数据库二级映像功能与数据独立性" class="headerlink" title="数据库二级映像功能与数据独立性"></a>数据库二级映像功能与数据独立性</h4><ul>
+<li>外模式&#x2F;模式映像：模式描述的是数据全局逻辑结构，外模式描述的是数据的局部逻辑结构，对于每一个外模式，数据库系统都有一个外模式&#x2F;模式映像，定义了外模式与模式之间的对应关系，通常包含在各自的外模式描述中；当模式改变时，有数据库管理员对各个外模式&#x2F;模式的映像做相应改变，可使外模式保持不变。应用程序是依据数据的外模式编写的，从而应用程序不必修改，保证了数据与程序的逻辑独立性，简称数据的逻辑独立性</li>
+<li>模式&#x2F;内模式映像：数据库只有一个模式，也只有一个内模式，模式&#x2F;内模式是唯一的，定义了数据全局逻辑结构与存储结构之间的对应关系；当数据库的存储结构发生改变，由数据库管理员对模式&#x2F;内模式映像作相应改变，可使模式保持不变，从而应用程序不必改变，保证了数据与程序的物理独立性，简称数据的物理独立性</li>
+</ul>
+<h4 id="数据库系统的组成"><a href="#数据库系统的组成" class="headerlink" title="数据库系统的组成"></a>数据库系统的组成</h4><ul>
+<li>硬件平台&amp;数据库</li>
+<li>软件</li>
+<li>人员</li>
+</ul>
+<h2 id="二、关系数据库"><a href="#二、关系数据库" class="headerlink" title="二、关系数据库"></a>二、关系数据库</h2><p>《Communications of the ACM》E.F.Codd</p>
+<h3 id="关系数据结构及形式化定义-单一的数据结构，在用户看来逻辑结构是一张二维表"><a href="#关系数据结构及形式化定义-单一的数据结构，在用户看来逻辑结构是一张二维表" class="headerlink" title="关系数据结构及形式化定义:单一的数据结构，在用户看来逻辑结构是一张二维表"></a>关系数据结构及形式化定义:单一的数据结构，在用户看来逻辑结构是一张二维表</h3><ul>
+<li><p>域：一组具有相同数据结构的值的集合<br>$$<br>\begin{aligned}<br>&amp;D_1, D_2, \dots, D_n\<br>\end{aligned}<br>$$</p>
+</li>
+<li><p>笛卡尔积：域上的一种集合运算<br>$$<br>\begin{aligned}<br>&amp;D_1 * D_2 * \dots * D_n &#x3D; {(d_1, d_2, \dots, d_n)|d_i\in D_i, i &#x3D; 1, 2, \dots, n}\<br>&amp;每一个元素(d_1, d_2, \dots, d_n)叫做一个n元组\<br>&amp;元组每一个值d_i叫做一个分量\<br>&amp;基数：一个域允许的不同取值个数M&#x3D;\prod_{i&#x3D;1}^{n}{m_i}<br>\end{aligned}<br>$$</p>
+</li>
+<li><p>关系：<br>$$<br>\begin{aligned}<br>&amp;D_1 * D_2 * \dots * D_n的子集叫做在域D_1, D_2, \dots\<br>&amp;D_n上的关系，表示为R(D_1, D_2, \dots, D_n)\<br>&amp;R表示为关系的名字，n是关系的目或度\<br>&amp;n&#x3D;1，单元关系\<br>&amp;n&#x3D;2，二元关系\<br>&amp;某一个属性组的值能唯一标识一个元组，而其子集不能，则称该属性组为候选码\<br>&amp;若一个关系有多个候选码，则选定一个为主码\<br>&amp;候选码的诸属性成为主属性，不包含在任何候选码中的属性成为非主属性或非码属性\<br>&amp;在最简单情况下，候选码只包含一个属性；在最极端情况下，关系模式的所有属性是这个关系模式的候选码，称为全码\<br>&amp;关系有三种类型：\<br>&amp;基本关系（基本表或基表）：实际存在的表，实际存储数据的逻辑表示；\<br>&amp;查询表：查询结果对应的表；\<br>&amp;视图表：基本表或其他视图表导出的表，虚表，不对应实际存储的数据\<br>&amp;关系是一个无限的集合，由于笛卡尔积的域不满足交换律\<br>&amp;(d_1, d_2, \dots, d_n) \neq (d_2, d_1, \dots, d_n)(i, j &#x3D;1, 2, \dots, n)\<br>&amp;对关系数据模型的限定和扩充：\<br>&amp;(1)无限关系在数据库系统中是无意义的，限定关系数据模型中的关系必须是有限集合\<br>&amp;(2)通过关系的每个列附加一个属性名的方法取消属性的有序性\<br>&amp;基本关系的性质：\<br>&amp;(1)列是同质的\<br>&amp;(2)不同列可出自同一个域\<br>&amp;(3)列顺序可无序\<br>&amp;(4)任意两个元组的候选码不能取同值\<br>&amp;(5)行的顺序可无序\<br>&amp;(6)分量必须取原子值\<br>&amp;这些规范中最基本的是每一个分量必须是一个不可分的数据项\<br>\end{aligned}<br>$$</p>
+</li>
+</ul>
+<h3 id="关系模式：必须指出这个元组集合的结构，即由哪些属性构成，属性来自哪些域，属性和域之间的映像关系"><a href="#关系模式：必须指出这个元组集合的结构，即由哪些属性构成，属性来自哪些域，属性和域之间的映像关系" class="headerlink" title="关系模式：必须指出这个元组集合的结构，即由哪些属性构成，属性来自哪些域，属性和域之间的映像关系"></a>关系模式：必须指出这个元组集合的结构，即由哪些属性构成，属性来自哪些域，属性和域之间的映像关系</h3><p>$$<br>\begin{aligned}<br>&amp;关系模式：R(U, D, DOM, F)\<br>&amp;R：关系名\<br>&amp;D：U中属性所来自的域\<br>&amp;DOM：属性向域的映射集合\<br>&amp;F：属性间数据的依赖关系\<br>\end{aligned}<br>$$<br>关系模式是静态的、稳定的，而关系是的动态的、随时间变化的；</p>
+<h3 id="关系数据库-有型和值的区分"><a href="#关系数据库-有型和值的区分" class="headerlink" title="关系数据库:有型和值的区分"></a>关系数据库:有型和值的区分</h3><ul>
+<li>型：关系数据库模式，是对关系数据库的描述</li>
+<li>值：关系模式在某一时刻对应的关系的集合</li>
+</ul>
+<h3 id="关系操作"><a href="#关系操作" class="headerlink" title="关系操作"></a>关系操作</h3><h4 id="基本操作：查询、插入、删除、修改"><a href="#基本操作：查询、插入、删除、修改" class="headerlink" title="基本操作：查询、插入、删除、修改"></a>基本操作：查询、插入、删除、修改</h4><p>查询：选择、投影、连接、除、并、差、笛卡尔积；{选择、投影、并、差、笛卡尔积}是5种基本操作<br>关系操作的特点：集合操作方式，一次一集合操作；非关系模型的数据操作为一次一记录方式</p>
+<h3 id="关系数据语言：关系代数、关系演算"><a href="#关系数据语言：关系代数、关系演算" class="headerlink" title="关系数据语言：关系代数、关系演算"></a>关系数据语言：关系代数、关系演算</h3><ul>
+<li>关系代数：用对关系的运算来表达查询要求</li>
+<li>关系演算：用谓词来表达查询要求，按谓词变元的基本对象是元组变量还是域变量分为元组关系演算和域关系演算</li>
+</ul>
+<p>SQL(Structured Query Language)是集查询、数据定义语言、数据操纵语言和数据控制语言DCL(Data Control Language)于一体的关系数据语言</p>
+<ul>
+<li>关系代数语言:ISBL</li>
+<li>关系演算语言:元组关系演算语言：ALPHA、QUEL；域关系演算语言：QBE</li>
+<li>关系代数&amp;关系演算-语言:<strong>SQL</strong></li>
+</ul>
+<h2 id="关系的完整性：是对关系的某种约束条件，有三类约束："><a href="#关系的完整性：是对关系的某种约束条件，有三类约束：" class="headerlink" title="关系的完整性：是对关系的某种约束条件，有三类约束："></a>关系的完整性：是对关系的某种约束条件，有三类约束：</h2><h3 id="实体完整性：若属性A是基本关系R的主属性，则A不能取空值；关系数据库中每个元组是可区分的，是唯一的，这点用实体的完整性来保证"><a href="#实体完整性：若属性A是基本关系R的主属性，则A不能取空值；关系数据库中每个元组是可区分的，是唯一的，这点用实体的完整性来保证" class="headerlink" title="实体完整性：若属性A是基本关系R的主属性，则A不能取空值；关系数据库中每个元组是可区分的，是唯一的，这点用实体的完整性来保证"></a>实体完整性：若属性A是基本关系R的主属性，则A不能取空值；关系数据库中每个元组是可区分的，是唯一的，这点用实体的完整性来保证</h3><p>实体完整性规则说明：<br>（1）实体完整性是针对基本关系而言，一个基本表对应现实世界的一个实体集<br>（2）现实世界中的实体是可区分的，即它们具有某种唯一标识<br>（3）关系模型中以主码作为唯一性标识<br>（4）主码中的属性即主属性不能取空值</p>
+<h3 id="参照完整性：定义外码与主码之间的引用规则"><a href="#参照完整性：定义外码与主码之间的引用规则" class="headerlink" title="参照完整性：定义外码与主码之间的引用规则"></a>参照完整性：定义外码与主码之间的引用规则</h3><p>$$<br>\begin{aligned}<br>&amp;设F是基本关系R的一个或一组属性，但不是关系R的码，K_s是基本关系S的主码\<br>&amp;如果F与K_s相对应，则称F是R的外码，并称基本关系R为参照关系，基本关系S为被参照关系或目标关系\<br>&amp;关系R和S不一定是不同的关系\<br>&amp;目标关系S的主码与K_s和参照关系R的外码F必须定义在同一个（同一组）\<br>\end{aligned}<br>$$</p>
+<p>参照完整性规则<br>$$<br>\begin{aligned}<br>&amp;若属性（或属性组）F是基本关系R的外码，它与基本关系S的主码K_s相对应（基本关系R和S不一定是不同的关系），则对于R中每个元组在F上的值必须\<br>&amp;取空值 \space 等于S中某个元组的主码值  \space空值  \space非空值\<br>\end{aligned}<br>$$</p>
+<h3 id="用户定义的完整：与现实语义相结合"><a href="#用户定义的完整：与现实语义相结合" class="headerlink" title="用户定义的完整：与现实语义相结合"></a>用户定义的完整：与现实语义相结合</h3><h3 id="关系代数：抽象的查询语言，使用对关系的运算来表达查询-运算对象、运算符、运算结果-；按运算符分为传统的集合运算和专门的关系运算"><a href="#关系代数：抽象的查询语言，使用对关系的运算来表达查询-运算对象、运算符、运算结果-；按运算符分为传统的集合运算和专门的关系运算" class="headerlink" title="关系代数：抽象的查询语言，使用对关系的运算来表达查询[运算对象、运算符、运算结果]；按运算符分为传统的集合运算和专门的关系运算"></a>关系代数：抽象的查询语言，使用对关系的运算来表达查询[运算对象、运算符、运算结果]；按运算符分为传统的集合运算和专门的关系运算</h3><h4 id="传统的集合运算（二目运算）：并、差、交、笛卡尔积"><a href="#传统的集合运算（二目运算）：并、差、交、笛卡尔积" class="headerlink" title="传统的集合运算（二目运算）：并、差、交、笛卡尔积"></a>传统的集合运算（二目运算）：并、差、交、笛卡尔积</h4><p>$$<br>\begin{aligned}<br>&amp;设关系R和S具有相同的目n（即两个关系都有的n个属性）\<br>&amp;具有相应的属性取自同一个域，t是元组变量，t\in R表示t是R的一个元组\<br>&amp;（1）并\<br>&amp;R \cup S &#x3D; { t | t\in R \vee t\in S}\<br>&amp;（2）差\<br>&amp;R - S &#x3D; { t | t\in R \wedge t\notin S}\<br>&amp;（3）交\<br>&amp;R \cap S &#x3D; { t | t\in R \wedge t\in S}\<br>&amp;（4）广义笛卡尔积\<br>&amp;R \times S &#x3D; { \widehat{t_r t_s}  | t_r\in R \wedge t_S\in S}\<br>\end{aligned}<br>$$<br>$\large{R}$:</p>
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$a_1$</td>
+<td>$b_1$</td>
+<td>$c_1$</td>
+</tr>
+<tr>
+<td>$a_1$</td>
+<td>$b_2$</td>
+<td>$c_2$</td>
+</tr>
+<tr>
+<td>$a_2$</td>
+<td>$b_2$</td>
+<td>$c_1$</td>
+</tr>
+<tr>
+<td>$\large{S}$:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+</tr>
+<tr>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+</tr>
+<tr>
+<td>$a_1$</td>
+<td>$b_2$</td>
+<td>$c_2$</td>
+</tr>
+<tr>
+<td>$a_1$</td>
+<td>$b_3$</td>
+<td>$c_2$</td>
+</tr>
+<tr>
+<td>$a_2$</td>
+<td>$b_2$</td>
+<td>$c_1$</td>
+</tr>
+<tr>
+<td>$\large{R\cup S}$:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+</tr>
+<tr>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+</tr>
+<tr>
+<td>$a_1$</td>
+<td>$b_1$</td>
+<td>$c_1$</td>
+</tr>
+<tr>
+<td>$a_1$</td>
+<td>$b_2$</td>
+<td>$c_2$</td>
+</tr>
+<tr>
+<td>$a_2$</td>
+<td>$b_2$</td>
+<td>$c_1$</td>
+</tr>
+<tr>
+<td>$a_1$</td>
+<td>$b_3$</td>
+<td>$c_2$</td>
+</tr>
+<tr>
+<td>$\large{R\cap S}$:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+</tr>
+<tr>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+</tr>
+<tr>
+<td>$a_1$</td>
+<td>$b_2$</td>
+<td>$c_2$</td>
+</tr>
+<tr>
+<td>$a_2$</td>
+<td>$b_2$</td>
+<td>$c_1$</td>
+</tr>
+<tr>
+<td>$\large{R\times S}$:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>R.A</td>
+<td>R.B</td>
+<td>R.C</td>
+</tr>
+<tr>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+</tr>
+<tr>
+<td>$a_1$</td>
+<td>$b_1$</td>
+<td>$c_1$</td>
+</tr>
+<tr>
+<td>$a_1$</td>
+<td>$b_1$</td>
+<td>$c_1$</td>
+</tr>
+<tr>
+<td>$a_1$</td>
+<td>$b_1$</td>
+<td>$c_1$</td>
+</tr>
+<tr>
+<td>$a_1$</td>
+<td>$b_2$</td>
+<td>$c_2$</td>
+</tr>
+<tr>
+<td>$a_1$</td>
+<td>$b_2$</td>
+<td>$c_2$</td>
+</tr>
+<tr>
+<td>$a_1$</td>
+<td>$b_2$</td>
+<td>$c_2$</td>
+</tr>
+<tr>
+<td>$a_2$</td>
+<td>$b_2$</td>
+<td>$c_1$</td>
+</tr>
+<tr>
+<td>$a_2$</td>
+<td>$b_2$</td>
+<td>$c_1$</td>
+</tr>
+<tr>
+<td>$a_2$</td>
+<td>$b_2$</td>
+<td>$c_1$</td>
+</tr>
+</tbody></table>
+<h4 id="专门的关系运算：选择、投影、连接、除运算"><a href="#专门的关系运算：选择、投影、连接、除运算" class="headerlink" title="专门的关系运算：选择、投影、连接、除运算"></a>专门的关系运算：选择、投影、连接、除运算</h4><p>（1）设关系模式为R($A_1$,$A_2$,$\dots$,$A_n$)，它的一个关系为R<br>    $t\in R$表示t是R的一个元组<br>    t$[A_i]$表示元组中相应的属性$A_i$的一个分量<br>（2）若$A&#x3D;{A_{i1}, A_{i2}, \dots, A_{ik}}$ ，其中$A_{i1}, A_{i2}, \dots, A_{ik}$是$A_1, A_2, \dots, A_n$中的一部分，则$A$称为属性列或属性组<br>    $t[A]&#x3D;(t[A_{i1}], t[A_{i2}], \dots, t[A_{ik}])$表示元组$t$在属性列$A$上诸多分量的集合<br>    $\overline{A}$则表示$A&#x3D;{A_{1}, A_{2}, \dots, A_{n}}$中去掉$A&#x3D;{A_{i1}, A_{i2}, \dots, A_{ik}}$后剩余的属性组<br>（3）$R$为$n$目关系，$S$为$m$目关系，$t_r\in R, t_s \in S$，$\widehat{t_r t_s}$ 为元组的连接（串接）<br>    是一个$n+m$的元组<br>（4）给定一个关系$R(X,Z)$，$X$和$Z$为属性组<br>    $t[X]&#x3D;x$，$x$在$R$中的象集：$Z_x&#x3D;{t[Z]|t\in R, t[X]&#x3D;x}$<br>    表示R中属性组X上的值为x的诸多元组在Z上的分量集合<br>$\large{R}$</p>
+<table>
+<thead>
+<tr>
+<th>$x$</th>
+<th>$Z$</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$x_1$</td>
+<td>$Z_1$</td>
+</tr>
+<tr>
+<td>$x_1$</td>
+<td>$Z_2$</td>
+</tr>
+<tr>
+<td>$x_1$</td>
+<td>$Z_3$</td>
+</tr>
+<tr>
+<td>$x_2$</td>
+<td>$Z_2$</td>
+</tr>
+<tr>
+<td>$x_2$</td>
+<td>$Z_3$</td>
+</tr>
+<tr>
+<td>$x_3$</td>
+<td>$Z_1$</td>
+</tr>
+<tr>
+<td>$x_3$</td>
+<td>$Z_3$</td>
+</tr>
+</tbody></table>
+<p>$x_1$在$R$中的象集$Z_{x_1}&#x3D;{Z_1, Z_2, Z_3}$<br>$x_2$在$R$中的象集$Z_{x_2}&#x3D;{Z_2, Z_3}$<br>$x_3$在$R$中的象集$Z_{x_3}&#x3D;{Z_1, Z_3}$</p>
+<p>（1）选择（限制）：在关系$R$中选择满足条件的诸多元组<br>$\sigma_{F}(R)&#x3D;{t|t\in R \cap F(t)&#x3D;’True’}$  $F(t)&#x3D;X_1 \theta Y_1$  $\theta$:比较远算符<br>（2）投影：关系$R$选择出若干属性列组成新的关系<br>$\prod_A(R)&#x3D;{t[A|t \in R}$  $A$是$R$的属性列<br>投影之后不仅取消原关系中的某些列，而且还可能取消某些组</p>
+<p>查询关系Student在所在属性上的投影$\large{\prod_{Sdept}(Stud)}$</p>
+<p>$\LARGE{b &#x3D; \prod_{Sdept}(a)}$</p>
+<p>$\LARGE{a}$</p>
+<table>
+<thead>
+<tr>
+<th>Sname</th>
+<th>Sdept</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nick</td>
+<td>CS</td>
+</tr>
+<tr>
+<td>Cay</td>
+<td>CS</td>
+</tr>
+<tr>
+<td>John</td>
+<td>MA</td>
+</tr>
+<tr>
+<td>West</td>
+<td>IS</td>
+</tr>
+</tbody></table>
+<p>$\LARGE{b}$</p>
+<table>
+<thead>
+<tr>
+<th>Sdept</th>
+<th>–</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CS</td>
+<td>–</td>
+</tr>
+<tr>
+<td>MA</td>
+<td>–</td>
+</tr>
+<tr>
+<td>IS</td>
+<td>–</td>
+</tr>
+</tbody></table>
+<p>（3）连接（$\theta$连接）：从两个关系的笛卡尔积中选取属性间满足一定条件的元组<br>$R\mathop{\bowtie}\limits_{A \theta B} S &#x3D;{\widehat{t_r t_s}|t_r \in R \cap t_s \in S \cap t_r[A] \theta t_s[B]}$</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blueflylabor.github.io/2020/02/04/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%80%E8%BF%B0/" data-id="clyoz62540004gadq1vauas0q" data-title="数据库简述" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
   
+</article>
+
+
+
+  
+    <article id="post-计算机组成原理Cache和主存的映射替换算法和写策略" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/10/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86Cache%E5%92%8C%E4%B8%BB%E5%AD%98%E7%9A%84%E6%98%A0%E5%B0%84%E6%9B%BF%E6%8D%A2%E7%AE%97%E6%B3%95%E5%92%8C%E5%86%99%E7%AD%96%E7%95%A5/" class="article-date">
+  <time class="dt-published" datetime="2019-10-06T04:01:51.000Z" itemprop="datePublished">2019-10-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
     
     
-      <div class="relative pointer-events-none">
-        <span class="text-9xl opacity-10 absolute -left-11 -top-6 font-bold">2021</span>
-      </div>
-    
-    <a style="--stagger:7" href="/2021/04/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/" data-animate>
-      <header>
-        <h2 class="font-bold text-xl">
-          操作系统同步问题
-        </h2>
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/10/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86Cache%E5%92%8C%E4%B8%BB%E5%AD%98%E7%9A%84%E6%98%A0%E5%B0%84%E6%9B%BF%E6%8D%A2%E7%AE%97%E6%B3%95%E5%92%8C%E5%86%99%E7%AD%96%E7%95%A5/">计算机组成原理Cache和主存的映射替换算法和写策略</a>
+    </h1>
+  
+
       </header>
-      <section class="text-gray-400 my-2 text-sm time">
-        <p class="line-clamp-4">
-          
-        </p>
-        <p class="line-clamp-4">
-          4月 06
-          ·
-          2 min
-        </p>
-      </section>
-    </a>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Cache和主存的映射·替换算法·写策略"><a href="#Cache和主存的映射·替换算法·写策略" class="headerlink" title="Cache和主存的映射·替换算法·写策略"></a>Cache和主存的映射·替换算法·写策略</h1><h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><p>Cache行中的信息是主存某个块的副本<br>地址映射：将主存地址空间映射到Cache地址空间，按某种规则将主存的信息装入Cache<br>Cache的行数比主存块少的多，只有一部分主存块的信息可以装入Cache中，因此在Cache中需要为每块加一个<strong>标记</strong>，指明它是主存的哪一块的副本，此标记相当于主存块的编号。为了说明Cache行中的信息是否有效还需要一个<strong>有效位</strong>，地址映射以下3种：</p>
+<ul>
+<li>直接映射</li>
+<li>全相联映射</li>
+<li>组相联映射</li>
+</ul>
+<h3 id="直接映射"><a href="#直接映射" class="headerlink" title="直接映射"></a>直接映射</h3><p>Cache 行号 &#x3D; 主存块号 mod Cache 总行数<br>假设 Cache : $2^c$行 主存 : $2^m$块<br>$0,2^c,2^{c+1},\dots$块映射到第0行<br>$1,2^c+1,2^{c+1}+1$块映射到第1行<br>低c位为装入的Cache行号，给每行设置一个长为t&#x3D;m-c的标记，当某个主存块调入Cache后，将主存块号的高t位设置为对应Cache行中的标记  </p>
+<table>
+<thead>
+<tr>
+<th>t</th>
+<th>c</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>标记</td>
+<td>Cache行号</td>
+<td>块内地址</td>
+</tr>
+</tbody></table>
+<p>CPU访存过程：</p>
+<ul>
+<li>根据访存地址中间的c位找到对应Cache行</li>
+<li>Cache行标记与主存地址高t位标记比较，确定是否有效</li>
+<li>相等且有效位为1，访问Cache命中，根据主存地址低b位的块内地址，在对应Cache行中存取信息</li>
+<li>不相等或有效位为0，不命中，CPU将主存读出该地址所在的一块信息送到相应的Cache行中，置有效位1，并将标记设置为地址高t位，同时将地址中的内容送CPU</li>
+</ul>
+<h3 id="全相联映射"><a href="#全相联映射" class="headerlink" title="全相联映射"></a>全相联映射</h3><p>主存的每一块可以装入Cache中的任何位置，每行<strong>标记</strong>用于指出该行取自主存的哪一块，CPU访存时需要与所有Cache行的标记进行对比  </p>
+<table>
+<thead>
+<tr>
+<th>t</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>标记</td>
+<td>块内地址</td>
+</tr>
+</tbody></table>
+<h3 id="组相联映射"><a href="#组相联映射" class="headerlink" title="组相联映射"></a>组相联映射</h3><p>将Cache分为Q个大小相等的组，每个主存块可以装入固定组的任意一行，即组间采用直接映射，而组内采用全相联映射，Q&#x3D;1变为全相联映射，Q&#x3D;Cache行数变为直接映射<br>假设r个Cache行，则称之为r路组相联映射<br>Cache组号&#x3D;主存块号 mod Cache组数(Q)  </p>
+<table>
+<thead>
+<tr>
+<th>t</th>
+<th>g</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>标记</td>
+<td>组号</td>
+<td>块内地址</td>
+</tr>
+</tbody></table>
+<p>CPU访存：</p>
+<ul>
+<li>根据访存地址中间的g位组号找到对应的Cache组</li>
+<li>将对应的Cache组的每个行标记与主存的高t位标记进行比较</li>
+<li>相等且有效位为1，命中，根据主存地址中的低b位块内地址，在对应的Cache行中存取信息</li>
+<li>不相等或有效位为0，未命中，CPU从主存读出该地址所在的一块信息送到对应的Cache组的任意一个空行，有效位置1，设置标记，同时将地址中的内容送CPU</li>
+</ul>
+<h2 id="替换算法"><a href="#替换算法" class="headerlink" title="替换算法"></a>替换算法</h2><p>在采用全相联映射或组相联映射方式时，主存向Cache传送一个新块，Cache或Cache组空间已满替换的策略</p>
+<ul>
+<li>RAND</li>
+<li>FIFO</li>
+<li>LRU</li>
+</ul>
+<h2 id="写策略"><a href="#写策略" class="headerlink" title="写策略"></a>写策略</h2><p>因为Cache中的内容是主存块副本，当对Cache中的内容进行更新时，就需选用写操作策略，使Cache内容和主存保持一致<br>对于Cache写命中：</p>
+<ul>
+<li>全写法：当CPU对Cache写命中时，必须八数据同时写入Cache和内存。当某一块需要替换时，不必把这一块写回主存，用新调入的块直接覆盖。</li>
+<li>回写法：当CPU对Cache写命中时，只把数据写入Cache，而不立即写入主存，只有当此块被换出时，才写入主存。每个Cache行设置一个修改位（脏位），若修改位为1，Cache行被修改过，替换时需要写回主存，若为0，则说明Cache行中的块未被命中，替换时无需写回</li>
+</ul>
+<p>对于Cache写不命中：</p>
+<ul>
+<li>写分配法：加载主存中的块到Cache中，然后更新这个Cache块</li>
+<li>非写分配法：只写入主存，不进行调块</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blueflylabor.github.io/2019/10/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86Cache%E5%92%8C%E4%B8%BB%E5%AD%98%E7%9A%84%E6%98%A0%E5%B0%84%E6%9B%BF%E6%8D%A2%E7%AE%97%E6%B3%95%E5%92%8C%E5%86%99%E7%AD%96%E7%95%A5/" data-id="clyoz625d000cgadq8zmpe07y" data-title="计算机组成原理Cache和主存的映射替换算法和写策略" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
   
+</article>
+
+
+
+  
+    <article id="post-计算机组成原理指令系统" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/10/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" class="article-date">
+  <time class="dt-published" datetime="2019-10-06T04:01:51.000Z" itemprop="datePublished">2019-10-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
     
     
-    <a style="--stagger:8" href="/2021/04/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E8%BF%B0/" data-animate>
-      <header>
-        <h2 class="font-bold text-xl">
-          操作系统简述
-        </h2>
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/10/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/">计算机组成原理指令系统</a>
+    </h1>
+  
+
       </header>
-      <section class="text-gray-400 my-2 text-sm time">
-        <p class="line-clamp-4">
-          
-        </p>
-        <p class="line-clamp-4">
-          4月 06
-          ·
-          26 min
-        </p>
-      </section>
-    </a>
-  
     
-    
-    <a style="--stagger:9" href="/2021/04/06/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AEUbuntu1804%E5%AE%89%E8%A3%85CUDA%E5%92%8CPytorch/" data-animate>
-      <header>
-        <h2 class="font-bold text-xl">
-          环境配置Ubuntu1804安装CUDA和Pytorch
-        </h2>
-      </header>
-      <section class="text-gray-400 my-2 text-sm time">
-        <p class="line-clamp-4">
-          
-        </p>
-        <p class="line-clamp-4">
-          4月 06
-          ·
-          1 min
-        </p>
-      </section>
-    </a>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="指令系统"><a href="#指令系统" class="headerlink" title="指令系统"></a>指令系统</h1><h2 id="指令系统-1"><a href="#指令系统-1" class="headerlink" title="指令系统"></a>指令系统</h2><p>是指令集体系结构ISA的核心<br>ISA主要包括：</p>
+<ul>
+<li>指令格式</li>
+<li>数据类型及格式</li>
+<li>操作数的存放方式</li>
+<li>程序可访问的寄存器个数、位数和编号 </li>
+<li>存储空间大小和编址方式</li>
+<li>寻址方式</li>
+<li>指令执行过程的控制方式等</li>
+</ul>
+<h3 id="指令的基本格式"><a href="#指令的基本格式" class="headerlink" title="指令的基本格式"></a>指令的基本格式</h3><p>一条指令包括操作码和地址码字段</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>操作码</td>
+<td>地址码</td>
+</tr>
+</tbody></table>
+<p>操作码:</p>
+<ul>
+<li>指出指令应执行的操作</li>
+<li>识别指令</li>
+<li>了解指令功能</li>
+<li>区分操作数地址内容的组成和使用方法</li>
+</ul>
+<p>地址码：</p>
+<ul>
+<li>给出被操作的信息的地址</li>
+<li>参加运算的一个或多个操作数所在的地址</li>
+<li>运算结果的保存地址</li>
+<li>程序的转移地址</li>
+<li>被调用的子程序的入口地址等</li>
+</ul>
+<p>指令长度是指一条指令中包含的二进制代码的位数<br>指令字长取决于</p>
+<ul>
+<li>操作码的长度</li>
+<li>操作数地址码的长度</li>
+<li>操作数地址个数</li>
+</ul>
+<p>单字长指令：等于机器字长<br>半字长指令：一半机器字长<br>双字长指令：二倍机器字长<br>定长指令字结构：一个指令系统所有指令的长度都是相等的  </p>
+<h4 id="零地址指令：无显示地址"><a href="#零地址指令：无显示地址" class="headerlink" title="零地址指令：无显示地址"></a>零地址指令：无显示地址</h4><table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OP</td>
+</tr>
+</tbody></table>
+<ul>
+<li>不需要操作数的指令</li>
+<li>零地址运算指令仅用于堆栈计算机，通常参与运算的两个操作数隐含的从栈顶和次栈顶弹出，送至运算器，运算结果再隐含的压入堆栈</li>
+</ul>
+<p>一地址指令：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OP</td>
+<td>$A_1$</td>
+</tr>
+</tbody></table>
+<p>OP($A_1$) $\to$ $A_1$</p>
+<ul>
+<li>只有目的操作数，按$A_1$地址读取操作数，进行OP操作后，结果存回原地址</li>
+</ul>
+<p>(ACC)OP($A_1$) $\to$ ACC</p>
+<ul>
+<li>隐含约定目的地址的双操作数指令，按指令地址$A_1$地址读取操作数，指令可隐含约定另一个操作数由ACC提供，运算结果也将存放在ACC中</li>
+<li>若指令长度为32位，操作码占8位，1个地址码字段占24位，指令操作数直接寻址范围$2^{24}&#x3D;16M$</li>
+</ul>
+<h4 id="二地址指令"><a href="#二地址指令" class="headerlink" title="二地址指令"></a>二地址指令</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OP</td>
+<td>$A_1$</td>
+<td>$A_2$</td>
+</tr>
+</tbody></table>
+<p>($A_1$)OP($A_2$) $\to$ $A_1$</p>
+<ul>
+<li>常用的算术和逻辑运算指令，需要两个操作数，需要分别给出目的操作数和源操作数，其中目的操作数地址还用于存放本次运算结果</li>
+<li>指令字长位32位，操作码占8位，两个地址码各占12位，则指令操作数的直接寻址范围$2^{12}&#x3D;4K$</li>
+</ul>
+<h4 id="三地址指令"><a href="#三地址指令" class="headerlink" title="三地址指令"></a>三地址指令</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OP</td>
+<td>$A_1$</td>
+<td>$A_2$</td>
+<td>$A_3$(结果)</td>
+</tr>
+</tbody></table>
+<p>($A_1$)OP($A_2$) $\to$ $A_3$</p>
+<ul>
+<li>指令字长位32位，操作码占8位，3个地址码各占8位，直接寻址范围$2^8&#x3D;256$，地址字段为主存地址，则完成一条三地址需要4次访存，取指令1次，取两个操作数2次，存放结果1次</li>
+</ul>
+<h4 id="四地址指令"><a href="#四地址指令" class="headerlink" title="四地址指令"></a>四地址指令</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OP</td>
+<td>$A_1$</td>
+<td>$A_2$</td>
+<td>$A_3$</td>
+<td>$A_4$</td>
+</tr>
+</tbody></table>
+<p>($A_1$)OP($A_2$) $\to$ $A_3$ ，$A_4$ &#x3D; 下一条执行指令的地址</p>
+<ul>
+<li>地址字长为32位，操作码占8位，4个地址码各占6位，直接寻址范围$2^6&#x3D;64$</li>
+</ul>
+<h3 id="定长操作码指令格式"><a href="#定长操作码指令格式" class="headerlink" title="定长操作码指令格式"></a>定长操作码指令格式</h3><p>在指令字的最高位部分分配固定的若干位（定长）表示操作码。<br>n位操作码字段的指令系统最大能表示$2^{n}$条指令</p>
+<h3 id="扩展操作码指令格式"><a href="#扩展操作码指令格式" class="headerlink" title="扩展操作码指令格式"></a>扩展操作码指令格式</h3><ul>
+<li>不允许短码是长码的前缀</li>
+<li>各指令的操作码一定不能重复</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0000</td>
+<td>0001</td>
+<td>0010</td>
+<td>0011</td>
+</tr>
+<tr>
+<td>0100</td>
+<td>0101</td>
+<td>0110</td>
+<td>0111</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>1001</td>
+<td>1010</td>
+<td>1011</td>
+</tr>
+<tr>
+<td>1100</td>
+<td>1101</td>
+<td>1110</td>
+<td>1111</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>操作码情况</td>
+<td>OP</td>
+<td>$A_1$</td>
+<td>$A_2$</td>
+<td>$A_3$</td>
+<td>说明</td>
+</tr>
+<tr>
+<td>15条三地址</td>
+<td>0000-1110</td>
+<td></td>
+<td></td>
+<td></td>
+<td>余出16-15&#x3D;1，1*2^4&#x3D;16种</td>
+</tr>
+<tr>
+<td>12条二地址</td>
+<td>1111</td>
+<td>0000-1011</td>
+<td></td>
+<td></td>
+<td>余出16-12&#x3D;4，4*2^4&#x3D;64种</td>
+</tr>
+<tr>
+<td>62条一地址</td>
+<td>1111</td>
+<td>(1100-1110)&#x2F;1111</td>
+<td>(0000-1111)&#x2F;(0000-1101)</td>
+<td></td>
+<td>余出64-62&#x3D;2，2*2^4&#x3D;32种</td>
+</tr>
+<tr>
+<td>32条零地址</td>
+<td>1111</td>
+<td>1111</td>
+<td>1110-1111</td>
+<td>0000-1111</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="指令的操作类型"><a href="#指令的操作类型" class="headerlink" title="指令的操作类型"></a>指令的操作类型</h3><ul>
+<li>数据传送</li>
+<li>算术和逻辑运算</li>
+<li>移位</li>
+<li>转移</li>
+<li>输入输出</li>
+</ul>
+<h2 id="指令寻址方式"><a href="#指令寻址方式" class="headerlink" title="指令寻址方式"></a>指令寻址方式</h2><p>确定本条指令的数据地址以及下一条待执行指令的地址，分为：</p>
+<ul>
+<li><p>指令寻址：寻找下条要执行的指令<br>（1）顺序寻址<br>通过PC+(1)，自动形成下一条指令<br>（2）跳跃寻址<br>通过转移指令实现，下条指令的地址不由PC自动给出，而由本条指令给出下条指令地址的计算方式。是否可跳跃受到状态寄存器和操作数的控制，跳跃的结果是当前指令修改PC值，下一条指令仍通过PC给出</p>
+</li>
+<li><p>数据寻址：寻找本条指令的数据<br>通常在指令字中设一个字段指明寻址方式</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>操作码</td>
+<td>寻址特征</td>
+<td>形式地址A</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h3 id="常见数据寻址方式"><a href="#常见数据寻址方式" class="headerlink" title="常见数据寻址方式"></a>常见数据寻址方式</h3><h4 id="隐含寻址"><a href="#隐含寻址" class="headerlink" title="隐含寻址"></a>隐含寻址</h4><p>不明显的给出操作数，在指令中隐含操作数地址</p>
+<ul>
+<li>优：有利于缩短指令字长</li>
+<li>缺：需要增加存储操作数或隐含地址的硬件</li>
+</ul>
+<h4 id="立即（数）寻址"><a href="#立即（数）寻址" class="headerlink" title="立即（数）寻址"></a>立即（数）寻址</h4><p>指令的地址字段指出的不是操作数地址，而是操作数本身，又称立即数，#表示立即寻址特征，使用补码表示</p>
+<ul>
+<li>优：指令在执行阶段不访问主存，指令执行时间最短</li>
+<li>缺：A的位数限制立即数的范围</li>
+</ul>
+<h4 id="直接寻址"><a href="#直接寻址" class="headerlink" title="直接寻址"></a>直接寻址</h4><p>指令中的形式地址A是操作数的真实地址EA，EA&#x3D;A  </p>
+<ul>
+<li>优：简单，访存1次，不需要专门计算操作数的地址</li>
+<li>缺：A的位数决定了指令操作数的寻址范围，操作数的地址不易修改</li>
+</ul>
+<h4 id="间接寻址"><a href="#间接寻址" class="headerlink" title="间接寻址"></a>间接寻址</h4><p>指令的地址字段给出的形式地址不是操作数的真正地址，而是操作数有效地址的存储单元地址，EA&#x3D;(A)，间接寻址可以迭代多次<br>间接寻址，主存第一位表示是否为多次间址</p>
+<ul>
+<li>优：可扩大寻址范围（有效地址EA的位数大于形式地址A的位数），便于编制程序（用间址寻址可方便的完成子程序返回）</li>
+<li>缺：访问速度慢</li>
+</ul>
+<h4 id="寄存器寻址"><a href="#寄存器寻址" class="headerlink" title="寄存器寻址"></a>寄存器寻址</h4><p>指令字中直接给出操作数所在的寄存器编号EA&#x3D; $R_i$，操作数在由$R_i$所指的寄存器内</p>
+<ul>
+<li>优：指令执行阶段不访存，只访问寄存器，寄存器对应地址码长度较小，使得指令字短且因不用访存，所以执行速度快，支持向量&#x2F;矩阵运算</li>
+<li>缺:寄存器昂贵，有限</li>
+</ul>
+<h4 id="寄存器间接寻址"><a href="#寄存器间接寻址" class="headerlink" title="寄存器间接寻址"></a>寄存器间接寻址</h4><p>寄存器$R_i$中给出的不是一个操作数，而是操作数所在主存单元的地址EA&#x3D;($R_i$)</p>
+<ul>
+<li>优：与一般间址寻址速度快</li>
+<li>缺：需要访存</li>
+</ul>
+<h4 id="相对寻址"><a href="#相对寻址" class="headerlink" title="相对寻址"></a>相对寻址</h4><p>PC的内容加上指令格式的形式地址A而形成操作数的有效地址EA&#x3D;(PC)+A，A是相对于当前PC的值的位移量，可正可负，用补码表示，A的位数决定寻址范围</p>
+<ul>
+<li>操作数的地址是不固定的，随PC的值变化而变化，且与指令地址之间相差一个固定值，便于程序浮动，广泛用于转移指令</li>
+<li>JMP A，CPU从存储器取出一字节，自动执行(PC)+1 $\to$ PC，若转移指令的地址为X，且占2B，取出该指令后，PC自增2，(PC)&#x3D;X+2，执行完该指令，会自动跳转至X+2+A的地址继续执行</li>
+</ul>
+<h4 id="基址寻址"><a href="#基址寻址" class="headerlink" title="基址寻址"></a>基址寻址</h4><p>将CPU的基址寄存器BR的内容加上指令格式的形式地址A形成操作数的有效地址EA&#x3D;(BR)+A，基址寄存器可采用专用寄存器也可为通用寄存器</p>
+<ul>
+<li><p>基址寄存器面向操作系统，内容通过操作系统或管理程序确定，主要用于解决程序逻辑空间与存储器物理空间的无关性</p>
+</li>
+<li><p>执行过程中基址寄存器内容不变，形式地址可变（偏移量）</p>
+</li>
+<li><p>采用通用寄存器作为基址寄存器，用户可决定使用哪个寄存器，内容由操作系统确定</p>
+</li>
+<li><p>优：可扩大寻址范围（基址寄存器位数大于形式地址A的位数），用户不必考虑自己的程序存于主存哪个区域，有利于多道程序设计，可用于制成浮动程序</p>
+</li>
+<li><p>缺：偏移量位数较短</p>
+</li>
+</ul>
+<h4 id="变址寻址"><a href="#变址寻址" class="headerlink" title="变址寻址"></a>变址寻址</h4><p>有效地址EA等于指令字中的形式地址A与变址寄存器IX的内容之和，EA&#x3D;(IX)+A</p>
+<ul>
+<li>IX可使用专用寄存器或通用寄存器</li>
+<li>变址寄存器面向用户，在程序执行过程，变址寄存器内容可由用户改变（作为偏移量），形式地址A不变（作为基地址）</li>
+<li>可扩大寻址范围（变址寄存器位数大于形式地址A的位数），适合编制循环程序，偏移量的位数（IX）足以表示整个存储空间</li>
+</ul>
+<h4 id="堆栈寻址"><a href="#堆栈寻址" class="headerlink" title="堆栈寻址"></a>堆栈寻址</h4><p>堆栈是存储器（或专用寄存器组）中一块特定的、按照后进先出（LIFO）的原则管理的存储区，存储区读写单元地址是用一个特定寄存器给出的称为堆栈指针(SP)，分为硬堆栈（不适合做大容量堆栈）和软堆栈（主存划出一段区域）</p>
+<table>
+<thead>
+<tr>
+<th>寻址方式</th>
+<th>有效地址</th>
+<th>访存次数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>隐含寻址</td>
+<td>程序指定</td>
+<td>0</td>
+</tr>
+<tr>
+<td>立即寻址</td>
+<td>A是操作数</td>
+<td>0</td>
+</tr>
+<tr>
+<td>直接寻址</td>
+<td>EA&#x3D;A</td>
+<td>1</td>
+</tr>
+<tr>
+<td>一次间接寻址</td>
+<td>EA&#x3D;(A)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>寄存器寻址</td>
+<td>EA&#x3D; $R_i$</td>
+<td>0</td>
+</tr>
+<tr>
+<td>寄存器间接一次寻址</td>
+<td>EA &#x3D; ($R_i$)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>相对寻址</td>
+<td>EA&#x3D;(PC)+A</td>
+<td>1</td>
+</tr>
+<tr>
+<td>基址寻址</td>
+<td>EA&#x3D;(BR)+A</td>
+<td>1</td>
+</tr>
+<tr>
+<td>变址寻址</td>
+<td>EA&#x3D;(IX)+A</td>
+<td>1</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blueflylabor.github.io/2019/10/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" data-id="clyoz625e000egadqcorjb9tq" data-title="计算机组成原理指令系统" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
   
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+  </nav>
+
 </section>
-
-
-  </main>
-  <footer class="flex flex-col h-40 items-center justify-center text-gray-400 text-sm">
-  <!-- busuanzi -->
+        
+          <aside id="sidebar">
   
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<!-- Busuanzi Analytics -->
-<div class="flex items-center gap-2">
-  <span>Visitors</span>
-  <span id="busuanzi_value_site_uv"></span>
-  <span>Page Views</span>
-  <span id="busuanzi_value_site_pv"></span>
-</div>
-<!-- End Busuanzi Analytics -->
+    
 
+  
+    
 
-  <!-- copyright -->
-  <div class="flex items-center gap-2">
-    <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style="color: inherit;">CC BY-NC-SA 4.0</a>
-    <span>© 2024</span>
-    <iconify-icon width="18" icon="emojione-monotone:maple-leaf" ></iconify-icon>
-    <a href="https://github.com/blueflylabor" target="_blank" rel="noopener noreferrer">blueflylabor</a>
-  </div>
-  <!-- powered by -->
-  <div class="flex items-center gap-2">
-    <span>Powered by</span>
-    <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
-    <span>&</span>
-    <a href="https://github.com/blueflylabor" target="_blank" rel="noopener noreferrer">Maple</a>
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">五月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li></ul>
+    </div>
   </div>
 
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/05/14/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AEUbuntu22.04%E5%AE%89%E8%A3%85Nodejs/">环境配置Ubuntu22.04安装Nodejs</a>
+          </li>
+        
+          <li>
+            <a href="/2023/10/06/%E8%80%83%E7%A0%94%E8%8B%B1%E8%AF%AD%E4%BD%9C%E6%96%87%E6%A8%A1%E6%9D%BF/">考研英语作文模板</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BC%A0%E8%BE%93%E5%B1%82/">计算机网络传输层</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%BD%91%E7%BB%9C%E5%B1%82/">计算机网络网络层</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/">操作系统同步问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 蓝翔技工<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
 </footer>
 
-  <div class="back-to-top box-border fixed right-6 z-1024 -bottom-20 rounded py-1 px-1 bg-slate-900 opacity-60 text-white cursor-pointer text-center dark:bg-slate-600">
-    <span class="flex justify-center items-center text-sm">
-      <iconify-icon width="18" icon="ion:arrow-up-c" id="go-top"></iconify-icon>
-      <span id="scrollpercent"><span>0</span> %</span>
-    </span>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
   </div>
-  
-<script src="/js/main.js"></script>
-
-
-  <script>
-    $(document).ready(function () {
-      const mapleCount = "30";
-      const speed = "0.5";
-      const mapleEl = document.getElementById("maple");
-      const maples = Array.from({ length: mapleCount }).map(() => {
-        const maple = document.createElement("div");
-        const scale = Math.random() * 0.5 + 0.5;
-        const offset = Math.random() * 2 - 1;
-        const x = Math.random() * mapleEl.clientWidth;
-        const y = -Math.random() * mapleEl.clientHeight;
-        const duration = 10 / speed;
-        const delay = -duration;
-        maple.className = "maple";
-        maple.style.width = `${24 * scale}px`;
-        maple.style.height = `${24 * scale}px`;
-        maple.style.left = `${x}px`;
-        maple.style.top = `${y}px`;
-        maple.style.setProperty("--maple-fall-offset", offset);
-        maple.style.setProperty("--maple-fall-height", `${Math.abs(y) + mapleEl.clientHeight}px`);
-        maple.style.animation = `fall ${duration}s linear infinite`;
-        maple.style.animationDelay = `${delay}s`;
-        mapleEl.appendChild(maple)
-        return maple
-      })
-    });
-  </script>
-  
-
-
-  <div class="fixed top-0 bottom-0 left-0 right-0 pointer-events-none print:hidden" id="maple"></div>
 </body>
-
 </html>

@@ -1,560 +1,247 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  
+  
+  <title>数据结构查找算法 | 蓝翔技工(blueflylabor)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="查找1.顺序查找一般表（1）代码 12345678910typedef struct&#123;    ElemType *elem;    int tableLen;&#125;SSTable;int searchSeq(SSTable ST, ElemType key)&#123;    ST.elem[e] &#x3D; key;   &#x2F;&#x2F;设置哨兵    for(int i &#x3D; 0; i&lt;ST.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构查找算法">
+<meta property="og:url" content="http://blueflylabor.github.io/2018/10/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="蓝翔技工(blueflylabor)">
+<meta property="og:description" content="查找1.顺序查找一般表（1）代码 12345678910typedef struct&#123;    ElemType *elem;    int tableLen;&#125;SSTable;int searchSeq(SSTable ST, ElemType key)&#123;    ST.elem[e] &#x3D; key;   &#x2F;&#x2F;设置哨兵    for(int i &#x3D; 0; i&lt;ST.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-10-06T04:01:51.000Z">
+<meta property="article:modified_time" content="2024-07-16T21:57:20.561Z">
+<meta property="article:author" content="蓝翔技工">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="蓝翔技工(blueflylabor)" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-  <meta name="author" content="蓝翔技工">
-
-
-
-  <meta name="description" content="blueflylabor">
-
-
-
-<title>数据结构查找算法 | 蓝翔技工(blueflylabor)</title>
-
-
-
-<link rel="icon" href="/favicon.png">
-
-
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/nprogress/nprogress.css">
-
-
-
-<script src="/lib/jquery.min.js"></script>
-
-
-<script src="/lib/iconify-icon.min.js"></script>
-
-
-<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-<script>
-  tailwind.config = {
-    darkMode: "class",
-  };
-</script>
-
-
-<script src="/lib/nprogress/nprogress.js"></script>
-
-<script>
-  $(document).ready(() => {
-    NProgress.configure({
-      showSpinner: false,
-    });
-    NProgress.start();
-    $("#nprogress .bar").css({
-      background: "#de7441",
-    });
-    $("#nprogress .peg").css({
-      "box-shadow": "0 0 2px #de7441, 0 0 4px #de7441",
-    });
-    $("#nprogress .spinner-icon").css({
-      "border-top-color": "#de7441",
-      "border-left-color": "#de7441",
-    });
-    setTimeout(function () {
-      NProgress.done();
-      $(".fade").removeClass("out");
-    }, 800);
-  });
-</script>
-
-<script>
-  (function () {
-    const prefersDark =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const setting = localStorage.getItem("hexo-color-scheme") || "auto";
-    if (setting === "dark" || (prefersDark && setting !== "light"))
-      document.documentElement.classList.toggle("dark", true);
-    let isDark = document.documentElement.classList.contains("dark");
-  })();
-
-  $(document).ready(function () {
-    // init icon
-    const prefersDark =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const isDark = document.documentElement.classList.contains("dark");
-    $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
-
-    function toggleGiscusTheme() {
-      const isDark = document.documentElement.classList.contains("dark");
-      const giscusFrame = document.querySelector("iframe.giscus-frame");
-      if (giscusFrame) {
-        giscusFrame.contentWindow.postMessage(
-          {
-            giscus: {
-              setConfig: {
-                theme: isDark ? "dark" : "light",
-              },
-            },
-          },
-          "https://giscus.app"
-        );
-      }
-    }
-
-
-    // toggle dark mode
-    function toggleDark() {
-      let isDark = document.documentElement.classList.contains("dark");
-      const setting = localStorage.getItem("hexo-color-scheme") || "auto";
-      isDark = !isDark;
-      document.documentElement.classList.toggle("dark", isDark);
-      $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
-      if (prefersDark === isDark) {
-        localStorage.setItem("hexo-color-scheme", "auto");
-      } else {
-        localStorage.setItem("hexo-color-scheme", isDark ? "dark" : "light");
-      }
-      toggleGiscusTheme();
-    }
-    $("#toggle-dark").click(toggleDark);
-
-    // listen dark mode change
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", (e) => {
-        const setting = localStorage.getItem("hexo-color-scheme") || "auto";
-        if (setting === "auto") {
-          document.documentElement.classList.toggle("dark", e.matches);
-          $("#theme-icon").attr(
-            "icon",
-            e.matches ? "ri:moon-line" : "ri:sun-line"
-          );
-          toggleGiscusTheme();
-        }
-      });
-  });
-</script>
-
-
-
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
 
 <meta name="generator" content="Hexo 7.2.0"></head>
-<body class="font-sans bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200 relative">
-  <header class="fixed w-full px-5 py-1 z-10 backdrop-blur-xl backdrop-saturate-150 border-b border-black/5">
-  <div class="max-auto">
-    <nav class="flex items-center text-base">
-      <a href="/" class="group">
-        <h2 class="font-medium tracking-tighterp text-l p-2">
-          <img class="w-5 mr-2 inline-block transition-transform group-hover:rotate-[30deg]" id="logo" src="/images/logo.svg" alt="蓝翔技工(blueflylabor)" />
-          蓝翔技工(blueflylabor)
-        </h2>
-      </a>
-      <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
-        数据结构查找算法
-      </div>
-      <div class="flex-1"></div>
-      <div class="flex items-center gap-3">
-        
-          <a class="hidden sm:flex" href="/archives">Posts</a>
-        
-        
-          
-            <a class="w-5 h-5 hidden sm:flex" title="Github" target="_blank" rel="noopener" href="https://github.com/blueflylabor">
-              <iconify-icon width="20" icon="ri:github-line"></iconify-icon>
-            </a>
-          
-        
-        <a class="w-5 h-5 hidden sm:flex" title="Github" href="rss2.xml">
-          <iconify-icon width="20" icon="ri:rss-line"></iconify-icon>
-        </a>
-        <a class="w-5 h-5" title="toggle theme" id="toggle-dark">
-          <iconify-icon width="20" icon="" id="theme-icon"></iconify-icon>
-        </a>
-      </div>
-      <div class="flex items-center justify-center gap-3 ml-3 sm:hidden">
-        <span class="w-5 h-5" aria-hidden="true" role="img" id="open-menu">
-          <iconify-icon width="20" icon="carbon:menu" ></iconify-icon>
-        </span>
-        <span class="w-5 h-5 hidden" aria-hidden="true" role="img" id="close-menu">
-          <iconify-icon  width="20" icon="carbon:close" ></iconify-icon>
-        </span>
-      </div>
-    </nav>
-  </div>
-</header>
-<div id="menu-panel" class="h-0 overflow-hidden sm:hidden fixed left-0 right-0 top-12 bottom-0 z-10">
-  <div id="menu-content" class="relative z-20 bg-white/80 px-6 sm:px-8 py-2 backdrop-blur-xl -translate-y-full transition-transform duration-300">
-    <ul class="nav flex flex-col sm:flex-row text-sm font-medium">
-      
-        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
-          <a href="/archives" class="flex h-12 sm:h-auto items-center">Posts</a>
-        </li>
-      
-    </ul>
-  </div>
-  <div class="mask bg-black/20 absolute inset-0"></div>
-</div>
 
-  <main class="pt-14">
-    <!-- css -->
-
-<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
-
-
-<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
-
-<!-- toc -->
-
-  <!-- tocbot -->
-<nav class="post-toc toc text-sm w-48 relative top-32 right-0 opacity-70 hidden lg:block" style="position: fixed !important;"></nav>
-
-
-<section class="px-6 max-w-prose mx-auto md:px-0">
-  <!-- header -->
-  <header class="overflow-hidden pt-6 pb-6 md:pt-12">
-    <div class="pt-4 md:pt-6">
-      <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
-        数据结构查找算法
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">蓝翔技工(blueflylabor)</a>
       </h1>
-      <div>
-        <section class="flex items-center gap-3 text-sm">
-          <span class="flex items-center gap-1">
-            <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
-            <time>2024-07-17</time>
-          </span>
-          <span class="text-gray-400">·</span>
-          <span class="flex items-center gap-1">
-            <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
-            <span>4 min</span>
-          </span>
-          <span class="text-gray-400">·</span>
-          <span class="flex items-center gap-1">
-            <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
-            <span>909 words</span>
-          </span>
-          
-        </section>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blueflylabor.github.io"></form>
       </div>
     </div>
-  </header>
-  <!-- content -->
-  <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
-    <h1 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h1><h2 id="1-顺序查找"><a href="#1-顺序查找" class="headerlink" title="1.顺序查找"></a>1.顺序查找</h2><h3 id="一般表"><a href="#一般表" class="headerlink" title="一般表"></a>一般表</h3><p>（1）代码</p>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-数据结构查找算法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2018-10-06T04:01:51.000Z" itemprop="datePublished">2018-10-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      数据结构查找算法
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h1><h2 id="1-顺序查找"><a href="#1-顺序查找" class="headerlink" title="1.顺序查找"></a>1.顺序查找</h2><h3 id="一般表"><a href="#一般表" class="headerlink" title="一般表"></a>一般表</h3><p>（1）代码</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>&#123;</span><br><span class="line">    ElemType *elem;</span><br><span class="line">    <span class="type">int</span> tableLen;</span><br><span class="line">&#125;SSTable;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">searchSeq</span><span class="params">(SSTable ST, ElemType key)</span></span>&#123;</span><br><span class="line">    ST.elem[e] = key;   <span class="comment">//设置哨兵</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i&lt;ST.tableLen; i++)</span><br><span class="line">        <span class="keyword">return</span> i;   <span class="comment">//存在返回, 不存在返回1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>（2）设置哨兵：可以不必判断是否越界，注意数据下表从1开始<br>（3）ASL<br>$$<br>如果不能知道查找概率，可先对记录的查找概率进行排序，是表中的记录按查找概率从小到大\<br>ASL_{success} &#x3D; \sum_{i&#x3D;1}^{n} P_i(n-i+1) &#x3D; \frac{n+1}{2}\<br>ASL_{unsuccess} &#x3D; n+1\<br>$$<br>（4）优缺点<br>优点：对数据的存储无要求，顺序存储或者链式存储皆可<br>缺点：当n较大，平均查找长度较大，效率低</p>
-<h3 id="有序表"><a href="#有序表" class="headerlink" title="有序表"></a>有序表</h3><pre class="mermaid">graph LR
-id1((10))--id2((20))
-id1((10)).--infinity,10
-id2((20))--id3((30))
-id2((20)).--infinity,20
-id3((30))--id4((40))
-id3((30)).--infinity,30
-id4((40))--id5((50))
-id4((40)).--infinity,40
-id5((50))--id6((60))
-id5((50)).--infinity,50
-id6((60))--60,=
-id6((60)).--infinity,60</pre>
+<h3 id="有序表"><a href="#有序表" class="headerlink" title="有序表"></a>有序表</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">id1((10))--id2((20))</span><br><span class="line">id1((10)).--infinity,10</span><br><span class="line">id2((20))--id3((30))</span><br><span class="line">id2((20)).--infinity,20</span><br><span class="line">id3((30))--id4((40))</span><br><span class="line">id3((30)).--infinity,30</span><br><span class="line">id4((40))--id5((50))</span><br><span class="line">id4((40)).--infinity,40</span><br><span class="line">id5((50))--id6((60))</span><br><span class="line">id5((50)).--infinity,50</span><br><span class="line">id6((60))--60,=</span><br><span class="line">id6((60)).--infinity,60</span><br></pre></td></tr></table></figure>
 <p>（1）一旦查到某个元素大于该元素便停止查找<br>（2）方框是虚构的节点，查找长度&#x3D;方框上的圆环<br>（3)ASL<br>$$<br>ASL_{success} &#x3D; \sum_{i&#x3D;1}^{n} P_i(n-i+1) &#x3D; \frac{n+1}{2}\<br>ASL_{unsuccess} &#x3D; \sum_{j&#x3D;1}^{n} Q_j(l_j-1) &#x3D;  \frac{1+2+…+n+n}{n+1} &#x3D; \frac{n}{2} +  \frac{n}{n+1}\<br>$$</p>
-<h3 id="折半查找（二分查找）"><a href="#折半查找（二分查找）" class="headerlink" title="折半查找（二分查找）"></a>折半查找（二分查找）</h3><pre class="mermaid">graph LR
-id29((29))--id37((37))--id41((41))--id43((43))
-id43((43))--43,+infinity
-id43((43))--37,43
-id37((37))--id32((32))--id33((33))
-id32((32))--29,32
-id33((33))--33,37
-id33((33))--32,33
-id13((13))--id16((16))--id19((19))--19,29
-id19((19))--16,19
-id29((29))--id13((13))--id7((7))--id10((10))--10,13
-id10((10))--7,10
-id7((7))---infinity,7</pre>
+<h3 id="折半查找（二分查找）"><a href="#折半查找（二分查找）" class="headerlink" title="折半查找（二分查找）"></a>折半查找（二分查找）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">id29((29))--id37((37))--id41((41))--id43((43))</span><br><span class="line">id43((43))--43,+infinity</span><br><span class="line">id43((43))--37,43</span><br><span class="line">id37((37))--id32((32))--id33((33))</span><br><span class="line">id32((32))--29,32</span><br><span class="line">id33((33))--33,37</span><br><span class="line">id33((33))--32,33</span><br><span class="line">id13((13))--id16((16))--id19((19))--19,29</span><br><span class="line">id19((19))--16,19</span><br><span class="line">id29((29))--id13((13))--id7((7))--id10((10))--10,13</span><br><span class="line">id10((10))--7,10</span><br><span class="line">id7((7))---infinity,7</span><br></pre></td></tr></table></figure>
 <p>（1）仅适用于顺序表<br>（2）代码</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">binarySearch</span><span class="params">(SeqList L, ElemType key)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> low, high, mid = <span class="number">0</span>, L.tableLen, <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(low &lt;= high)&#123;</span><br><span class="line">        mid = (low + high) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(L.elem[mid] == key)</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(L.elem[mid]  key)</span><br><span class="line">            high = mid - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            low = mid + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>（3）ASL<br>$$<br>ASL &#x3D; \frac{1}{n}\sum_{i&#x3D;1}^{n} l_i &#x3D; \frac{1}{n}(1<em>1+2</em>2+…+h*2^{h-1}) &#x3D; \frac{n+1}{n} log_2(n+1)-1 &#x3D; log_2(n+1)-1\<br>h&#x3D;[log_2(n+1)]（向上取整）<br>$$</p>
-<h4 id="查找11"><a href="#查找11" class="headerlink" title="查找11"></a>查找11</h4><h5 id="low-7-high-43-mid-29"><a href="#low-7-high-43-mid-29" class="headerlink" title="low&#x3D;7, high&#x3D;43, mid&#x3D;29"></a>low&#x3D;7, high&#x3D;43, mid&#x3D;29</h5><h5 id="11"><a href="#11" class="headerlink" title="11&lt;29"></a>11&lt;29</h5><pre class="mermaid">graph 
-7--low
-10
-13
-16
-19
-29--mid
-32
-33
-37
-41
-43--high</pre>
-<h5 id="low-7-high-mid-1-19-mid-13"><a href="#low-7-high-mid-1-19-mid-13" class="headerlink" title="low&#x3D;7, high&#x3D;mid-1&#x3D;19, mid&#x3D;13"></a>low&#x3D;7, high&#x3D;mid-1&#x3D;19, mid&#x3D;13</h5><h5 id="11-1"><a href="#11-1" class="headerlink" title="11&lt;13"></a>11&lt;13</h5><pre class="mermaid">graph 
-7--low
-10
-13--mid
-16
-19--high
-29
-32
-33
-37
-41
-43</pre>
+<h4 id="查找11"><a href="#查找11" class="headerlink" title="查找11"></a>查找11</h4><h5 id="low-7-high-43-mid-29"><a href="#low-7-high-43-mid-29" class="headerlink" title="low&#x3D;7, high&#x3D;43, mid&#x3D;29"></a>low&#x3D;7, high&#x3D;43, mid&#x3D;29</h5><h5 id="11"><a href="#11" class="headerlink" title="11&lt;29"></a>11&lt;29</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">graph </span><br><span class="line">7--low</span><br><span class="line">10</span><br><span class="line">13</span><br><span class="line">16</span><br><span class="line">19</span><br><span class="line">29--mid</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">37</span><br><span class="line">41</span><br><span class="line">43--high</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="low-7-high-mid-1-19-mid-13"><a href="#low-7-high-mid-1-19-mid-13" class="headerlink" title="low&#x3D;7, high&#x3D;mid-1&#x3D;19, mid&#x3D;13"></a>low&#x3D;7, high&#x3D;mid-1&#x3D;19, mid&#x3D;13</h5><h5 id="11-1"><a href="#11-1" class="headerlink" title="11&lt;13"></a>11&lt;13</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">graph </span><br><span class="line">7--low</span><br><span class="line">10</span><br><span class="line">13--mid</span><br><span class="line">16</span><br><span class="line">19--high</span><br><span class="line">29</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">37</span><br><span class="line">41</span><br><span class="line">43</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h5 id="low-7-high-mid-1-7-mid-10"><a href="#low-7-high-mid-1-7-mid-10" class="headerlink" title="low&#x3D;7, high&#x3D;mid-1&#x3D;7, mid&#x3D;10"></a>low&#x3D;7, high&#x3D;mid-1&#x3D;7, mid&#x3D;10</h5><h5 id="117"><a href="#117" class="headerlink" title="117"></a>117</h5><pre class="mermaid">graph 
-7--low--mid
-10--high
-13
-16
-19
-29
-32
-33
-37
-41
-43</pre>
-<h5 id="low-mid-1-10-high-10-mid-10"><a href="#low-mid-1-10-high-10-mid-10" class="headerlink" title="low&#x3D;mid+1&#x3D;10, high&#x3D;10, mid&#x3D;10"></a>low&#x3D;mid+1&#x3D;10, high&#x3D;10, mid&#x3D;10</h5><h5 id="1010-×"><a href="#1010-×" class="headerlink" title="1010 ×"></a>1010 ×</h5><pre class="mermaid">graph 
-7
-10--low--mid--high
-13
-16
-19
-29
-32
-33
-37
-41
-43</pre>
+<h5 id="low-7-high-mid-1-7-mid-10"><a href="#low-7-high-mid-1-7-mid-10" class="headerlink" title="low&#x3D;7, high&#x3D;mid-1&#x3D;7, mid&#x3D;10"></a>low&#x3D;7, high&#x3D;mid-1&#x3D;7, mid&#x3D;10</h5><h5 id="117"><a href="#117" class="headerlink" title="117"></a>117</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">graph </span><br><span class="line">7--low--mid</span><br><span class="line">10--high</span><br><span class="line">13</span><br><span class="line">16</span><br><span class="line">19</span><br><span class="line">29</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">37</span><br><span class="line">41</span><br><span class="line">43</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="low-mid-1-10-high-10-mid-10"><a href="#low-mid-1-10-high-10-mid-10" class="headerlink" title="low&#x3D;mid+1&#x3D;10, high&#x3D;10, mid&#x3D;10"></a>low&#x3D;mid+1&#x3D;10, high&#x3D;10, mid&#x3D;10</h5><h5 id="1010-×"><a href="#1010-×" class="headerlink" title="1010 ×"></a>1010 ×</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">graph </span><br><span class="line">7</span><br><span class="line">10--low--mid--high</span><br><span class="line">13</span><br><span class="line">16</span><br><span class="line">19</span><br><span class="line">29</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">37</span><br><span class="line">41</span><br><span class="line">43</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h5 id="没找到，停在low"><a href="#没找到，停在low" class="headerlink" title="没找到，停在low"></a>没找到，停在low</h5><h3 id="分块查找"><a href="#分块查找" class="headerlink" title="分块查找"></a>分块查找</h3><p>（1）将查找表分为若干子块，块内可以无序，但块之间有序的</p>
-<pre class="mermaid">graph 
-id24((24))--id((索引块24,54,78,88))
-id21((21))
-id6((6))
-id11((11))
-id8((8))
-id22((22))
-id32((32))--id((索引块24,54,78,88))
-id31((31))
-id54((54))
-id72((72))--id((索引块24,54,78,88))
-id61((61))
-id78((78))
-id88((88))--id((索引块24,54,78,88))
-id83((83))</pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">graph </span><br><span class="line">id24((24))--id((索引块24,54,78,88))</span><br><span class="line">id21((21))</span><br><span class="line">id6((6))</span><br><span class="line">id11((11))</span><br><span class="line">id8((8))</span><br><span class="line">id22((22))</span><br><span class="line">id32((32))--id((索引块24,54,78,88))</span><br><span class="line">id31((31))</span><br><span class="line">id54((54))</span><br><span class="line">id72((72))--id((索引块24,54,78,88))</span><br><span class="line">id61((61))</span><br><span class="line">id78((78))</span><br><span class="line">id88((88))--id((索引块24,54,78,88))</span><br><span class="line">id83((83))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>（2）ASL<br>$$<br>n:长度\<br>b:分块个数\<br>s:每块s个记录\<br>P:等概率\<br>ASL &#x3D; L_I+L_S &#x3D; \frac{b+1}{2}+\frac{s+1}{2}&#x3D;\frac{s^2+2s+n}{2s}\<br>s&#x3D;\sqrt{n},ASL&#x3D;\sqrt{n}+1\<br>采用折半查找：ASL&#x3D;L_I+L_S&#x3D;[log_2(b+1)]+\frac{s+1}{2}（向上取整）<br>$$</p>
 <p>###B树（多路平衡查找树）<br>$$<br>m阶B树或空树\<br>每棵子树至多m棵子树，最多包含m-1个关键字\<br>若根节点不是终端节点，至少两棵子树\<br>除根结点外所有非叶节点至少[\frac{m}{2}]（向上取整）棵子树（关键字）\<br>$$</p>
-<pre class="mermaid">graph 
-id[22]--id0[5,11]
-id[22]--id1[36,45]
-id0[5,11]--id00[1,3]
-id0[5,11]--id01[6,8,9]
-id0[5,11]--id02[13,15]
-id1[36,45]--id10[30,35]
-id1[36,45]--id11[40,42]
-id1[36,45]--id12[47,48,50,56]</pre>
-  </article>
-  <!-- tag -->
-  <div class="mt-12 pt-6 border-t border-gray-200">
-    
-  </div>
-  <!-- prev and next -->
-  <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
-    <div>
-      
-        <a href="/2018/10/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
-          数据结构基本概念
-        </a>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">graph </span><br><span class="line">id[22]--id0[5,11]</span><br><span class="line">id[22]--id1[36,45]</span><br><span class="line">id0[5,11]--id00[1,3]</span><br><span class="line">id0[5,11]--id01[6,8,9]</span><br><span class="line">id0[5,11]--id02[13,15]</span><br><span class="line">id1[36,45]--id10[30,35]</span><br><span class="line">id1[36,45]--id11[40,42]</span><br><span class="line">id1[36,45]--id12[47,48,50,56]</span><br></pre></td></tr></table></figure>
       
     </div>
-    <div>
+    <footer class="article-footer">
+      <a data-url="http://blueflylabor.github.io/2018/10/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/" data-id="clyoz62560005gadq9hurejtb" data-title="数据结构查找算法" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
-        <a href="/2018/10/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AE%80%E8%BF%B0/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          数据结构简述
-          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
-        </a>
       
-    </div>
+      
+    </footer>
   </div>
-  <!-- comment -->
-  <div class="article-comments mt-12">
-    
-
-  </div>
-</section>
-<!-- js inspect -->
-
-<script src="/lib/clipboard.min.js"></script>
-
-
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-        preferredFont: "TeX",
-        availableFonts: ["STIX","TeX"],
-        linebreaks: { automatic:true },
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
-        processEscapes: true,
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
-        Macros: { href: "{}" }
-    },
-    messageStyle: "none"
-  });
-</script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-      var all = MathJax.Hub.getAllJax(), i;
-      for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-  });
-</script>
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-<script>
-  $(document).ready(() => {
-    const maraidConfig = {
-      theme: "default",
-      logLevel: 3,
-      flowchart: { curve: "linear" },
-      gantt: { axisFormat: "%m/%d/%Y" },
-      sequence: { actorMargin: 50 },
-    };
-    mermaid.initialize(maraidConfig);
-  });
-</script>
-
-
-
-<script src="/lib/fancybox/fancybox.umd.min.js"></script>
-
-<script>
-  $(document).ready(() => {
-    $('.post-content').each(function(i){
-      $(this).find('img').each(function(){
-        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
-        var alt = this.alt;
-        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
-        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
-      });
-      $(this).find('.fancybox').each(function(){
-        $(this).attr('rel', 'article' + i);
-      });
-    });
-
-    Fancybox.bind('[data-fancybox="gallery"]', {
-        // options
-    })
-  })
-</script>
-
-<!-- tocbot begin -->
-
-<script src="/lib/tocbot/tocbot.min.js"></script>
-
-<script>
-  $(document).ready(() => {
-      tocbot.init({
-        // Where to render the table of contents.
-        tocSelector: '.post-toc',
-        // Where to grab the headings to build the table of contents.
-        contentSelector: '.post-content',
-        // Which headings to grab inside of the contentSelector element.
-        headingSelector: 'h1, h2, h3',
-        // For headings inside relative or absolute positioned containers within content.
-        hasInnerContainers: true,
-    });
-  })
-</script>
-<!-- tocbot end -->
-
-
-  </main>
-  <footer class="flex flex-col h-40 items-center justify-center text-gray-400 text-sm">
-  <!-- busuanzi -->
   
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<!-- Busuanzi Analytics -->
-<div class="flex items-center gap-2">
-  <span>Visitors</span>
-  <span id="busuanzi_value_site_uv"></span>
-  <span>Page Views</span>
-  <span id="busuanzi_value_site_pv"></span>
-</div>
-<!-- End Busuanzi Analytics -->
+    
+<nav id="article-nav">
+  
+    <a href="/2019/10/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8%E9%A1%B5%E5%BC%8F%E6%AE%B5%E5%BC%8F%E5%92%8C%E6%AE%B5%E9%A1%B5%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          计算机组成原理虚拟存储器页式段式和段页式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">数据结构基本概念</div>
+    </a>
+  
+</nav>
+
+  
+</article>
 
 
-  <!-- copyright -->
-  <div class="flex items-center gap-2">
-    <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style="color: inherit;">CC BY-NC-SA 4.0</a>
-    <span>© 2024</span>
-    <iconify-icon width="18" icon="emojione-monotone:maple-leaf" ></iconify-icon>
-    <a href="https://github.com/blueflylabor" target="_blank" rel="noopener noreferrer">blueflylabor</a>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">五月 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li></ul>
+    </div>
   </div>
-  <!-- powered by -->
-  <div class="flex items-center gap-2">
-    <span>Powered by</span>
-    <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
-    <span>&</span>
-    <a href="https://github.com/blueflylabor" target="_blank" rel="noopener noreferrer">Maple</a>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/05/14/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AEUbuntu22.04%E5%AE%89%E8%A3%85Nodejs/">环境配置Ubuntu22.04安装Nodejs</a>
+          </li>
+        
+          <li>
+            <a href="/2023/10/06/%E8%80%83%E7%A0%94%E8%8B%B1%E8%AF%AD%E4%BD%9C%E6%96%87%E6%A8%A1%E6%9D%BF/">考研英语作文模板</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BC%A0%E8%BE%93%E5%B1%82/">计算机网络传输层</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%BD%91%E7%BB%9C%E5%B1%82/">计算机网络网络层</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/">操作系统同步问题</a>
+          </li>
+        
+      </ul>
+    </div>
   </div>
 
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 蓝翔技工<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
 </footer>
 
-  <div class="back-to-top box-border fixed right-6 z-1024 -bottom-20 rounded py-1 px-1 bg-slate-900 opacity-60 text-white cursor-pointer text-center dark:bg-slate-600">
-    <span class="flex justify-center items-center text-sm">
-      <iconify-icon width="18" icon="ion:arrow-up-c" id="go-top"></iconify-icon>
-      <span id="scrollpercent"><span>0</span> %</span>
-    </span>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
   </div>
-  
-<script src="/js/main.js"></script>
-
-
-  <script>
-    $(document).ready(function () {
-      const mapleCount = "30";
-      const speed = "0.5";
-      const mapleEl = document.getElementById("maple");
-      const maples = Array.from({ length: mapleCount }).map(() => {
-        const maple = document.createElement("div");
-        const scale = Math.random() * 0.5 + 0.5;
-        const offset = Math.random() * 2 - 1;
-        const x = Math.random() * mapleEl.clientWidth;
-        const y = -Math.random() * mapleEl.clientHeight;
-        const duration = 10 / speed;
-        const delay = -duration;
-        maple.className = "maple";
-        maple.style.width = `${24 * scale}px`;
-        maple.style.height = `${24 * scale}px`;
-        maple.style.left = `${x}px`;
-        maple.style.top = `${y}px`;
-        maple.style.setProperty("--maple-fall-offset", offset);
-        maple.style.setProperty("--maple-fall-height", `${Math.abs(y) + mapleEl.clientHeight}px`);
-        maple.style.animation = `fall ${duration}s linear infinite`;
-        maple.style.animationDelay = `${delay}s`;
-        mapleEl.appendChild(maple)
-        return maple
-      })
-    });
-  </script>
-  
-
-
-  <div class="fixed top-0 bottom-0 left-0 right-0 pointer-events-none print:hidden" id="maple"></div>
 </body>
-
 </html>
