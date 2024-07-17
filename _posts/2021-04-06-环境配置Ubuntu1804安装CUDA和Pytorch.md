@@ -1,9 +1,8 @@
 ---
 title: 环境配置Ubuntu1804安装CUDA和Pytorch
-date: 2021/4/6 12:01:51
-type: "环境配置"
-comments: false
-top_img: false
+date:   2021-04-06
+last_modified_at: 2020-10-06
+categories: [环境配置]
 ---
 
 ## Init Ubuntu and change deb&pip source
