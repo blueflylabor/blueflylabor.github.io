@@ -1,204 +1,312 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>
-    高等数学极限 | 蓝翔技工(blueflylabor)
-  </title>
-  <meta name="description" content="blueflylabor">
+  <meta charset="utf-8">
+  <title>高等数学极限 | lyyourc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
   
-  <meta name="keywords" content="
-  
-  ">
-  
-  <meta name="author" content="蓝翔技工">
+<link rel="stylesheet" href="/css/app.css">
 
-  <meta http-equiv="Cache-Control" content="no-transform"/>
-  <meta http-equiv="Cache-Control" content="no-siteapp">
-  <meta name="theme-color" content="#1e2327">
-  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
-
-  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
   
-
-  
-
-  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 <meta name="generator" content="Hexo 7.2.0"></head>
 
-<body id="replica-app">
-
-<nav class="navbar-wrapper">
-  <div class="navbar">
-    <div class="container clearfix">
-      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
-
-      <div class="navbar-search float-left desktop-only">
-        <div class="navbar-search-form">
-          <label for="gsc-i-id1">This website</label>
-          <div id="google-search">
-            <gcse:search></gcse:search>
-          </div>
-        </div>
-      </div>
-
-      <ul class="navbar-nav float-left">
-        
-        <li><a href="/">Archives</a></li>
-        
-        
-        <li><a href="/">Categories</a></li>
-        
-        
-        <li><a href="/">Tags</a></li>
-        
-        
-        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
-        
-      </ul>
-
-      <ul class="navbar-nav user-nav float-right desktop-only">
-        <li class="user-nav-notification">
-          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
-        </li>
-        <li>
-          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
-        </li>
-        <li class="user-nav-logo">
-          <a><img src="https://octodex.github.com/images/baracktocat.jpg"> <i class="fa fa-caret-down"></i></i></a>
-        </li>
-      </ul>
-    </div>
-  </div>
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+    
+      <a href="/atom.xml">rss</a>
+    
+  
 </nav>
 
-<div class="main-container">
-  <header class="header-wrapper desktop-only">
-  <div class="container header-site-detail">
-    <ul class="header-toolbar">
-      <li class="clearfix">
-        <a href="/" class="header-toolbar-left"><i
-                  class="fa fa-file-text"></i> Posts </a>
-        <a href="/"
-           class="header-toolbar-right"> 28 </a>
-      </li>
-      <li>
-        <a href="/" class="header-toolbar-left"><i
-                  class="fa fa-tags"></i> Tags </a>
-        <a href="/"
-           class="header-toolbar-right"> 0 </a>
-      </li>
-      <li>
-        <a href="/" class="header-toolbar-left"><i
-                  class="fa fa-folder-open"></i> Categories </a>
-        <a href="/"
-           class="header-toolbar-right"> 0 </a>
-      </li>
-    </ul>
-    <h2 class="header-title">
-      <i class="fa fa-book text-muted"></i>
-      <a href="/">蓝翔技工(blueflylabor)</a>
-      
-      
-    </h2>
-  </div>
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/2018/09/06/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E6%9E%81%E9%99%90/">高等数学极限</a>
+  </h1>
 
-  <div class="container">
-    <div class="header-tab-wrapper clearfix">
-      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
-      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
-      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
-      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
-      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
-    </div>
-  </div>
-</header>
+  <section class="article-meta">
+    <p class="article-date">九月 06 2018</p>
+  </section>
 
-
-<div class="post-container container">
-  <h3>
-    <i class="fa fa-user-o"></i>
-    蓝翔技工
-
-    <span class="post-date float-right" title="{{moment(1536206511000).format('MMM DD, YYYY, h:mm:ss A')}}">
-      
-          <i class="fa fa-pencil-square-o"></i>
-      
-      {{moment(1536206511000).fromNow()}}
-    </span>
-  </h3>
-
-  <article class="post-content">
-    <h1>高等数学极限</h1>
-    <h1 id="极限"><a href="#极限" class="headerlink" title="极限"></a>极限</h1><h4 id="极限的定义"><a href="#极限的定义" class="headerlink" title="极限的定义"></a>极限的定义</h4><h5 id="1）数列极限"><a href="#1）数列极限" class="headerlink" title="1）数列极限"></a>1）数列极限</h5><p>$$<br>\begin{align}<br>&amp;\lim_{n \rightarrow \infty}{x_n}&#x3D;A \Leftrightarrow对于\forall \epsilon0,\exist N,使得当nN时,有|x_n-A|&lt;\epsilon\<br>&amp;\lim_{x\rightarrow \infty}f(x)&#x3D;A\Leftrightarrow \forall \epsilon0,\exist M0,使得当|x|M时,有|f(x)-A|&lt;\epsilon\<br>&amp;\lim_{x\rightarrow +\infty}f(x)&#x3D;A\Leftrightarrow \forall \epsilon0,\exist M0,使得当xM时,有|f(x)-A|&lt;\epsilon\<br>&amp;\lim_{x\rightarrow -\infty}f(x)&#x3D;A\Leftrightarrow \forall \epsilon0,\exist M0,使得当x&lt;M时,有|f(x)-A|&lt;\epsilon\<br>&amp;\lim_{x\rightarrow x_0}f(x)&#x3D;A\Leftrightarrow \forall \epsilon0,\exist M0,使得当xM时,有|f(x)-A|&lt;\epsilon\<br>\end{align}<br>$$</p>
-<h4 id="极限的性质"><a href="#极限的性质" class="headerlink" title="极限的性质"></a>极限的性质</h4><h5 id="1）局部保号性"><a href="#1）局部保号性" class="headerlink" title="1）局部保号性"></a>1）局部保号性</h5><p>$$<br>\begin{align}<br>&amp;若\lim_{x\rightarrow x_0}f(x)&#x3D;A0(&lt;0),\<br>&amp;则\exist \delta 0,使得当x \in U^0(x_0,\delta)时,f(x)0(&lt;0)\<br>\end{align}<br>$$</p>
-<p>推论：保序性：<br>$$<br>\begin{align}<br>&amp;若\lim_{x\rightarrow x_0}f(x)&#x3D;A0(&lt;0),则\forall \alpha &lt;A(\beta A),\<br>&amp;\exist \delta0,使得当x \in U^0(x_0,\delta)时,f(x)\alpha(f(x)&lt;\beta)\<br>\end{align}<br>$$</p>
-<h5 id="2）局部有界性"><a href="#2）局部有界性" class="headerlink" title="2）局部有界性"></a>2）局部有界性</h5><p>$$<br>\begin{align}<br>若\lim_{x\rightarrow x_0}f(x)&#x3D;A,则\exist U^0(x_0),使得f(x)在U^0(x_0)内有界<br>\end{align}<br>$$</p>
-<h5 id="3）不等式性质"><a href="#3）不等式性质" class="headerlink" title="3）不等式性质"></a>3）不等式性质</h5><p>$$<br>\begin{align}<br>&amp;若\lim_{x \rightarrow x_0}f(x)&#x3D;A,\<br>&amp;\lim_{x \rightarrow x_0}g(x)&#x3D;B都存在,\<br>&amp;且f(x)\geq g(x),\<br>&amp;则A\geq B\<br>&amp;\<br>&amp;注解：若将f(x)\geq g(x)条件换为f(x)g(x),结论AB不一定成立\<br>&amp;x\rightarrow +\infty,\frac{1}{x}\frac{1}{x+1}不能推出\lim_{x\rightarrow +\infty}\frac{1}{x}\lim_{x\rightarrow +\infty}\frac{1}{x+1}\<br>&amp;但可以推出\lim_{x\rightarrow +\infty}\frac{1}{x}\geq\lim_{x\rightarrow +\infty}\frac{1}{x+1}<br>\end{align}<br>$$</p>
-<p>推论：<br>$$<br>若\lim_{x\rightarrow x_0}存在,且f(x)\geq0(\leq 0),则A\geq 0(A\leq 0)<br>$$</p>
-<h5 id="4）四则运算"><a href="#4）四则运算" class="headerlink" title="4）四则运算"></a>4）四则运算</h5><p>$$<br>\begin{align}<br>&amp;若\lim f(x)&#x3D;A,\lim g(x)&#x3D;B,则\<br>&amp;\lim [f(x) \pm g(x)]&#x3D;A \pm B\<br>&amp;\lim f(x)g(x)&#x3D;A*B\<br>&amp;\lim \frac{f(x)}{g(x)}&#x3D;\frac{A}{B},(B \neq 0)\<br>&amp;\<br>&amp;注解：若\lim f(x)不存在,\lim g(x)&#x3D;B存在,\<br>&amp;则\lim [f(x) \pm g(x)]必不存在,\<br>&amp;但\lim f(x)g(x)不一定必存在\<br>&amp;\<br>\end{align}<br>$$</p>
-<h4 id="数列极限"><a href="#数列极限" class="headerlink" title="数列极限"></a>数列极限</h4><p>$$<br>\begin{align}<br>&amp;定义1 \lim_{n\rightarrow \infty}x_n&#x3D;A:\<br>&amp;\forall \epsilon0,\exist N0,当nN时,恒有|x_n-A|&lt;\epsilon\<br>&amp;注解：\<br>&amp;(1)\epsilon与N的作用：\<br>&amp;\epsilon刻画x_n与A的接近程度,N是描述n\rightarrow \infty的过程\<br>&amp;(2)几何意义：\<br>&amp;对任意一个给定的\epsilon，在\epsilon领域，当n足够大时，前有限项落在领域外，其余都落在(A-\epsilon,A+\epsilon)内\<br>\end{align}<br>$$</p>
-<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/%7DK27TS8@YE9O01$JFWZL%7BGI.jpg" alt="img"><br>$$<br>\begin{align}<br>&amp;(3)一个数列有没有极限与前有限项无关\<br>\end{align}<br>$$<br><img src="https://raw.githubusercontent.com/blueflylabor/images/main/EYFSSCG11QCROZVR6BRRWCW.jpg" alt="img"><br>$$<br>\begin{align}<br>&amp;(4)\lim_{n\rightarrow\infty}x_n&#x3D;a\Leftrightarrow\lim_{k\rightarrow\infty}x_{2k-1}&#x3D;\lim_{k\rightarrow\infty}x_{2k}&#x3D;a:\<br>&amp;数列极限\exist\overset{\Rightarrow}{\nLeftarrow}奇数列偶数列极限\exist\<br>&amp;数列极限\exist\overset{\Rightarrow}{\Leftarrow}奇数列极限\exist&#x3D;偶数列极限\exist\<br>&amp;eg:a_n&#x3D;(-1)^n,a_{2k-1}&#x3D;-1,-1,-1,…,-1;a_{2k}&#x3D;1,1,1,…,1;\lim_{k\rightarrow \infty}a_{2k-1}\neq\lim_{k\rightarrow \infty}a_{2k}<br>\end{align}<br>$$</p>
-<h6 id="例题1"><a href="#例题1" class="headerlink" title="例题1"></a>例题1</h6><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/%5BPJU%608@8W1YOB(~)XA%60J%7BYA.jpg" alt="img"><br>$$<br>\begin{align}<br>&amp;法1：分奇偶数列\<br>&amp;奇数项：\lim_{n\rightarrow\infty}(\frac{n+1}{n})^{-1}&#x3D;1\<br>&amp;偶数项：\lim_{n\rightarrow\infty}(\frac{n+1}{n})^{1}&#x3D;1\<br>&amp;法2：缩放法+夹逼原理\<br>&amp;(\frac{n+1}{n})^{-1}\leq(\frac{n+1}{n})^{(-1)^n}\leq\frac{n+1}{n}\<br>&amp;\lim_{n\rightarrow \infty}(\frac{n+1}{n})^{-1}&#x3D;1\leq\lim_{n\rightarrow \infty}(\frac{n+1}{n})^{(-1)^n}\leq\lim_{n\rightarrow \infty}\frac{n+1}{n}&#x3D;1\<br>&amp;I&#x3D;\lim_{n\rightarrow \infty}(\frac{n+1}{n})^{(-1)^n}&#x3D;1\<br>\end{align}<br>$$</p>
-<h6 id="例题2"><a href="#例题2" class="headerlink" title="例题2"></a>例题2</h6><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/eqfdsfas1312dsafdwftht.jpg" alt="eqfdsfas1312dsafdwftht"><br>$$<br>\begin{align}<br>&amp;(1)解法:重要不等式||a|-|b||\leq|a-b|\<br>&amp;因为\lim_{n\rightarrow\infty}x_n&#x3D;a由极限定义可知\<br>&amp;\forall \epsilon0,\exist N0,当nN时,|x_n-a|&lt;\epsilon\<br>&amp;根据||x_n|-|a||\leq|x_n-a|,\<br>&amp;则\forall \epsilon0,\exist N0,当nN时,||x_n|-|a||&lt;\epsilon\<br>&amp;反之不成立,例如x_n&#x3D;(-1)^n,则\lim_{n\rightarrow \infty}|x_n|&#x3D;1&#x3D;|1|,但\lim_{n\rightarrow \infty}(-1)^n不存在\<br>&amp;(2)由(1)可知,若\lim_{n\rightarrow\infty}x_n&#x3D;0,则\lim_{n\rightarrow \infty}|x_n|&#x3D;|0|&#x3D;0\<br>&amp;由\lim_{n\rightarrow\infty}|x_n|&#x3D;0,\forall \epsilon0,\exist N0,当nN时,||x_n|-0|&lt;\epsilon\<br>&amp;即|x_n-0|&lt;\epsilon\<br>\end{align}<br>$$</p>
-<h4 id="求数列极限的方法："><a href="#求数列极限的方法：" class="headerlink" title="求数列极限的方法："></a>求数列极限的方法：</h4><p>$$<br>\begin{align}<br>&amp;（1）将数列极限转化为函数极限\</p>
-<p>\end{align}<br>$$</p>
-<h4 id="函数极限"><a href="#函数极限" class="headerlink" title="函数极限"></a>函数极限</h4><h5 id="1-自变量趋于无穷大时函数的极限"><a href="#1-自变量趋于无穷大时函数的极限" class="headerlink" title="1)自变量趋于无穷大时函数的极限"></a>1)自变量趋于无穷大时函数的极限</h5><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210428170621601.jpg" alt="image-20210428170621601"></p>
-<h6 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h6><p>$$<br>\begin{align}<br>&amp;极限\lim_{x\rightarrow \infty}\frac{\sqrt{x^2+1}}{x}&#x3D;?\<br>&amp;解：\<br>&amp;\sqrt x^2&#x3D;|x|\<br>&amp;分左右\<br>&amp;\lim_{x\rightarrow +\infty}\frac{x\sqrt{1+\frac{1}{x^2}}}{x}&#x3D;1\<br>&amp;\lim_{x\rightarrow -\infty}\frac{x\sqrt{1+\frac{1}{x^2}}}{x}&#x3D;-1\<br>&amp;\lim_{x\rightarrow -\infty}\frac{x\sqrt{1+\frac{1}{x^2}}}{x}\neq\lim_{x\rightarrow +\infty}\frac{x\sqrt{1+\frac{1}{x^2}}}{x}\<br>&amp;\lim_{x\rightarrow \infty}\frac{\sqrt{x^2+1}}{x}不存在<br>\end{align}<br>$$</p>
-<h5 id="2-自变量趋于有限值时函数的极限"><a href="#2-自变量趋于有限值时函数的极限" class="headerlink" title="2)自变量趋于有限值时函数的极限"></a>2)自变量趋于有限值时函数的极限</h5><p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210428172430632.jpg" alt="image-20210428172430632"><br>$$<br>\begin{align}<br>&amp;注解：(1)\epsilon的任意性,\epsilon与\delta时,恒有|f(x)-A|&lt;\epsilon\<br>&amp;\Rightarrow A-\epsilon&lt;f(x)&lt;A+\epsilon\<br>&amp;(2)几何意义：f(x_0)这一点可无定义，与去心邻域的函数值有关系\<br>\end{align}<br>$$<br><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210502180033951.jpg" alt="image-20210502180033951"></p>
-<h5 id="易错点："><a href="#易错点：" class="headerlink" title="易错点："></a>易错点：</h5><p>$$<br>\begin{align}<br>&amp;正确：\lim_{x\rightarrow 0}\frac{\sin x}{x}&#x3D;1(x\rightarrow 0,x\neq 0)\<br>&amp;错误：\lim_{x\rightarrow 0}\frac{\sin(x\sin \frac{1}{x})}{x\sin\frac{1}{x}}&#x3D;1\<br>&amp;需保证x{\sin\frac{1}{x}}\rightarrow 0,x{\sin\frac{1}{x}}\neq 0\<br>&amp;即在0点的去心领域内x{\sin\frac{1}{x}}\neq0\<br>&amp;但当x&#x3D;\frac{1}{n\pi},使得x{\sin\frac{1}{x}}&#x3D;0\<br>&amp;所以原始极限不存在\<br>\end{align}<br>$$</p>
+  <section class="article-entry">
+    <h1>极限</h1>
+<h4 id="极限的定义">极限的定义</h4>
+<h5 id="1）数列极限">1）数列极限</h5>
+<p>$$<br>
+\begin{align}<br>
+&amp;\lim_{n \rightarrow \infty}{x_n}=A \Leftrightarrow对于\forall \epsilon0,\exist N,使得当nN时,有|x_n-A|&lt;\epsilon\<br>
+&amp;\lim_{x\rightarrow \infty}f(x)=A\Leftrightarrow \forall \epsilon0,\exist M0,使得当|x|M时,有|f(x)-A|&lt;\epsilon\<br>
+&amp;\lim_{x\rightarrow +\infty}f(x)=A\Leftrightarrow \forall \epsilon0,\exist M0,使得当xM时,有|f(x)-A|&lt;\epsilon\<br>
+&amp;\lim_{x\rightarrow -\infty}f(x)=A\Leftrightarrow \forall \epsilon0,\exist M0,使得当x&lt;M时,有|f(x)-A|&lt;\epsilon\<br>
+&amp;\lim_{x\rightarrow x_0}f(x)=A\Leftrightarrow \forall \epsilon0,\exist M0,使得当xM时,有|f(x)-A|&lt;\epsilon\<br>
+\end{align}<br>
+$$</p>
+<h4 id="极限的性质">极限的性质</h4>
+<h5 id="1）局部保号性">1）局部保号性</h5>
+<p>$$<br>
+\begin{align}<br>
+&amp;若\lim_{x\rightarrow x_0}f(x)=A0(&lt;0),\<br>
+&amp;则\exist \delta 0,使得当x \in U^0(x_0,\delta)时,f(x)0(&lt;0)\<br>
+\end{align}<br>
+$$</p>
+<p>推论：保序性：<br>
+$$<br>
+\begin{align}<br>
+&amp;若\lim_{x\rightarrow x_0}f(x)=A0(&lt;0),则\forall \alpha &lt;A(\beta A),\<br>
+&amp;\exist \delta0,使得当x \in U^0(x_0,\delta)时,f(x)\alpha(f(x)&lt;\beta)\<br>
+\end{align}<br>
+$$</p>
+<h5 id="2）局部有界性">2）局部有界性</h5>
+<p>$$<br>
+\begin{align}<br>
+若\lim_{x\rightarrow x_0}f(x)=A,则\exist U^0(x_0),使得f(x)在U^0(x_0)内有界<br>
+\end{align}<br>
+$$</p>
+<h5 id="3）不等式性质">3）不等式性质</h5>
+<p>$$<br>
+\begin{align}<br>
+&amp;若\lim_{x \rightarrow x_0}f(x)=A,\<br>
+&amp;\lim_{x \rightarrow x_0}g(x)=B都存在,\<br>
+&amp;且f(x)\geq g(x),\<br>
+&amp;则A\geq B\<br>
+&amp;\<br>
+&amp;注解：若将f(x)\geq g(x)条件换为f(x)g(x),结论AB不一定成立\<br>
+&amp;x\rightarrow +\infty,\frac{1}{x}\frac{1}{x+1}不能推出\lim_{x\rightarrow +\infty}\frac{1}{x}\lim_{x\rightarrow +\infty}\frac{1}{x+1}\<br>
+&amp;但可以推出\lim_{x\rightarrow +\infty}\frac{1}{x}\geq\lim_{x\rightarrow +\infty}\frac{1}{x+1}<br>
+\end{align}<br>
+$$</p>
+<p>推论：<br>
+$$<br>
+若\lim_{x\rightarrow x_0}存在,且f(x)\geq0(\leq 0),则A\geq 0(A\leq 0)<br>
+$$</p>
+<h5 id="4）四则运算">4）四则运算</h5>
+<p>$$<br>
+\begin{align}<br>
+&amp;若\lim f(x)=A,\lim g(x)=B,则\<br>
+&amp;\lim [f(x) \pm g(x)]=A \pm B\<br>
+&amp;\lim f(x)g(x)=A*B\<br>
+&amp;\lim \frac{f(x)}{g(x)}=\frac{A}{B},(B \neq 0)\<br>
+&amp;\<br>
+&amp;注解：若\lim f(x)不存在,\lim g(x)=B存在,\<br>
+&amp;则\lim [f(x) \pm g(x)]必不存在,\<br>
+&amp;但\lim f(x)g(x)不一定必存在\<br>
+&amp;\<br>
+\end{align}<br>
+$$</p>
+<h4 id="数列极限">数列极限</h4>
+<p>$$<br>
+\begin{align}<br>
+&amp;定义1 \lim_{n\rightarrow \infty}x_n=A:\<br>
+&amp;\forall \epsilon0,\exist N0,当nN时,恒有|x_n-A|&lt;\epsilon\<br>
+&amp;注解：\<br>
+&amp;(1)\epsilon与N的作用：\<br>
+&amp;\epsilon刻画x_n与A的接近程度,N是描述n\rightarrow \infty的过程\<br>
+&amp;(2)几何意义：\<br>
+&amp;对任意一个给定的\epsilon，在\epsilon领域，当n足够大时，前有限项落在领域外，其余都落在(A-\epsilon,A+\epsilon)内\<br>
+\end{align}<br>
+$$</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/%7DK27TS8@YE9O01$JFWZL%7BGI.jpg" alt="img"><br>
+$$<br>
+\begin{align}<br>
+&amp;(3)一个数列有没有极限与前有限项无关\<br>
+\end{align}<br>
+$$<br>
+<img src="https://raw.githubusercontent.com/blueflylabor/images/main/EYFSSCG11QCROZVR6BRRWCW.jpg" alt="img"><br>
+$$<br>
+\begin{align}<br>
+&amp;(4)\lim_{n\rightarrow\infty}x_n=a\Leftrightarrow\lim_{k\rightarrow\infty}x_{2k-1}=\lim_{k\rightarrow\infty}x_{2k}=a:\<br>
+&amp;数列极限\exist\overset{\Rightarrow}{\nLeftarrow}奇数列偶数列极限\exist\<br>
+&amp;数列极限\exist\overset{\Rightarrow}{\Leftarrow}奇数列极限\exist=偶数列极限\exist\<br>
+&amp;eg:a_n=(-1)^n,a_{2k-1}=-1,-1,-1,…,-1;a_{2k}=1,1,1,…,1;\lim_{k\rightarrow \infty}a_{2k-1}\neq\lim_{k\rightarrow \infty}a_{2k}<br>
+\end{align}<br>
+$$</p>
+<h6 id="例题1">例题1</h6>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/%5BPJU%608@8W1YOB(~)XA%60J%7BYA.jpg" alt="img"><br>
+$$<br>
+\begin{align}<br>
+&amp;法1：分奇偶数列\<br>
+&amp;奇数项：\lim_{n\rightarrow\infty}(\frac{n+1}{n})^{-1}=1\<br>
+&amp;偶数项：\lim_{n\rightarrow\infty}(\frac{n+1}{n})^{1}=1\<br>
+&amp;法2：缩放法+夹逼原理\<br>
+&amp;(\frac{n+1}{n})^{-1}\leq(\frac{n+1}{n})^{(-1)^n}\leq\frac{n+1}{n}\<br>
+&amp;\lim_{n\rightarrow \infty}(\frac{n+1}{n})^{-1}=1\leq\lim_{n\rightarrow \infty}(\frac{n+1}{n})^{(-1)^n}\leq\lim_{n\rightarrow \infty}\frac{n+1}{n}=1\<br>
+&amp;I=\lim_{n\rightarrow \infty}(\frac{n+1}{n})^{(-1)^n}=1\<br>
+\end{align}<br>
+$$</p>
+<h6 id="例题2">例题2</h6>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/eqfdsfas1312dsafdwftht.jpg" alt="eqfdsfas1312dsafdwftht"><br>
+$$<br>
+\begin{align}<br>
+&amp;(1)解法:重要不等式||a|-|b||\leq|a-b|\<br>
+&amp;因为\lim_{n\rightarrow\infty}x_n=a由极限定义可知\<br>
+&amp;\forall \epsilon0,\exist N0,当nN时,|x_n-a|&lt;\epsilon\<br>
+&amp;根据||x_n|-|a||\leq|x_n-a|,\<br>
+&amp;则\forall \epsilon0,\exist N0,当nN时,||x_n|-|a||&lt;\epsilon\<br>
+&amp;反之不成立,例如x_n=(-1)^n,则\lim_{n\rightarrow \infty}|x_n|=1=|1|,但\lim_{n\rightarrow \infty}(-1)^n不存在\<br>
+&amp;(2)由(1)可知,若\lim_{n\rightarrow\infty}x_n=0,则\lim_{n\rightarrow \infty}|x_n|=|0|=0\<br>
+&amp;由\lim_{n\rightarrow\infty}|x_n|=0,\forall \epsilon0,\exist N0,当nN时,||x_n|-0|&lt;\epsilon\<br>
+&amp;即|x_n-0|&lt;\epsilon\<br>
+\end{align}<br>
+$$</p>
+<h4 id="求数列极限的方法：">求数列极限的方法：</h4>
+<p>$$<br>
+\begin{align}<br>
+&amp;（1）将数列极限转化为函数极限\</p>
+<p>\end{align}<br>
+$$</p>
+<h4 id="函数极限">函数极限</h4>
+<h5 id="1-自变量趋于无穷大时函数的极限">1)自变量趋于无穷大时函数的极限</h5>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210428170621601.jpg" alt="image-20210428170621601"></p>
+<h6 id="例题">例题</h6>
+<p>$$<br>
+\begin{align}<br>
+&amp;极限\lim_{x\rightarrow \infty}\frac{\sqrt{x^2+1}}{x}=?\<br>
+&amp;解：\<br>
+&amp;\sqrt x^2=|x|\<br>
+&amp;分左右\<br>
+&amp;\lim_{x\rightarrow +\infty}\frac{x\sqrt{1+\frac{1}{x^2}}}{x}=1\<br>
+&amp;\lim_{x\rightarrow -\infty}\frac{x\sqrt{1+\frac{1}{x^2}}}{x}=-1\<br>
+&amp;\lim_{x\rightarrow -\infty}\frac{x\sqrt{1+\frac{1}{x^2}}}{x}\neq\lim_{x\rightarrow +\infty}\frac{x\sqrt{1+\frac{1}{x^2}}}{x}\<br>
+&amp;\lim_{x\rightarrow \infty}\frac{\sqrt{x^2+1}}{x}不存在<br>
+\end{align}<br>
+$$</p>
+<h5 id="2-自变量趋于有限值时函数的极限">2)自变量趋于有限值时函数的极限</h5>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210428172430632.jpg" alt="image-20210428172430632"><br>
+$$<br>
+\begin{align}<br>
+&amp;注解：(1)\epsilon的任意性,\epsilon与\delta时,恒有|f(x)-A|&lt;\epsilon\<br>
+&amp;\Rightarrow A-\epsilon&lt;f(x)&lt;A+\epsilon\<br>
+&amp;(2)几何意义：f(x_0)这一点可无定义，与去心邻域的函数值有关系\<br>
+\end{align}<br>
+$$<br>
+<img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210502180033951.jpg" alt="image-20210502180033951"></p>
+<h5 id="易错点：">易错点：</h5>
+<p>$$<br>
+\begin{align}<br>
+&amp;正确：\lim_{x\rightarrow 0}\frac{\sin x}{x}=1(x\rightarrow 0,x\neq 0)\<br>
+&amp;错误：\lim_{x\rightarrow 0}\frac{\sin(x\sin \frac{1}{x})}{x\sin\frac{1}{x}}=1\<br>
+&amp;需保证x{\sin\frac{1}{x}}\rightarrow 0,x{\sin\frac{1}{x}}\neq 0\<br>
+&amp;即在0点的去心领域内x{\sin\frac{1}{x}}\neq0\<br>
+&amp;但当x=\frac{1}{n\pi},使得x{\sin\frac{1}{x}}=0\<br>
+&amp;所以原始极限不存在\<br>
+\end{align}<br>
+$$</p>
 <p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/image-20210502181857574.jpg" alt="image-20210502181857574"></p>
 <p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/223567833.jpg" alt="223567833"></p>
 <p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/1619951164(1).jpg" alt="1619951164(1)"></p>
-<h4 id="极限性质"><a href="#极限性质" class="headerlink" title="极限性质"></a>极限性质</h4><p>$$<br>\begin{align}<br>&amp;1)有界性\<br>&amp;(1)数列有界性：如果数列[x_n],那么数列[x_n]一定有界\<br>&amp;x_n\rightarrow a,nN,因为x_n\leq M<br>\end{align}<br>$$</p>
-<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/1222222222222222321.jpg" alt="123"><br>$$<br>\begin{align}<br>&amp;x_n前n项为有限元,必有一个数M大于前n项最大值\<br>&amp;收敛\overset{\Rightarrow}{\nLeftarrow}有界\<br>&amp;eg:x_n&#x3D;(-1)^n\<br>&amp;(2)局部有界性：若\lim_{x\rightarrow x_0}f(x)\exist,则f(x)在x_0某去心邻域有界\<br>&amp;\lim_{x\rightarrow x_0}f(x)\exist\overset{\Rightarrow}{\nLeftarrow}f(x)局部有界(去心邻域有界)\<br>&amp;eg:f(x)&#x3D;\sin\frac{1}{x},\lim_{x\rightarrow 0}{\sin\frac{1}{x}}有界,但不存在\<br>&amp;2)保号性\<br>&amp;(1)数列极限保号性\<br>&amp;设\lim_{n\rightarrow \infty}{x_n}&#x3D;A\<br>&amp;[1]如果A0(或A&lt;0),则存在N0,当nN,x_n0(或x_n&lt;0)\<br>&amp;[2]如果存在N0,当nN时,x_n\geq 0(或x_n\leq0),则A\geq0(或A\leq 0)\<br>&amp;(2)函数极限保号性\<br>&amp;[1]如果A0(或A&lt;0),则存在\delta0,当x\in \dot{U}(x_0,\delta)时,f(x)0(或f(x_0)&lt;0)\<br>&amp;[2]如果存在\delta0,当x\in \dot{U}(x_0,\delta)时,f(x)\geq0(或f(x)\leq0),那么A\geq0(或A\leq0)<br>\end{align}<br>$$</p>
-<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/sssaaaa.jpg"></p>
+<h4 id="极限性质">极限性质</h4>
+<p>$$<br>
+\begin{align}<br>
+&amp;1)有界性\<br>
+&amp;(1)数列有界性：如果数列[x_n],那么数列[x_n]一定有界\<br>
+&amp;x_n\rightarrow a,nN,因为x_n\leq M<br>
+\end{align}<br>
+$$</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/1222222222222222321.jpg" alt="123"><br>
+$$<br>
+\begin{align}<br>
+&amp;x_n前n项为有限元,必有一个数M大于前n项最大值\<br>
+&amp;收敛\overset{\Rightarrow}{\nLeftarrow}有界\<br>
+&amp;eg:x_n=(-1)^n\<br>
+&amp;(2)局部有界性：若\lim_{x\rightarrow x_0}f(x)\exist,则f(x)在x_0某去心邻域有界\<br>
+&amp;\lim_{x\rightarrow x_0}f(x)\exist\overset{\Rightarrow}{\nLeftarrow}f(x)局部有界(去心邻域有界)\<br>
+&amp;eg:f(x)=\sin\frac{1}{x},\lim_{x\rightarrow 0}{\sin\frac{1}{x}}有界,但不存在\<br>
+&amp;2)保号性\<br>
+&amp;(1)数列极限保号性\<br>
+&amp;设\lim_{n\rightarrow \infty}{x_n}=A\<br>
+&amp;[1]如果A0(或A&lt;0),则存在N0,当nN,x_n0(或x_n&lt;0)\<br>
+&amp;[2]如果存在N0,当nN时,x_n\geq 0(或x_n\leq0),则A\geq0(或A\leq 0)\<br>
+&amp;(2)函数极限保号性\<br>
+&amp;[1]如果A0(或A&lt;0),则存在\delta0,当x\in \dot{U}(x_0,\delta)时,f(x)0(或f(x_0)&lt;0)\<br>
+&amp;[2]如果存在\delta0,当x\in \dot{U}(x_0,\delta)时,f(x)\geq0(或f(x)\leq0),那么A\geq0(或A\leq0)<br>
+\end{align}<br>
+$$</p>
+<p><img src="https://raw.githubusercontent.com/blueflylabor/images/main/sssaaaa.jpg" alt=""></p>
 
-  </article>
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="http://7xrcp8.com1.z0.glb.clouddn.com/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> lyyourc </p>
+      <p class="subtitle"> You Are The JavaScript In My HTML </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="DrakeLeung"
+  href="https://twitter.com/intent/tweet?text=>极限</h1>
+<h4 id="极限的"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
 </div>
 
 
+  
     
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'drakeleung';
+  
+  var disqus_url = 'http://example.com/2018/09/06/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6%E6%9E%81%E9%99%90/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
 
 
-
-
-</div>
-
-<div class="footer-wrapper container">
-  <footer class="footer clearfix">
-    <div class="clearfix">
-    <a href="http://example.com" class="footer-logo">
-      <i class="fa fa-github"></i>
-    </a>
-    <ul class="footer-social-link">
-      <li>© 2019 蓝翔技工</li>
-      <li><a href="http://example.com">Home</a></li>
-      
-    </ul>
-    <div class="footer-theme-info">
-      Theme <a target="_blank" rel="noopener" href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
-      by <a target="_blank" rel="noopener" href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
-    </div>
-    </div>
-    
-  </footer>
-</div>
-
-
-
-
-<script src="/js/main.js"></script>
+  
+</main>
 
 </body>
 </html>

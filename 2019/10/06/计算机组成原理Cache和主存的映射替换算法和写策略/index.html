@@ -1,152 +1,61 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>
-    计算机组成原理Cache和主存的映射替换算法和写策略 | 蓝翔技工(blueflylabor)
-  </title>
-  <meta name="description" content="blueflylabor">
+  <meta charset="utf-8">
+  <title>计算机组成原理Cache和主存的映射替换算法和写策略 | lyyourc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
   
-  <meta name="keywords" content="
-  
-  ">
-  
-  <meta name="author" content="蓝翔技工">
+<link rel="stylesheet" href="/css/app.css">
 
-  <meta http-equiv="Cache-Control" content="no-transform"/>
-  <meta http-equiv="Cache-Control" content="no-siteapp">
-  <meta name="theme-color" content="#1e2327">
-  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
-
-  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
   
-
-  
-
-  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 <meta name="generator" content="Hexo 7.2.0"></head>
 
-<body id="replica-app">
-
-<nav class="navbar-wrapper">
-  <div class="navbar">
-    <div class="container clearfix">
-      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
-
-      <div class="navbar-search float-left desktop-only">
-        <div class="navbar-search-form">
-          <label for="gsc-i-id1">This website</label>
-          <div id="google-search">
-            <gcse:search></gcse:search>
-          </div>
-        </div>
-      </div>
-
-      <ul class="navbar-nav float-left">
-        
-        <li><a href="/">Archives</a></li>
-        
-        
-        <li><a href="/">Categories</a></li>
-        
-        
-        <li><a href="/">Tags</a></li>
-        
-        
-        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
-        
-      </ul>
-
-      <ul class="navbar-nav user-nav float-right desktop-only">
-        <li class="user-nav-notification">
-          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
-        </li>
-        <li>
-          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
-        </li>
-        <li class="user-nav-logo">
-          <a><img src="https://octodex.github.com/images/baracktocat.jpg"> <i class="fa fa-caret-down"></i></i></a>
-        </li>
-      </ul>
-    </div>
-  </div>
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+    
+      <a href="/atom.xml">rss</a>
+    
+  
 </nav>
 
-<div class="main-container">
-  <header class="header-wrapper desktop-only">
-  <div class="container header-site-detail">
-    <ul class="header-toolbar">
-      <li class="clearfix">
-        <a href="/" class="header-toolbar-left"><i
-                  class="fa fa-file-text"></i> Posts </a>
-        <a href="/"
-           class="header-toolbar-right"> 28 </a>
-      </li>
-      <li>
-        <a href="/" class="header-toolbar-left"><i
-                  class="fa fa-tags"></i> Tags </a>
-        <a href="/"
-           class="header-toolbar-right"> 0 </a>
-      </li>
-      <li>
-        <a href="/" class="header-toolbar-left"><i
-                  class="fa fa-folder-open"></i> Categories </a>
-        <a href="/"
-           class="header-toolbar-right"> 0 </a>
-      </li>
-    </ul>
-    <h2 class="header-title">
-      <i class="fa fa-book text-muted"></i>
-      <a href="/">蓝翔技工(blueflylabor)</a>
-      
-      
-    </h2>
-  </div>
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/2019/10/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86Cache%E5%92%8C%E4%B8%BB%E5%AD%98%E7%9A%84%E6%98%A0%E5%B0%84%E6%9B%BF%E6%8D%A2%E7%AE%97%E6%B3%95%E5%92%8C%E5%86%99%E7%AD%96%E7%95%A5/">计算机组成原理Cache和主存的映射替换算法和写策略</a>
+  </h1>
 
-  <div class="container">
-    <div class="header-tab-wrapper clearfix">
-      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
-      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
-      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
-      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
-      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
-    </div>
-  </div>
-</header>
+  <section class="article-meta">
+    <p class="article-date">十月 06 2019</p>
+  </section>
 
-
-<div class="post-container container">
-  <h3>
-    <i class="fa fa-user-o"></i>
-    蓝翔技工
-
-    <span class="post-date float-right" title="{{moment(1570334511000).format('MMM DD, YYYY, h:mm:ss A')}}">
-      
-          <i class="fa fa-pencil-square-o"></i>
-      
-      {{moment(1570334511000).fromNow()}}
-    </span>
-  </h3>
-
-  <article class="post-content">
-    <h1>计算机组成原理Cache和主存的映射替换算法和写策略</h1>
-    <h1 id="Cache和主存的映射·替换算法·写策略"><a href="#Cache和主存的映射·替换算法·写策略" class="headerlink" title="Cache和主存的映射·替换算法·写策略"></a>Cache和主存的映射·替换算法·写策略</h1><h2 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h2><p>Cache行中的信息是主存某个块的副本<br>地址映射：将主存地址空间映射到Cache地址空间，按某种规则将主存的信息装入Cache<br>Cache的行数比主存块少的多，只有一部分主存块的信息可以装入Cache中，因此在Cache中需要为每块加一个<strong>标记</strong>，指明它是主存的哪一块的副本，此标记相当于主存块的编号。为了说明Cache行中的信息是否有效还需要一个<strong>有效位</strong>，地址映射以下3种：</p>
+  <section class="article-entry">
+    <h1>Cache和主存的映射·替换算法·写策略</h1>
+<h2 id="映射">映射</h2>
+<p>Cache行中的信息是主存某个块的副本<br>
+地址映射：将主存地址空间映射到Cache地址空间，按某种规则将主存的信息装入Cache<br>
+Cache的行数比主存块少的多，只有一部分主存块的信息可以装入Cache中，因此在Cache中需要为每块加一个<strong>标记</strong>，指明它是主存的哪一块的副本，此标记相当于主存块的编号。为了说明Cache行中的信息是否有效还需要一个<strong>有效位</strong>，地址映射以下3种：</p>
 <ul>
 <li>直接映射</li>
 <li>全相联映射</li>
 <li>组相联映射</li>
 </ul>
-<h3 id="直接映射"><a href="#直接映射" class="headerlink" title="直接映射"></a>直接映射</h3><p>Cache 行号 &#x3D; 主存块号 mod Cache 总行数<br>假设 Cache : $2^c$行 主存 : $2^m$块<br>$0,2^c,2^{c+1},\dots$块映射到第0行<br>$1,2^c+1,2^{c+1}+1$块映射到第1行<br>低c位为装入的Cache行号，给每行设置一个长为t&#x3D;m-c的标记，当某个主存块调入Cache后，将主存块号的高t位设置为对应Cache行中的标记  </p>
+<h3 id="直接映射">直接映射</h3>
+<p>Cache 行号 = 主存块号 mod Cache 总行数<br>
+假设 Cache : $2^c$行 主存 : $2^m$块<br>
+$0,2^c,2^{c+1},\dots$块映射到第0行<br>
+$1,2^c+1,2^{c+1}+1$块映射到第1行<br>
+低c位为装入的Cache行号，给每行设置一个长为t=m-c的标记，当某个主存块调入Cache后，将主存块号的高t位设置为对应Cache行中的标记</p>
 <table>
 <thead>
 <tr>
@@ -155,12 +64,14 @@
 <th>b</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>标记</td>
 <td>Cache行号</td>
 <td>块内地址</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>CPU访存过程：</p>
 <ul>
 <li>根据访存地址中间的c位找到对应Cache行</li>
@@ -168,7 +79,8 @@
 <li>相等且有效位为1，访问Cache命中，根据主存地址低b位的块内地址，在对应Cache行中存取信息</li>
 <li>不相等或有效位为0，不命中，CPU将主存读出该地址所在的一块信息送到相应的Cache行中，置有效位1，并将标记设置为地址高t位，同时将地址中的内容送CPU</li>
 </ul>
-<h3 id="全相联映射"><a href="#全相联映射" class="headerlink" title="全相联映射"></a>全相联映射</h3><p>主存的每一块可以装入Cache中的任何位置，每行<strong>标记</strong>用于指出该行取自主存的哪一块，CPU访存时需要与所有Cache行的标记进行对比  </p>
+<h3 id="全相联映射">全相联映射</h3>
+<p>主存的每一块可以装入Cache中的任何位置，每行<strong>标记</strong>用于指出该行取自主存的哪一块，CPU访存时需要与所有Cache行的标记进行对比</p>
 <table>
 <thead>
 <tr>
@@ -176,12 +88,17 @@
 <th>b</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>标记</td>
 <td>块内地址</td>
 </tr>
-</tbody></table>
-<h3 id="组相联映射"><a href="#组相联映射" class="headerlink" title="组相联映射"></a>组相联映射</h3><p>将Cache分为Q个大小相等的组，每个主存块可以装入固定组的任意一行，即组间采用直接映射，而组内采用全相联映射，Q&#x3D;1变为全相联映射，Q&#x3D;Cache行数变为直接映射<br>假设r个Cache行，则称之为r路组相联映射<br>Cache组号&#x3D;主存块号 mod Cache组数(Q)  </p>
+</tbody>
+</table>
+<h3 id="组相联映射">组相联映射</h3>
+<p>将Cache分为Q个大小相等的组，每个主存块可以装入固定组的任意一行，即组间采用直接映射，而组内采用全相联映射，Q=1变为全相联映射，Q=Cache行数变为直接映射<br>
+假设r个Cache行，则称之为r路组相联映射<br>
+Cache组号=主存块号 mod Cache组数(Q)</p>
 <table>
 <thead>
 <tr>
@@ -190,12 +107,14 @@
 <th>b</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>标记</td>
 <td>组号</td>
 <td>块内地址</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>CPU访存：</p>
 <ul>
 <li>根据访存地址中间的g位组号找到对应的Cache组</li>
@@ -203,13 +122,16 @@
 <li>相等且有效位为1，命中，根据主存地址中的低b位块内地址，在对应的Cache行中存取信息</li>
 <li>不相等或有效位为0，未命中，CPU从主存读出该地址所在的一块信息送到对应的Cache组的任意一个空行，有效位置1，设置标记，同时将地址中的内容送CPU</li>
 </ul>
-<h2 id="替换算法"><a href="#替换算法" class="headerlink" title="替换算法"></a>替换算法</h2><p>在采用全相联映射或组相联映射方式时，主存向Cache传送一个新块，Cache或Cache组空间已满替换的策略</p>
+<h2 id="替换算法">替换算法</h2>
+<p>在采用全相联映射或组相联映射方式时，主存向Cache传送一个新块，Cache或Cache组空间已满替换的策略</p>
 <ul>
 <li>RAND</li>
 <li>FIFO</li>
 <li>LRU</li>
 </ul>
-<h2 id="写策略"><a href="#写策略" class="headerlink" title="写策略"></a>写策略</h2><p>因为Cache中的内容是主存块副本，当对Cache中的内容进行更新时，就需选用写操作策略，使Cache内容和主存保持一致<br>对于Cache写命中：</p>
+<h2 id="写策略">写策略</h2>
+<p>因为Cache中的内容是主存块副本，当对Cache中的内容进行更新时，就需选用写操作策略，使Cache内容和主存保持一致<br>
+对于Cache写命中：</p>
 <ul>
 <li>全写法：当CPU对Cache写命中时，必须八数据同时写入Cache和内存。当某一块需要替换时，不必把这一块写回主存，用新调入的块直接覆盖。</li>
 <li>回写法：当CPU对Cache写命中时，只把数据写入Cache，而不立即写入主存，只有当此块被换出时，才写入主存。每个Cache行设置一个修改位（脏位），若修改位为1，Cache行被修改过，替换时需要写回主存，若为0，则说明Cache行中的块未被命中，替换时无需写回</li>
@@ -220,41 +142,78 @@
 <li>非写分配法：只写入主存，不进行调块</li>
 </ul>
 
-  </article>
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="http://7xrcp8.com1.z0.glb.clouddn.com/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> lyyourc </p>
+      <p class="subtitle"> You Are The JavaScript In My HTML </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="DrakeLeung"
+  href="https://twitter.com/intent/tweet?text=>Cache和主存的映射·替换算法·写策"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
 </div>
 
 
+  
     
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'drakeleung';
+  
+  var disqus_url = 'http://example.com/2019/10/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86Cache%E5%92%8C%E4%B8%BB%E5%AD%98%E7%9A%84%E6%98%A0%E5%B0%84%E6%9B%BF%E6%8D%A2%E7%AE%97%E6%B3%95%E5%92%8C%E5%86%99%E7%AD%96%E7%95%A5/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
 
 
-
-
-</div>
-
-<div class="footer-wrapper container">
-  <footer class="footer clearfix">
-    <div class="clearfix">
-    <a href="http://example.com" class="footer-logo">
-      <i class="fa fa-github"></i>
-    </a>
-    <ul class="footer-social-link">
-      <li>© 2019 蓝翔技工</li>
-      <li><a href="http://example.com">Home</a></li>
-      
-    </ul>
-    <div class="footer-theme-info">
-      Theme <a target="_blank" rel="noopener" href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
-      by <a target="_blank" rel="noopener" href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
-    </div>
-    </div>
-    
-  </footer>
-</div>
-
-
-
-
-<script src="/js/main.js"></script>
+  
+</main>
 
 </body>
 </html>

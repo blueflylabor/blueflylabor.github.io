@@ -1,157 +1,59 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>
-    操作系统同步问题 | 蓝翔技工(blueflylabor)
-  </title>
-  <meta name="description" content="blueflylabor">
+  <meta charset="utf-8">
+  <title>操作系统同步问题 | lyyourc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
   
-  <meta name="keywords" content="
-  
-  ">
-  
-  <meta name="author" content="蓝翔技工">
+<link rel="stylesheet" href="/css/app.css">
 
-  <meta http-equiv="Cache-Control" content="no-transform"/>
-  <meta http-equiv="Cache-Control" content="no-siteapp">
-  <meta name="theme-color" content="#1e2327">
-  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
-
-  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
   
-
-  
-
-  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 <meta name="generator" content="Hexo 7.2.0"></head>
 
-<body id="replica-app">
-
-<nav class="navbar-wrapper">
-  <div class="navbar">
-    <div class="container clearfix">
-      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
-
-      <div class="navbar-search float-left desktop-only">
-        <div class="navbar-search-form">
-          <label for="gsc-i-id1">This website</label>
-          <div id="google-search">
-            <gcse:search></gcse:search>
-          </div>
-        </div>
-      </div>
-
-      <ul class="navbar-nav float-left">
-        
-        <li><a href="/">Archives</a></li>
-        
-        
-        <li><a href="/">Categories</a></li>
-        
-        
-        <li><a href="/">Tags</a></li>
-        
-        
-        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
-        
-      </ul>
-
-      <ul class="navbar-nav user-nav float-right desktop-only">
-        <li class="user-nav-notification">
-          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
-        </li>
-        <li>
-          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
-        </li>
-        <li class="user-nav-logo">
-          <a><img src="https://octodex.github.com/images/baracktocat.jpg"> <i class="fa fa-caret-down"></i></i></a>
-        </li>
-      </ul>
-    </div>
-  </div>
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+    
+      <a href="/atom.xml">rss</a>
+    
+  
 </nav>
 
-<div class="main-container">
-  <header class="header-wrapper desktop-only">
-  <div class="container header-site-detail">
-    <ul class="header-toolbar">
-      <li class="clearfix">
-        <a href="/" class="header-toolbar-left"><i
-                  class="fa fa-file-text"></i> Posts </a>
-        <a href="/"
-           class="header-toolbar-right"> 28 </a>
-      </li>
-      <li>
-        <a href="/" class="header-toolbar-left"><i
-                  class="fa fa-tags"></i> Tags </a>
-        <a href="/"
-           class="header-toolbar-right"> 0 </a>
-      </li>
-      <li>
-        <a href="/" class="header-toolbar-left"><i
-                  class="fa fa-folder-open"></i> Categories </a>
-        <a href="/"
-           class="header-toolbar-right"> 0 </a>
-      </li>
-    </ul>
-    <h2 class="header-title">
-      <i class="fa fa-book text-muted"></i>
-      <a href="/">蓝翔技工(blueflylabor)</a>
-      
-      
-    </h2>
-  </div>
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/2021/04/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/">操作系统同步问题</a>
+  </h1>
 
-  <div class="container">
-    <div class="header-tab-wrapper clearfix">
-      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
-      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
-      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
-      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
-      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
-    </div>
-  </div>
-</header>
+  <section class="article-meta">
+    <p class="article-date">四月 06 2021</p>
+  </section>
 
-
-<div class="post-container container">
-  <h3>
-    <i class="fa fa-user-o"></i>
-    蓝翔技工
-
-    <span class="post-date float-right" title="{{moment(1617681711000).format('MMM DD, YYYY, h:mm:ss A')}}">
-      
-          <i class="fa fa-pencil-square-o"></i>
-      
-      {{moment(1617681711000).fromNow()}}
-    </span>
-  </h3>
-
-  <article class="post-content">
-    <h1>操作系统同步问题</h1>
+  <section class="article-entry">
     <p><strong>经典同步问题</strong></p>
 <p><em>1.生产者消费者问题</em></p>
 <ul>
-<li><p>一组生产者进程(Producer)</p>
+<li>
+<p>一组生产者进程(Producer)</p>
 </li>
-<li><p>一组消费者进程(Consumer)</p>
+<li>
+<p>一组消费者进程(Consumer)</p>
 </li>
-<li><p>共享初始为空 大小为n的缓冲区(Buffer)</p>
+<li>
+<p>共享初始为空 大小为n的缓冲区(Buffer)</p>
 </li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">semaphore mutex = 1;  //mutex</span><br><span class="line">semaphore empty = n;  //buffer</span><br><span class="line">semaphore full = 0;   //full</span><br><span class="line"></span><br><span class="line">Producer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		Produce();</span><br><span class="line">		P(mutex);</span><br><span class="line">		add2Buffer();</span><br><span class="line">		V(mutex);</span><br><span class="line">		V(full);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Consumer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(full);</span><br><span class="line">		P(mutex);</span><br><span class="line">		getFromBuffer();</span><br><span class="line">		V(mutex);</span><br><span class="line">		Consume();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><em>2.读者写者问题</em></p>
 <ul>
 <li>读者进程(Reader)</li>
@@ -163,10 +65,8 @@
 </ul>
 <p><strong>读进程优先</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">int count = 0;</span><br><span class="line">semaphore mutex = 1;</span><br><span class="line">semaphore rw = 1;</span><br><span class="line">Reader()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(mutex);</span><br><span class="line">		if(count == 0)</span><br><span class="line">			P(rw);</span><br><span class="line">		count++;</span><br><span class="line">		V(mutex);</span><br><span class="line">		Read();</span><br><span class="line">		P(mutex);</span><br><span class="line">		count--;</span><br><span class="line">		if(count == 0)</span><br><span class="line">			V(rw);</span><br><span class="line">		V(mutex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Writer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(rw);</span><br><span class="line">		write();</span><br><span class="line">		v(rw);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><strong>写进程优先</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">int count = 0;</span><br><span class="line">semaphore mutex = 1;</span><br><span class="line">semaphore rw = 1;</span><br><span class="line">semaphore w = 1;</span><br><span class="line">Writer()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(w);</span><br><span class="line">		P(rw);</span><br><span class="line">		Write();</span><br><span class="line">		V(rw);</span><br><span class="line">		V(w);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Reader()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(w);</span><br><span class="line">		P(mutex);</span><br><span class="line">		if(count == 0)</span><br><span class="line">			P(rw);</span><br><span class="line">		count++;</span><br><span class="line">		V(mutex);</span><br><span class="line">		V(w);</span><br><span class="line">		Read();</span><br><span class="line">		P(mutex);</span><br><span class="line">		count--;</span><br><span class="line">		if(count == 0)</span><br><span class="line">			V(rw);</span><br><span class="line">		V(mutex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><em>3.哲学家进餐问题</em></p>
 <ul>
 <li>5名哲学家(Philosopher)</li>
@@ -175,7 +75,6 @@
 <li>吃完饭思考</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">semaphore Chopsticks[5] = &#123;1, 1, 1, 1, 1&#125;;</span><br><span class="line">semaphore mutex = 1;</span><br><span class="line">Philosopher()&#123;</span><br><span class="line">	do&#123;</span><br><span class="line">		P(mutex);</span><br><span class="line">		P(Chopsticks[i]);</span><br><span class="line">		P(Chopsticks[(i+1)%5]);</span><br><span class="line">		V(mutex);</span><br><span class="line">		eat();</span><br><span class="line">		V(Chopsticks[i]);</span><br><span class="line">		V(Chopsticks[(i+1)%5]);</span><br><span class="line">		think();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><strong>4.吸烟者问题</strong></p>
 <ul>
 <li>3个吸烟者进程(Smoker)</li>
@@ -188,7 +87,6 @@
 <li>Offer(offer3) return paper, tobacco</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">int num = 0;	//store random num</span><br><span class="line">semaphore offer1 = 0;</span><br><span class="line">semaphore offer2 = 0;</span><br><span class="line">semaphore offer3 = 0;</span><br><span class="line">semaphore end = 0;</span><br><span class="line">Offer()&#123;</span><br><span class="line">	whlie(1)&#123;</span><br><span class="line">		num++;</span><br><span class="line">		num = num % 3;</span><br><span class="line">		if(num == 0)</span><br><span class="line">			V(offer1);</span><br><span class="line">		else if(num == 1)</span><br><span class="line">			V(offer2);</span><br><span class="line">		else</span><br><span class="line">			V(offer3);</span><br><span class="line">		P(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Smoker1()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(offer3);</span><br><span class="line">		smoke();</span><br><span class="line">		V(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Smoker2()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(offer2);</span><br><span class="line">		smoke();</span><br><span class="line">		V(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">Smoker3()&#123;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		P(offer1);</span><br><span class="line">		smoke();</span><br><span class="line">		V(end);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><em>eg1</em></p>
 <ul>
 <li>3个进程P1 P2 P3</li>
@@ -197,41 +95,78 @@
 <li>P2</li>
 </ul>
 
-  </article>
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="http://7xrcp8.com1.z0.glb.clouddn.com/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> lyyourc </p>
+      <p class="subtitle"> You Are The JavaScript In My HTML </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="DrakeLeung"
+  href="https://twitter.com/intent/tweet?text=<strong>经典同步问题</stro"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
 </div>
 
 
+  
     
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+<script>
+  var disqus_shortname = 'drakeleung';
+  
+  var disqus_url = 'http://example.com/2021/04/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
 
 
-
-
-</div>
-
-<div class="footer-wrapper container">
-  <footer class="footer clearfix">
-    <div class="clearfix">
-    <a href="http://example.com" class="footer-logo">
-      <i class="fa fa-github"></i>
-    </a>
-    <ul class="footer-social-link">
-      <li>© 2019 蓝翔技工</li>
-      <li><a href="http://example.com">Home</a></li>
-      
-    </ul>
-    <div class="footer-theme-info">
-      Theme <a target="_blank" rel="noopener" href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
-      by <a target="_blank" rel="noopener" href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
-    </div>
-    </div>
-    
-  </footer>
-</div>
-
-
-
-
-<script src="/js/main.js"></script>
+  
+</main>
 
 </body>
 </html>
