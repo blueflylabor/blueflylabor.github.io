@@ -23,4 +23,4 @@ gem sources --remove https://rubygems.org/
 gem sources --add https://gems.ruby-china.com/
 ```
 
-~~gem sources --add https://ruby.taobao.org ~~
+~~gem sources --add https://ruby.taobao.org~~
