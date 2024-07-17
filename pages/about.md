@@ -3,6 +3,7 @@ layout: page
 title: About
 permalink: /about/
 ---
+![](../banner.jpg)
 
 Jekyll Paper is a simple Jekyll theme, and it is aim to helping you to create your own blog by the easiest way.
 
