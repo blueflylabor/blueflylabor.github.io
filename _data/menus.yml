@@ -4,6 +4,8 @@
 - default: menu_category
   url:   "category"
 
+- default: menu_github
+  url:   "https://github.com/blueflylabor"
 
 - default: menu_about
   url:   "about"
