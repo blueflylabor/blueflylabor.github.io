@@ -4,7 +4,11 @@ date:   2024-08-05
 last_modified_at: 2024-08-05
 categories: [cuda, cpp, jupyter, thread]
 ---
-
+### Pre-Install
+- For Windows Users  
+*Install N-GPU drivers*
+- Ubuntu22.04 WSL Users  
+*[WSL CUDA Drivers Install](https://blueflylabor.github.io/2021/04/06/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AEUbuntu1804%E5%AE%89%E8%A3%85CUDA%E5%92%8CPytorch)*
 ### Install
 run this on jupyter(*.ipynb) files
 
