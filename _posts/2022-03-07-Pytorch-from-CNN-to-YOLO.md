@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Welcome to Jekyll Paper!"
+title:  "Pytorch from CNN to YOLO"
 date:   2022-03-07
 last_modified_at: 2022-05-07
 categories: [Pytorch, CNN, YOLO]
