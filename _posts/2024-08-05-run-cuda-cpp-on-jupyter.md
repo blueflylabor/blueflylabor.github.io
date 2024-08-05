@@ -30,10 +30,43 @@ __global__ void hello(){
 }
 
 int main(){
-    hello<<<2, 2>>>();
+    hello<<<6, 12>>>();
     cudaDeviceSynchronize();
 }
 ```
+
+output
+Hello from block: 0, thread: 0  
+Hello from block: 0, thread: 1  
+Hello from block: 0, thread: 2  
+Hello from block: 0, thread: 3  
+Hello from block: 0, thread: 4  
+Hello from block: 0, thread: 5  
+Hello from block: 0, thread: 6  
+Hello from block: 0, thread: 7  
+Hello from block: 0, thread: 8  
+Hello from block: 0, thread: 9  
+Hello from block: 0, thread: 10  
+Hello from block: 0, thread: 11  
+Hello from block: 2, thread: 0  
+Hello from block: 2, thread: 1  
+Hello from block: 2, thread: 2  
+Hello from block: 2, thread: 3  
+Hello from block: 2, thread: 4  
+Hello from block: 2, thread: 5  
+Hello from block: 2, thread: 6  
+Hello from block: 2, thread: 7  
+Hello from block: 2, thread: 8  
+Hello from block: 2, thread: 9  
+Hello from block: 2, thread: 10  
+Hello from block: 2, thread: 11  
+Hello from block: 1, thread: 0  
+...
+Hello from block: 5, thread: 9  
+Hello from block: 5, thread: 10  
+Hello from block: 5, thread: 11
+
+Output is truncated. 
 
 ### Other Problem
 
