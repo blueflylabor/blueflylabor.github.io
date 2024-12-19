@@ -30,11 +30,11 @@ This is a [demo website](https://www.ghosind.com) for Jekyll Paper.
 
 Jekyll Paper is easy to create your own blog. You can create your blog by five steps only!
 
-1. `$ gem install bundler jekyll`
-2. `$ git clone git@github.com:ghosind/Jekyll-Paper.git`
-3. `$ cd Jekyll-Paper`
-4. `Jekyll-Paper $ bundle install`
-5. `Jekyll-Paper $ bundle exec jekyll serve`
+1. `$$ gem install bundler jekyll`
+2. `$$ git clone git@github.com:ghosind/Jekyll-Paper.git`
+3. `$$ cd Jekyll-Paper`
+4. `Jekyll-Paper $$ bundle install`
+5. `Jekyll-Paper $$ bundle exec jekyll serve`
 
 ## Add New Posts
 

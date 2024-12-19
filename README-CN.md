@@ -28,11 +28,11 @@ Jekyll Paper for Github是Jekyll Paper为Github Pages所提供依赖制作的版
 
 Jekyll Paper的使用方法十分简单，只需要简单的几步即可创建自己的博客：
 
-1. `$ gem install bundler jekyll`
+1. `$$ gem install bundler jekyll`
 2. `git clone git@github.com:ghosind/Jekyll-Paper.git`
-3. `$ cd Jekyll-Paper`
-4. `Jekyll-Paper $ bundle install`
-5. `Jekyll-Paper $ bundle exec jekyll serve`
+3. `$$ cd Jekyll-Paper`
+4. `Jekyll-Paper $$ bundle install`
+5. `Jekyll-Paper $$ bundle exec jekyll serve`
 
 ## 发布新的文章
 
