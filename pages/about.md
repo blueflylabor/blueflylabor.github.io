@@ -47,8 +47,6 @@ Here is blueskylabor.
 <img height="190" src="https://github-readme-stats-psi-amber.vercel.app/api/top-langs/?username=blueflylabor&layout=compact&langs_count=8" />
 </a>
 
-![Map](https://mapmyvisitors.com/map.png?cl=ffffff&w=a&t=n&d=mDCIvYPIKRouJHRiYO6dqK_22eqhTKe0NbwHcydn2l4)
-
 
 [jekyll-paper]: https://github.com/ghosind/Jekyll-Paper
 [jekyll-paper-issues]: https://github.com/ghosind/Jekyll-Paper/issues
