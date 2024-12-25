@@ -11,4 +11,4 @@
   url:   "about"
 
 - default: menu_device
-  url:    "./device.html"
+  url:    "https://github.com/blueflylabor/deviceTree/blob/main/device.md"
