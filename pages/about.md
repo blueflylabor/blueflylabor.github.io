@@ -39,7 +39,7 @@ Here is blueskylabor.
 ![Currently Learning](https://skillicons.dev/icons?i=cpp,cmake,pytorch)
 
 ### Used Device
-![Device](https://github.com/blueflylabor/deviceTree/blob/main/device.md)
+- [Device](https://github.com/blueflylabor/deviceTree/blob/main/device.md)
 
 ### Stats
 
