@@ -11,4 +11,4 @@
   url:   "about"
 
 - default: menu_device
-  url: "device"
+  url:    "./device.html"
