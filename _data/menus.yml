@@ -9,3 +9,6 @@
 
 - default: menu_about
   url:   "about"
+
+- default: menu_device
+  url: "device"
