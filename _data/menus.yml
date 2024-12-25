@@ -4,11 +4,6 @@
 - default: menu_category
   url:   "category"
 
-- default: menu_github
-  url:   "https://github.com/blueflylabor"
 
 - default: menu_about
   url:   "about"
-
-- default: menu_device
-  url:    "https://github.com/blueflylabor/deviceTree/blob/main/device.md"

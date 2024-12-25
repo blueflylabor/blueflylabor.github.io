@@ -1,5 +1,6 @@
 en:
   menu_device: "My Device"
+  menu_github: "Github"
   menu_index: "Index"
   menu_category: "Categories"
   menu_about: "About"
@@ -96,6 +97,7 @@ pt:
   categories_title: "Categorias"
 
 zh-cn:
+  menu_github: "Github"
   menu_device: "我的设备"
   menu_index: "首页"
   menu_category: "分类"
