@@ -1,13 +1,12 @@
+# output
 _site
-.bundle
+
+# cache
 .sass-cache
-.jekyll-cache
 .jekyll-metadata
-.DS_store
-.ruby-version
-.tweet-cache
+
+# gem lock file
 Gemfile.lock
-assets/libs/
-node_modules/
-vendor
-.idea
+
+# Mac OSX
+.DS_Store

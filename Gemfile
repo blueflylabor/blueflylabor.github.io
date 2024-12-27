@@ -1,29 +1,33 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
+# bundle source for China
+# source "https://gems.ruby-china.com"
+
+# Hello! This is where you manage which Jekyll version is used to run.
+# When you want to use a different version, change it below, save the
+# file and run `bundle install`. Run Jekyll with `bundle exec`, like so:
+#
+#     bundle exec jekyll serve
+#
+# This will help ensure the proper Jekyll version is running.
+# Happy Jekylling!
+gem "jekyll", "~> 3.8.6"
+
+# If you want to use GitHub Pages, remove the "gem "jekyll"" above and
+# uncomment the line below. To upgrade, run `bundle update github-pages`.
+# gem "github-pages", group: :jekyll_plugins
+
+# If you have any plugins, put them here!
 group :jekyll_plugins do
-    gem 'classifier-reborn'
-    gem 'jekyll'
-    gem 'jekyll-archives'
-    gem 'jekyll-email-protect'
-    gem 'jekyll-feed'
-    gem 'jekyll-get-json'
-    gem 'jekyll-imagemagick'
-    gem 'jekyll-jupyter-notebook'
-    gem 'jekyll-link-attributes'
-    gem 'jekyll-minifier'
-    gem 'jekyll-paginate-v2'
-    gem 'jekyll-regex-replace'
-    gem 'jekyll-scholar'
-    gem 'jekyll-sitemap'
-    gem 'jekyll-tabs'
-    gem 'jekyll-toc'
-    gem 'jekyll-twitter-plugin'
-    gem 'jemoji'
-    gem 'terser'
-    gem 'unicode_utils'
-    gem 'webrick'
+  gem "jekyll-feed", "~> 0.11"
+  gem "jekyll-paginate"
+  gem "jekyll-sitemap"
+  gem "jekyll-archives"
+  gem "jekyll-seo-tag"
 end
-group :other_plugins do
-    gem 'css_parser'
-    gem 'feedjira'
-    gem 'httparty'
-end
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# Performance-booster for watching directories on Windows
+gem "wdm", "~> 0.1.0" if Gem.win_platform?
+
