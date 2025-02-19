@@ -83,3 +83,10 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+github:
+  username: blueflylabor // github 用户名
+gitalk:
+    repo: blueflylabor.github.io //  github 上博客仓库的名字
+    client_id: Ov23liR8EziibgRCvc1n  // Client ID
+    client_secret: ce66b1e85c5196d65b2c0ec9b3729d3e46566b1b // Client Secret
