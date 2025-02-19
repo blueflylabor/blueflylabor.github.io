@@ -8,5 +8,3 @@
 - default: menu_about
   url:   "about"
 
-- default: custom_menu
-  url: "talk"
