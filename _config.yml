@@ -56,10 +56,12 @@ jekyll-archives:
   enabled: 
     - categories
     - tags
+    - talk
   layout: archive
   permalinks:
     category: /category/:name/
     tag: /tag/:name/
+    talk: /talk/:name/
 
 # Build settings
 markdown: redcarpet
