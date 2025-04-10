@@ -1,3 +1,9 @@
+---
+layout: post
+title: "Using intel epp package managing your intel-cpu scheduling by [tuned-adm]"
+categories: linux
+---
+
 qt6 and py3
 ```python
 import subprocess
