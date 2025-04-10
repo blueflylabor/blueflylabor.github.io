@@ -12,3 +12,6 @@
 
 - default: menu_talk
   url: "talk"
+
+- default: menu_say
+  url: "saysth"

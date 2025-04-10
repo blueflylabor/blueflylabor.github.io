@@ -16,7 +16,7 @@ en:
   post_next: "Next: "
   categories_title: "Categories"
   menu_knowledge: "Knowledge"
-
+  menu_say: "Saysomething"
 de:
   menu_index: "Index"
   menu_category: "Kategorien"
@@ -115,7 +115,7 @@ zh-cn:
   post_next: "后一篇："
   categories_title: "分类"
   menu_knowledge: "见闻"
-  
+  menu_say: "说点什么"
 zh-tw:
   menu_index: "首頁"
   menu_category: "分類"
