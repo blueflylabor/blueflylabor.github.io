@@ -1,9 +1,11 @@
 - default: menu_index
   url:   ""
 
+- default: menu_knowledge
+  url:   "knowledge"
+  
 - default: menu_category
   url:   "category"
-
 
 - default: menu_about
   url:   "about"

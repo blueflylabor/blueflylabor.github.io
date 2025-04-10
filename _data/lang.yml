@@ -15,6 +15,7 @@ en:
   post_previous: "Previous: "
   post_next: "Next: "
   categories_title: "Categories"
+  menu_knowledge: "Knowledge"
 
 de:
   menu_index: "Index"
@@ -113,7 +114,8 @@ zh-cn:
   post_previous: "前一篇："
   post_next: "后一篇："
   categories_title: "分类"
-
+  menu_knowledge: "见闻"
+  
 zh-tw:
   menu_index: "首頁"
   menu_category: "分類"
