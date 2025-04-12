@@ -124,7 +124,6 @@ stop() {
 }
 
 process $@
-
 ```
 
 - edited script.sh
