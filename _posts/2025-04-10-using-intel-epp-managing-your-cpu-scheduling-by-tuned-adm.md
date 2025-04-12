@@ -92,39 +92,39 @@ options:
 ### example settings
 ##### **intel-extreme_performance_mode**
 - look at script.sh
-```bash
-#!/bin/sh
+    ```bash
+    #!/bin/sh
 
-#Copyright (C) 2024 Intel Corporation
-#SPDX-License-Identifier: GPL-2.0-or-later
+    #Copyright (C) 2024 Intel Corporation
+    #SPDX-License-Identifier: GPL-2.0-or-later
 
-#EPP_PATH "/sys/devices/system/cpu/cpu$i/cpufreq/energy_performance_preference"
-#EPB_PATH "/sys/devices/system/cpu/cpu$i/power/energy_perf_bias"
+    #EPP_PATH "/sys/devices/system/cpu/cpu$i/cpufreq/energy_performance_preference"
+    #EPB_PATH "/sys/devices/system/cpu/cpu$i/power/energy_perf_bias"
 
-. /usr/lib/tuned/functions
+    . /usr/lib/tuned/functions
 
-start() {
-    n=$(nproc)
-    i=0
-    while [ "$i" -lt $n ]; do
-        echo 64 | sudo tee  /sys/devices/system/cpu/cpu$i/cpufreq/energy_performance_preference
-        i=$(( i + 1 ))
-    done 
-    return 0
-}
+    start() {
+        n=$(nproc)
+        i=0
+        while [ "$i" -lt $n ]; do
+            echo 64 | sudo tee  /sys/devices/system/cpu/cpu$i/cpufreq/energy_performance_preference
+            i=$(( i + 1 ))
+        done 
+        return 0
+    }
 
-stop() {   
-    n=$(nproc)
-    i=0
-    while [ "$i" -lt $n ]; do
-        echo "balance_performance" | sudo tee  /sys/devices/system/cpu/cpu$i/cpufreq/energy_performance_preference
-        i=$(( i + 1 ))
-    done     
-    return 0
-}
+    stop() {   
+        n=$(nproc)
+        i=0
+        while [ "$i" -lt $n ]; do
+            echo "balance_performance" | sudo tee  /sys/devices/system/cpu/cpu$i/cpufreq/energy_performance_preference
+            i=$(( i + 1 ))
+        done     
+        return 0
+    }
 
-process $@
-```
+    process $@
+    ```  
 
 - edited script.sh
 ``` echo [customized num] | sudo tee  /sys/devices/system/cpu/cpu$i/cpufreq/energy_performance_preference``` edit a customized num in 0~255 range  
@@ -132,48 +132,48 @@ process $@
     - -->255: limit cpu performance
     - 0~64 and 255-64~255 relative okay
 - after script.sh
-```bash
-#!/bin/sh
+    ```bash
+    #!/bin/sh
 
-#Copyright (C) 2024 Intel Corporation
-#SPDX-License-Identifier: GPL-2.0-or-later
+    #Copyright (C) 2024 Intel Corporation
+    #SPDX-License-Identifier: GPL-2.0-or-later
 
-#EPP_PATH "/sys/devices/system/cpu/cpu$i/cpufreq/energy_performance_preference"
-#EPB_PATH "/sys/devices/system/cpu/cpu$i/power/energy_perf_bias"
+    #EPP_PATH "/sys/devices/system/cpu/cpu$i/cpufreq/energy_performance_preference"
+    #EPB_PATH "/sys/devices/system/cpu/cpu$i/power/energy_perf_bias"
 
-. /usr/lib/tuned/functions
+    . /usr/lib/tuned/functions
 
-start() {
-    n=$(nproc)
-    i=0
-    while [ "$i" -lt $n ]; do
-        echo 0 | sudo tee  /sys/devices/system/cpu/cpu$i/cpufreq/energy_performance_preference
-        i=$(( i + 1 ))
-    done 
-    return 0
-}
+    start() {
+        n=$(nproc)
+        i=0
+        while [ "$i" -lt $n ]; do
+            echo 0 | sudo tee  /sys/devices/system/cpu/cpu$i/cpufreq/energy_performance_preference
+            i=$(( i + 1 ))
+        done 
+        return 0
+    }
 
-stop() {   
-    n=$(nproc)
-    i=0
-    while [ "$i" -lt $n ]; do
-        echo "balance_performance" | sudo tee  /sys/devices/system/cpu/cpu$i/cpufreq/energy_performance_preference
-        i=$(( i + 1 ))
-    done     
-    return 0
-}
+    stop() {   
+        n=$(nproc)
+        i=0
+        while [ "$i" -lt $n ]; do
+            echo "balance_performance" | sudo tee  /sys/devices/system/cpu/cpu$i/cpufreq/energy_performance_preference
+            i=$(( i + 1 ))
+        done     
+        return 0
+    }
 
-process $@
-
-```
+    process $@
+    ```
 - edited profile subname [main] in tuned.conf[wiil see in display of **```tuned-adm list```**]
-```
-[main]
-summary=Intel epp 0 TuneD profile
 
-[script]
-script=${i:PROFILE_DIR}/script.sh
-```
+    ```
+    [main]
+    summary=Intel epp 0 TuneD profile
+
+    [script]
+    script=${i:PROFILE_DIR}/script.sh
+    ```
 - after custmizing, ```sudo deploy.sh```, cp profiles to ```/usr/lib/tuned/profiles```
 
 # Writing a mangement gui included hidden tray
