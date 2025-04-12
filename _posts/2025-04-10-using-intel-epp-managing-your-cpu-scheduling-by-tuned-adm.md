@@ -8,11 +8,11 @@ categories:
 ---
 
 # intel-tuned-epp-packaging-tools
-(https://www.intel.com/content/www/us/en/developer/articles/tool/epp-tuning-package-linux.html)[intel epp packaing]
+[intel epp packaing](https://www.intel.com/content/www/us/en/developer/articles/tool/epp-tuning-package-linux.html)
 
 # install
 ### for non-debian linux[Archlinux]
-- (https://www.intel.com/content/www/us/en/download/819707/epp-tuning-package-for-linux-on-intel-core-ultra-mobile-processor.html)[download tar.xz and unzip]
+- [download tar.xz and unzip](https://www.intel.com/content/www/us/en/download/819707/epp-tuning-package-for-linux-on-intel-core-ultra-mobile-processor.html)
 - Execute deploy.sh script from terminal or copy tuneD[tuned-adm] custom profiles manually to /etc/tuned/ folder
 ### for debian linux[Debian, Ubuntu]
 - first time
@@ -176,6 +176,7 @@ summary=Intel epp 0 TuneD profile
 script=${i:PROFILE_DIR}/script.sh
 ```
 - after custmizing, ```sudo deploy.sh```, cp profiles to ```/usr/lib/tuned/profiles```
+
 # Writing a mangement gui included hidden tray
 Using qt6 and python3 
 ```python
