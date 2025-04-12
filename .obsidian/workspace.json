@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "d1bd04acbc20f088",
+        "id": "48453e72ba8b93a6",
         "type": "tabs",
         "children": [
           {
-            "id": "4c0c7592d5fd0c4b",
+            "id": "1c50572e0773c92e",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "_posts/2025-04-10-using-intel-epp-managing-your-cpu-scheduling-by-tuned-adm.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "新标签页"
+              "title": "2025-04-10-using-intel-epp-managing-your-cpu-scheduling-by-tuned-adm"
             }
           }
         ]
@@ -74,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "453ba39b3cea6cea",
@@ -90,6 +95,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "_posts/2025-04-10-using-intel-epp-managing-your-cpu-scheduling-by-tuned-adm.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +105,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "反向链接"
+              "title": "2025-04-10-using-intel-epp-managing-your-cpu-scheduling-by-tuned-adm 的反向链接列表"
             }
           },
           {
@@ -108,11 +114,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "_posts/2025-04-10-using-intel-epp-managing-your-cpu-scheduling-by-tuned-adm.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "出链"
+              "title": "2025-04-10-using-intel-epp-managing-your-cpu-scheduling-by-tuned-adm 的出链列表"
             }
           },
           {
@@ -136,12 +143,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "_posts/2025-04-10-using-intel-epp-managing-your-cpu-scheduling-by-tuned-adm.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "大纲"
+              "title": "2025-04-10-using-intel-epp-managing-your-cpu-scheduling-by-tuned-adm 的大纲"
             }
           }
         ]
@@ -161,10 +169,10 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "4c0c7592d5fd0c4b",
+  "active": "1c50572e0773c92e",
   "lastOpenFiles": [
+    "_posts/2025-04-10-using-intel-epp-managing-your-cpu-scheduling-by-tuned-adm.md",
     "_posts/2025-04-10-test-on-knowledge-section.md",
-    "banner.jpg",
-    "_posts/2025-04-10-using-intel-epp-managing-your-cpu-scheduling-by-tuned-adm.md"
+    "banner.jpg"
   ]
 }
