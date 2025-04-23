@@ -1,0 +1,21 @@
+---
+layout: post
+title: "some thoughts for issues that bit professor and student"
+categories: knowledge
+---
+
+Recently, this issues, i consider amount of people awaring it, especially college students and individuals own similar backgrounds or past experience, shocked by this traditional type but refreshing and dramatic contents. 
+
+As the limited thoughts and fixed concepts in population views, people always concieve the things happened if it are male professor invasion the rights of female university students as the similar happening surrouding their ears again and again. Same as other sexual scandal, soon it was widely spread. While this things changed a lot, playing by two characters in same gender, not as regularly happened. Therefore, it was promoting scandal spreading when individuals read it, arousing them interests, and then deliver to the next readers rapidly.
+
+I had read a lot comments and someone who talking about this scandal, most people were disputing about it between supporting "pity professor" and "unethical" student basically. Therefore, i don't want to waste time to repeat same views on it. 
+
+Overall, my views are surrounding with the points ignored by people.
+- Victims of neglect
+- Rights that are not protected
+
+Firstly, i seem that too many people and views focusing on victims they caring about, either the former or the latter. Whether the other victims are existing, excluded and ignored from main horizon. The dramatic and painful things are who purchase the cost, if it only one man violating the rights of another? I don't think that's the case, while it really that a case of an elderly teacher who sincerely give love and a young student who lets him down? Otherwise, the superiors use their power to violates the rights of students who are in a lower position. While i just saw the ugliness of the sex transfer scandal, neither only a case of who give love, nor a simple case of who violate another merely. For the case 1, what's even more pitiful is the dad's sons with broken famaliy and possibly unaware wife. Moreover, the other students in the lab, who struggling for operating experiments and writing pappers, but the results were stolen by others. The most vulnerable and sad heart, when they saw the scandal, someone violates thier rights in graduate examination selection, through an unfair and ilegal "helping hand" by the professor in order to satisfy selfish desires, that are pity. Even more pity things are some invisbale victims still unwaring, justice will not come, futhermore, not many people care about their rights they deserved and feelings, constantly focusing teacher and student, zooming about narratives of internets comments for the two. One more sentence, as said that the successful guidelines of how to writing a good story for people, there are some simple ways to attract and envoke audiences, you should tell the reason of failure casued by other people to populations, and tell the success they built not other factor working to the success people. But sometimes I want to say that the truth is not like this. Pitiful struggling and hard-working students in cases may concieve that the failure of competing caused by not enough working hard. They keep looking for reasons for their failure in their subsequent life, making up a plausible excuse for themselves, the truth is actually not. However they don't have chances to get justice for themselves, and population don't have opportunities to hear their voices. As a person without privilege, who is not in such a tragedy?
+
+Other, the professor don't have chances to protect his rights. In most views, the bad person they are evilly and guilty, people remain angry at them and often ignore the fact that as individuals, they also have the right to protect themselves in addition to being punished even though they made mistakes. In this case, the more likely that issues tackled are professor exposuring the details of unfair of his experience in competing for title of professor. He also can't get help for himself however standing on an advantage postion as a single individual on relative top power who violating another in lower position.
+
+Note: the article was copied from other website, and the author of this article don't have the name.
