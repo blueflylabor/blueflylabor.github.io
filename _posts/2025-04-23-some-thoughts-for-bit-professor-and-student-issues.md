@@ -4,11 +4,11 @@ title: "some thoughts for issues that BIT professor and student"
 categories: knowledge
 ---
 
-Recently, this issues, i consider amount of people awaring it, especially college students and individuals own similar backgrounds or past experience, shocked by this traditional type but refreshing and dramatic contents. 
+Recently, this issues let amount of people awaring it, shocked by this traditional type but refreshing and dramatic contents, specially university students and individuals own similar backgrounds or past experience.
 
-As the limited thoughts and fixed concepts in population views, people always concieve the things happened if it are male professor invasion the rights of female university students as the similar happening surrouding their ears again and again. Same as other sexual scandal, soon it was widely spread. While this things changed a lot, playing by two characters in same gender, not as regularly happened. Therefore, it was promoting scandal spreading when individuals read it, arousing them interests, and then deliver to the next readers rapidly.
+As the limited thoughts and fixed concepts in pubilc views, people always concieve the things happened that a male professor invading the rights of female university students as the similar happening surrouding their ears again and again. Same as other sexual scandal, soon it was widely spread. While this things changed a lot, playing by two characters in same gender, not as regularly happened. Therefore, it was promoting scandal spreading when individuals read it, arousing them interests, and then deliver to the next readers rapidly.
 
-I had read a lot comments and someone who talking about this scandal, most people were disputing about it between supporting "pity professor" and "unethical" student basically. Therefore, i don't want to waste time to repeat same views on it. 
+I had read a lot comments and narrations someone who talking about this scandal, most people were disputing about it between supporting "pity professor" and "unethical" student basically. Therefore, i don't want to waste time to repeat same views on it. 
 
 Overall, my views are surrounding with the points ignored by people.
 - Victims of neglect
