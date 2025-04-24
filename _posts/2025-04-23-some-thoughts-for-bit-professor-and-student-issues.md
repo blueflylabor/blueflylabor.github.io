@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "some thoughts for issues that bit professor and student"
+title: "some thoughts for issues that BIT professor and student"
 categories: knowledge
 ---
 
