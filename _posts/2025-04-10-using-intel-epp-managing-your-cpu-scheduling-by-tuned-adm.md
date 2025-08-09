@@ -17,9 +17,9 @@ categories:
 ### for debian linux[Debian, Ubuntu]
 - first time
 ```bash
-wget -O- https://apt.repos.intel.com/clientbkm/pub1/debian/public.gpg \ | gpg --dearmor | sudo tee /usr/share/keyrings/clientbkm-pub-archive-keyring.gpg > /dev/null
+wget -O- https://apt.repos.intel.com/clientbkm/pub1/debian/public.gpg \ | gpg --dearmor | sudo tee /usr/share/keyrings/clientbkm-pub-archive-keyring.gpg > /dev/null  
 
-echo "deb [arch=any signed-by=/usr/share/keyrings/clientbkm-pub-archive-keyring.gpg] https://apt.repos.intel.com/clientbkm/pub1/debian stable main" | sudo tee /etc/apt/sources.list.d/clientbkm-pub-debian.list 
+echo "deb [arch=any signed-by=/usr/share/keyrings/clientbkm-pub-archive-keyring.gpg] https://apt.repos.intel.com/clientbkm/pub1/debian stable main" | sudo tee /etc/apt/sources.list.d/clientbkm-pub-debian.list   
 
 sudo apt update​
 ```
