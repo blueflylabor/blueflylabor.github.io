@@ -1,10 +1,10 @@
 ---
-layout: post          # 使用的布局（通常是 post）
-title: "some knowledge about go routine and channel"  # 文章标题
-date: 2025-08-09 10:30:00  # 发布时间
-categories: [go, routine, channel]   # 分类
-tags: [go]    # 标签
-author: "blueflylabor"       # 作者（可选）
+layout: post
+title: "some knowledge about go routine and channel"
+categories:
+  - go
+  - routine
+  - channel
 ---
 
 ### 一、通道缓冲区的基本概念
