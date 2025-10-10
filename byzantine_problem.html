@@ -1,0 +1,1802 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++17蚁群算法解决拜占庭问题 | 技术文档</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#4080FF',
+                        accent: '#0FC6C2',
+                        dark: '#1E1E2E',
+                        darker: '#12121C',
+                        card: '#2D2D3F',
+                        text: '#E0E0E0',
+                        light: '#F5F5F7'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace']
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .bg-glass {
+                background: rgba(45, 45, 63, 0.7);
+                backdrop-filter: blur(10px);
+            }
+            .transition-smooth {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .code-block {
+                position: relative;
+                overflow-x: auto;
+            }
+            .copy-btn {
+                position: absolute;
+                top: 0.5rem;
+                right: 0.5rem;
+                opacity: 0.7;
+                transition: opacity 0.2s;
+            }
+            .copy-btn:hover {
+                opacity: 1;
+            }
+            .nav-item-active {
+                border-left: 3px solid #165DFF;
+                color: #165DFF;
+                font-weight: 500;
+            }
+        }
+    </style>
+</head>
+<body class="bg-dark text-text font-sans min-h-screen flex flex-col">
+    <!-- 顶部导航栏 - 移动端 -->
+    <header class="md:hidden fixed top-0 left-0 right-0 bg-darker z-50 border-b border-card">
+        <div class="flex items-center justify-between px-4 py-3">
+            <h1 class="text-lg font-semibold text-white">ACO 拜占庭问题</h1>
+            <button id="mobile-menu-btn" class="text-white focus:outline-none">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </div>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden bg-card border-b border-darker">
+            <nav class="px-4 py-2">
+                <ul class="space-y-2">
+                    <li><a href="#intro" class="block py-2 hover:text-primary transition-smooth">概述</a></li>
+                    <li><a href="#principle" class="block py-2 hover:text-primary transition-smooth">算法原理</a></li>
+                    <li><a href="#implementation" class="block py-2 hover:text-primary transition-smooth">实现架构</a></li>
+                    <li><a href="#dataset" class="block py-2 hover:text-primary transition-smooth">数据集</a></li>
+                    <li><a href="#parameters" class="block py-2 hover:text-primary transition-smooth">参数设计</a></li>
+                    <li><a href="#visualization" class="block py-2 hover:text-primary transition-smooth">可视化</a></li>
+                    <li><a href="#code" class="block py-2 hover:text-primary transition-smooth">完整代码</a></li>
+                    <li><a href="#optimization" class="block py-2 hover:text-primary transition-smooth">性能优化</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="flex flex-1 pt-14 md:pt-0">
+        <!-- 侧边导航栏 - 桌面端 -->
+        <aside class="hidden md:block fixed left-0 top-0 bottom-0 w-64 bg-darker border-r border-card overflow-y-auto">
+            <div class="p-4 border-b border-card">
+                <h1 class="text-xl font-bold text-white">C++17蚁群算法</h1>
+                <p class="text-sm text-gray-400 mt-1">解决拜占庭问题</p>
+            </div>
+            <nav class="p-4">
+                <ul class="space-y-1">
+                    <li><a href="#intro" class="block px-3 py-2 rounded hover:bg-card transition-smooth nav-item-active">概述</a></li>
+                    <li><a href="#principle" class="block px-3 py-2 rounded hover:bg-card transition-smooth">算法原理</a></li>
+                    <li><a href="#implementation" class="block px-3 py-2 rounded hover:bg-card transition-smooth">实现架构</a></li>
+                    <li><a href="#dataset" class="block px-3 py-2 rounded hover:bg-card transition-smooth">数据集</a></li>
+                    <li><a href="#parameters" class="block px-3 py-2 rounded hover:bg-card transition-smooth">参数设计</a></li>
+                    <li><a href="#visualization" class="block px-3 py-2 rounded hover:bg-card transition-smooth">可视化</a></li>
+                    <li><a href="#code" class="block px-3 py-2 rounded hover:bg-card transition-smooth">完整代码</a></li>
+                    <li><a href="#optimization" class="block px-3 py-2 rounded hover:bg-card transition-smooth">性能优化</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="flex-1 md:ml-64 p-4 md:p-8 max-w-6xl mx-auto">
+            <!-- 概述部分 -->
+            <section id="intro" class="mb-12">
+                <div class="bg-card rounded-xl p-6 shadow-lg">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4 flex items-center">
+                        <i class="fa fa-info-circle text-primary mr-3"></i>概述
+                    </h2>
+                    <p class="mb-4">本文档提供一个完整的C++17蚁群算法实现方案，用于解决拜占庭问题。该方案涵盖算法原理、问题建模、参数设计、可视化实现等各个方面，旨在为研究人员和工程师提供实用的技术参考。</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                        <div class="bg-darker rounded-lg p-4 border-l-4 border-primary">
+                            <h3 class="font-semibold text-white mb-2">算法基础</h3>
+                            <p class="text-sm text-gray-300">基于Marco Dorigo提出的蚁群优化算法，结合拜占庭问题特性进行改进</p>
+                        </div>
+                        <div class="bg-darker rounded-lg p-4 border-l-4 border-secondary">
+                            <h3 class="font-semibold text-white mb-2">技术栈</h3>
+                            <p class="text-sm text-gray-300">C++17核心特性，SFML/Qt/ImGui可视化，spdlog日志系统</p>
+                        </div>
+                        <div class="bg-darker rounded-lg p-4 border-l-4 border-accent">
+                            <h3 class="font-semibold text-white mb-2">应用场景</h3>
+                            <p class="text-sm text-gray-300">分布式系统共识问题，拜占庭容错协议，联邦学习鲁棒性优化</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 算法原理部分 -->
+            <section id="principle" class="mb-12">
+                <div class="bg-card rounded-xl p-6 shadow-lg">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center">
+                        <i class="fa fa-cogs text-primary mr-3"></i>蚁群算法与拜占庭问题的结合原理
+                    </h2>
+                    
+                    <!-- 1.1 蚁群算法核心机制 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-bug text-secondary mr-2"></i>1.1 蚁群算法核心机制
+                        </h3>
+                        <p class="mb-4">蚁群算法（Ant Colony Optimization, ACO）是一种模拟蚂蚁觅食行为的群体智能优化算法，由意大利学者Marco Dorigo等人于20世纪90年代提出。该算法的核心思想源于真实蚂蚁通过信息素协作发现最短路径的群体行为，体现了<span class="text-accent font-medium">正反馈机制</span>、<span class="text-accent font-medium">分布式计算</span>和<span class="text-accent font-medium">自组织性</span>等特点。</p>
+                        
+                        <p class="mb-4">在算法实现中，<span class="text-accent font-medium">人工蚂蚁</span>模拟真实蚂蚁的行为，但具备记忆功能，可以记住已访问的节点。蚂蚁在选择下一个节点时使用概率选择规则，平衡探索（探索新路径）与利用（利用已知信息）之间的关系。</p>
+                        
+                        <div class="bg-darker rounded-lg p-4 my-4">
+                            <h4 class="font-medium text-white mb-2">状态转移概率公式：</h4>
+                            <div class="flex justify-center py-3">
+                                \[
+                                P_{ij}^k(t) = \frac{[\tau_{ij}(t)]^\alpha \cdot [\eta_{ij}]^\beta}{\sum_{l \in \text{允许节点}} [\tau_{ij}(t)]^\alpha \cdot [\eta_{il}]^\beta}
+                                \]
+                            </div>
+                            <p class="text-sm text-gray-300 mt-2">其中，\(\tau_{ij}(t)\)表示路径\((i,j)\)在时刻\(t\)的信息素浓度，\(\eta_{ij}\)是启发式信息（通常取\(1/d_{ij}\)，\(d_{ij}\)为距离），\(\alpha\)和\(\beta\)是控制信息素与启发式信息相对重要性的参数。</p>
+                        </div>
+                        
+                        <p class="mb-2">信息素更新机制包括两个方面：</p>
+                        <ul class="list-disc list-inside space-y-2 mb-4 text-gray-300">
+                            <li><span class="text-accent font-medium">信息素挥发</span>（模拟真实信息素的蒸发）\(\tau_{ij} \leftarrow (1-\rho)\tau_{ij}\)，其中\(\rho\)是信息素挥发系数</li>
+                            <li><span class="text-accent font-medium">信息素增强</span>（蚂蚁释放信息素）\(\tau_{ij} \leftarrow \tau_{ij} + \sum_{k=1}^m \Delta \tau_{ij}^k\)，其中\(\Delta \tau_{ij}^k\)是第\(k\)只蚂蚁在边\((i,j)\)上释放的信息素量</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 1.2 拜占庭问题的图论建模 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-sitemap text-secondary mr-2"></i>1.2 拜占庭问题的图论建模
+                        </h3>
+                        <p class="mb-4">拜占庭问题本质上是一个<span class="text-accent font-medium">分布式共识问题</span>，核心描述是在存在叛徒的情况下，忠诚的将军们如何达成一致的行动计划。将拜占庭问题与蚁群算法结合，需要将其建模为图结构问题。</p>
+                        
+                        <div class="bg-darker rounded-lg p-4 my-4">
+                            <h4 class="font-medium text-white mb-2">图论建模核心思想：</h4>
+                            <p class="mb-2"><span class="text-accent font-medium">拜占庭帝国被近似为一个图结构</span>，其中节点代表将军，边代表将军之间的通信连接。</p>
+                            <p class="mb-2">问题需要满足以下条件：</p>
+                            <ul class="list-disc list-inside space-y-1 text-gray-300">
+                                <li>所有诚实的将军必须获得相同的信息向量\((v_1, v_2, \ldots, v_n)\)</li>
+                                <li>若第\(i\)个将军是忠诚的，其他忠诚的将军必须以他送出的值作为\(v_i\)</li>
+                            </ul>
+                        </div>
+                        
+                        <p class="mb-2">形式化的要求包括<span class="text-accent font-medium">一致性</span>（所有忠诚的将军最终采取相同的行动）和<span class="text-accent font-medium">正确性</span>（如果司令是忠诚的，所有忠诚的副官都遵守他发出的命令），这两个条件被称为交互一致性（IC1和IC2），分别保证了分布式系统中的Safety与Liveness。</p>
+                    </div>
+                    
+                    <!-- 1.3 算法结合的创新思路 -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-lightbulb-o text-secondary mr-2"></i>1.3 算法结合的创新思路
+                        </h3>
+                        <p class="mb-4">将蚁群算法应用于拜占庭问题，主要思路是将<span class="text-accent font-medium">共识过程转化为路径优化问题</span>。每个节点（将军）作为图中的一个节点，节点之间的连接表示通信关系。蚁群算法通过模拟蚂蚁在图中的路径搜索过程，寻找能够达成共识的最优通信路径。</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2">信息素浓度</h4>
+                                <p class="text-sm text-gray-300">表示路径的可靠性，高浓度信息素对应更可靠的通信路径</p>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2">启发式信息</h4>
+                                <p class="text-sm text-gray-300">表示节点的可信度或通信质量，指导蚂蚁选择更优路径</p>
+                            </div>
+                        </div>
+                        
+                        <p>蚂蚁在图中游走的过程，模拟了信息在网络中的传播和验证过程。通过信息素的更新机制，算法能够逐渐强化可靠的通信路径，抑制不可靠的路径。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 实现架构部分 -->
+            <section id="implementation" class="mb-12">
+                <div class="bg-card rounded-xl p-6 shadow-lg">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center">
+                        <i class="fa fa-code-fork text-primary mr-3"></i>C++17技术选型与实现架构
+                    </h2>
+                    
+                    <!-- 2.1 C++17核心特性应用 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-cubes text-secondary mr-2"></i>2.1 C++17核心特性应用
+                        </h3>
+                        <p class="mb-4">C++17引入了多项重要特性，为蚁群算法的实现提供了强大支持。以下是关键特性的应用场景：</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-object-group text-accent mr-2"></i>结构化绑定
+                                </h4>
+                                <p class="text-sm text-gray-300 mb-2">允许将结构化数据中的各个成员直接解包为独立变量</p>
+                                <div class="code-block bg-dark rounded p-2 text-xs">
+                                    <pre>auto [i, d, s] = getData();</pre>
+                                </div>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-arrows-h text-accent mr-2"></i>折叠表达式
+                                </h4>
+                                <p class="text-sm text-gray-300">简化可变参数模板的操作，特别适用于处理蚂蚁群体的并行计算</p>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-check-square-o text-accent mr-2"></i>if constexpr
+                                </h4>
+                                <p class="text-sm text-gray-300">支持编译期分支，根据类型或条件选择不同的代码路径，避免运行时开销</p>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-question-circle text-accent mr-2"></i>std::optional
+                                </h4>
+                                <p class="text-sm text-gray-300">表示可选值，明确表达值可能存在或不存在的语义，适合处理不确定信息</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-darker rounded-lg p-4 my-2">
+                            <h4 class="font-medium text-white mb-2 flex items-center">
+                                <i class="fa fa-exchange text-accent mr-2"></i>std::variant
+                            </h4>
+                            <p class="text-sm text-gray-300 mb-2">提供类型安全的联合体，安全地持有多种预定义类型中的一种，用于表示不同类型的消息或节点状态</p>
+                            <div class="code-block bg-dark rounded p-2 text-xs">
+                                <pre>using NodeStatus = std::variant&lt;Loyal, Traitor, Unknown&gt;;</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2.2 数据结构设计 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-database text-secondary mr-2"></i>2.2 数据结构设计
+                        </h3>
+                        <p class="mb-4">基于C++17的现代特性，设计以下核心数据结构：</p>
+                        
+                        <div class="mb-6">
+                            <h4 class="font-medium text-white mb-3">蚂蚁类（Ant）的实现：</h4>
+                            <div class="code-block bg-dark rounded-lg p-4">
+                                <button class="copy-btn bg-primary/70 hover:bg-primary text-white px-2 py-1 rounded text-xs" onclick="copyCode(this)">
+                                    <i class="fa fa-copy mr-1"></i>复制
+                                </button>
+                                <pre class="text-sm font-mono"><code>class Ant {
+public:
+    int position; // 当前所在位置
+    std::vector&lt;int&gt; path; // 已走过的路径
+    double pathLength; // 路径长度
+    std::vector&lt;bool&gt; visited; // 记录已访问的节点
+
+    explicit Ant(int problemSize) : position(0), pathLength(0.0) {
+        path.reserve(problemSize - 1);
+        visited.resize(problemSize, false);
+        visited[0] = true;
+    }
+
+    void moveTo(int nextPosition) {
+        path.push_back(nextPosition);
+        position = nextPosition;
+        visited[nextPosition] = true;
+    }
+};</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-medium text-white mb-3">信息素矩阵与距离矩阵：</h4>
+                                <div class="code-block bg-dark rounded-lg p-4">
+                                    <button class="copy-btn bg-primary/70 hover:bg-primary text-white px-2 py-1 rounded text-xs" onclick="copyCode(this)">
+                                        <i class="fa fa-copy mr-1"></i>复制
+                                    </button>
+                                    <pre class="text-sm font-mono"><code>using PheromoneMatrix = std::vector&lt;std::vector&lt;double&gt;&gt;;
+using DistanceMatrix = std::vector&lt;std::vector&lt;double&gt;&gt;;</code></pre>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-white mb-3">节点状态表示：</h4>
+                                <div class="code-block bg-dark rounded-lg p-4">
+                                    <button class="copy-btn bg-primary/70 hover:bg-primary text-white px-2 py-1 rounded text-xs" onclick="copyCode(this)">
+                                        <i class="fa fa-copy mr-1"></i>复制
+                                    </button>
+                                    <pre class="text-sm font-mono"><code>// 定义节点状态枚举
+enum class NodeStatusType { Loyal, Traitor, Unknown };
+
+// 使用std::variant表示不同类型的节点状态
+using NodeStatus = std::variant&lt;
+    std::monostate,  // 未初始化状态
+    LoyalNodeData,   // 忠诚节点数据
+    TraitorNodeData, // 叛徒节点数据
+    UnknownNodeData  // 未知状态节点数据
+&gt;;</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2.3 模块化架构设计 -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-puzzle-piece text-secondary mr-2"></i>2.3 模块化架构设计
+                        </h3>
+                        <p class="mb-4">系统采用分层架构设计，主要模块包括：</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                            <div class="bg-darker rounded-lg p-4 border-t-2 border-primary">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-sitemap text-primary mr-2"></i>问题建模模块
+                                </h4>
+                                <p class="text-sm text-gray-300">负责将拜占庭问题转换为图结构，包括节点定义、边权重计算、初始状态设置等</p>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4 border-t-2 border-secondary">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-bug text-secondary mr-2"></i>蚁群算法核心模块
+                                </h4>
+                                <p class="text-sm text-gray-300">实现蚂蚁的路径选择、信息素更新、迭代控制等核心算法逻辑</p>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4 border-t-2 border-accent">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-line-chart text-accent mr-2"></i>可视化模块
+                                </h4>
+                                <p class="text-sm text-gray-300">提供算法执行过程的实时展示，包括蚂蚁移动轨迹、信息素浓度变化、最优路径等</p>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4 border-t-2 border-purple-500">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-file-text-o text-purple-500 mr-2"></i>日志模块
+                                </h4>
+                                <p class="text-sm text-gray-300">记录算法运行过程中的关键信息，包括迭代次数、最优解变化、参数调整等</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-darker rounded-lg p-4 my-4">
+                            <h4 class="font-medium text-white mb-3">模块间交互关系：</h4>
+                            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 text-center">
+                                <div class="bg-card p-3 rounded-lg w-40">问题建模模块</div>
+                                <i class="fa fa-arrow-right text-primary"></i>
+                                <div class="bg-card p-3 rounded-lg w-40">蚁群算法核心模块</div>
+                                <div class="flex flex-col items-center">
+                                    <i class="fa fa-arrow-down text-primary my-2 md:my-0"></i>
+                                    <div class="flex space-x-4">
+                                        <i class="fa fa-arrow-left text-primary hidden md:block"></i>
+                                        <div class="bg-card p-3 rounded-lg w-40">可视化模块</div>
+                                        <div class="bg-card p-3 rounded-lg w-40">日志模块</div>
+                                        <i class="fa fa-arrow-right text-primary hidden md:block"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 数据集部分 -->
+            <section id="dataset" class="mb-12">
+                <div class="bg-card rounded-xl p-6 shadow-lg">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center">
+                        <i class="fa fa-database text-primary mr-3"></i>数据集选择与预处理
+                    </h2>
+                    
+                    <!-- 3.1 推荐数据集 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-list-alt text-secondary mr-2"></i>3.1 推荐数据集
+                        </h3>
+                        <p class="mb-4">基于当前研究现状，推荐以下几种适合的拜占庭问题数据集：</p>
+                        
+                        <!-- 图像分类数据集 -->
+                        <div class="mb-6">
+                            <h4 class="font-medium text-white mb-3 flex items-center">
+                                <i class="fa fa-picture-o text-primary mr-2"></i>1. 图像分类数据集
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-darker rounded-lg p-4">
+                                    <h5 class="font-medium text-white mb-2">MNIST</h5>
+                                    <p class="text-sm text-gray-300 mb-2">手写数字识别数据集</p>
+                                    <p class="text-xs text-gray-400">• 60,000个训练样本<br>• 10,000个测试样本<br>• 10个类别</p>
+                                </div>
+                                <div class="bg-darker rounded-lg p-4">
+                                    <h5 class="font-medium text-white mb-2">CIFAR-10</h5>
+                                    <p class="text-sm text-gray-300 mb-2">彩色图像数据集</p>
+                                    <p class="text-xs text-gray-400">• 60,000张彩色图像<br>• 10个类别<br>• 32×32像素</p>
+                                </div>
+                                <div class="bg-darker rounded-lg p-4">
+                                    <h5 class="font-medium text-white mb-2">Fashion-MNIST</h5>
+                                    <p class="text-sm text-gray-300 mb-2">时尚物品图像数据集</p>
+                                    <p class="text-xs text-gray-400">• 结构与MNIST相同<br>• 10个时尚类别<br>• 28×28像素灰度图</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-darker rounded-lg p-4 mt-4">
+                                <p class="text-sm text-gray-300">这些数据集在拜占庭鲁棒性研究中广泛应用。例如，在CIFAR-10数据集上的实验表明，与先进的鲁棒联邦学习算法相比，拜占庭攻击节点检测准确率可提升12%-24%，全局模型精度提升4.45%-18.48%。在Fashion-MNIST上的实验采用了两种标签的随机分发方式。</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 基准测试套件 -->
+                        <div class="mb-6">
+                            <h4 class="font-medium text-white mb-3 flex items-center">
+                                <i class="fa fa-cogs text-primary mr-2"></i>2. 基准测试套件
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-darker rounded-lg p-4">
+                                    <h5 class="font-medium text-white mb-2">Blades</h5>
+                                    <p class="text-sm text-gray-300">一个可扩展、可配置的基准测试套件，专门用于联邦学习中的拜占庭攻击和防御研究</p>
+                                </div>
+                                <div class="bg-darker rounded-lg p-4">
+                                    <h5 class="font-medium text-white mb-2">BFT Simulator</h5>
+                                    <p class="text-sm text-gray-300">拜占庭容错协议测试验证工具，支持多种BFT协议，包括Async BA、PBFT、VMware BA、Algorand、HotStuff BFT、Libra BFT等</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- TSPLIB数据集 -->
+                        <div>
+                            <h4 class="font-medium text-white mb-3 flex items-center">
+                                <i class="fa fa-map-signs text-primary mr-2"></i>3. TSPLIB数据集
+                            </h4>
+                            <div class="bg-darker rounded-lg p-4">
+                                <p class="text-sm text-gray-300 mb-2">虽然TSPLIB主要用于旅行商问题，但其中的图结构数据可以转换为拜占庭问题的网络拓扑。TSPLIB包含多种规模的对称和非对称旅行商问题实例。</p>
+                                <p class="text-xs text-gray-400">常用实例：eil51、berlin52、st70、eil76、pr107、pr124等，节点数量从50到1000+不等</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 3.2 数据预处理流程 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-filter text-secondary mr-2"></i>3.2 数据预处理流程
+                        </h3>
+                        <p class="mb-4">针对不同数据集，预处理步骤如下：</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-medium text-white mb-3 flex items-center">
+                                    <i class="fa fa-picture-o text-primary mr-2"></i>图像数据集预处理
+                                </h4>
+                                <ol class="list-decimal list-inside space-y-3 text-gray-300 bg-darker rounded-lg p-4">
+                                    <li class="pl-2">
+                                        <span class="font-medium text-white">数据加载：</span>
+                                        <p class="text-sm mt-1">使用torchvision等库加载原始数据集</p>
+                                    </li>
+                                    <li class="pl-2">
+                                        <span class="font-medium text-white">数据划分：</span>
+                                        <p class="text-sm mt-1">将数据集按照Dirichlet分布进行非独立同分布划分，模拟真实的联邦学习场景</p>
+                                    </li>
+                                    <li class="pl-2">
+                                        <span class="font-medium text-white">拜占庭注入：</span>
+                                        <p class="text-sm mt-1">在数据中注入不同类型的拜占庭攻击，如标签翻转、梯度篡改等</p>
+                                    </li>
+                                    <li class="pl-2">
+                                        <span class="font-medium text-white">图结构构建：</span>
+                                        <p class="text-sm mt-1">根据节点之间的通信关系构建图结构</p>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-white mb-3 flex items-center">
+                                    <i class="fa fa-exchange text-primary mr-2"></i>BFT协议数据集预处理
+                                </h4>
+                                <ol class="list-decimal list-inside space-y-3 text-gray-300 bg-darker rounded-lg p-4">
+                                    <li class="pl-2">
+                                        <span class="font-medium text-white">协议配置：</span>
+                                        <p class="text-sm mt-1">设置节点数量、叛徒比例、通信延迟等参数</p>
+                                    </li>
+                                    <li class="pl-2">
+                                        <span class="font-medium text-white">网络拓扑：</span>
+                                        <p class="text-sm mt-1">定义节点之间的连接关系，可以是全连接、随机图或特定的网络结构</p>
+                                    </li>
+                                    <li class="pl-2">
+                                        <span class="font-medium text-white">攻击策略：</span>
+                                        <p class="text-sm mt-1">配置不同的攻击模型，如静态攻击、自适应攻击等</p>
+                                    </li>
+                                    <li class="pl-2">
+                                        <span class="font-medium text-white">性能指标设置：</span>
+                                        <p class="text-sm mt-1">定义共识达成时间、消息复杂度、容错率等评估指标</p>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 3.3 数据集转换工具 -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-exchange text-secondary mr-2"></i>3.3 数据集转换工具
+                        </h3>
+                        <p class="mb-4">为了方便不同数据集的使用，建议实现一个通用的数据转换工具：</p>
+                        
+                        <div class="code-block bg-dark rounded-lg p-4">
+                            <button class="copy-btn bg-primary/70 hover:bg-primary text-white px-2 py-1 rounded text-xs" onclick="copyCode(this)">
+                                <i class="fa fa-copy mr-1"></i>复制
+                            </button>
+                            <pre class="text-sm font-mono"><code>class DatasetConverter {
+public:
+    static Graph convertMNISTToGraph(const std::vector&lt;ImageData&gt;& dataset, 
+                                    int numByzantineNodes, 
+                                    double corruptionRate) {
+        // 将MNIST数据集转换为图结构
+        Graph graph;
+        // 1. 创建节点
+        for (int i = 0; i &lt; dataset.size(); ++i) {
+            Node node;
+            node.id = i;
+            node.status = (i &lt; numByzantineNodes) ? Traitor : Loyal;
+            node.data = dataset[i].label;
+            graph.addNode(node);
+        }
+        // 2. 构建边（这里简化为全连接）
+        for (int i = 0; i &lt; dataset.size(); ++i) {
+            for (int j = 0; j &lt; dataset.size(); ++j) {
+                if (i != j) {
+                    double weight = calculateSimilarity(dataset[i], dataset[j]);
+                    graph.addEdge(i, j, weight);
+                }
+            }
+        }
+        // 3. 注入拜占庭错误
+        injectByzantineErrors(graph, corruptionRate);
+        return graph;
+    }
+    
+private:
+    static double calculateSimilarity(const ImageData& a, const ImageData& b) {
+        // 计算图像相似度，作为边权重
+        double diff = 0.0;
+        for (int i = 0; i &lt; a.pixels.size(); ++i) {
+            diff += std::abs(a.pixels[i] - b.pixels[i]);
+        }
+        return 1.0 / (1.0 + diff); // 归一化到[0,1]范围
+    }
+    
+    static void injectByzantineErrors(Graph& graph, double corruptionRate) {
+        // 注入拜占庭错误
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::bernoulli_distribution dist(corruptionRate);
+        
+        for (auto& node : graph.getNodes()) {
+            if (node.status == NodeStatus::Traitor && dist(gen)) {
+                // 翻转标签
+                node.data = (node.data + 5) % 10;
+            }
+        }
+    }
+};</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 参数设计部分 -->
+            <section id="parameters" class="mb-12">
+                <div class="bg-card rounded-xl p-6 shadow-lg">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center">
+                        <i class="fa fa-sliders text-primary mr-3"></i>算法参数设计与调优策略
+                    </h2>
+                    
+                    <!-- 4.1 核心参数定义 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-cog text-secondary mr-2"></i>4.1 核心参数定义
+                        </h3>
+                        <p class="mb-4">蚁群算法的核心参数对算法性能有决定性影响。根据大量实验研究，主要参数包括：</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-users text-primary mr-2"></i>蚂蚁数量（m）
+                                </h4>
+                                <p class="text-sm text-gray-300">通常设置为问题规模的0.7到1.5倍，对于n个节点的问题，蚂蚁数量建议设置为接近城市节点数</p>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-thermometer-three-quarters text-primary mr-2"></i>信息素重要程度（α）
+                                </h4>
+                                <p class="text-sm text-gray-300">控制信息素在路径选择中的重要性，研究表明α=1时性能最优</p>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-compass text-primary mr-2"></i>启发式因子（β）
+                                </h4>
+                                <p class="text-sm text-gray-300">控制启发式信息的重要程度，通常取值范围为1-10，在TSP问题中β=5表现最佳</p>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-wind text-primary mr-2"></i>信息素挥发率（ρ）
+                                </h4>
+                                <p class="text-sm text-gray-300">表示信息素随时间的减少程度，通常取值范围为0.1-0.6，推荐值为0.5</p>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4 md:col-span-2">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-tint text-primary mr-2"></i>信息素强度（Q）
+                                </h4>
+                                <p class="text-sm text-gray-300">影响信息素的更新量，通常取值为100左右。Q值越大，蚂蚁释放的信息素越多，算法收敛越快，但可能导致局部最优</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 参数影响图表 -->
+                        <div class="bg-darker rounded-lg p-4 my-6">
+                            <h4 class="font-medium text-white mb-4">参数对算法性能的影响</h4>
+                            <div class="h-64">
+                                <canvas id="parameterChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 4.2 参数配置建议 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-check-square-o text-secondary mr-2"></i>4.2 参数配置建议
+                        </h3>
+                        <p class="mb-4">基于不同的算法模型，参数配置有所差异：</p>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full bg-darker rounded-lg">
+                                <thead>
+                                    <tr class="bg-primary/20">
+                                        <th class="py-3 px-4 text-left text-white font-medium">算法模型</th>
+                                        <th class="py-3 px-4 text-left text-white font-medium">α（信息素重要性）</th>
+                                        <th class="py-3 px-4 text-left text-white font-medium">β（启发式因子）</th>
+                                        <th class="py-3 px-4 text-left text-white font-medium">ρ（挥发率）</th>
+                                        <th class="py-3 px-4 text-left text-white font-medium">适用场景</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-card">
+                                    <tr>
+                                        <td class="py-3 px-4 text-white font-medium">Ant-cycle模型</td>
+                                        <td class="py-3 px-4 text-gray-300">1.0</td>
+                                        <td class="py-3 px-4 text-gray-300">5.0</td>
+                                        <td class="py-3 px-4 text-gray-300">0.5</td>
+                                        <td class="py-3 px-4 text-gray-300">复杂问题，全局信息利用</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 px-4 text-white font-medium">Ant-density模型</td>
+                                        <td class="py-3 px-4 text-gray-300">1.0</td>
+                                        <td class="py-3 px-4 text-gray-300">10.0</td>
+                                        <td class="py-3 px-4 text-gray-300">0.9</td>
+                                        <td class="py-3 px-4 text-gray-300">简单问题，快速收敛</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 px-4 text-white font-medium">Ant-quantity模型</td>
+                                        <td class="py-3 px-4 text-gray-300">1.0</td>
+                                        <td class="py-3 px-4 text-gray-300">5.0</td>
+                                        <td class="py-3 px-4 text-gray-300">0.999</td>
+                                        <td class="py-3 px-4 text-gray-300">路径长度差异大的问题</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="bg-darker rounded-lg p-4 mt-4">
+                            <p class="text-sm text-gray-300">这些配置是在1000次迭代条件下得出的最优结果。对于拜占庭问题，建议采用Ant-cycle模型，因为它利用全局信息，在求解复杂问题时性能更好。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 4.3 动态参数调整策略 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-refresh text-secondary mr-2"></i>4.3 动态参数调整策略
+                        </h3>
+                        <p class="mb-4">为了适应不同规模和复杂度的问题，建议采用动态参数调整策略：</p>
+                        
+                        <div class="mb-6">
+                            <h4 class="font-medium text-white mb-3">基于问题规模的调整：</h4>
+                            <div class="code-block bg-dark rounded-lg p-4">
+                                <button class="copy-btn bg-primary/70 hover:bg-primary text-white px-2 py-1 rounded text-xs" onclick="copyCode(this)">
+                                    <i class="fa fa-copy mr-1"></i>复制
+                                </button>
+                                <pre class="text-sm font-mono"><code>void adjustParametersByProblemSize(int problemSize) {
+    if (problemSize &lt; 50) {
+        // 小规模问题
+        alpha = 1.0;
+        beta = 8.0;
+        evaporationRate = 0.6;
+        numAnts = problemSize * 1.5; // 更多蚂蚁探索
+    } else if (problemSize &lt; 200) {
+        // 中等规模问题
+        alpha = 1.0;
+        beta = 5.0;
+        evaporationRate = 0.5;
+        numAnts = problemSize * 1.0; // 蚂蚁数量等于节点数
+    } else {
+        // 大规模问题
+        alpha = 1.0;
+        beta = 3.0;
+        evaporationRate = 0.4;
+        numAnts = problemSize * 0.7; // 较少蚂蚁，降低计算复杂度
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium text-white mb-3">基于迭代次数的自适应调整：</h4>
+                            <p class="mb-3 text-gray-300">在算法运行过程中，可以根据收敛情况动态调整参数。例如，在初始阶段（前1/4迭代）使用较小的参数值以保持较大的搜索空间，后期增大参数值以加速收敛。</p>
+                            <div class="bg-darker rounded-lg p-4">
+                                <div class="h-48">
+                                    <canvas id="dynamicParamChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 4.4 参数优化算法 -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-search text-secondary mr-2"></i>4.4 参数优化算法
+                        </h3>
+                        <p class="mb-4">为了自动找到最优参数组合，可以采用以下方法：</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-darker rounded-lg p-4 border-b-2 border-primary">
+                                <h4 class="font-medium text-white mb-2">网格搜索</h4>
+                                <p class="text-sm text-gray-300">在参数空间中进行网格搜索，通过交叉对比寻找最佳参数。适用于参数数量较少的情况。</p>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4 border-b-2 border-secondary">
+                                <h4 class="font-medium text-white mb-2">均匀设计法</h4>
+                                <p class="text-sm text-gray-300">使用均匀设计方法进行参数离线调优，可以从较少的实验中快速获得优秀的参数组合。</p>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4 border-b-2 border-accent">
+                                <h4 class="font-medium text-white mb-2">元启发式优化</h4>
+                                <p class="text-sm text-gray-300">使用萤火虫算法等其他优化算法来调优蚁群算法参数，适用于复杂参数空间。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 可视化部分 -->
+            <section id="visualization" class="mb-12">
+                <div class="bg-card rounded-xl p-6 shadow-lg">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center">
+                        <i class="fa fa-eye text-primary mr-3"></i>可视化与日志系统设计
+                    </h2>
+                    
+                    <!-- 5.1 可视化技术选型 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-desktop text-secondary mr-2"></i>5.1 可视化技术选型
+                        </h3>
+                        <p class="mb-4">在C++环境下，有多种可视化技术可供选择：</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-gamepad text-primary mr-2"></i>SFML + OpenGL
+                                </h4>
+                                <p class="text-sm text-gray-300 mb-2">SFML提供窗口管理、事件循环等功能，OpenGL提供强大的底层图形渲染能力。</p>
+                                <div class="text-xs text-gray-400">
+                                    <p>• 硬件加速渲染</p>
+                                    <p>• 适合2D/3D图形</p>
+                                    <p>• 跨平台支持</p>
+                                </div>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-bar-chart text-primary mr-2"></i>Qt Charts
+                                </h4>
+                                <p class="text-sm text-gray-300 mb-2">Qt提供的专业数据可视化模块，支持多种图表类型，具有时尚的交互式界面。</p>
+                                <div class="text-xs text-gray-400">
+                                    <p>• 丰富的图表类型</p>
+                                    <p>• 良好的集成性</p>
+                                    <p>• 成熟稳定</p>
+                                </div>
+                            </div>
+                            <div class="bg-darker rounded-lg p-4 border-2 border-primary">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-line-chart text-primary mr-2"></i>Dear ImGui + ImPlot
+                                </h4>
+                                <p class="text-sm text-gray-300 mb-2">轻量级的即时模式GUI库，ImPlot是其绘图插件，特别适合实时数据可视化。</p>
+                                <div class="text-xs text-gray-400">
+                                    <p>• 轻量级易集成</p>
+                                    <p>• 实时数据更新</p>
+                                    <p>• 丰富交互功能</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-darker rounded-lg p-4 my-4">
+                            <h4 class="font-medium text-white mb-2">推荐选择：Dear ImGui + ImPlot</h4>
+                            <p class="text-sm text-gray-300">基于项目需求，推荐使用该组合，因为它轻量级、易于集成、支持即时模式渲染（适合展示动态数据）、提供丰富的图表类型和交互功能，且跨平台支持良好。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 5.2 可视化功能设计 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-paint-brush text-secondary mr-2"></i>5.2 可视化功能设计
+                        </h3>
+                        <p class="mb-4">系统需要实现以下可视化功能：</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-3 flex items-center">
+                                    <i class="fa fa-sitemap text-primary mr-2"></i>1. 网络拓扑可视化
+                                </h4>
+                                <ul class="list-disc list-inside space-y-2 text-sm text-gray-300">
+                                    <li>节点状态（忠诚/叛徒/未知）的颜色编码
+                                        <ul class="list-circle list-inside pl-4 mt-1 text-xs text-gray-400">
+                                            <li>忠诚节点：绿色</li>
+                                            <li>叛徒节点：红色</li>
+                                            <li>未知状态：灰色</li>
+                                        </ul>
+                                    </li>
+                                    <li>节点之间的通信连接</li>
+                                    <li>边权重（信息素浓度）的可视化表示</li>
+                                </ul>
+                                
+                                <!-- 网络拓扑示意图 -->
+                                <div class="mt-4 p-3 bg-dark rounded border border-card">
+                                    <div class="flex flex-wrap justify-center items-center gap-4">
+                                        <!-- 忠诚节点 -->
+                                        <div class="flex flex-col items-center">
+                                            <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white text-xs">1</div>
+                                            <span class="text-xs mt-1 text-gray-400">忠诚</span>
+                                        </div>
+                                        <div class="w-12 h-0.5 bg-gray-600"></div>
+                                        <!-- 叛徒节点 -->
+                                        <div class="flex flex-col items-center">
+                                            <div class="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white text-xs">2</div>
+                                            <span class="text-xs mt-1 text-gray-400">叛徒</span>
+                                        </div>
+                                        <div class="w-12 h-0.5 bg-gray-600"></div>
+                                        <!-- 忠诚节点 -->
+                                        <div class="flex flex-col items-center">
+                                            <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white text-xs">3</div>
+                                            <span class="text-xs mt-1 text-gray-400">忠诚</span>
+                                        </div>
+                                        <!-- 未知节点 -->
+                                        <div class="flex flex-col items-center ml-6">
+                                            <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white text-xs">4</div>
+                                            <span class="text-xs mt-1 text-gray-400">未知</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-center mt-4">
+                                        <div class="w-0.5 h-8 bg-gray-600"></div>
+                                    </div>
+                                    <div class="flex justify-center">
+                                        <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white text-xs">5</div>
+                                        <span class="text-xs ml-2 text-gray-400">忠诚（司令）</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-3 flex items-center">
+                                    <i class="fa fa-bug text-primary mr-2"></i>2. 蚂蚁移动轨迹
+                                </h4>
+                                <ul class="list-disc list-inside space-y-2 text-sm text-gray-300">
+                                    <li>每只蚂蚁的当前位置（使用不同颜色或标记区分）</li>
+                                    <li>蚂蚁走过的路径（使用线条或粒子效果展示）</li>
+                                    <li>路径的权重变化（颜色深浅表示权重大小）</li>
+                                </ul>
+                                
+                                <!-- 蚂蚁轨迹示意图 -->
+                                <div class="mt-4 p-3 bg-dark rounded border border-card">
+                                    <div class="relative h-32">
+                                        <!-- 节点 -->
+                                        <div class="absolute top-4 left-4 w-6 h-6 rounded-full bg-green-500"></div>
+                                        <div class="absolute top-20 left-20 w-6 h-6 rounded-full bg-red-500"></div>
+                                        <div class="absolute top-8 left-40 w-6 h-6 rounded-full bg-green-500"></div>
+                                        <div class="absolute top-24 left-30 w-6 h-6 rounded-full bg-gray-500"></div>
+                                        
+                                        <!-- 路径 -->
+                                        <svg class="absolute top-0 left-0 w-full h-full" viewBox="0 0 160 120">
+                                            <path d="M20,20 L80,80 L160,40" stroke="#4B5563" stroke-width="1" fill="none" />
+                                            <path d="M80,80 L120,100" stroke="#4B5563" stroke-width="1" fill="none" />
+                                            
+                                            <!-- 蚂蚁轨迹 -->
+                                            <circle cx="35" cy="35" r="2" fill="#3B82F6">
+                                                <animate attributeName="cx" values="20;80;160" dur="5s" repeatCount="indefinite" />
+                                                <animate attributeName="cy" values="20;80;40" dur="5s" repeatCount="indefinite" />
+                                            </circle>
+                                            <circle cx="95" cy="95" r="2" fill="#10B981">
+                                                <animate attributeName="cx" values="80;120" dur="3s" repeatCount="indefinite" />
+                                                <animate attributeName="cy" values="80;100" dur="3s" repeatCount="indefinite" />
+                                            </circle>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-3 flex items-center">
+                                    <i class="fa fa-fire text-primary mr-2"></i>3. 信息素浓度热力图
+                                </h4>
+                                <ul class="list-disc list-inside space-y-2 text-sm text-gray-300">
+                                    <li>使用颜色渐变显示各条边上信息素浓度的分布</li>
+                                    <li>高浓度区域用暖色表示（红、橙、黄）</li>
+                                    <li>低浓度区域用冷色表示（蓝、绿、紫）</li>
+                                    <li>实时更新信息素浓度变化</li>
+                                </ul>
+                                
+                                <!-- 热力图示例 -->
+                                <div class="mt-4 p-3 bg-dark rounded border border-card">
+                                    <div class="flex flex-col items-center">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-full bg-green-500"></div>
+                                            <div class="w-20 h-2 bg-gradient-to-r from-green-500 via-yellow-500 to-red-500"></div>
+                                            <div class="w-6 h-6 rounded-full bg-red-500"></div>
+                                        </div>
+                                        <div class="text-xs text-gray-400 mt-1">信息素浓度：低 ←→ 高</div>
+                                        
+                                        <!-- 简化热力图 -->
+                                        <div class="mt-3 flex gap-2">
+                                            <div class="w-6 h-6 rounded-full bg-green-500"></div>
+                                            <div class="w-12 h-0.5 bg-blue-500"></div>
+                                            <div class="w-6 h-6 rounded-full bg-red-500"></div>
+                                            <div class="w-12 h-0.5 bg-yellow-500"></div>
+                                            <div class="w-6 h-6 rounded-full bg-green-500"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-3 flex items-center">
+                                    <i class="fa fa-line-chart text-primary mr-2"></i>4. 算法性能指标
+                                </h4>
+                                <ul class="list-disc list-inside space-y-2 text-sm text-gray-300">
+                                    <li>迭代次数与最优解的关系曲线</li>
+                                    <li>蚂蚁群体的收敛程度（使用误差条或箱线图）</li>
+                                    <li>计算时间统计（实时更新）</li>
+                                    <li>信息素浓度变化趋势</li>
+                                </ul>
+                                
+                                <!-- 性能图表示例 -->
+                                <div class="mt-4 p-3 bg-dark rounded border border-card h-32">
+                                    <canvas id="performanceChartSample"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 5.3 日志系统设计 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-file-text-o text-secondary mr-2"></i>5.3 日志系统设计
+                        </h3>
+                        <p class="mb-4">日志系统使用<span class="text-accent font-medium">spdlog</span>高性能C++日志库，它具有以下特点：</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mb-4">
+                            <div class="bg-darker rounded p-2 text-xs text-center">极高的性能</div>
+                            <div class="bg-darker rounded p-2 text-xs text-center">支持头文件版本和编译版本</div>
+                            <div class="bg-darker rounded p-2 text-xs text-center">功能丰富的格式化</div>
+                            <div class="bg-darker rounded p-2 text-xs text-center">支持异步模式</div>
+                            <div class="bg-darker rounded p-2 text-xs text-center">多线程安全</div>
+                            <div class="bg-darker rounded p-2 text-xs text-center">多种日志目标</div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <h4 class="font-medium text-white mb-3">核心日志功能：</h4>
+                            
+                            <div class="space-y-4">
+                                <!-- 算法执行日志 -->
+                                <div>
+                                    <h5 class="text-sm font-medium text-white mb-2">1. 算法执行日志</h5>
+                                    <div class="code-block bg-dark rounded-lg p-3">
+                                        <pre class="text-xs font-mono"><code>spdlog::info("ACO algorithm started with parameters: ants={}, alpha={}, beta={}, rho={}", 
+             numAnts, alpha, beta, rho);</code></pre>
+                                    </div>
+                                </div>
+                                
+                                <!-- 迭代过程日志 -->
+                                <div>
+                                    <h5 class="text-sm font-medium text-white mb-2">2. 迭代过程日志</h5>
+                                    <div class="code-block bg-dark rounded-lg p-3">
+                                        <pre class="text-xs font-mono"><code>spdlog::info("Iteration {}: Best path length = {}, Average path length = {}", 
+             iteration, bestPathLength, avgPathLength);</code></pre>
+                                    </div>
+                                </div>
+                                
+                                <!-- 蚂蚁行为日志 -->
+                                <div>
+                                    <h5 class="text-sm font-medium text-white mb-2">3. 蚂蚁行为日志</h5>
+                                    <div class="code-block bg-dark rounded-lg p-3">
+                                        <pre class="text-xs font-mono"><code>spdlog::debug("Ant {} moved from node {} to node {}", antId, fromNode, toNode);</code></pre>
+                                    </div>
+                                </div>
+                                
+                                <!-- 信息素更新日志 -->
+                                <div>
+                                    <h5 class="text-sm font-medium text-white mb-2">4. 信息素更新日志</h5>
+                                    <div class="code-block bg-dark rounded-lg p-3">
+                                        <pre class="text-xs font-mono"><code>spdlog::trace("Pheromone updated: edge ({}, {}) from {} to {}", 
+              i, j, oldPheromone, newPheromone);</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 5.4 实时监控仪表板 -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-dashboard text-secondary mr-2"></i>5.4 实时监控仪表板
+                        </h3>
+                        <p class="mb-4">使用ImGui创建实时监控仪表板：</p>
+                        
+                        <div class="code-block bg-dark rounded-lg p-4">
+                            <button class="copy-btn bg-primary/70 hover:bg-primary text-white px-2 py-1 rounded text-xs" onclick="copyCode(this)">
+                                <i class="fa fa-copy mr-1"></i>复制
+                            </button>
+                            <pre class="text-sm font-mono"><code>void createDashboard() {
+    ImGui::Begin("ACO for Byzantine Problem Dashboard", &showDashboard);
+    
+    // 1. 参数显示
+    ImGui::Text("Algorithm Parameters:");
+    ImGui::Text("  Ants: %d", numAnts);
+    ImGui::Text("  Alpha: %.2f", alpha);
+    ImGui::Text("  Beta: %.2f", beta);
+    ImGui::Text("  Evaporation Rate: %.2f", evaporationRate);
+    
+    // 2. 性能指标
+    ImGui::Text("Performance Metrics:");
+    ImGui::Text("  Current Iteration: %d/%d", currentIteration, maxIterations);
+    ImGui::Text("  Best Solution: %.2f", bestSolution);
+    ImGui::Text("  Convergence: %.1f%%", convergenceRate);
+    
+    // 3. 实时图表
+    if (ImPlot::BeginPlot("Convergence Curve", ImVec2(400, 200))) {
+        ImPlot::PlotLine("Best Solution", convergenceData.data(), convergenceData.size());
+        ImPlot::EndPlot();
+    }
+    
+    // 4. 控制按钮
+    if (ImGui::Button("Start Algorithm")) {
+        startAlgorithm();
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Pause")) {
+        pauseAlgorithm();
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Reset")) {
+        resetAlgorithm();
+    }
+    
+    // 5. 节点状态统计
+    ImGui::Text("Node Status:");
+    ImGui::Text("  Loyal: %d", loyalNodeCount);
+    ImGui::Text("  Traitor: %d", traitorNodeCount);
+    ImGui::Text("  Unknown: %d", unknownNodeCount);
+    
+    ImGui::End();
+}</code></pre>
+                        </div>
+                        
+                        <!-- 仪表板示意图 -->
+                        <div class="mt-6 bg-darker rounded-lg p-4">
+                            <h4 class="font-medium text-white mb-3">仪表板布局示例</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                                <div class="md:col-span-2 bg-dark rounded p-3">
+                                    <h5 class="text-xs font-medium text-white mb-2">算法参数</h5>
+                                    <div class="grid grid-cols-2 gap-2 text-xs">
+                                        <div class="text-gray-400">蚂蚁数量:</div>
+                                        <div class="text-white">15</div>
+                                        <div class="text-gray-400">Alpha:</div>
+                                        <div class="text-white">1.0</div>
+                                        <div class="text-gray-400">Beta:</div>
+                                        <div class="text-white">5.0</div>
+                                        <div class="text-gray-400">挥发率:</div>
+                                        <div class="text-white">0.5</div>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-2 bg-dark rounded p-3">
+                                    <h5 class="text-xs font-medium text-white mb-2">性能指标</h5>
+                                    <div class="grid grid-cols-2 gap-2 text-xs">
+                                        <div class="text-gray-400">当前迭代:</div>
+                                        <div class="text-white">42/100</div>
+                                        <div class="text-gray-400">最优解:</div>
+                                        <div class="text-white">89.7</div>
+                                        <div class="text-gray-400">收敛率:</div>
+                                        <div class="text-white">68.3%</div>
+                                        <div class="text-gray-400">计算时间:</div>
+                                        <div class="text-white">12.4s</div>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-4 bg-dark rounded p-3 h-32">
+                                    <div class="text-xs font-medium text-white mb-2">收敛曲线</div>
+                                    <canvas id="dashboardChart"></canvas>
+                                </div>
+                                <div class="md:col-span-4 bg-dark rounded p-3 flex justify-between items-center">
+                                    <div class="text-xs">
+                                        <span class="text-gray-400">节点状态: </span>
+                                        <span class="text-green-500">忠诚: 8</span>
+                                        <span class="text-red-500 ml-2">叛徒: 2</span>
+                                        <span class="text-gray-500 ml-2">未知: 0</span>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button class="bg-primary text-white text-xs px-3 py-1 rounded">开始</button>
+                                        <button class="bg-secondary text-white text-xs px-3 py-1 rounded">暂停</button>
+                                        <button class="bg-red-500 text-white text-xs px-3 py-1 rounded">重置</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 完整代码部分 -->
+            <section id="code" class="mb-12">
+                <div class="bg-card rounded-xl p-6 shadow-lg">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center">
+                        <i class="fa fa-code text-primary mr-3"></i>完整实现代码
+                    </h2>
+                    
+                    <!-- 6.1 主程序框架 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-cogs text-secondary mr-2"></i>6.1 主程序框架
+                        </h3>
+                        
+                        <div class="code-block bg-dark rounded-lg p-4">
+                            <button class="copy-btn bg-primary/70 hover:bg-primary text-white px-2 py-1 rounded text-xs" onclick="copyCode(this)">
+                                <i class="fa fa-copy mr-1"></i>复制
+                            </button>
+                            <pre class="text-sm font-mono"><code>#include &lt;vector&gt;
+#include &lt;random&gt;
+#include &lt;spdlog/spdlog.h&gt;
+#include &lt;spdlog/sinks/stdout_color_sinks.h&gt;
+#include &lt;imgui.h&gt;
+#include &lt;implot.h&gt;
+
+// 定义节点状态
+enum class NodeStatus { Loyal, Traitor, Unknown };
+
+// 蚂蚁类
+class Ant {
+public:
+    int currentNode;
+    std::vector&lt;int&gt; path;
+    double pathQuality;
+    std::vector&lt;bool&gt; visited;
+    
+    Ant(int startNode, int numNodes) 
+        : currentNode(startNode), pathQuality(0.0), visited(numNodes, false) {
+        visited[startNode] = true;
+        path.push_back(startNode);
+    }
+    
+    void moveTo(int nextNode, double edgeQuality) {
+        path.push_back(nextNode);
+        visited[nextNode] = true;
+        currentNode = nextNode;
+        pathQuality += edgeQuality;
+    }
+};
+
+// 蚁群算法类
+class AntColonyOptimization {
+public:
+    AntColonyOptimization(int numNodes, int numAnts, 
+                          double alpha, double beta, double rho)
+        : numNodes(numNodes), numAnts(numAnts), 
+          alpha(alpha), beta(beta), rho(rho) {
+        initializePheromone();
+    }
+    
+    void initializePheromone() {
+        pheromoneMatrix.resize(numNodes, std::vector&lt;double&gt;(numNodes, 1.0));
+    }
+    
+    std::vector&lt;Ant&gt; generateAnts() {
+        std::vector&lt;Ant&gt; ants;
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution&lt;&gt; dist(0, numNodes - 1);
+        
+        for (int i = 0; i &lt; numAnts; ++i) {
+            int startNode = dist(gen);
+            ants.emplace_back(startNode, numNodes);
+        }
+        return ants;
+    }
+    
+    void updatePheromone(const std::vector&lt;Ant&gt;& ants, const std::vector&lt;std::vector&lt;double&gt;&gt;& distanceMatrix) {
+        // 信息素挥发
+        for (int i = 0; i &lt; numNodes; ++i) {
+            for (int j = 0; j &lt; numNodes; ++j) {
+                pheromoneMatrix[i][j] *= (1 - rho);
+            }
+        }
+        
+        // 信息素增强
+        for (const auto& ant : ants) {
+            if (ant.pathQuality > 0) {
+                double pheromoneToAdd = 1.0 / ant.pathQuality;
+                for (int i = 0; i &lt; ant.path.size() - 1; ++i) {
+                    int from = ant.path[i];
+                    int to = ant.path[i + 1];
+                    pheromoneMatrix[from][to] += pheromoneToAdd;
+                    pheromoneMatrix[to][from] += pheromoneToAdd;
+                }
+            }
+        }
+    }
+    
+    double getTransitionProbability(int from, int to, const std::vector&lt;bool&gt;& visited, 
+                                   const std::vector&lt;std::vector&lt;double&gt;&gt;& distanceMatrix) {
+        if (visited[to]) return 0.0;
+        
+        double pheromoneFactor = std::pow(pheromoneMatrix[from][to], alpha);
+        double heuristicFactor = std::pow(1.0 / distanceMatrix[from][to], beta);
+        
+        double total = 0.0;
+        for (int i = 0; i &lt; numNodes; ++i) {
+            if (!visited[i]) {
+                double factor = std::pow(pheromoneMatrix[from][i], alpha) * 
+                               std::pow(1.0 / distanceMatrix[from][i], beta);
+                total += factor;
+            }
+        }
+        
+        return (pheromoneFactor * heuristicFactor) / total;
+    }
+    
+    std::vector&lt;int&gt; run(const std::vector&lt;std::vector&lt;double&gt;&gt;& distanceMatrix, int maxIterations) {
+        std::vector&lt;int&gt; bestPath;
+        double bestQuality = 0.0;
+        
+        for (int iter = 0; iter &lt; maxIterations; ++iter) {
+            auto ants = generateAnts();
+            
+            // 每只蚂蚁构建路径
+            for (auto& ant : ants) {
+                while (ant.path.size() &lt; numNodes) {
+                    std::vector&lt;double&gt; probabilities;
+                    std::vector&lt;int&gt; possibleNodes;
+                    
+                    for (int i = 0; i &lt; numNodes; ++i) {
+                        if (!ant.visited[i]) {
+                            double prob = getTransitionProbability(ant.currentNode, i, ant.visited, distanceMatrix);
+                            if (prob > 0) {
+                                probabilities.push_back(prob);
+                                possibleNodes.push_back(i);
+                            }
+                        }
+                    }
+                    
+                    // 轮盘赌选择
+                    double sum = std::accumulate(probabilities.begin(), probabilities.end(), 0.0);
+                    if (sum == 0) break;
+                    
+                    double random = static_cast&lt;double&gt;(rand()) / RAND_MAX * sum;
+                    int selected = 0;
+                    while (random > probabilities[selected]) {
+                        random -= probabilities[selected];
+                        selected++;
+                    }
+                    
+                    int nextNode = possibleNodes[selected];
+                    ant.moveTo(nextNode, distanceMatrix[ant.currentNode][nextNode]);
+                }
+                
+                // 更新最优解
+                if (ant.pathQuality > bestQuality) {
+                    bestQuality = ant.pathQuality;
+                    bestPath = ant.path;
+                }
+            }
+            
+            // 更新信息素
+            updatePheromone(ants, distanceMatrix);
+            
+            spdlog::info("Iteration {}: Best quality = {}", iter + 1, bestQuality);
+        }
+        
+        return bestPath;
+    }
+    
+private:
+    int numNodes;
+    int numAnts;
+    double alpha;
+    double beta;
+    double rho;
+    std::vector&lt;std::vector&lt;double&gt;&gt; pheromoneMatrix;
+};
+
+int main() {
+    // 初始化日志系统
+    auto consoleLogger = spdlog::stdout_color_mt("console");
+    spdlog::set_default_logger(consoleLogger);
+    spdlog::set_level(spdlog::level::info);
+    
+    // 定义拜占庭问题图结构（示例）
+    int numNodes = 10; // 10个节点
+    int numTraitors = 2; // 2个叛徒
+    
+    // 创建距离矩阵（这里简化为随机生成）
+    std::vector&lt;std::vector&lt;double&gt;&gt; distanceMatrix(numNodes, std::vector&lt;double&gt;(numNodes, 0.0));
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution&lt;&gt; dist(1.0, 10.0);
+    
+    for (int i = 0; i &lt; numNodes; ++i) {
+        for (int j = i + 1; j &lt; numNodes; ++j) {
+            double distance = dist(gen);
+            distanceMatrix[i][j] = distance;
+            distanceMatrix[j][i] = distance;
+        }
+        distanceMatrix[i][i] = 0.0;
+    }
+    
+    // 初始化蚁群算法参数
+    int numAnts = 15; // 蚂蚁数量为节点数的1.5倍
+    double alpha = 1.0; // 信息素重要程度
+    double beta = 5.0; // 启发式因子
+    double rho = 0.5; // 信息素挥发率
+    
+    AntColonyOptimization aco(numNodes, numAnts, alpha, beta, rho);
+    
+    // 运行算法
+    int maxIterations = 100;
+    auto bestPath = aco.run(distanceMatrix, maxIterations);
+    
+    spdlog::info("Best path found: ");
+    for (int node : bestPath) {
+        spdlog::info("Node {}", node);
+    }
+    
+    return 0;
+}</code></pre>
+                        </div>
+                    </div>
+                    
+                    <!-- 6.2 可视化集成代码 -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-eye text-secondary mr-2"></i>6.2 可视化集成代码
+                        </h3>
+                        
+                        <div class="code-block bg-dark rounded-lg p-4">
+                            <button class="copy-btn bg-primary/70 hover:bg-primary text-white px-2 py-1 rounded text-xs" onclick="copyCode(this)">
+                                <i class="fa fa-copy mr-1"></i>复制
+                            </button>
+                            <pre class="text-sm font-mono"><code>// 集成可视化功能的完整代码
+#include &lt;SFML/Graphics.hpp&gt;
+#include &lt;vector&gt;
+#include &lt;random&gt;
+
+// 节点类
+class Node {
+public:
+    sf::CircleShape shape;
+    NodeStatus status;
+    int id;
+    
+    Node(int x, int y, int radius, int id) : id(id) {
+        shape.setPosition(x - radius, y - radius);
+        shape.setRadius(radius);
+        shape.setOrigin(radius, radius);
+        setStatus(NodeStatus::Unknown);
+    }
+    
+    void setStatus(NodeStatus status) {
+        this->status = status;
+        switch (status) {
+            case NodeStatus::Loyal:
+                shape.setFillColor(sf::Color::Green);
+                break;
+            case NodeStatus::Traitor:
+                shape.setFillColor(sf::Color::Red);
+                break;
+            case NodeStatus::Unknown:
+                shape.setFillColor(sf::Color::Gray);
+                break;
+        }
+    }
+};
+
+// 边类
+class Edge {
+public:
+    Node* from;
+    Node* to;
+    sf::RectangleShape line;
+    double weight;
+    
+    Edge(Node* from, Node* to, double weight) : from(from), to(to), weight(weight) {
+        updateLine();
+    }
+    
+    void updateLine() {
+        sf::Vector2f start = from->shape.getPosition();
+        sf::Vector2f end = to->shape.getPosition();
+        sf::Vector2f direction = end - start;
+        float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+        
+        line.setPosition(start);
+        line.setSize(sf::Vector2f(length, 2));
+        line.setRotation(std::atan2(direction.y, direction.x) * 180 / 3.14159f);
+        
+        // 根据权重设置颜色
+        sf::Color color = sf::Color::White;
+        if (weight > 0.5) {
+            color.r = static_cast&lt;sf::Uint8&gt;(255 * (weight - 0.5) * 2);
+        } else {
+            color.b = static_cast&lt;sf::Uint8&gt;(255 * weight * 2);
+        }
+        line.setFillColor(color);
+    }
+};
+
+// 可视化管理器
+class VisualizationManager {
+public:
+    VisualizationManager(int width, int height) : window(sf::VideoMode(width, height), "ACO for Byzantine Problem") {
+        window.setFramerateLimit(60);
+    }
+    
+    void addNode(int x, int y, NodeStatus status, int id) {
+        nodes.emplace_back(x, y, 15, id);
+        nodes.back().setStatus(status);
+    }
+    
+    void createEdges() {
+        for (int i = 0; i < nodes.size(); ++i) {
+            for (int j = i + 1; j < nodes.size(); ++j) {
+                double distance = std::sqrt(
+                    std::pow(nodes[i].shape.getPosition().x - nodes[j].shape.getPosition().x, 2) +
+                    std::pow(nodes[i].shape.getPosition().y - nodes[j].shape.getPosition().y, 2)
+                ) / 100;
+                edges.emplace_back(&nodes[i], &nodes[j], distance);
+            }
+        }
+    }
+    
+    void addAnt(int startNodeIndex) {
+        sf::CircleShape ant(8);
+        ant.setFillColor(sf::Color::Blue);
+        if (startNodeIndex >= 0 && startNodeIndex < nodes.size()) {
+            ant.setPosition(nodes[startNodeIndex].shape.getPosition());
+        }
+        ants.push_back(ant);
+    }
+    
+    void updateAntPosition(int antIndex, int nodeIndex) {
+        if (antIndex >= 0 && antIndex < ants.size() && nodeIndex >= 0 && nodeIndex < nodes.size()) {
+            ants[antIndex].setPosition(nodes[nodeIndex].shape.getPosition());
+        }
+    }
+    
+    void updateEdgeWeight(int fromNode, int toNode, double newWeight) {
+        for (auto& edge : edges) {
+            if ((edge.from->id == fromNode && edge.to->id == toNode) || 
+                (edge.from->id == toNode && edge.to->id == fromNode)) {
+                edge.weight = newWeight;
+                edge.updateLine();
+                break;
+            }
+        }
+    }
+    
+    void setNodeStatus(int nodeIndex, NodeStatus status) {
+        if (nodeIndex >= 0 && nodeIndex < nodes.size()) {
+            nodes[nodeIndex].setStatus(status);
+        }
+    }
+    
+    bool isOpen() const {
+        return window.isOpen();
+    }
+    
+    void handleEvents() {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+    }
+    
+    void render() {
+        window.clear(sf::Color(30, 30, 46));
+        
+        // 绘制边
+        for (auto& edge : edges) {
+            edge.updateLine();
+            window.draw(edge.line);
+        }
+        
+        // 绘制节点
+        for (auto& node : nodes) {
+            window.draw(node.shape);
+        }
+        
+        // 绘制蚂蚁
+        for (auto& ant : ants) {
+            window.draw(ant);
+        }
+        
+        window.display();
+    }
+    
+private:
+    sf::RenderWindow window;
+    std::vector&lt;Node&gt; nodes;
+    std::vector&lt;Edge&gt; edges;
+    std::vector&lt;sf::CircleShape&gt; ants;
+};
+
+// 主函数集成示例
+int main() {
+    // 创建可视化管理器
+    VisualizationManager visManager(800, 600);
+    
+    // 添加节点（10个节点，2个叛徒）
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution&lt;&gt; xDist(50, 750);
+    std::uniform_int_distribution&lt;&gt; yDist(50, 550);
+    
+    for (int i = 0; i < 10; ++i) {
+        NodeStatus status = NodeStatus::Loyal;
+        if (i == 2 || i == 4) { // 设置2个叛徒节点
+            status = NodeStatus::Traitor;
+        }
+        visManager.addNode(xDist(gen), yDist(gen), status, i);
+    }
+    
+    // 创建边
+    visManager.createEdges();
+    
+    // 添加蚂蚁（15只）
+    for (int i = 0; i < 15; ++i) {
+        visManager.addAnt(i % 10);
+    }
+    
+    // 初始化蚁群算法
+    int numNodes = 10;
+    int numAnts = 15;
+    double alpha = 1.0;
+    double beta = 5.0;
+    double rho = 0.5;
+    
+    AntColonyOptimization aco(numNodes, numAnts, alpha, beta, rho);
+    
+    // 创建距离矩阵
+    std::vector&lt;std::vector&lt;double&gt;&gt; distanceMatrix(numNodes, std::vector&lt;double&gt;(numNodes, 0.0));
+    std::uniform_real_distribution&lt;&gt; dist(1.0, 10.0);
+    
+    for (int i = 0; i < numNodes; ++i) {
+        for (int j = i + 1; j < numNodes; ++j) {
+            double distance = dist(gen);
+            distanceMatrix[i][j] = distance;
+            distanceMatrix[j][i] = distance;
+        }
+    }
+    
+    // 运行算法并实时可视化
+    int maxIterations = 100;
+    for (int iter = 0; iter < maxIterations && visManager.isOpen(); ++iter) {
+        auto ants = aco.generateAnts();
+        
+        // 更新可视化中的蚂蚁位置
+        for (int i = 0; i < ants.size(); ++i) {
+            visManager.updateAntPosition(i, ants[i].currentNode);
+        }
+        
+        // 处理事件并渲染
+        visManager.handleEvents();
+        visManager.render();
+        
+        // 蚂蚁构建路径
+        for (auto& ant : ants) {
+            while (ant.path.size() < numNodes) {
+                // 路径选择逻辑...
+                // 省略部分代码...
+                
+                // 更新可视化中的蚂蚁移动
+                visManager.updateAntPosition(&ant - &ants[0], ant.currentNode);
+                visManager.handleEvents();
+                visManager.render();
+            }
+        }
+        
+        // 更新信息素并可视化边权重变化
+        aco.updatePheromone(ants, distanceMatrix);
+        // 更新边权重可视化...
+        
+        spdlog::info("Iteration {} completed", iter + 1);
+    }
+    
+    return 0;
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 性能优化部分 -->
+            <section id="optimization" class="mb-12">
+                <div class="bg-card rounded-xl p-6 shadow-lg">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-6 flex items-center">
+                        <i class="fa fa-rocket text-primary mr-3"></i>性能优化与扩展建议
+                    </h2>
+                    
+                    <!-- 7.1 并行计算优化 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-parallel text-secondary mr-2"></i>7.1 并行计算优化
+                        </h3>
+                        <p class="mb-4">蚁群算法具有天然的并行特性，因为每只蚂蚁的路径构建过程是相互独立的。可以利用C++17的并行算法库和多线程支持进行优化：</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-medium text-white mb-3">1. 蚂蚁并行构建路径</h4>
+                                <div class="code-block bg-dark rounded-lg p-4">
+                                    <button class="copy-btn bg-primary/70 hover:bg-primary text-white px-2 py-1 rounded text-xs" onclick="copyCode(this)">
+                                        <i class="fa fa-copy mr-1"></i>复制
+                                    </button>
+                                    <pre class="text-sm font-mono"><code>#include &lt;execution&gt;
+
+void parallelConstructPaths(std::vector&lt;Ant&gt;& ants, const DistanceMatrix& distanceMatrix) {
+    // 使用C++17并行算法
+    std::for_each(std::execution::par, ants.begin(), ants.end(), [&](Ant& ant) {
+        while (ant.path.size() &lt; numNodes) {
+            // 选择下一个节点的逻辑
+            std::vector&lt;double&gt; probabilities;
+            std::vector&lt;int&gt; possibleNodes;
+            
+            for (int i = 0; i &lt; numNodes; ++i) {
+                if (!ant.visited[i]) {
+                    double prob = getTransitionProbability(ant.currentNode, i, ant.visited, distanceMatrix);
+                    if (prob > 0) {
+                        probabilities.push_back(prob);
+                        possibleNodes.push_back(i);
+                    }
+                }
+            }
+            
+            // 轮盘赌选择
+            // ... 省略选择逻辑 ...
+            
+            int nextNode = possibleNodes[selected];
+            ant.moveTo(nextNode, distanceMatrix[ant.currentNode][nextNode]);
+        }
+    });
+}</code></pre>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium text-white mb-3">2. GPU加速</h4>
+                                <p class="text-sm text-gray-300 mb-3">对于大规模问题，可以考虑使用GPU加速。关键优化策略包括：</p>
+                                <ul class="list-disc list-inside space-y-2 text-sm text-gray-300 bg-darker rounded-lg p-4">
+                                    <li>将信息素矩阵存储为GPU显存中的二维数组</li>
+                                    <li>利用共享内存加速线程块内的通信</li>
+                                    <li>通过分块计算和寄存器重用优化内存带宽瓶颈</li>
+                                    <li>使用CUDA或OpenCL实现并行蚂蚁路径搜索</li>
+                                </ul>
+                                
+                                <div class="mt-3 text-xs text-gray-400">
+                                    <p>GPU加速可使大规模问题（1000+节点）的计算速度提升10-100倍，具体取决于问题规模和硬件配置。</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 并行性能对比图表 -->
+                        <div class="bg-darker rounded-lg p-4 my-6">
+                            <h4 class="font-medium text-white mb-4">并行计算性能对比</h4>
+                            <div class="h-64">
+                                <canvas id="parallelPerformanceChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 7.2 内存优化策略 -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+                            <i class="fa fa-microchip text-secondary mr-2"></i>7.2 内存优化策略
+                        </h3>
+                        <p class="mb-4">针对大规模问题，内存优化至关重要。以下是几种有效的内存优化策略：</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-th text-primary mr-2"></i>1. 稀疏矩阵存储
+                                </h4>
+                                <p class="text-sm text-gray-300 mb-2">当网络拓扑较为稀疏时，可以使用稀疏矩阵存储方式减少内存占用：</p>
+                                <div class="code-block bg-dark rounded p-2 text-xs">
+                                    <pre>using SparseMatrix = std::vector&lt;std::unordered_map&lt;int, double&gt;&gt;;</pre>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-2">内存占用可从O(n²)降至O(n + e)，其中e为边的数量</p>
+                            </div>
+                            
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-cubes text-primary mr-2"></i>2. 内存池技术
+                                </h4>
+                                <p class="text-sm text-gray-300 mb-2">对于频繁创建和销毁的对象（如蚂蚁路径），使用内存池可以减少内存分配开销。</p>
+                                <div class="code-block bg-dark rounded p-2 text-xs">
+                                    <pre>// 简化的内存池示例
+template &lt;typename T&gt;
+class MemoryPool {
+    // 内存池实现...
+    T* allocate();
+    void deallocate(T* ptr);
+};</pre>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-2">可减少80%以上的内存分配时间开销</p>
+                            </div>
+                            
+                            <div class="bg-darker rounded-lg p-4">
+                                <h4 class="font-medium text-white mb-2 flex items-center">
+                                    <i class="fa fa-exchange text-primary mr-2"></i>3. 对象池模式
+                                </h4>
+                                <p class="text-sm text-gray-300 mb-2">实现蚂蚁对象池，避免频繁的new和delete操作：</p>
+                                <div class="code-block bg-dark rounded p-2 text-xs">
+                                    <pre>class AntPool {
+public:
+    Ant* acquire(int startNode);
+    void release(Ant* ant);
+private:
+    std::vector&lt;Ant&gt; ants;
+    std::vector&lt;Ant*&gt; freeAnts;
+};</pre>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-2">对象复用，减少内存碎片和GC压力</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 内存占用对比 -->
+                        <div class="bg-darker rounded-lg p-4 my-6">
+                            <h4 class="font-medium text-white mb-4">不同存储方式内存占用对比（1000节点）</h4>
+                            <div class="h-64">
+                                <canvas id="memoryComparisonChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 回到顶部按钮 -->
+            <button id="backToTop" class="fixed bottom-6 right-6 bg-primary hover:bg-primary/80 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-smooth opacity-0 invisible">
+                <i class="fa fa-arrow-up"></i>
+            </button>
+        </main>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-darker text-gray-400 py-6 border-t border-card">
+        <div class="max-w-6xl mx-auto px-4 md:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-sm">© 2025 C++17蚁群算法解决拜占庭问题 | 技术文档</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-primary transition-smooth">
+                        <i class="fa fa-github text-xl"></i>
+                    </a>
+                    <a href="#" class="text
