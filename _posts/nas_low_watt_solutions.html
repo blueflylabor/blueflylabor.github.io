@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARM64芯片NAS云存储平台选择方案</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script>
+        // Tailwind 配置
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36CFC9',
+                        dark: '#1D2129',
+                        light: '#F2F3F5',
+                        'dark-bg': '#121212',
+                        'dark-card': '#1E1E1E',
+                        'dark-text': '#E0E0E0'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+            .nav-active {
+                border-left: 4px solid #165DFF;
+                background-color: rgba(22, 93, 255, 0.1);
+                color: #165DFF;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-dark-bg dark:text-dark-text transition-colors duration-300">
+    <!-- 顶部导航栏 -->
+    <header class="sticky top-0 z-50 bg-white dark:bg-dark-card shadow-sm transition-colors duration-300">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-server text-primary text-2xl"></i>
+                <h1 class="text-xl font-bold">ARM64 NAS 芯片选择方案</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <i class="fa fa-moon-o dark:hidden text-gray-600"></i>
+                    <i class="fa fa-sun-o hidden dark:block text-yellow-300"></i>
+                </button>
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <div class="container mx-auto px-4 py-6 flex flex-col md:flex-row">
+        <!-- 侧边导航 -->
+        <aside id="sidebar" class="md:w-64 lg:w-72 mb-6 md:mb-0 md:mr-6 hidden md:block">
+            <div class="bg-white dark:bg-dark-card rounded-lg shadow p-4 sticky top-20">
+                <nav>
+                    <ul class="space-y-1">
+                        <li>
+                            <a href="#intro" class="flex items-center px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                <i class="fa fa-info-circle w-5 text-center mr-2"></i>
+                                <span>引言</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#power-performance" class="flex items-center px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                <i class="fa fa-bolt w-5 text-center mr-2"></i>
+                                <span>功耗与性能平衡</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#storage-expansion" class="flex items-center px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                <i class="fa fa-hdd-o w-5 text-center mr-2"></i>
+                                <span>存储与扩展能力</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#feature-support" class="flex items-center px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                <i class="fa fa-cogs w-5 text-center mr-2"></i>
+                                <span>功能支持能力</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#cost-performance" class="flex items-center px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                <i class="fa fa-balance-scale w-5 text-center mr-2"></i>
+                                <span>性价比评估</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#recommendations" class="flex items-center px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                <i class="fa fa-star w-5 text-center mr-2"></i>
+                                <span>综合推荐</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#summary" class="flex items-center px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                <i class="fa fa-check-circle w-5 text-center mr-2"></i>
+                                <span>总结</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- 移动导航菜单 -->
+        <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden">
+            <div class="bg-white dark:bg-dark-card h-full w-64 p-4 transform transition-transform duration-300 translate-x-full" id="mobile-menu-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-bold">目录</h2>
+                    <button id="close-mobile-menu" class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+                <nav>
+                    <ul class="space-y-1">
+                        <li>
+                            <a href="#intro" class="mobile-nav-link flex items-center px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                <i class="fa fa-info-circle w-5 text-center mr-2"></i>
+                                <span>引言</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#power-performance" class="mobile-nav-link flex items-center px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                <i class="fa fa-bolt w-5 text-center mr-2"></i>
+                                <span>功耗与性能平衡</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#storage-expansion" class="mobile-nav-link flex items-center px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                <i class="fa fa-hdd-o w-5 text-center mr-2"></i>
+                                <span>存储与扩展能力</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#feature-support" class="mobile-nav-link flex items-center px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                <i class="fa fa-cogs w-5 text-center mr-2"></i>
+                                <span>功能支持能力</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#cost-performance" class="mobile-nav-link flex items-center px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                <i class="fa fa-balance-scale w-5 text-center mr-2"></i>
+                                <span>性价比评估</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#recommendations" class="mobile-nav-link flex items-center px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                <i class="fa fa-star w-5 text-center mr-2"></i>
+                                <span>综合推荐</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#summary" class="mobile-nav-link flex items-center px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                                <i class="fa fa-check-circle w-5 text-center mr-2"></i>
+                                <span>总结</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- 主要内容 -->
+        <main class="flex-1">
+            <!-- 引言部分 -->
+            <section id="intro" class="mb-12">
+                <div class="bg-white dark:bg-dark-card rounded-lg shadow p-6 card-hover">
+                    <h2 class="text-2xl font-bold mb-4 text-primary">ARM64芯片NAS云存储平台选择方案</h2>
+                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                        本文将从ARM64芯片的功耗特性、性能表现、存储扩展能力、功能支持以及性价比等多个维度，
+                        为您详细分析适合搭建NAS云存储平台的芯片选择方案，帮助您根据实际需求做出最佳选择。
+                    </p>
+                </div>
+            </section>
+
+            <!-- 一、ARM64芯片功耗与性能平衡分析 -->
+            <section id="power-performance" class="mb-12">
+                <div class="bg-white dark:bg-dark-card rounded-lg shadow p-6 card-hover">
+                    <h2 class="text-2xl font-bold mb-6 text-primary flex items-center">
+                        <i class="fa fa-bolt mr-2"></i>
+                        一、ARM64芯片功耗与性能平衡分析
+                    </h2>
+
+                    <!-- 1.1 超低功耗ARM64芯片推荐 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-leaf mr-2 text-green-500"></i>
+                            1.1 超低功耗ARM64芯片推荐
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            在超低功耗NAS应用场景中，<strong>功耗控制</strong>是首要考虑因素。根据实测数据，不同ARM64芯片在功耗表现上存在显著差异。
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <!-- RK3566/3568 -->
+                            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border-l-4 border-green-500">
+                                <h4 class="font-bold mb-2">RK3566/3568系列</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+                                    <li>RK3588优化后功耗仅为<strong>2.8W</strong>，可实现被动散热</li>
+                                    <li>典型场景功耗为<strong>2-5W</strong>，高负载时也仅为<strong>10W+</strong></li>
+                                    <li>RK3566的TDP功耗为<strong>5W</strong>，采用22nm工艺制程</li>
+                                    <li>待机功耗可低至<strong>1.5W</strong>，全力工作时仅<strong>4W</strong></li>
+                                </ul>
+                            </div>
+                            
+                            <!-- RK3588系列 -->
+                            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border-l-4 border-blue-500">
+                                <h4 class="font-bold mb-2">RK3588系列</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+                                    <li>TDP功耗为<strong>12W</strong>，典型功耗在<strong>2.8-4.8W</strong>之间</li>
+                                    <li>作为Plex媒体服务器使用时，待机功耗仅为<strong>3.5W</strong></li>
+                                    <li>RK3588S版本功耗更低，全闪存2.5G NAS待机功耗低至</li>
+                                    <li><strong>0.85W（1G）</strong>或<strong>1.00W（2.5G）</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- 高通骁龙8cx Gen3 -->
+                            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border-l-4 border-purple-500">
+                                <h4 class="font-bold mb-2">高通骁龙8cx Gen3</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+                                    <li>采用5nm工艺制程，功耗约为<strong>15W</strong></li>
+                                    <li>9W功耗时性能相当于22W的酷睿i5处理器</li>
+                                    <li>15W功耗下比酷睿i5性能提升25%，功耗降低25%</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- 苹果M系列芯片 -->
+                            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border-l-4 border-gray-500">
+                                <h4 class="font-bold mb-2">苹果M系列芯片</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+                                    <li>M1芯片日常功耗仅为<strong>7-12W</strong>，TDP功耗为<strong>14W</strong></li>
+                                    <li>M2芯片的TDP功耗为<strong>15W</strong></li>
+                                    <li>达到PC笔记本电脑芯片性能峰值时，能耗仅为其1/4</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1.2 性能基准测试对比 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-bar-chart mr-2 text-blue-500"></i>
+                            1.2 性能基准测试对比
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            在性能表现方面，不同ARM64芯片的差异同样明显。根据Geekbench 6测试数据：
+                        </p>
+                        
+                        <!-- 性能对比表格 -->
+                        <div class="overflow-x-auto mb-6">
+                            <table class="min-w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                <thead>
+                                    <tr class="bg-gray-100 dark:bg-gray-700">
+                                        <th class="py-3 px-4 text-left border-b border-gray-200 dark:border-gray-700">芯片型号</th>
+                                        <th class="py-3 px-4 text-left border-b border-gray-200 dark:border-gray-700">单核得分</th>
+                                        <th class="py-3 px-4 text-left border-b border-gray-200 dark:border-gray-700">多核得分</th>
+                                        <th class="py-3 px-4 text-left border-b border-gray-200 dark:border-gray-700">性能特点</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-900">
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700 font-medium">RK3588</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">约1200</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">约83860</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">8核64位架构，性能最强</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-900">
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700 font-medium">RK3568</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">737</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">2681-29380</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">4核Cortex-A55，性能中等</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-900">
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700 font-medium">RK3566</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">约600</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">约2400</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">4核Cortex-A55，入门级性能</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- 性能对比图表 -->
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-4">
+                            <h4 class="font-semibold mb-2">Geekbench 6 性能对比</h4>
+                            <div class="h-64">
+                                <canvas id="performanceChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            RK3588的运算性能约为RK3568的<strong>3倍</strong>，这种性能差距在多任务处理和4K视频转码场景中会更加明显。
+                        </p>
+                        
+                        <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg border-l-4 border-blue-500 mb-4">
+                            <h4 class="font-bold mb-2">实际应用测试数据</h4>
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
+                                <li>RK3588在YoloV5s(640×640)目标检测模型的推理性能达到<strong>49fps</strong>，而RK3568仅为<strong>17fps</strong></li>
+                                <li>RK3588拥有<strong>6TOPS</strong>算力，实测推理速度240fps，功耗2.8W</li>
+                                <li>RK3568的实际可用算力为1TOPS(INT8)，受限于22nm工艺，持续负载下可能降频至0.8 TOPS</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 1.3 NAS场景实际应用表现 -->
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-server mr-2 text-green-500"></i>
+                            1.3 NAS场景实际应用表现
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            在NAS应用场景中，ARM64芯片的表现需要综合考虑文件传输、多用户并发访问、媒体流处理等多个维度。
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- 绿联DH4300 Plus -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-t-4 border-green-500 card-hover">
+                                <h4 class="font-bold mb-2">绿联DH4300 Plus</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                    <li>ARM A55-A76八核处理器</li>
+                                    <li>8GB LPDDR4内存，支持4盘位</li>
+                                    <li>支持8K解码与AI相册管理（6 TOPS NPU）</li>
+                                    <li>双2.5G网口和HDMI输出</li>
+                                    <li>国补后价格仅<strong>969元</strong></li>
+                                </ul>
+                            </div>
+                            
+                            <!-- 威联通TS-AI642 -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-t-4 border-blue-500 card-hover">
+                                <h4 class="font-bold mb-2">威联通TS-AI642</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                    <li>ARM Cortex-A76/A55八核处理器</li>
+                                    <li>配备6 TOPS NPU</li>
+                                    <li>单2.5G网口，可扩展10G网口</li>
+                                    <li>专业级AI影像识别（人脸/人流统计）</li>
+                                    <li>支持QVR Elite监控系统（免费2路频道）</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- 拾光坞N3 Plus -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-t-4 border-purple-500 card-hover">
+                                <h4 class="font-bold mb-2">拾光坞N3 Plus</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                    <li>RK3566四核处理器</li>
+                                    <li>支持单盘位和Docker直连下载</li>
+                                    <li>低功耗（&lt;10W）</li>
+                                    <li>适合7×24小时运行</li>
+                                    <li>适合作为副NAS或轻量级备份与媒体服务</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 二、存储与扩展能力评估 -->
+            <section id="storage-expansion" class="mb-12">
+                <div class="bg-white dark:bg-dark-card rounded-lg shadow p-6 card-hover">
+                    <h2 class="text-2xl font-bold mb-6 text-primary flex items-center">
+                        <i class="fa fa-hdd-o mr-2"></i>
+                        二、存储与扩展能力评估
+                    </h2>
+
+                    <!-- 2.1 存储控制器配置分析 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-microchip mr-2 text-blue-500"></i>
+                            2.1 存储控制器配置分析
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            不同ARM64芯片在存储控制器配置上存在显著差异，这直接影响了NAS系统的存储扩展能力。
+                        </p>
+                        
+                        <!-- RK3588存储控制器 -->
+                        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 mb-6 border-l-4 border-blue-500">
+                            <h4 class="font-bold mb-2">RK3588系列</h4>
+                            <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                在存储控制器方面表现最为出色，配备了<strong>3个SATA3.0控制器</strong>，与PCIe和USB3_HOST2控制器复用PIPE PHY0/1/2。
+                            </p>
+                            <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 mb-3">
+                                <li>每个SATA端口支持SATA PM功能，可支持5个设备</li>
+                                <li>支持SATA 1.5Gb/s、3.0Gb/s、6.0Gb/s三种速度</li>
+                                <li>配备1个NVMe控制器，支持PCIe 3.0×4规格的NVMe SSD</li>
+                            </ul>
+                            
+                            <h5 class="font-semibold mb-2">支持的存储扩展方案：</h5>
+                            <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+                                <li>1路M.2 M-Key 2242（SATA可选PCIe x2 NVMe）</li>
+                                <li>1路M.2 M-Key 2242 SATA（可选PCIe x2 NVMe）</li>
+                                <li>扩展支持1路PCI-E3.0x4</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- RK3568存储控制器 -->
+                        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border-l-4 border-green-500">
+                            <h4 class="font-bold mb-2">RK3568系列</h4>
+                            <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                存储控制器配置相对简化，支持LPDDR4/LPDDR4X内存，最高频率1600MHz，容量可扩展至<strong>8GB</strong>。
+                            </p>
+                            <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 mb-3">
+                                <li>存储方面支持eMMC 5.1、SD卡接口（最高支持SDR104模式）</li>
+                                <li>支持通过PCIe转换的SATA 3.0和可选的NVMe SSD（通过PCIe 3.0接口）</li>
+                                <li>支持双SATA3.0接口设计，其中USB3.0_HOST复用SATA1，PCIE2.1复用SATA2</li>
+                            </ul>
+                            
+                            <p class="text-gray-700 dark:text-gray-300">
+                                在实际应用中，RK3568核心板标配4GB DDR4内存，板载64GB EMMC存储（最大支持128GB），
+                                并可扩展2TB SATA硬盘和128GB TF/SD卡。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 2.2 PCIe扩展能力对比 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-puzzle-piece mr-2 text-purple-500"></i>
+                            2.2 PCIe扩展能力对比
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            PCIe扩展能力直接决定了NAS系统的可扩展性，包括增加网络接口、存储控制器、GPU加速卡等。
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <!-- RK3588 PCIe -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-t-4 border-blue-500">
+                                <h4 class="font-bold mb-2">RK3588系列</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                    <li>M.2 E-Key 2230（PCIe x1, USB2.0）</li>
+                                    <li>扩展支持1路PCI-E3.0x4</li>
+                                    <li>部分型号支持MINIPCIE接口扩展</li>
+                                    <li>丰富的PCIe通道资源</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- 高通骁龙8cx Gen3 PCIe -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-t-4 border-purple-500">
+                                <h4 class="font-bold mb-2">高通骁龙8cx Gen3</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                    <li>配备<strong>9条PCIe Gen 3通道</strong></li>
+                                    <li>用于连接5G调制解调器和WiFi 6E芯片</li>
+                                    <li>部分资料显示拥有12条PCIe 4.0和4条PCIe 3.0通道</li>
+                                    <li>缺少雷电4/USB4和PCIe 4.0控制器</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- 苹果M系列 PCIe -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-t-4 border-gray-500">
+                                <h4 class="font-bold mb-2">苹果M系列芯片</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                    <li>M2 Ultra提供<strong>32条PCIe Gen 4通道</strong></li>
+                                    <li>8条专用于内部SSD</li>
+                                    <li>通过PCIe交换机提供24条Gen 4带宽</li>
+                                    <li>Mac Pro配备<strong>7个PCIe扩展插槽</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- PCIe通道数对比图表 -->
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                            <h4 class="font-semibold mb-2">各芯片PCIe通道数对比</h4>
+                            <div class="h-64">
+                                <canvas id="pcieChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2.3 RAID支持能力分析 -->
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-shield mr-2 text-red-500"></i>
+                            2.3 RAID支持能力分析
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            RAID支持是NAS系统的核心功能之一，不同ARM64芯片在这方面的表现差异较大。
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                            <!-- RK3588 RAID -->
+                            <div>
+                                <h4 class="font-bold mb-2">RK3588系列</h4>
+                                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 border-l-4 border-blue-500">
+                                    <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                        支持通过软件实现的RAID功能，包括RAID 0/1/10等基本级别。
+                                    </p>
+                                    <p class="text-gray-700 dark:text-gray-300 text-sm">
+                                        在实际应用中，可以通过Linux系统的mdadm工具配置软件RAID。
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- 飞腾系列 RAID -->
+                            <div>
+                                <h4 class="font-bold mb-2">飞腾系列芯片</h4>
+                                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 border-l-4 border-green-500">
+                                    <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                        在RAID支持方面表现更为专业，飞腾S2500服务器芯片（16nm工艺，64核ARMv8）可支持：
+                                    </p>
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                        <li>扩展SAS方案：支持12Gb/s SAS HBA，支持RAID 0/1/10</li>
+                                        <li>扩展RAID方案：支持12Gb/s RAID，支持RAID 0/1/5/6/50/60</li>
+                                        <li>支持Cache超级电容保护，提供RAID状态迁移等功能</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg border-l-4 border-blue-500">
+                            <h4 class="font-bold mb-2">实际测试数据</h4>
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
+                                <li>基于飞腾S2500的8盘RAID0顺序读写可达<strong>6.2GB/s</strong></li>
+                                <li>4K随机IOPS超过<strong>1M</strong></li>
+                                <li>威联通TS-532X搭载ARM Cortex-A57架构处理器，支持SATA 6Gb/s接口</li>
+                                <li>即使在AES 256位NAS整机加密加速时，仍能提供优异的数据读写速度</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 三、功能支持能力深度分析 -->
+            <section id="feature-support" class="mb-12">
+                <div class="bg-white dark:bg-dark-card rounded-lg shadow p-6 card-hover">
+                    <h2 class="text-2xl font-bold mb-6 text-primary flex items-center">
+                        <i class="fa fa-cogs mr-2"></i>
+                        三、功能支持能力深度分析
+                    </h2>
+
+                    <!-- 3.1 4K视频转码能力评估 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-film mr-2 text-red-500"></i>
+                            3.1 4K视频转码能力评估
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            4K视频转码是现代NAS系统的重要功能，需要芯片具备强大的视频编解码硬件加速能力。
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                            <!-- RK3588 视频转码 -->
+                            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border-l-4 border-blue-500">
+                                <h4 class="font-bold mb-2">RK3588系列</h4>
+                                <p class="text-gray-700 dark:text-gray-300 mb-2">在4K视频转码方面表现最为出色，支持：</p>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 mb-3">
+                                    <li>H.264/H.265视频编码，最高<strong>8K30FPS</strong></li>
+                                    <li>H.265/H.264/AV1/VP9/AVS2视频解码，最高<strong>8K60FPS</strong></li>
+                                    <li>兼容AV1 8K@30fps解码</li>
+                                </ul>
+                                <p class="text-gray-700 dark:text-gray-300">
+                                    RK3588的视频处理单元（VPU）支持同编同解，最高可实现<strong>32路1080P@30fps解码</strong>和<strong>16路1080P@30fps编码</strong>。
+                                    在硬件编解码方面，支持H264和HEVC硬件编码，最高可达1080p@480fps或4K@120fps。
+                                </p>
+                            </div>
+                            
+                            <!-- RK3568 视频转码 -->
+                            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border-l-4 border-green-500">
+                                <h4 class="font-bold mb-2">RK3568系列</h4>
+                                <p class="text-gray-700 dark:text-gray-300 mb-2">视频处理能力相对简化，支持：</p>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 mb-3">
+                                    <li>4K60fps H.265/H264/VP9视频解码</li>
+                                    <li>1080P60fps H.265/H264视频编码</li>
+                                    <li>支持10-bit色深和HDR（如HDR10、HLG）内容解码</li>
+                                </ul>
+                                <p class="text-gray-700 dark:text-gray-300">
+                                    RK3568配备了独立的视频编解码硬件引擎（如RK自研VPU），支持硬解H.264/H.265/VP9，
+                                    显著降低CPU负载，提升能效比。
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- 视频解码能力对比图表 -->
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                            <h4 class="font-semibold mb-2">视频解码能力对比</h4>
+                            <div class="h-64">
+                                <canvas id="videoDecodeChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.2 Docker容器支持能力 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-cubes mr-2 text-purple-500"></i>
+                            3.2 Docker容器支持能力
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            Docker容器支持是评估ARM64芯片作为NAS平台的重要指标，涉及虚拟化技术支持、系统兼容性等多个方面。
+                        </p>
+                        
+                        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 mb-6">
+                            <h4 class="font-bold mb-2">ARM64架构的Docker支持</h4>
+                            <p class="text-gray-700 dark:text-gray-300 mb-3">
+                                ARM64架构原生支持Docker容器技术，主流的Linux发行版如Ubuntu、Debian等都提供了完善的ARM64版本支持。
+                            </p>
+                            
+                            <h5 class="font-semibold mb-2">实现ARM64平台Docker支持的方式：</h5>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white dark:bg-gray-700 p-3 rounded-lg shadow-sm">
+                                    <h6 class="font-medium mb-1">1. 原生支持</h6>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">直接运行ARM64架构的Docker镜像</p>
+                                </div>
+                                <div class="bg-white dark:bg-gray-700 p-3 rounded-lg shadow-sm">
+                                    <h6 class="font-medium mb-1">2. 跨架构支持</h6>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">通过QEMU用户态模拟，运行x86_64架构的Docker镜像</p>
+                                </div>
+                                <div class="bg-white dark:bg-gray-700 p-3 rounded-lg shadow-sm">
+                                    <h6 class="font-medium mb-1">3. 多架构构建</h6>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">使用Docker Buildx工具支持跨平台构建</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- 高通骁龙8cx Gen3 Docker -->
+                            <div>
+                                <h4 class="font-bold mb-2">高通骁龙8cx Gen3</h4>
+                                <div class="bg-white dark:bg-gray-800 rounded-lg p-3 shadow">
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                        <li>明确支持虚拟化技术</li>
+                                        <li>L1缓存768KB，L2缓存6.0MB，L3缓存8.0MB</li>
+                                        <li>在Windows 11系统中，可通过启用虚拟化功能支持虚拟机和容器技术</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- 苹果M系列 Docker -->
+                            <div>
+                                <h4 class="font-bold mb-2">苹果M系列芯片</h4>
+                                <div class="bg-white dark:bg-gray-800 rounded-lg p-3 shadow">
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                        <li>使用ARM架构，不支持Intel的VT-x虚拟化技术</li>
+                                        <li>苹果开发了自己的虚拟化技术——<strong>Apple Silicon Virtualization</strong></li>
+                                        <li>提供Hypervisor.framework框架支持虚拟化技术</li>
+                                        <li>可通过Lima工具在MacOS上搭建Ubuntu虚拟机，支持跨平台Docker镜像</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.3 网络与安全功能 -->
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-wifi mr-2 text-green-500"></i>
+                            3.3 网络与安全功能
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            网络性能和安全功能是NAS系统的基础能力，直接影响用户体验和数据安全。
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <!-- RK3588 网络 -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-t-4 border-blue-500">
+                                <h4 class="font-bold mb-2">RK3588系列</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                    <li>双千兆网口或2.5G网口</li>
+                                    <li>支持WiFi 6模块扩展</li>
+                                    <li>支持硬件加密加速</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- 威联通TS-AI642 网络 -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-t-4 border-green-500">
+                                <h4 class="font-bold mb-2">威联通TS-AI642</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                    <li>配备1个2.5Gbe端口</li>
+                                    <li>通过PCIe Gen 3 x2插槽可安装10Gbe网卡</li>
+                                    <li>支持网络扩展</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- 高通骁龙8cx Gen3 网络 -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-t-4 border-purple-500">
+                                <h4 class="font-bold mb-2">高通骁龙8cx Gen3</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                    <li>集成骁龙X65 5G调制解调器</li>
+                                    <li>FastConnect 6900 WiFi 6E芯片</li>
+                                    <li>支持Wi-Fi 6E、蓝牙5.2等无线技术</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 安全功能 -->
+                        <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg border-l-4 border-blue-500">
+                            <h4 class="font-bold mb-2">安全功能支持</h4>
+                            <p class="text-gray-700 dark:text-gray-300 mb-2">在安全功能方面，现代ARM64芯片普遍支持：</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                                <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm flex items-center">
+                                    <i class="fa fa-lock text-blue-500 mr-2"></i>
+                                    <span class="text-sm text-gray-700 dark:text-gray-300">ARM TrustZone安全技术</span>
+                                </div>
+                                <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm flex items-center">
+                                    <i class="fa fa-shield text-green-500 mr-2"></i>
+                                    <span class="text-sm text-gray-700 dark:text-gray-300">硬件加密引擎（AES、SHA等）</span>
+                                </div>
+                                <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm flex items-center">
+                                    <i class="fa fa-power-off text-red-500 mr-2"></i>
+                                    <span class="text-sm text-gray-700 dark:text-gray-300">安全启动（Secure Boot）</span>
+                                </div>
+                                <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm flex items-center">
+                                    <i class="fa fa-microchip text-purple-500 mr-2"></i>
+                                    <span class="text-sm text-gray-700 dark:text-gray-300">内存加密等功能</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 四、性价比综合评估 -->
+            <section id="cost-performance" class="mb-12">
+                <div class="bg-white dark:bg-dark-card rounded-lg shadow p-6 card-hover">
+                    <h2 class="text-2xl font-bold mb-6 text-primary flex items-center">
+                        <i class="fa fa-balance-scale mr-2"></i>
+                        四、性价比综合评估
+                    </h2>
+
+                    <!-- 4.1 芯片价格对比分析 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-money mr-2 text-green-500"></i>
+                            4.1 芯片价格对比分析
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            在选择ARM64芯片搭建NAS时，价格是重要的考虑因素。根据市场调研，不同ARM64芯片的价格差异显著：
+                        </p>
+                        
+                        <!-- 价格对比表格 -->
+                        <div class="overflow-x-auto mb-6">
+                            <table class="min-w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                <thead>
+                                    <tr class="bg-gray-100 dark:bg-gray-700">
+                                        <th class="py-3 px-4 text-left border-b border-gray-200 dark:border-gray-700">芯片类型</th>
+                                        <th class="py-3 px-4 text-left border-b border-gray-200 dark:border-gray-700">代表产品</th>
+                                        <th class="py-3 px-4 text-left border-b border-gray-200 dark:border-gray-700">价格区间</th>
+                                        <th class="py-3 px-4 text-left border-b border-gray-200 dark:border-gray-700">特点</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-900">
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700 font-medium">RK3588核心板</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">迅为RK3588核心板</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">1586.8元</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">8核64位，6TOPS NPU</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-900">
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700 font-medium">RK3588开发板</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">各类开发板</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">350-1600元</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">价格差异较大</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-900">
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700 font-medium">RK3568核心板</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">定制主板</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">699-1575元</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">4核，适合轻量级应用</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-900">
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700 font-medium">高通骁龙8cx Gen3</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">Windows Dev Kit 2023</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">4488元/599美元</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">5nm工艺，性能强劲</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-900">
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700 font-medium">飞腾D2000</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">飞腾OPS电脑</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">2600元</td>
+                                        <td class="py-3 px-4 border-b border-gray-200 dark:border-gray-700">8核，16nm工艺</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- 价格对比图表 -->
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-4">
+                            <h4 class="font-semibold mb-2">主要ARM64芯片价格对比（元）</h4>
+                            <div class="h-64">
+                                <canvas id="priceChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border-l-4 border-blue-500">
+                            <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                RK3588核心板的价格一般在<strong>1500-1600元</strong>之间，开发板价格差异较大，从350元到1600元不等。
+                                RK3568核心板价格相对较低，在699-1575元之间。
+                            </p>
+                            <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                高通骁龙8cx Gen3主要通过微软Windows Dev Kit 2023销售，国行价格为<strong>4488元</strong>，国际版价格599美元。
+                            </p>
+                            <p class="text-gray-700 dark:text-gray-300">
+                                国产飞腾系列芯片价格跨度较大，飞腾D2000约2600元/件，飞腾D3000整机政企集采价格在3000-4000元区间，
+                                相比同级产品性能领先20%-30%。高端的飞腾FT-2000/64工业级芯片价格高达12000元。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 4.2 整体方案成本效益 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-line-chart mr-2 text-blue-500"></i>
+                            4.2 整体方案成本效益
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            从整体方案成本来看，ARM64架构相比x86架构具有明显的成本优势：
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-t-4 border-green-500">
+                                <h4 class="font-bold mb-2">成本优势分析</h4>
+                                <ul class="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
+                                    <li><strong>硬件成本优势</strong>：ARM主板成本通常不足百元，相比动辄数万、数十万的x86服务器具有巨大优势</li>
+                                    <li><strong>功耗成本优势</strong>：ARM处理器待机功耗比x86低40%-60%，长期使用可节省大量电费</li>
+                                    <li><strong>能效比优势</strong>：AWS Graviton ARM实例相比x86实例性价比提升<strong>36%</strong></li>
+                                    <li><strong>系统成本优势</strong>：如威联通TS-AI642的实施成本仅为x86方案（如TS-664）的<strong>30%</strong></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-t-4 border-purple-500">
+                                <h4 class="font-bold mb-2">实际应用成本参考</h4>
+                                <ul class="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
+                                    <li>二手ARM盒子价格普遍在<strong>25-150元</strong>之间，远低于品牌NAS的价格</li>
+                                    <li>ARM64 NAS整机方案价格通常在500-3000元之间</li>
+                                    <li>同等性能的x86 NAS方案价格通常在2000-8000元之间</li>
+                                    <li>长期使用（3年以上）ARM64方案可节省50%以上的总拥有成本（TCO）</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 成本对比图表 -->
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                            <h4 class="font-semibold mb-2">ARM64 vs x86 NAS方案3年总成本对比（元）</h4>
+                            <div class="h-64">
+                                <canvas id="costComparisonChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4.3 生态系统支持度 -->
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-sitemap mr-2 text-purple-500"></i>
+                            4.3 生态系统支持度
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            生态系统的完善程度直接影响ARM64 NAS系统的可用性和可维护性。
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                            <!-- 操作系统支持 -->
+                            <div>
+                                <h4 class="font-bold mb-2">操作系统支持</h4>
+                                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 border-l-4 border-blue-500">
+                                    <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                        主流Linux发行版对ARM64架构的支持已经非常完善：
+                                    </p>
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                        <li><strong>Ubuntu</strong>：官方支持ARM64架构，Ubuntu 25.04将原生支持骁龙X Elite笔记本</li>
+                                        <li><strong>Debian</strong>：全面支持64位ARM（AArch64）架构，包括多种处理器</li>
+                                        <li><strong>OpenMediaVault</strong>：作为主流的NAS系统，官方支持AMD64、ARM、ARM64架构</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- 虚拟化支持 -->
+                            <div>
+                                <h4 class="font-bold mb-2">虚拟化支持</h4>
+                                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 border-l-4 border-green-500">
+                                    <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                        ARM64架构的虚拟化技术发展迅速：
+                                    </p>
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                        <li>原生支持ARM虚拟化扩展（ARMv8.2及以上）</li>
+                                        <li>主流虚拟化软件如QEMU、KVM等都提供了ARM64支持</li>
+                                        <li>容器技术如Docker、Kubernetes等对ARM64架构提供了完整支持</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg border-l-4 border-blue-500">
+                            <h4 class="font-bold mb-2">应用生态支持</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                                <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                    <h6 class="font-medium mb-1">存储应用</h6>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">Samba、NFS、iSCSI、FTP、WebDAV等</p>
+                                </div>
+                                <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                    <h6 class="font-medium mb-1">媒体应用</h6>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">Plex、Emby、Jellyfin、Kodi等</p>
+                                </div>
+                                <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                    <h6 class="font-medium mb-1">备份应用</h6>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">Rsync、BorgBackup、Duplicati等</p>
+                                </div>
+                                <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                    <h6 class="font-medium mb-1">开发工具</h6>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">Git、Docker、Node.js、Python等</p>
+                                </div>
+                                <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                    <h6 class="font-medium mb-1">监控应用</h6>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">Zabbix、Prometheus、Grafana等</p>
+                                </div>
+                                <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                    <h6 class="font-medium mb-1">安全应用</h6>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">OpenVPN、WireGuard、Fail2ban等</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 五、综合推荐与选购建议 -->
+            <section id="recommendations" class="mb-12">
+                <div class="bg-white dark:bg-dark-card rounded-lg shadow p-6 card-hover">
+                    <h2 class="text-2xl font-bold mb-6 text-primary flex items-center">
+                        <i class="fa fa-star mr-2"></i>
+                        五、综合推荐与选购建议
+                    </h2>
+
+                    <!-- 5.1 不同需求场景的芯片推荐 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-thumbs-up mr-2 text-green-500"></i>
+                            5.1 不同需求场景的芯片推荐
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            根据您的具体需求，推荐不同的ARM64芯片方案：
+                        </p>
+                        
+                        <!-- 场景一：极致性价比需求 -->
+                        <div class="mb-6">
+                            <div class="bg-green-50 dark:bg-green-900/30 rounded-lg p-4 border-l-4 border-green-500">
+                                <h4 class="font-bold mb-2">场景一：极致性价比需求</h4>
+                                <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                    如果您的主要需求是<strong>超低功耗</strong>和<strong>低成本</strong>，推荐选择<strong>RK3566/RK3568系列</strong>：
+                                </p>
+                                
+                                <h5 class="font-semibold mb-2">推荐理由：</h5>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 mb-3">
+                                    <li>功耗极低：待机仅1.5-5W，工作状态4-10W</li>
+                                    <li>价格便宜：核心板699-1575元，开发板350-800元</li>
+                                    <li>性能足够：4核Cortex-A55处理器，满足轻量级NAS需求</li>
+                                    <li>支持Docker、基本视频播放等功能</li>
+                                </ul>
+                                
+                                <h5 class="font-semibold mb-2">典型应用场景：</h5>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+                                    <li>个人文件存储和备份</li>
+                                    <li>轻量级媒体服务器（1080P视频播放）</li>
+                                    <li>家庭照片存储</li>
+                                    <li>简单的Docker容器应用</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 场景二：性能与功耗平衡需求 -->
+                        <div class="mb-6">
+                            <div class="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4 border-l-4 border-blue-500">
+                                <h4 class="font-bold mb-2">场景二：性能与功耗平衡需求</h4>
+                                <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                    如果您的需求是<strong>性能与功耗平衡</strong>，推荐选择<strong>RK3588系列</strong>：
+                                </p>
+                                
+                                <h5 class="font-semibold mb-2">推荐理由：</h5>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 mb-3">
+                                    <li>性能强劲：8核Cortex-A76/A55架构，性能是RK3568的3倍</li>
+                                    <li>功耗可控：典型功耗2.8-4.8W，高负载10-12W</li>
+                                    <li>功能全面：支持8K视频编解码、6TOPS NPU、丰富的存储接口</li>
+                                    <li>扩展性好：3个SATA3.0、1个NVMe、PCIe 3.0扩展</li>
+                                </ul>
+                                
+                                <h5 class="font-semibold mb-2">典型应用场景：</h5>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+                                    <li>4K视频媒体服务器</li>
+                                    <li>多用户并发访问</li>
+                                    <li>智能家居中枢</li>
+                                    <li>轻量级AI应用（人脸识别、智能监控）</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 场景三：高端专业需求 -->
+                        <div>
+                            <div class="bg-purple-50 dark:bg-purple-900/30 rounded-lg p-4 border-l-4 border-purple-500">
+                                <h4 class="font-bold mb-2">场景三：高端专业需求</h4>
+                                <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                    如果您的需求是<strong>专业级性能</strong>和<strong>全面扩展能力</strong>，推荐选择<strong>高通骁龙8cx Gen3</strong>或<strong>苹果M系列芯片</strong>：
+                                </p>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                                    <div>
+                                        <h5 class="font-semibold mb-2">高通骁龙8cx Gen3推荐理由：</h5>
+                                        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+                                            <li>5nm工艺，能效比优秀</li>
+                                            <li>支持5G、WiFi 6E等先进网络技术</li>
+                                            <li>虚拟化支持完善</li>
+                                            <li>性能接近x86平台</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div>
+                                        <h5 class="font-semibold mb-2">苹果M系列芯片推荐理由：</h5>
+                                        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+                                            <li>性能最强：M2 Ultra提供32条PCIe 4.0通道</li>
+                                            <li>功耗极低：M1仅7-12W，M2仅15W</li>
+                                            <li>生态完善：macOS系统稳定可靠</li>
+                                            <li>扩展能力强：最多7个PCIe插槽</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5.2 配套硬件选择建议 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-puzzle-piece mr-2 text-blue-500"></i>
+                            5.2 配套硬件选择建议
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            在选择ARM64芯片后，还需要合理配置配套硬件：
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- 内存配置 -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+                                <h4 class="font-bold mb-2 flex items-center">
+                                    <i class="fa fa-memory text-blue-500 mr-2"></i>
+                                    内存配置建议
+                                </h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                    <li><strong>RK3566/3568</strong>：建议配置4-8GB LPDDR4内存</li>
+                                    <li><strong>RK3588</strong>：建议配置8-16GB内存，支持多任务并发</li>
+                                    <li><strong>高通骁龙8cx Gen3</strong>：建议16-32GB内存，满足专业应用需求</li>
+                                    <li><strong>苹果M系列</strong>：建议16GB以上，最高支持192GB</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- 存储方案 -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+                                <h4 class="font-bold mb-2 flex items-center">
+                                    <i class="fa fa-hdd-o text-green-500 mr-2"></i>
+                                    存储方案建议
+                                </h4>
+                                <h5 class="font-semibold mb-1 text-sm">系统盘：</h5>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm mb-2">
+                                    <li>eMMC 5.1（64-128GB）</li>
+                                    <li>NVMe SSD（推荐，速度快）</li>
+                                    <li>SATA SSD（性价比高）</li>
+                                </ul>
+                                <h5 class="font-semibold mb-1 text-sm">数据盘：</h5>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                    <li>SATA机械硬盘（大容量存储）</li>
+                                    <li>NVMe SSD（高速缓存）</li>
+                                    <li>支持RAID 0/1/10等配置</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- 网络配置 -->
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+                                <h4 class="font-bold mb-2 flex items-center">
+                                    <i class="fa fa-wifi text-purple-500 mr-2"></i>
+                                    网络配置建议
+                                </h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                    <li>至少配备1个千兆网口</li>
+                                    <li>建议配备2.5G或10G网口（高端应用）</li>
+                                    <li>支持WiFi 6无线网络连接</li>
+                                    <li>可通过PCIe扩展增加网络接口</li>
+                                    <li>支持链路聚合（LACP）提升带宽</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5.3 系统软件选型建议 -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-code mr-2 text-purple-500"></i>
+                            5.3 系统软件选型建议
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <!-- 操作系统选择 -->
+                            <div>
+                                <h4 class="font-bold mb-2">操作系统选择</h4>
+                                <div class="space-y-3">
+                                    <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 border-l-4 border-blue-500">
+                                        <h5 class="font-semibold mb-1">1. OpenMediaVault</h5>
+                                        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                            <li>专为NAS设计，界面友好</li>
+                                            <li>支持ARM64架构</li>
+                                            <li>丰富的插件生态</li>
+                                            <li>适合新手用户</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 border-l-4 border-green-500">
+                                        <h5 class="font-semibold mb-1">2. Ubuntu Server</h5>
+                                        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                            <li>稳定性好，支持全面</li>
+                                            <li>适合有一定Linux基础的用户</li>
+                                            <li>可自定义配置</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 border-l-4 border-purple-500">
+                                        <h5 class="font-semibold mb-1">3. TrueNAS Core</h5>
+                                        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                            <li>专业的存储系统</li>
+                                            <li>支持ZFS文件系统</li>
+                                            <li>企业级数据保护</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 虚拟化方案 -->
+                            <div>
+                                <h4 class="font-bold mb-2">虚拟化方案</h4>
+                                <div class="space-y-3">
+                                    <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 border-l-4 border-blue-500">
+                                        <h5 class="font-semibold mb-1">1. Docker容器</h5>
+                                        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                            <li>轻量级虚拟化</li>
+                                            <li>资源占用少</li>
+                                            <li>适合运行各种应用服务</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 border-l-4 border-green-500">
+                                        <h5 class="font-semibold mb-1">2. KVM/QEMU</h5>
+                                        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                            <li>全虚拟化方案</li>
+                                            <li>支持运行其他操作系统</li>
+                                            <li>需要更多硬件资源</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 border-l-4 border-purple-500">
+                                        <h5 class="font-semibold mb-1">3. Proxmox VE</h5>
+                                        <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300 text-sm">
+                                            <li>集成的虚拟化管理平台</li>
+                                            <li>支持容器和虚拟机</li>
+                                            <li>适合复杂的虚拟化需求</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5.4 注意事项与风险提示 -->
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4 text-dark dark:text-white flex items-center">
+                            <i class="fa fa-exclamation-triangle mr-2 text-yellow-500"></i>
+                            5.4 注意事项与风险提示
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            在选择ARM64芯片搭建NAS时，需要注意以下事项：
+                        </p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                            <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm border-l-4 border-yellow-500">
+                                <h6 class="font-medium mb-1">性能限制</h6>
+                                <p class="text-sm text-gray-700 dark:text-gray-300">ARM64芯片的绝对性能通常低于同价位x86芯片，不适合高性能计算需求</p>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm border-l-4 border-yellow-500">
+                                <h6 class="font-medium mb-1">软件兼容性</h6>
+                                <p class="text-sm text-gray-700 dark:text-gray-300">部分专业软件可能没有ARM64版本，需要通过虚拟化或仿真运行</p>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm border-l-4 border-yellow-500">
+                                <h6 class="font-medium mb-1">扩展限制</h6>
+                                <p class="text-sm text-gray-700 dark:text-gray-300">部分ARM64芯片的PCIe通道数有限，扩展能力不如x86平台</p>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm border-l-4 border-yellow-500">
+                                <h6 class="font-medium mb-1">散热设计</h6>
+                                <p class="text-sm text-gray-700 dark:text-gray-300">虽然功耗低，但在高负载下仍需要考虑散热问题</p>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm border-l-4 border-yellow-500">
+                                <h6 class="font-medium mb-1">电源管理</h6>
+                                <p class="text-sm text-gray-700 dark:text-gray-300">确保电源供应稳定，避免数据丢失</p>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm border-l-4 border-yellow-500">
+                                <h6 class="font-medium mb-1">数据备份</h6>
+                                <p class="text-sm text-gray-700 dark:text-gray-300">建议配置RAID或定期备份，保护重要数据</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 六、总结 -->
+            <section id="summary" class="mb-12">
+                <div class="bg-white dark:bg-dark-card rounded-lg shadow p-6 card-hover">
+                    <h2 class="text-2xl font-bold mb-6 text-primary flex items-center">
+                        <i class="fa fa-check-circle mr-2"></i>
+                        六、总结
+                    </h2>
+                    
+                    <div class="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-5 border-l-4 border-primary">
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                            基于以上分析，ARM64芯片在搭建NAS云存储平台方面具有显著优势，特别是在<strong>超低功耗</strong>、
+                            <strong>高性价比</strong>和<strong>良好的能效比</strong>方面。根据您的具体需求，推荐以下方案：
+                        </p>
+                        
+                        <ul class="list-disc pl-5 space-y-3 text-gray-700 dark:text-gray-300 mb-4">
+                            <li>
+                                如果你追求<strong>极致性价比</strong>，建议选择<strong>RK3566/RK3568系列</strong>，功耗低至1.5W，
+                                价格在700-1600元之间，能够满足基本的文件存储、媒体播放和轻量级Docker应用需求。
+                            </li>
+                            <li>
+                                如果你需要<strong>性能与功耗平衡</strong>，建议选择<strong>RK3588系列</strong>，性能是RK3568的3倍，
+                                支持8K视频编解码，配备3个SATA3.0和1个NVMe接口，价格在1500-1600元之间，
+                                非常适合作为家庭媒体中心和多用户NAS。
+                            </li>
+                            <li>
+                                如果你有<strong>专业级需求</strong>，建议选择<strong>高通骁龙8cx Gen3</strong>或<strong>苹果M系列芯片</strong>，
+                                虽然价格较高（4000-5000元），但性能接近x86平台，扩展能力强，适合企业级应用。
+                            </li>
+                        </ul>
+                        
+                        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                            在实际搭建过程中，建议根据预算和需求选择合适的芯片，合理配置内存和存储，选择稳定的操作系统和应用软件，
+                            并注意数据安全和系统备份。ARM64架构的NAS系统不仅能够满足你的存储需求，还能为你节省大量的电费支出，
+                            是搭建家庭或小型办公NAS的理想选择。
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-white dark:bg-dark-card shadow-inner py-6 transition-colors duration-300">
+        <div class="container mx-auto px-4 text-center text-gray-600 dark:text-gray-400">
+            <p>ARM64芯片NAS云存储平台选择方案分析报告</p>
+            <p class="text-sm mt-2">© 2024 NAS解决方案研究团队 | 基于最新市场数据和技术参数分析</p>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary/90">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // 深色模式切换
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        
+        // 检查本地存储中的主题偏好
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+        } else {
+            htmlElement.classList.remove('dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        });
+        
+        // 移动菜单控制
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuContent = document.getElementById('mobile-menu-content');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+            setTimeout(() => {
+                mobileMenuContent.classList.remove('translate-x-full');
+            }, 10);
+        });
+        
+        function closeMenu() {
+            mobileMenuContent.classList.add('translate-x-full');
+            setTimeout(() => {
+                mobileMenu.classList.add('hidden');
+            }, 300);
+        }
+        
+        closeMobileMenu.addEventListener('click', closeMenu);
+        
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+        
+        // 点击移动菜单外部关闭菜单
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) {
+                closeMenu();
+            }
+        });
+        
+        // 导航高亮
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav a');
+        
+        function highlightNavLink() {
+            let scrollPosition = window.scrollY + 100;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionBottom = sectionTop + section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('nav-active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('nav-active');
+                        }
+                    });
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', highlightNavLink);
+        highlightNavLink(); // 初始加载时执行一次
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // 返回顶部按钮
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.add('opacity-0', 'invisible');
+                backToTopButton.classList.remove('opacity-100', 'visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 图表初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 性能对比图表
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(performanceCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['RK3588', 'RK3568', 'RK3566'],
+                    datasets: [
+                        {
+                            label: '单核得分',
+                            data: [1200, 737, 600],
+                            backgroundColor: 'rgba(22, 93, 255, 0.7)',
+                            borderColor: 'rgba(22, 93, 255, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '多核得分',
+                            data: [8386, 2938, 2400], // 数据除以10以便在图表上更好显示
+                            backgroundColor: 'rgba(54, 207, 201, 0.7)',
+                            borderColor: 'rgba(54, 207, 201, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '得分 (多核得分已÷10)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '芯片型号'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        if (context.datasetIndex === 1) {
+                                            label += (context.parsed.y * 10).toLocaleString();
+                                        } else {
+                                            label += context.parsed.y.toLocaleString();
+                                        }
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // PCIe通道数对比图表
+            const pcieCtx = document.getElementById('pcieChart').getContext('2d');
+            new Chart(pcieCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['RK3588', '高通骁龙8cx Gen3', '苹果M2 Ultra', 'RK3568'],
+                    datasets: [{
+                        label: 'PCIe通道数',
+                        data: [8, 12, 32, 4],
+                        backgroundColor: [
+                            'rgba(22, 93, 255, 0.7)',
+                            'rgba(168, 85, 247, 0.7)',
+                            'rgba(107, 114, 128, 0.7)',
+                            'rgba(54, 207, 201, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(22, 93, 255, 1)',
+                            'rgba(168, 85, 247, 1)',
+                            'rgba(107, 114, 128, 1)',
+                            'rgba(54, 207, 201, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'PCIe通道数'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '芯片型号'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+            
+            // 视频解码能力对比图表
+            const videoDecodeCtx = document.getElementById('videoDecodeChart').getContext('2d');
+            new Chart(videoDecodeCtx, {
+                type: 'radar',
+                data: {
+                    labels: [
+                        'H.264解码',
+                        'H.265解码',
+                        'AV1解码',
+                        'VP9解码',
+                        '8K支持',
+                        '4K支持'
+                    ],
+                    datasets: [
+                        {
+                            label: 'RK3588',
+                            data: [5, 5, 4, 5, 5, 5],
+                            fill: true,
+                            backgroundColor: 'rgba(22, 93, 255, 0.2)',
+                            borderColor: 'rgba(22, 93, 255, 1)',
+                            pointBackgroundColor: 'rgba(22, 93, 255, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(22, 93, 255, 1)'
+                        },
+                        {
+                            label: 'RK3568',
+                            data: [4, 4, 2, 4, 1, 5],
+                            fill: true,
+                            backgroundColor: 'rgba(54, 207, 201, 0.2)',
+                            borderColor: 'rgba(54, 207, 201, 1)',
+                            pointBackgroundColor: 'rgba(54, 207, 201, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(54, 207, 201, 1)'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    elements: {
+                        line: {
+                            borderWidth: 3
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: true
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 5
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+            
+            // 价格对比图表
+            const priceCtx = document.getElementById('priceChart').getContext('2d');
+            new Chart(priceCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['RK3566核心板', 'RK3568核心板', 'RK3588核心板', '高通骁龙8cx Gen3', '飞腾D2000'],
+                    datasets: [{
+                        label: '价格（元）',
+                        data: [800, 1100, 1587, 4488, 2600],
+                        backgroundColor: [
+                            'rgba(54, 207, 201, 0.7)',
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(22, 93, 255, 0.7)',
+                            'rgba(168, 85, 247, 0.7)',
+                            'rgba(234, 179, 8, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 207, 201, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(22, 93, 255, 1)',
+                            'rgba(168, 85, 247, 1)',
+                            'rgba(234, 179, 8, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '价格（元）'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '芯片类型'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+            
+            // 成本对比图表
+            const costComparisonCtx = document.getElementById('costComparisonChart').getContext('2d');
+            new Chart(costComparisonCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['硬件成本', '3年电费', '维护成本', '总拥有成本'],
+                    datasets: [
+                        {
+                            label: 'ARM64方案（RK3588）',
+                            data: [2500, 300, 200, 3000],
+                            backgroundColor: 'rgba(22, 93, 255, 0.7)',
+                            borderColor: 'rgba(22, 93, 255, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'x86方案（同等性能）',
+                            data: [6000, 1200, 500, 7700],
+                            backgroundColor: 'rgba(239, 68, 68, 0.7)',
+                            borderColor: 'rgba(239, 68, 68, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '成本（元）'
+                            }
+                        },
+                        x: {
