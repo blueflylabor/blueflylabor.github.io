@@ -22,7 +22,7 @@ keywords: [life, HPC, ML, DL, CS, etc]
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 domain: "blueflylabor.github.io" # the domain name for your site, e.g. example.com
-language: zh-cn
+language: zh
 # Supported languages list:
 # en: English
 # de: Deutsche (German)
