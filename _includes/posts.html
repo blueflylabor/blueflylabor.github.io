@@ -1,11 +1,26 @@
 <div class="container-posts">
-{% for post in paginator.posts %}
-  <div class="posts-list-item">
-    <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
-    <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
-  </div>
-{% endfor %}
 
+  <h3 class="category-label">技术 / Tech</h3>
+  {% assign tech_posts = site.posts | where: "categories", "tech" %}
+  {% for post in tech_posts %}
+    <div class="posts-list-item">
+      <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
+      <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
+    </div>
+  {% endfor %}
+
+  <hr style="margin: 40px 0; border: 0; border-top: 1px dashed #eee;">
+
+  <h3 class="category-label">见闻 / Insights</h3>
+  {% assign insight_posts = site.posts | where: "categories", "insights" %}
+  {% for post in insight_posts %}
+    <div class="posts-list-item">
+      <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
+      <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
+    </div>
+  {% endfor %}
+
+  </div>
 {% if paginator.total_pages > 1 %}
   <div class="posts-list-pagination">
     {% if paginator.previous_page %}
