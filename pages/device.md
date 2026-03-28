@@ -19,6 +19,9 @@
 ![](https://raw.githubusercontent.com/blueflylabor/deviceTree/main/imgs/applewatchs2.jpg)
 - iphone 12 mini \
 ![](https://raw.githubusercontent.com/blueflylabor/deviceTree/main/imgs/iphone12mini.jpg)
+- iphone 16
+- AppleWatch S9
+- Airpods Pro 2
 ## ASUS
 - ASUS k43b \
 ![](https://raw.githubusercontent.com/blueflylabor/deviceTree/main/imgs/k43b.jpg)
