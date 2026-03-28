@@ -1,7 +1,7 @@
 <div class="container-posts">
 
-  <h3 class="category-label">技术</h3>
-  {% assign tech_posts = site.posts | where: "categories", "tech" %}
+  <h3 class="category-label">笔记</h3>
+  {% assign tech_posts = site.posts | where: "categories", "notes" %}
   {% for post in tech_posts %}
     <div class="posts-list-item">
       <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
