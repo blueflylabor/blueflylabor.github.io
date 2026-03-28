@@ -1,102 +1,35 @@
-# Jekyll-Paper
+# Blueflylabor's Digital Garden 🌿
 
 ![Jekyll-Paper](./favicon.ico)
 
-[English](./README.md) | 简体中文
+English | 中文版
 
-Jekyll Paper是一个依照纸质书籍排版设计的Jekyll主题，它旨在于帮助你以最方便最快捷的方式创建自己的博客。Jekyll Paper的设计风格以简洁为主，仿照书本的排版设计，使读者能专注于文章的阅读。
+中文版
+这是我的个人博客站点，托管于 GitHub Pages。它不仅是我技术成长的记录仪，也是我对复杂世界进行逻辑拆解的实验室。
 
-Jekyll Paper for Github是Jekyll Paper为Github Pages所提供依赖制作的版本，可查看[Jekyll Paper for Github][jekyll-paper-github]项目了解更多。
+🚀 站点架构
+经过 2026 年的大规模重构，本站现在分为以下核心板块：
 
-## 特色
+笔记 (Notes)：硬核技术沉淀。涵盖分布式系统、数据库原理、Python 自动化及 macOS (M1) 深度折腾心得。
 
-- 响应式设计
-- 分页
-- RSS
-- Sitemap
-- 自定义404页面
-- 分类目录索引
-- SASS
-- 可配置菜单栏
-- 国际化
-- SEO优化
-- 数学公式支持 (MathJax)
-- 图表支持 (Mermaid)
-- 评论支持 (Disqus)
+见闻 (Insights)：逻辑推演与深度分析。不流于表面，通过抽象模型分析身边事件及社会技术交叉领域。
 
-## 如何使用
+解决方案 (Solution)：针对开发或配置中遇到的具体“坑”提供的精准指南（如 Minecraft 调试、环境配置等）。
 
-Jekyll Paper的使用方法十分简单，只需要简单的几步即可创建自己的博客：
+存档 (Archive)：保留成长的足迹。存放过去的文章废案、考研旧资料及早期的思考。
 
-1. `$$ gem install bundler jekyll`
-2. `git clone git@github.com:ghosind/Jekyll-Paper.git`
-3. `$$ cd Jekyll-Paper`
-4. `Jekyll-Paper $$ bundle install`
-5. `Jekyll-Paper $$ bundle exec jekyll serve`
+✨ 核心特性
+双语自动化：部分技术笔记支持中英双语。站点集成自动化翻译工作流，机器翻译页面将带有 Auto-Translated 标识。
 
-## 发布新的文章
+极简主义：基于 Jekyll-Paper 主题二次开发，去除冗余，专注于文字与逻辑本身。
 
-在拥有一个Jekyll博客后，随时可以发布新的文章以及进行修改、删除等操作。发布新的文章只需要进入_posts文件夹，以类似于2018-03-21-xxx.md的命名风格创建一个新的文件即可。文章内容需要使用Markdown进行编写，且在头部需要设置部分信息，具体可参考_posts文件夹中现有文件或参考Wiki中其它文档。
+隐私与安全：针对敏感见闻板块采用抽象化叙事，保护思考空间。
 
-## 自定义导航栏
+🛠️ 技术栈
+SSG: Jekyll
 
-你可以在`_data/menus.yml`文件中增加或修改导航栏内容，导航栏每个链接配置需要包括名称与URL，具体配置可参照下方。
+Theme: Jekyll-Paper-Github
 
-### 导航栏配置示例
+Automation: Python Scripts + GitHub Actions
 
-```yml
-- title: "Index"
-  url:   ""
-
-- title: "Github"
-  absoluteUrl: true
-  url: "https://github.com/john_doe"
-
-- title: "About"
-  url:   "about"
-```
-
-## 支持的语言列表
-
-Jekyll Paper目前支持下列语言，欢迎参与提高翻译质量及增加更多语言。请在`_config.yml`文件中设置`language`的值，其默认值为`en`（`language: en`）。
-
-- 简体中文
-- 繁體中文
-- English (英语)
-- Español (西班牙语)
-- Français (法语)
-- Deutsche (德语)
-- 日本語 (日语)
-- Português (葡萄牙语)
-
-## 预览
-
-首页：
-
-![Index](./assets/images/index-screenshot.png)
-
-文章页：
-
-![Post](./assets/images/post-screenshot.png)
-
-分类目录页：
-
-![Category](./assets/images/category-screenshot.png)
-
-移动版首页：
-
-![Mobile](./assets/images/mobile-screenshot.png)
-
-## 许可
-
-Jekyll Paper通过MIT许可发布。
-
-## 参与项目
-
-如果您想参与Jekyll Paper的开发，可以在Fork后提交新的PR。
-
-若您有任何建议或者意见，可在[Jekyll Paper Issues][jekyll-paper-issues]发布。
-
-[jekyll-paper]: https://github.com/ghosind/Jekyll-Paper
-[jekyll-paper-github]: https://github.com/ghosind/Jekyll-Paper-Github
-[jekyll-paper-issues]: https://github.com/ghosind/Jekyll-Paper/issues
+Hosting: GitHub Pages

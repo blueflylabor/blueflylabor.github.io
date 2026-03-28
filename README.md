@@ -1,105 +1,31 @@
-# Jekyll-Paper
+# Blueflylabor's Digital Garden 🌿
 
 ![Jekyll-Paper](./favicon.ico)
+This is my personal digital garden, hosted on GitHub Pages. It serves as a repository for my technical growth and a laboratory for logical deconstruction of the world.
 
-English | [简体中文](./README-CN.md)
+🚀 Site Structure
+Following a major restructuring in 2026, the site is organized into four key pillars:
 
-Jekyll Paper is a simple Jekyll theme, and it is aim to helping you to create your own blog by the easiest way.
+Notes: Core technical documentation. Includes Distributed Systems, Database Principles, Python automation, and macOS (Apple Silicon) optimization.
 
-Unfortunately, Jekyll Paper implement the category page by 'jekyll-archive' plugin, and GitHub Pages does not support it. So, this project is for self-host blog, and the Github Pages version is also available in [Jekyll Paper for Github][jekyll-paper-github].
+Insights: Logical deduction and deep analysis. Moving beyond surface-level events to analyze underlying patterns and socio-technical intersections.
 
-This is a [demo website](https://www.ghosind.com) for Jekyll Paper.
+Solution: Precision guides for specific technical hurdles (e.g., environment configurations, mod debugging).
 
-## Features
+Archive: A historical record of my journey. Contains legacy drafts, previous academic materials, and early-stage thoughts.
 
-- Responsive
-- Paginate
-- RSS
-- Sitemap
-- Custom 404 page
-- SASS
-- Internationalization
-- Configurable navigation menu
-- Categories Index
-- SEO optimization
-- Mathematics (MathJax)
-- Diagrams (Mermaid)
-- Comments (Disqus)
+✨ Key Features
+Bilingual Automation: Selected technical notes are available in both Chinese and English. The site features an automated translation workflow (with Auto-Translated markers for AI-generated content).
 
-## Getting Start
+Minimalism: Custom-built on the Jekyll-Paper theme, focusing purely on content and logic without UI clutter.
 
-Jekyll Paper is easy to create your own blog. You can create your blog by five steps only!
+Privacy-Conscious: Uses abstract narrative modeling for sensitive insights to maintain a secure space for expression.
 
-1. `$$ gem install bundler jekyll`
-2. `$$ git clone git@github.com:ghosind/Jekyll-Paper.git`
-3. `$$ cd Jekyll-Paper`
-4. `Jekyll-Paper $$ bundle install`
-5. `Jekyll-Paper $$ bundle exec jekyll serve`
+🛠️ Tech Stack
+SSG: Jekyll
 
-## Add New Posts
+Theme: Jekyll-Paper-Github
 
-You can add new posts at any time after you had your own blog. Create a new post need to add a new file in "_posts" directory, and the file name must follow the convention `YYYY-MM-DD-name-of-post.md`.
+Automation: Python Scripts + GitHub Actions
 
-## Custom Navigation Menu
-
-You can add or update navigation menu items in `_data/menus.yml` file. In the configuration file, you need set title and URL for every navigation menu item.
-
-### Example
-
-```yml
-- title: "Index"
-  url:   ""
-
-- title: "Github"
-  absoluteUrl: true
-  url: "https://github.com/john_doe"
-
-- title: "About"
-  url:   "about"
-```
-
-## Supported Languages
-
-Jekyll Paper has supported the following languages, please set language in `language` section of `_config.yml` file (default `language: en`). I'm anticipating you to help me improve the quality of translations and add more languages. The languages list by alphabets of its language code.
-
-- English
-- Deutsche (German)
-- Español (Spanish)
-- Français (French)
-- 日本語 (Japanese)
-- Português (Portuguese)
-- 简体中文 (Simplified Chinese)
-- 繁體中文 (Traditional Chinese)
-- 한국어 (Korean)
-
-## Screenshots
-
-The home page:
-
-![Index](./assets/images/index-screenshot.png)
-
-The post page:
-
-![Post](./assets/images/post-screenshot.png)
-
-The category page:
-
-![Category](./assets/images/category-screenshot.png)
-
-The home page in mobile version:
-
-![Mobile](./assets/images/mobile-screenshot.png)
-
-## License
-
-Jekyll Paper was released under MIT license.
-
-## Contributing
-
-If you would like to make Jekyll Paper better, you can create a new pull request in [Jekyll Paper Github Page][jekyll-paper].
-
-If you have any questions or suggestions, you can create an issue on [Jekyll Paper Issues][jekyll-paper-issues].
-
-[jekyll-paper]: https://github.com/ghosind/Jekyll-Paper
-[jekyll-paper-github]: https://github.com/ghosind/Jekyll-Paper-Github
-[jekyll-paper-issues]: https://github.com/ghosind/Jekyll-Paper/issues
+Hosting: GitHub Pages
