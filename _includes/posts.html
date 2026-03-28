@@ -2,20 +2,20 @@
 
   <div class="category-section">
     <h3 class="category-label">最新文章</h3>
-    
-    {% comment %} 修复：将逻辑写在同一行，避免构建错误 {% endcomment %}
-    {% assign recent_posts = site.posts | where_exp: "item", "item.categories contains 'notes' or item.categories contains 'solution'" | limit: 5 %}
-    
-    {% for post in recent_posts %}
-    <div class="posts-list-item">
-      <span class="posts-list-item-name float-left">
-        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-        {% if post.categories contains 'solution' %}
-        <small style="color: #888; font-size: 0.7em; margin-left: 5px;">[Solution]</small>
+    {% assign count = 0 %}
+    {% for post in site.posts %}
+      {% if post.categories contains 'notes' or post.categories contains 'solution' %}
+        {% if count < 5 %}
+          <div class="posts-list-item">
+            <span class="posts-list-item-name float-left">
+              <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+              {% if post.categories contains 'solution' %}<small style="color: #888; font-size: 0.7em;"> [Solution]</small>{% endif %}
+            </span>
+            <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
+          </div>
+          {% assign count = count | plus: 1 %}
         {% endif %}
-      </span>
-      <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
-    </div>
+      {% endif %}
     {% endfor %}
   </div>
 
@@ -23,12 +23,15 @@
 
   <div class="category-section">
     <h3 class="category-label">笔记</h3>
-    {% assign tech_posts = site.posts | where: "categories", "notes" | limit: 5 %}
-    {% for post in tech_posts %}
-    <div class="posts-list-item">
-      <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
-      <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
-    </div>
+    {% assign notes_count = 0 %}
+    {% for post in site.posts %}
+      {% if post.categories contains 'notes' and notes_count < 5 %}
+        <div class="posts-list-item">
+          <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
+          <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
+        </div>
+        {% assign notes_count = notes_count | plus: 1 %}
+      {% endif %}
     {% endfor %}
     <a href="{{ site.baseurl }}/notes/" style="font-size: 0.8em; color: #888; display: block; text-align: right;">查看全部 →</a>
   </div>
@@ -37,20 +40,17 @@
 
   <div class="category-section">
     <h3 class="category-label">见闻</h3>
-    {% assign insight_posts = site.posts | where: "categories", "knowledge" | limit: 5 %}
-    {% for post in insight_posts %}
-    <div class="posts-list-item">
-      <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
-      <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
-    </div>
+    {% assign know_count = 0 %}
+    {% for post in site.posts %}
+      {% if post.categories contains 'knowledge' and know_count < 5 %}
+        <div class="posts-list-item">
+          <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
+          <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
+        </div>
+        {% assign know_count = know_count | plus: 1 %}
+      {% endif %}
     {% endfor %}
     <a href="{{ site.baseurl }}/knowledge/" style="font-size: 0.8em; color: #888; display: block; text-align: right;">查看全部 →</a>
   </div>
 
 </div>
-
-{% comment %} 
-注意：根据方案 3，首页不再需要底部的分页逻辑 (paginator)，
-因为首页只做精选展示。如果你保留了 paginator 代码，可能会因为 
-site.posts 被多次过滤而产生逻辑冲突。
-{% endcomment %}
