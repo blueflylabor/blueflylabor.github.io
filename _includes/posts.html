@@ -12,7 +12,7 @@
   <hr style="margin: 40px 0; border: 0; border-top: 1px dashed #eee;">
 
   <h3 class="category-label">见闻 / Insights</h3>
-  {% assign insight_posts = site.posts | where: "categories", "insights" %}
+  {% assign insight_posts = site.posts | where: "categories", "knowledge" %}
   {% for post in insight_posts %}
     <div class="posts-list-item">
       <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
