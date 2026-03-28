@@ -1,6 +1,6 @@
 # Blueflylabor's Digital Garden 🌿
 
-![Jekyll-Paper](./favicon.ico)
+<img src="./favicon.ico" alt="Jekyll-Paper" width="32" style="vertical-align: middle; margin-right: 10px;">
 This is my personal digital garden, hosted on GitHub Pages. It serves as a repository for my technical growth and a laboratory for logical deconstruction of the world.
 
 🚀 Site Structure
