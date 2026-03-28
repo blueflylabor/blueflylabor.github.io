@@ -17,6 +17,9 @@ en:
   categories_title: "Categories"
   menu_knowledge: "Knowledge"
   menu_say: "Saysomething"
+  menu_solution: "Solution"
+  menu_tech: "Tech"
+  menu_archive: "Archive"
 de:
   menu_index: "Index"
   menu_category: "Kategorien"
@@ -116,6 +119,10 @@ zh-cn:
   categories_title: "分类"
   menu_knowledge: "见闻"
   menu_say: "说点什么"
+  menu_solution: "问题解决"
+  menu_tech: "技术"
+  menu_archive: "归档"
+
 zh-tw:
   menu_index: "首頁"
   menu_category: "分類"

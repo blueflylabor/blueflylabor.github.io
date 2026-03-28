@@ -1,8 +1,14 @@
 - default: menu_index
   url:   ""
 
+- default: menu_tech
+  url:   "tech"
+
 - default: menu_knowledge
   url:   "knowledge"
+
+- default: menu_archive
+  url:   "archive"
   
 - default: menu_category
   url:   "category"
