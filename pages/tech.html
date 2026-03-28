@@ -1,0 +1,16 @@
+---
+layout: default
+title: 技术
+permalink: /tech/
+---
+
+<article class="container-page">
+  <div class="category-title">
+    <h1>{{ page.title }}</h1>
+  </div>
+  <ul class="category-list">
+    {% for post in site.categories.tech %}
+      <li><span>{{ post.date | date: "%b %e, %Y" }}: </span><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+</article>

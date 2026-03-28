@@ -1,6 +1,6 @@
 <div class="container-posts">
 
-  <h3 class="category-label">技术 / Tech</h3>
+  <h3 class="category-label">技术</h3>
   {% assign tech_posts = site.posts | where: "categories", "tech" %}
   {% for post in tech_posts %}
     <div class="posts-list-item">
@@ -11,7 +11,7 @@
 
   <hr style="margin: 40px 0; border: 0; border-top: 1px dashed #eee;">
 
-  <h3 class="category-label">见闻 / Insights</h3>
+  <h3 class="category-label">见闻</h3>
   {% assign insight_posts = site.posts | where: "categories", "knowledge" %}
   {% for post in insight_posts %}
     <div class="posts-list-item">
