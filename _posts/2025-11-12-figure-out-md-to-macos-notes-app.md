@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "without updating the macOS to figure out the Markdown import to Mac Note app"
+title: "Without updating the macOS to figure out the Markdown import to Mac Note app"
 categories: solution
 tags:
   - MacOS
@@ -8,7 +8,7 @@ tags:
   - tools
 ---
 
-## **without updating the macOS to figure out the Markdown import to Mac Note app**
+## **Without updating the macOS to figure out the Markdown import to Mac Note app**
 
 If you’ve ever tried to get a clean Markdown file—with embedded images—into Apple’s Notes app (备忘录), you probably discovered that it’s a surprisingly broken experience. Notes supports rich text, sure, but Markdown? Not really. And unless you’re on the newest macOS (which you might not want to update for various perfectly valid reasons), there’s no direct way to import Markdown content, especially when it includes images.
 

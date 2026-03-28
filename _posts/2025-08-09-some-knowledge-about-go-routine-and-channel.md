@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "some knowledge about go routine and channel"
+title: "Some knowledge about go routine and channel"
 categories: archive
 tags:
   - go
