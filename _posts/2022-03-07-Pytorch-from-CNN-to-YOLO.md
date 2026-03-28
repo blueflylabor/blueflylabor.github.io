@@ -3,7 +3,8 @@ layout: post
 title:  "Pytorch from CNN to YOLO"
 date:   2022-03-07
 last_modified_at: 2022-05-07
-categories: [Pytorch, CNN, YOLO]
+categories: archive
+tags: [Pytorch, CNN, YOLO]
 ---
 ![cnn1](https://fastly.jsdelivr.net/gh/blueflylabor/_ebxeax.github.io@0.0/images/cnn1.png)
 

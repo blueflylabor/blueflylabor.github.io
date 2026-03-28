@@ -2,7 +2,8 @@
 title:  "ruby mirrors for Jekyll"
 date:   2024-07-18
 last_modified_at: 2024-07-18
-categories: [Jekyll, 环境配置]
+categories: solution
+tags: [Jekyll, 环境配置]
 ---
 
 ## look for source list

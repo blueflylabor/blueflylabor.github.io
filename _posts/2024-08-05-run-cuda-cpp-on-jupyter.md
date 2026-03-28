@@ -2,7 +2,8 @@
 title: run cuda cpp on jupyter
 date:   2024-08-05
 last_modified_at: 2024-08-05
-categories: [cuda, cpp, jupyter, thread]
+categories: solution
+tags: [cuda, cpp, jupyter, thread]
 ---
 ### Pre-Install
 - For Windows Users  

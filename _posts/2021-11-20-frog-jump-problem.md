@@ -2,7 +2,8 @@
 title: frog jump problem
 date:   2021-11-20
 last_modified_at: 2021-11-20
-categories: [算法, 解题]
+categories: archive
+tags: [算法, 解题]
 ---
 
 

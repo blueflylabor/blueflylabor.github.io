@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "some knowledge about go routine and channel"
-categories:
+categories: archive
+tags:
   - go
   - routines
   - channel
