@@ -5,7 +5,7 @@ permalink: /about/
 ---
 ![](../banner.jpg)
 
-A ML beginner, this website is recording something.
+A beginner, this website is recording something.
 
 # Welcome to my homepage
 
