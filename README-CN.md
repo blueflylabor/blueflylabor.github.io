@@ -1,6 +1,6 @@
 # Blueflylabor's Digital Garden 🌿
 
-<img src="./favicon.ico" alt="Jekyll-Paper" width="32" style="vertical-align: middle; margin-right: 10px;">
+<img src="./favicon.ico" alt="Jekyll-Paper" width="128" style="vertical-align: middle; margin-right: 10px;">
 
 English | 中文版
 
