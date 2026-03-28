@@ -1,8 +1,8 @@
 - default: menu_index
   url:   ""
 
-- default: menu_tech
-  url:   "tech"
+- default: menu_notes
+  url:   "notes"
 
 - default: menu_knowledge
   url:   "knowledge"
