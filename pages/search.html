@@ -5,6 +5,7 @@ permalink: /search/
 ---
 <style>
 .search-input{width:100%;padding:10px;font-size:16px;border:1px solid #ddd;border-radius:6px;box-sizing:border-box}
+.search-btn{margin:8px 0;padding:8px 16px;cursor:pointer}
 .search-item{padding:12px 0;border-bottom:1px solid #eee}
 .search-item h3{margin:0 0 4px 0}
 .search-item .meta{color:#777;font-size:14px}
@@ -15,6 +16,7 @@ permalink: /search/
 <div class="page-container">
   <h1>Search Articles</h1>
   <input class="search-input" id="searchInput" placeholder="Enter keywords to search title, tags, content" autocomplete="off">
+  <button class="search-btn" id="searchBtn">Search</button>
   <div id="resultBox"></div>
   <div class="debug" id="debugBox">Loading data...</div>
 </div>
@@ -24,22 +26,15 @@ let articleList = [];
 const input = document.getElementById("searchInput");
 const resultBox = document.getElementById("resultBox");
 const debugBox = document.getElementById("debugBox");
+const searchBtn = document.getElementById("searchBtn");
 
-let timer = null;
-
-// 防抖
-function debounceSearch(val) {
-  clearTimeout(timer);
-  timer = setTimeout(() => doSearch(val), 300);
-}
-
-// 核心搜索
+// 核心搜索逻辑
 function doSearch(keyword){
   const kw = keyword.trim().toLowerCase();
   resultBox.innerHTML = "";
+  debugBox.innerText = `✅ Loaded total articles: ${articleList.length}`;
   if(!kw) return;
 
-  // 过滤文章
   const matched = articleList.filter(item=>{
     const title = item.title.toLowerCase();
     const content = item.raw_content.toLowerCase();
@@ -48,12 +43,11 @@ function doSearch(keyword){
     return title.includes(kw) || content.includes(kw) || tags.includes(kw) || cats.includes(kw);
   });
 
-  // 调试：打印匹配数量
-  debugBox.innerText += "\nMatched count: " + matched.length;
+  debugBox.innerText += "\nMatched articles count: " + matched.length;
   renderList(matched);
 }
 
-// 渲染结果（完整输出HTML区块）
+// 渲染结果
 function renderList(list){
   if(list.length === 0){
     resultBox.innerHTML = `<p class="empty-tip">No matching articles found</p>`;
@@ -71,7 +65,7 @@ function renderList(list){
   resultBox.innerHTML = htmlStr;
 }
 
-// 加载json索引
+// 加载索引
 async function loadData(){
   try {
     const resp = await fetch("{{ site.baseurl }}/search-data.json");
@@ -83,13 +77,19 @@ async function loadData(){
   }
 }
 
-// 绑定输入、回车
-input.addEventListener("input", e => debounceSearch(e.target.value));
+// 点击按钮搜索
+searchBtn.addEventListener("click", ()=>{
+  doSearch(input.value);
+});
+// 回车搜索
 input.addEventListener("keydown", e => {
   if(e.key === "Enter"){
-    clearTimeout(timer);
     doSearch(input.value);
   }
+});
+// 实时输入立即搜索（无延迟）
+input.addEventListener("input", e => {
+  doSearch(e.target.value);
 });
 
 loadData();
