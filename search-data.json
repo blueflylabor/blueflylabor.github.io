@@ -2,15 +2,16 @@
 layout: null
 permalink: /search-data.json
 ---
-{% assign posts = site.posts | sort: "date" | reverse %}
+{% assign all_posts = site.posts %}
 [
-{%- for post in posts -%}
+{%- for post in all_posts -%}
 {
   "title": {{ post.title | strip_html | strip_newlines | jsonify }},
   "url": {{ post.url | jsonify }},
   "raw_content": {{ post.content | strip_html | strip_newlines | jsonify }},
   "tags": {{ post.tags | jsonify }},
-  "categories": {{ post.categories | jsonify }}
+  "categories": {{ post.categories | jsonify }},
+  "lang": {{ post.lang | default: 'zh' | jsonify }}
 }{% if forloop.last == false %},{% endif %}
 {%- endfor -%}
 ]
