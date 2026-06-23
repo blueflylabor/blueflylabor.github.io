@@ -133,7 +133,6 @@ fetch(base + "/search-data.json")
   logInfo.innerText = "Failed to load index.";
   resBox.innerHTML = '<div class="search-msg">Unable to load search data. Please check connection.</div>';
 });
-
 function runSearch(){
   const kw = document.getElementById("kw").value.toLowerCase().trim();
   resBox.innerHTML = "";
@@ -143,22 +142,36 @@ function runSearch(){
     return;
   }
 
-  // 这里的 .filter 逻辑会遍历每一篇文章，只要命中任意字段即显示
   const arr = list.filter(p => {
-    const title = (p.title || "").toLowerCase();
-    const content = (p.raw_content || "").toLowerCase();
-    
-    // 处理数组类型的字段（标签和分类）
-    const tags = Array.isArray(p.tags) ? p.tags.join(" ").toLowerCase() : (p.tags || "").toLowerCase();
-    const categories = Array.isArray(p.categories) ? p.categories.join(" ").toLowerCase() : (p.categories || "").toLowerCase();
+    // 强制转换为字符串，并做安全处理
+    const title = (p.title || "").toString().toLowerCase();
+    const content = (p.raw_content || "").toString().toLowerCase();
+    const tags = Array.isArray(p.tags) ? p.tags.join(" ").toLowerCase() : (p.tags || "").toString().toLowerCase();
+    const categories = Array.isArray(p.categories) ? p.categories.join(" ").toLowerCase() : (p.categories || "").toString().toLowerCase();
 
-    // 只要标题、内容、标签或分类中包含关键词，就视为匹配
     return title.includes(kw) || 
            content.includes(kw) || 
            tags.includes(kw) || 
            categories.includes(kw);
   });
 
-  // ... (后续的渲染逻辑保持不变)
+  logInfo.innerText = "Matches found: " + arr.length;
+
+  if(arr.length === 0){
+    resBox.innerHTML = '<div class="search-msg">No results for "'+ kw +'".</div>';
+    return;
+  }
+
+  let html = "";
+  arr.forEach(item => {
+    // 过滤掉那些标题真的叫 "Untitled" 的数据，或者显示 URL
+    const displayTitle = item.title === "Untitled" ? (item.url || "Untitled Post") : item.title;
+    const postUrl = item.url.startsWith('http') ? item.url : (base + item.url);
+    html += `<div class="search-item"><a href="${postUrl}">${displayTitle}</a></div>`;
+  });
+  resBox.innerHTML = html;
+}
+
+
 }
 </script>
