@@ -5,20 +5,23 @@
     {% assign count = 0 %}
     {% assign showed_ids = "" | split: "" %}
     {% for post in site.posts %}
-      {% if post.categories contains 'notes' or post.categories contains 'solution' %}
-        {% unless showed_ids contains post.id %}
-          {% if count < 5 %}
-            <div class="posts-list-item">
-              <span class="posts-list-item-name float-left">
-                <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-                {% if post.categories contains 'solution' %}<small style="color: #888; font-size: 0.7em;"> [Solution]</small>{% endif %}
-              </span>
-              <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
-            </div>
-            {% assign count = count | plus: 1 %}
-            {% assign showed_ids = showed_ids | push: post.id %}
-          {% endif %}
-        {% endunless %}
+      {% comment %}只匹配根目录_posts的文章，路径不含en/{% endcomment %}
+      {% if post.path contains '_posts/' and post.path contains 'en/' == false %}
+        {% if post.categories contains 'notes' or post.categories contains 'solution' %}
+          {% unless showed_ids contains post.id %}
+            {% if count < 5 %}
+              <div class="posts-list-item">
+                <span class="posts-list-item-name float-left">
+                  <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                  {% if post.categories contains 'solution' %}<small style="color: #888; font-size: 0.7em;"> [Solution]</small>{% endif %}
+                </span>
+                <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
+              </div>
+              {% assign count = count | plus: 1 %}
+              {% assign showed_ids = showed_ids | push: post.id %}
+            {% endif %}
+          {% endunless %}
+        {% endif %}
       {% endif %}
     {% endfor %}
   </div>
@@ -29,7 +32,7 @@
     <h3 class="category-label">筆記</h3>
     {% assign notes_count = 0 %}
     {% for post in site.posts %}
-      {% if post.categories contains 'notes' and notes_count < 5 %}
+      {% if post.path contains '_posts/' and post.path contains 'en/' == false and post.categories contains 'notes' and notes_count < 5 %}
         <div class="posts-list-item">
           <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
           <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
@@ -46,7 +49,7 @@
     <h3 class="category-label">見聞</h3>
     {% assign know_count = 0 %}
     {% for post in site.posts %}
-      {% if post.categories contains 'knowledge' and know_count < 5 %}
+      {% if post.path contains '_posts/' and post.path contains 'en/' == false and post.categories contains 'knowledge' and know_count < 5 %}
         <div class="posts-list-item">
           <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
           <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
