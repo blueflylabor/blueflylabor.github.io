@@ -4,13 +4,14 @@ title: Categories
 permalink: /category/
 ---
 
-<article class="page-container">
-  <div class="categories-title">
-    <h1>{{ site.data.lang[site.language].categories_title }}</h1>
-  </div>
-  <ul class="categories-list">
-    {% for category in site.categories %}
-      <li><a href="{{ base.url }}/category/{{ category | first | slugify }}">{{ category | first }}</a></li>
-    {% endfor %}
-  </ul>
-</article>
+<ul class="categories-list">
+{% for tag in site.tags %}
+  {% assign tag_name = tag | first %}
+  {% assign tag_posts = tag | last %}
+  <li>
+    <a href="{{ site.baseurl }}/tag/{{ tag_name | slugify }}">
+      {{ tag_name }} ({{ tag_posts.size }})
+    </a>
+  </li>
+{% endfor %}
+</ul>
