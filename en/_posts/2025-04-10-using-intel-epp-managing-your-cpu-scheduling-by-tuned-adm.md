@@ -6,6 +6,8 @@ tags:
   - linux
   - intel
   - OS
+lang: en
+permalink: /en/:title/
 ---
 
 # intel-tuned-epp-packaging-tools

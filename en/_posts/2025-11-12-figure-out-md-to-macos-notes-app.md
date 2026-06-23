@@ -2,10 +2,13 @@
 layout: post
 title: "Without updating the macOS to figure out the Markdown import to Mac Note app"
 categories: solution
+lang: en
+permalink: /en/:title/
 tags:
   - MacOS
   - OSbug
   - tools
+  
 ---
 
 ## **Without updating the macOS to figure out the Markdown import to Mac Note app**

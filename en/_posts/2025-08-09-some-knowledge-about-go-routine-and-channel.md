@@ -2,6 +2,8 @@
 layout: post
 title: "Some knowledge about go routine and channel"
 categories: archive
+lang: en
+permalink: /en/:title/
 tags:
   - go
   - routines

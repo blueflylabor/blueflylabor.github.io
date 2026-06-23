@@ -5,6 +5,8 @@ date:   2018-02-11
 last_modified_at: 2018-09-20
 categories: test
 tags: [Getting Start] [Jekyll]
+lang: en
+permalink: /en/:title/
 ---
 
 Jekyll Paper is a Jekyll theme, it is designed to helping you to create your own blog by the easiest way. Now, you can learn how to use this blog by this post.

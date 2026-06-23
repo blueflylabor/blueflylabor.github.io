@@ -5,6 +5,8 @@ date:   2018-02-11
 last_modified_at: 2018-09-20
 categories: test
 tags: [Getting Start] [Jekyll]
+lang: en
+permalink: /en/:title/
 ---
 
 | 左对齐 | 右对齐 | 居中对齐 |
