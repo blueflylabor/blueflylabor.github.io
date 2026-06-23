@@ -3,36 +3,50 @@ layout: default
 title: Search
 permalink: /search/
 ---
-<input id="kw" placeholder="Input tag like notes">
+<input id="kw" placeholder="Input tag/category like notes">
 <button onclick="runSearch()">Search</button>
-<div id="log"></div>
+<div id="log" style="margin:10px 0; padding:10px; background:#f5f5f5; white-space:pre-wrap;"></div>
 <div id="res"></div>
 
 <script>
 let list = [];
 const log = document.getElementById('log');
 const resBox = document.getElementById('res');
+// 读取Jekyll注入的baseurl
+const baseUrl = "{{ site.baseurl }}";
 
-// 加载索引
-fetch("/search-data.json")
-.then(r=>r.json())
+// 加载索引，拼接正确路径
+fetch(`${baseUrl}/search-data.json`)
+.then(r=>{
+  if (!r.ok) throw new Error(`HTTP ${r.status}，文件不存在`);
+  return r.json();
+})
 .then(data=>{
   list = data;
-  log.innerText = "Loaded total: " + list.length;
+  log.innerText = "✅ Loaded total: " + list.length;
 })
-.catch(err=>log.innerText="Load error:"+err);
+.catch(err=>{
+  log.innerText = "❌ Load error: " + err + "\nRequest URL: " + `${baseUrl}/search-data.json`;
+});
 
 function runSearch(){
-  const kw = document.getElementById('kw').value.toLowerCase();
+  const kw = document.getElementById('kw').value.trim().toLowerCase();
+  if (!kw) return;
+
+  // 同时匹配标题、tags、categories
   const filter = list.filter(item=>{
-    const t = item.title.toLowerCase();
+    const title = item.title.toLowerCase();
     const tagStr = item.tags.join(" ").toLowerCase();
-    return t.includes(kw) || tagStr.includes(kw);
-  })
+    const catStr = item.categories.join(" ").toLowerCase();
+    return title.includes(kw) || tagStr.includes(kw) || catStr.includes(kw);
+  });
+
+  log.innerText += "\nSearch keyword: " + kw;
   log.innerText += "\nMatch num: " + filter.length;
+
   let html = "";
   filter.forEach(p=>{
-    html += `<div><a href="${p.url}">${p.title}</a></div>`
+    html += `<div style="margin:8px 0;"><a href="${baseUrl}${p.url}">${p.title}</a></div>`;
   })
   resBox.innerHTML = html;
 }
