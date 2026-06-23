@@ -93,7 +93,3 @@ gitalk:
     client_id: Ov23liR8EziibgRCvc1n  // Client ID
     client_secret: ce66b1e85c5196d65b2c0ec9b3729d3e46566b1b // Client Secret
 
-# 自动生成 /tag/xxx 页面
-tag_page_layout: tag
-tag_page_dir: tag
-tag_permalink_style: pretty

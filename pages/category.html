@@ -3,15 +3,28 @@ layout: default
 title: Categories
 permalink: /category/
 ---
+<h1>Tag: {{ page.tag }}</h1>
+<a href="{{ site.baseurl }}/category/">← Back All Tags</a>
+<hr>
 
-<ul class="categories-list">
-{% for tag in site.tags %}
-  {% assign tag_name = tag | first %}
-  {% assign tag_posts = tag | last %}
-  <li>
-    <a href="{{ site.baseurl }}/tag/{{ tag_name | slugify }}">
-      {{ tag_name }} ({{ tag_posts.size }})
-    </a>
-  </li>
+{% assign current_lang = page.url | split:'/' | first %}
+{% if current_lang == 'en' %}
+  {% assign all_articles = site.pages | where_exp:"p", "p.path contains 'en/_posts/' and p.date" %}
+{% else %}
+  {% assign all_articles = site.posts %}
+{% endif %}
+
+{% assign tag_articles = all_articles | where_exp:"p", "p.tags contains page.tag" | sort:"date" | reverse %}
+
+{% if tag_articles.size == 0 %}
+<p>No articles under this tag.</p>
+{% endif %}
+
+{% for post in tag_articles %}
+<div class="posts-list-item">
+  <span class="posts-list-item-name float-left">
+    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+  </span>
+  <span class="posts-list-item-date float-right">{{ post.date | date:"%Y-%m-%d" }}</span>
+</div>
 {% endfor %}
-</ul>
