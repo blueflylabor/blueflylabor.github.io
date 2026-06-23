@@ -3,51 +3,120 @@ layout: default
 title: Search
 permalink: /search/
 ---
-<input id="kw" placeholder="Input tag/category like notes">
-<button onclick="runSearch()">Search</button>
-<div id="log" style="margin:10px 0; padding:10px; background:#f5f5f5; white-space:pre-wrap;"></div>
-<div id="res"></div>
+<style>
+.search-wrap {
+  margin: 30px 0;
+}
+.search-input {
+  width: 70%;
+  padding: 10px 14px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.search-btn {
+  padding: 10px 20px;
+  margin-left: 8px;
+  cursor: pointer;
+  border: none;
+  background: #333;
+  color: #fff;
+  border-radius: 4px;
+}
+#result-box {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+.result-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.result-item a {
+  font-size: 17px;
+  color: #222;
+  text-decoration: none;
+}
+.result-item a:hover {
+  text-decoration: underline;
+}
+.empty-tip {
+  color: #999;
+  padding: 20px 0;
+}
+.debug-log {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #666;
+}
+</style>
+
+<div class="page-container">
+  <h1>Search Articles</h1>
+
+  <!-- 搜索框区域 -->
+  <div class="search-wrap">
+    <input class="search-input" id="kw" placeholder="Search notes / knowledge / solution ...">
+    <button class="search-btn" onclick="runSearch()">Search</button>
+  </div>
+
+  <!-- 专门展示搜索结果的独立区块 -->
+  <div id="result-box"></div>
+
+  <!-- 调试日志 -->
+  <div class="debug-log" id="log"></div>
+</div>
 
 <script>
-let list = [];
-const log = document.getElementById('log');
-const resBox = document.getElementById('res');
-// 读取Jekyll注入的baseurl
+let articleList = [];
+const logBox = document.getElementById('log');
+const resultBox = document.getElementById('result-box');
 const baseUrl = "{{ site.baseurl }}";
 
-// 加载索引，拼接正确路径
+// 加载文章索引
 fetch(`${baseUrl}/search-data.json`)
-.then(r=>{
-  if (!r.ok) throw new Error(`HTTP ${r.status}，文件不存在`);
-  return r.json();
+.then(res => {
+  if (!res.ok) throw new Error("search-data.json 404");
+  return res.json();
 })
-.then(data=>{
-  list = data;
-  log.innerText = "✅ Loaded total: " + list.length;
+.then(data => {
+  articleList = data;
+  logBox.innerText = "Loaded total posts: " + articleList.length;
 })
-.catch(err=>{
-  log.innerText = "❌ Load error: " + err + "\nRequest URL: " + `${baseUrl}/search-data.json`;
+.catch(err => {
+  logBox.innerText = "Load failed: " + err;
 });
 
-function runSearch(){
-  const kw = document.getElementById('kw').value.trim().toLowerCase();
-  if (!kw) return;
+// 搜索执行函数
+function runSearch() {
+  const keyword = document.getElementById("kw").value.trim().toLowerCase();
+  resultBox.innerHTML = "";
+  if (!keyword) return;
 
-  // 同时匹配标题、tags、categories
-  const filter = list.filter(item=>{
+  // 匹配标题 / tags / categories
+  const matched = articleList.filter(item => {
     const title = item.title.toLowerCase();
     const tagStr = item.tags.join(" ").toLowerCase();
     const catStr = item.categories.join(" ").toLowerCase();
-    return title.includes(kw) || tagStr.includes(kw) || catStr.includes(kw);
+    return title.includes(keyword) || tagStr.includes(keyword) || catStr.includes(keyword);
   });
 
-  log.innerText += "\nSearch keyword: " + kw;
-  log.innerText += "\nMatch num: " + filter.length;
+  logBox.innerText = `Keyword: ${keyword} | Matched count: ${matched.length}`;
+
+  // 渲染结果到独立 result-box 区块
+  if (matched.length === 0) {
+    resultBox.innerHTML = `<div class="empty-tip">No matching articles found</div>`;
+    return;
+  }
 
   let html = "";
-  filter.forEach(p=>{
-    html += `<div style="margin:8px 0;"><a href="${baseUrl}${p.url}">${p.title}</a></div>`;
-  })
-  resBox.innerHTML = html;
+  matched.forEach(post => {
+    html += `
+    <div class="result-item">
+      <a href="${baseUrl}${post.url}">${post.title}</a>
+    </div>
+    `;
+  });
+  resultBox.innerHTML = html;
 }
 </script>
