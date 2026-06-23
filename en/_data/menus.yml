@@ -1,23 +1,26 @@
 - default: menu_index
-  url:   ""
+  url:   "en/"
 
 - default: menu_notes
-  url:   "notes"
+  url:   "en/notes"
 
 - default: menu_knowledge
-  url:   "knowledge"
+  url:   "en/knowledge"
 
 - default: menu_archive
-  url:   "archive"
+  url:   "en/archive"
   
 - default: menu_category
-  url:   "category"
+  url:   "en/category"
 
 - default: menu_about
-  url:   "about"
+  url:   "en/about"
 
 - default: menu_talk
-  url: "talk"
+  url: "en/talk"
 
 - default: menu_say
-  url: "saysth"
+  url: "en/saysth"
+
+- default: menu_main
+  url: ""
