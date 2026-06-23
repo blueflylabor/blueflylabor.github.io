@@ -26,65 +26,71 @@ const resultBox = document.getElementById("resultBox");
 const debugBox = document.getElementById("debugBox");
 
 let timer = null;
+
+// 防抖
 function debounceSearch(val) {
   clearTimeout(timer);
   timer = setTimeout(() => doSearch(val), 300);
 }
 
-// 统一检索函数
+// 核心搜索
 function doSearch(keyword){
   const kw = keyword.trim().toLowerCase();
   resultBox.innerHTML = "";
   if(!kw) return;
 
-  const filter = articleList.filter(item=>{
-    const t = item.title.toLowerCase();
-    const c = item.raw_content.toLowerCase();
-    const tagStr = item.tags.join(" ").toLowerCase();
-    const catStr = item.categories.join(" ").toLowerCase();
-    return t.includes(kw) || c.includes(kw) || tagStr.includes(kw) || catStr.includes(kw);
+  // 过滤文章
+  const matched = articleList.filter(item=>{
+    const title = item.title.toLowerCase();
+    const content = item.raw_content.toLowerCase();
+    const tags = item.tags.join(" ").toLowerCase();
+    const cats = item.categories.join(" ").toLowerCase();
+    return title.includes(kw) || content.includes(kw) || tags.includes(kw) || cats.includes(kw);
   });
-  render(filter);
+
+  // 调试：打印匹配数量
+  debugBox.innerText += "\nMatched count: " + matched.length;
+  renderList(matched);
 }
 
-// 渲染英文提示
-function render(list){
+// 渲染结果（完整输出HTML区块）
+function renderList(list){
   if(list.length === 0){
     resultBox.innerHTML = `<p class="empty-tip">No matching articles found</p>`;
     return;
   }
-  let html = "";
-  list.forEach(item=>{
-    html += `
+  let htmlStr = "";
+  list.forEach(post => {
+    htmlStr += `
     <div class="search-item">
-      <h3><a href="{{ site.baseurl }}${item.url}">${item.title}</a></h3>
-      <div class="meta">Tags: ${item.tags.join(", ")} | Categories: ${item.categories.join(", ")}</div>
+      <h3><a href="${post.url}">${post.title}</a></h3>
+      <div class="meta">Tags: ${post.tags.join(", ")} | Categories: ${post.categories.join(", ")}</div>
     </div>
     `;
-  })
-  resultBox.innerHTML = html;
+  });
+  resultBox.innerHTML = htmlStr;
 }
 
-async function loadIndex(){
+// 加载json索引
+async function loadData(){
   try {
-    const res = await fetch("{{ site.baseurl }}/search-data.json");
-    if (!res.ok) throw new Error("Failed to load json");
-    articleList = await res.json();
+    const resp = await fetch("{{ site.baseurl }}/search-data.json");
+    if(!resp.ok) throw new Error("Fetch failed");
+    articleList = await resp.json();
     debugBox.innerText = `✅ Loaded total articles: ${articleList.length}`;
-  } catch(err) {
-    debugBox.innerText = `❌ Load failed: ${err.message}\nURL: {{ site.baseurl }}/search-data.json`;
+  }catch(e){
+    debugBox.innerText = `❌ Error: ${e.message}`;
   }
 }
 
-// 输入实时搜索
-input.addEventListener("input",e=>debounceSearch(e.target.value));
-// 回车触发搜索
-input.addEventListener("keydown", function(e) {
-  if (e.key === "Enter") {
+// 绑定输入、回车
+input.addEventListener("input", e => debounceSearch(e.target.value));
+input.addEventListener("keydown", e => {
+  if(e.key === "Enter"){
     clearTimeout(timer);
-    doSearch(this.value);
+    doSearch(input.value);
   }
 });
 
-loadIndex();
+loadData();
 </script>
