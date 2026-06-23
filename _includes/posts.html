@@ -1,5 +1,28 @@
 <div class="container-posts">
+<!-- 翻译挂件容器 -->
+<div id="google_translate_element" style="
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 99999; /* 最高层级，不会被遮挡 */
+  background: #fff;
+  padding: 6px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+"></div>
 
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'zh-CN',
+    includedLanguages: 'en',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<!-- 强制https加载脚本 -->
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <div class="category-section">
     <h3 class="category-label">最新</h3>
     {% assign count = 0 %}
@@ -52,17 +75,5 @@
     {% endfor %}
     <a href="{{ site.baseurl }}/knowledge/" style="font-size: 0.8em; color: #888; display: block; text-align: right;">查看全部 →</a>
   </div>
-
-<div id="google_translate_element" style="position: fixed; top:10px; right:10px;"></div>
-<script type="text/javascript">
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'zh-CN',
-    includedLanguages: 'en', // 只开启英文
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-  }, 'google_translate_element');
-}
-</script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
+  
 </div>
