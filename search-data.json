@@ -4,13 +4,13 @@ permalink: /search-data.json
 ---
 {% assign posts = site.posts | sort: "date" | reverse %}
 [
-{% for post in posts %}
+{%- for post in posts -%}
 {
   "title": {{ post.title | jsonify }},
   "url": {{ post.url | jsonify }},
-  "content": {{ post.content | strip_html | jsonify }},
+  "raw_content": {{ post.content | jsonify }},
   "tags": {{ post.tags | jsonify }},
   "categories": {{ post.categories | jsonify }}
 }{% if forloop.last == false %},{% endif %}
-{% endfor %}
+{%- endfor -%}
 ]
