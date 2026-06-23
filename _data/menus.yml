@@ -21,3 +21,6 @@
 
 - default: menu_say
   url: "saysth"
+
+- default: menu_search
+  url: "search"
