@@ -24,7 +24,6 @@ permalink: /search/
 <div id="result-box">这里是搜索结果区域</div>
 
 <div id="log"></div>
-
 <script>
 let list = [];
 const resBox = document.getElementById("result-box");
@@ -33,16 +32,17 @@ const base = "{{ site.baseurl }}";
 
 // 加载索引
 fetch(base + "/search-data.json")
-.then(r=>{
+.then(r => {
   if(!r.ok) throw "文件404";
   return r.json();
 })
-.then(data=>{
+.then(data => {
   list = data;
-  log.innerText = "已加载文章："+list.length+" 篇";
+  log.innerText = "已加载文章：" + list.length + " 篇";
 })
-.catch(e=>{
-  log.innerText = "加载失败："+e;
+.catch(e => {
+  console.error(e); // 在控制台打印具体错误，方便调试
+  log.innerText = "加载失败：" + e;
   resBox.innerText = "无法读取文章数据";
 });
 
@@ -54,23 +54,33 @@ function runSearch(){
     return;
   }
 
-  const arr = list.filter(p=>{
-    const t = p.title.toLowerCase();
-    const c = p.categories.join(" ").toLowerCase();
-    return t.includes(kw) || c.includes(kw);
+  // 过滤文章
+  const arr = list.filter(p => {
+    // 【核心修复】加入安全防御，防止 null 导致 join() 或 toLowerCase() 报错
+    const title = p.title ? p.title.toLowerCase() : "";
+    const content = p.raw_content ? p.raw_content.toLowerCase() : "";
+    const categories = Array.isArray(p.categories) ? p.categories.join(" ").toLowerCase() : "";
+    const tags = Array.isArray(p.tags) ? p.tags.join(" ").toLowerCase() : "";
+
+    // 匹配标题、分类、标签或正文
+    return title.includes(kw) || 
+           categories.includes(kw) || 
+           tags.includes(kw) || 
+           content.includes(kw);
   });
 
-  log.innerText = "匹配数量："+arr.length;
+  log.innerText = "匹配数量：" + arr.length;
 
   if(arr.length === 0){
     resBox.innerText = "没有找到相关文章";
     return;
   }
 
+  // 渲染结果
   let html = "";
-  arr.forEach(item=>{
-    html += `<p><a href="${base}${item.url}">${item.title}</a></p>`;
-  })
+  arr.forEach(item => {
+    html += `<p><a href="${base}${item.url}">${item.title || '无标题'}</a></p>`;
+  });
   resBox.innerHTML = html;
 }
 </script>
