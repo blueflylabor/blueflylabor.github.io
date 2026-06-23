@@ -1,9 +1,8 @@
 ---
-categories: knowledge
-lang: en
 layout: post
-ref: 2025-04-10-test-on-knowledge-section
-title: 'Example: Insights from articles'
+title: "示例見聞文章"
+categories: knowledge
+tags: [test]
 ---
 
-This is an article about observations and experiences.
+这是一篇見聞相关的文章内容。

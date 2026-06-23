@@ -1,18 +1,18 @@
 ---
-categories: solution
-date: 2021-04-06
-lang: en
+title: 环境配置Ubuntu1804安装CUDA和Pytorch
+date:   2021-04-06
 last_modified_at: 2020-10-06
-ref: 2021-04-06-环境配置Ubuntu1804安装CUDA和Pytorch
-title: 'Environment configuration: Ubuntu 18.04, installing CUDA and PyTorch'
+categories: solution
+tags: [环境配置]
 ---
 
-## Initialize Ubuntu and modify the deb&pip source
+## Init Ubuntu and change deb&pip source
 ```sh
 wget https://fastly.jsdelivr.net/gh/blueflylabor/_ebxeax.github.io@0.0/toolbox/initUbuntu/initUbuntu.sh
 bash ./initUbuntu.sh
 ```
-## CUDA 11.6
+
+## CUDA11.6
 ```sh
 wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
 sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
@@ -29,19 +29,25 @@ export PATH=/usr/local/cuda/bin:$$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$$LD_LIBRARY_PAT
 source ~/.bashrc
 ```
+
 ## Test nvidia-smi
 ```sh
 nvidia-smi
 ```
+
 ## Test nvcc -V
+
 ```sh
 nvcc -V
 ```
-## PyTorch
+
+## Pytorch
+
+
 ```sh 
 pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
 ```
-### Get file when network is poor
+### get file when network worse
 ```sh
 wget https://download.pytorch.org/whl/cu113/torch-1.10.2%2Bcu113-cp36-cp36m-linux_x86_64.whl
 wget https://download.pytorch.org/whl/cu113/torchvision-0.11.3%2Bcu113-cp36-cp36m-linux_x86_64.whl
