@@ -45,7 +45,6 @@ fetch(base + "/search-data.json")
   log.innerText = "加载失败：" + e;
   resBox.innerText = "无法读取文章数据";
 });
-
 function runSearch(){
   const kw = document.getElementById("kw").value.toLowerCase().trim();
   resBox.innerHTML = "";
@@ -56,13 +55,15 @@ function runSearch(){
 
   // 过滤文章
   const arr = list.filter(p => {
-    // 【核心修复】加入安全防御，防止 null 导致 join() 或 toLowerCase() 报错
-    const title = p.title ? p.title.toLowerCase() : "";
-    const content = p.raw_content ? p.raw_content.toLowerCase() : "";
+    // 严格判空：如果字段不存在或为 null，则给一个空字符串 "" 
+    const title = (p.title && typeof p.title === 'string') ? p.title.toLowerCase() : "";
+    const content = (p.raw_content && typeof p.raw_content === 'string') ? p.raw_content.toLowerCase() : "";
+    
+    // 分类和标签判空
     const categories = Array.isArray(p.categories) ? p.categories.join(" ").toLowerCase() : "";
     const tags = Array.isArray(p.tags) ? p.tags.join(" ").toLowerCase() : "";
 
-    // 匹配标题、分类、标签或正文
+    // 只要有一个地方匹配成功就返回
     return title.includes(kw) || 
            categories.includes(kw) || 
            tags.includes(kw) || 
@@ -79,7 +80,9 @@ function runSearch(){
   // 渲染结果
   let html = "";
   arr.forEach(item => {
-    html += `<p><a href="${base}${item.url}">${item.title || '无标题'}</a></p>`;
+    // 如果没有标题，就用 URL 或者提示文字顶替，防止页面显示空白
+    const displayTitle = item.title || item.url || "无标题文章";
+    html += `<p><a href="${base}${item.url}">${displayTitle}</a></p>`;
   });
   resBox.innerHTML = html;
 }
