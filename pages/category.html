@@ -4,52 +4,14 @@ title: Categories
 permalink: /category/
 ---
 
+<article class="page-container">
+  <div class="categories-title">
+    <h1>{{ site.data.lang[site.language].categories_title }}</h1>
+  </div>
+  <ul class="categories-list">
+    {% for category in site.categories %}
+      <li><a href="{{ base.url }}/category/{{ category | first | slugify }}">{{ category | first }}</a></li>
+    {% endfor %}
+  </ul>
+</article>
 
-
-{% assign target_tag = page.url | split: "?tag=" | last %}
-
-<h1>
-{% if target_tag == page.url %}
-All Tags
-{% else %}
-Tag: {{ target_tag }}
-<a href="{{ site.baseurl }}/tags/">← Back All Tags</a>
-{% endif %}
-</h1>
-<hr>
-
-{% if target_tag == page.url %}
-<ul class="categories-list">
-{% for tag in site.tags %}
-{% assign tname = tag | first %}
-{% assign tposts = tag | last %}
-<li>
-<a href="{{ site.baseurl }}/tags/?tag={{ tname | slugify }}">
-{{ tname }} ({{ tposts.size }})
-</a>
-</li>
-{% endfor %}
-</ul>
-{% else %}
-{% assign list = "" | split: "" %}
-{% for post in site.posts %}
-{% for t in post.tags %}
-{% if t | slugify == target_tag %}
-{% assign list = list | push: post %}
-{% endif %}
-{% endfor %}
-{% endfor %}
-{% assign list = list | sort: "date" | reverse %}
-
-{% if list.size == 0 %}
-<p>No articles under this tag.</p>
-{% endif %}
-{% for post in list %}
-<div class="posts-list-item">
-<span class="posts-list-item-name float-left">
-<a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-</span>
-<span class="posts-list-item-date float-right">{{ post.date | date:"%Y-%m-%d" }}</span>
-</div>
-{% endfor %}
-{% endif %}
