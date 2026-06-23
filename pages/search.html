@@ -10,7 +10,7 @@ permalink: /search/
 .search-item h3{margin:0 0 4px 0}
 .search-item .meta{color:#777;font-size:14px}
 .empty-tip{color:#999;text-align:center;padding:30px 0}
-.debug{margin:20px 0;padding:10px;background:#f5f5f5;font-size:12px;white-space:pre-wrap}
+.debug{margin:20px 0;padding:10px;background:#f5f5f5;font-size:12px;white-space:pre-wrap;max-height:300px;overflow:auto}
 </style>
 
 <div class="page-container">
@@ -28,26 +28,38 @@ const resultBox = document.getElementById("resultBox");
 const debugBox = document.getElementById("debugBox");
 const searchBtn = document.getElementById("searchBtn");
 
-// 核心搜索逻辑
 function doSearch(keyword){
   const kw = keyword.trim().toLowerCase();
   resultBox.innerHTML = "";
-  debugBox.innerText = `✅ Loaded total articles: ${articleList.length}`;
-  if(!kw) return;
+  let log = `✅ Loaded total articles: ${articleList.length}`;
+  if(!kw){
+    debugBox.innerText = log;
+    return;
+  }
 
+  // 过滤匹配
   const matched = articleList.filter(item=>{
     const title = item.title.toLowerCase();
     const content = item.raw_content.toLowerCase();
-    const tags = item.tags.join(" ").toLowerCase();
-    const cats = item.categories.join(" ").toLowerCase();
-    return title.includes(kw) || content.includes(kw) || tags.includes(kw) || cats.includes(kw);
+    const tagsStr = item.tags.join(" ").toLowerCase();
+    const catsStr = item.categories.join(" ").toLowerCase();
+    return title.includes(kw) || content.includes(kw) || tagsStr.includes(kw) || catsStr.includes(kw);
   });
 
-  debugBox.innerText += "\nMatched articles count: " + matched.length;
+  log += "\nSearch keyword: " + kw;
+  log += "\nMatched count: " + matched.length;
+  // 打印第一条文章数据，查看真实字段内容
+  if(articleList.length > 0){
+    log += "\n\n=== First Article Sample Data ===";
+    log += "\nTitle: " + articleList[0].title;
+    log += "\nTags: " + articleList[0].tags.join(",");
+    log += "\nCategories: " + articleList[0].categories.join(",");
+  }
+  debugBox.innerText = log;
+
   renderList(matched);
 }
 
-// 渲染结果
 function renderList(list){
   if(list.length === 0){
     resultBox.innerHTML = `<p class="empty-tip">No matching articles found</p>`;
@@ -65,7 +77,6 @@ function renderList(list){
   resultBox.innerHTML = htmlStr;
 }
 
-// 加载索引
 async function loadData(){
   try {
     const resp = await fetch("{{ site.baseurl }}/search-data.json");
@@ -77,20 +88,9 @@ async function loadData(){
   }
 }
 
-// 点击按钮搜索
-searchBtn.addEventListener("click", ()=>{
-  doSearch(input.value);
-});
-// 回车搜索
-input.addEventListener("keydown", e => {
-  if(e.key === "Enter"){
-    doSearch(input.value);
-  }
-});
-// 实时输入立即搜索（无延迟）
-input.addEventListener("input", e => {
-  doSearch(e.target.value);
-});
+searchBtn.addEventListener("click", ()=> doSearch(input.value));
+input.addEventListener("keydown", e => e.key === "Enter" && doSearch(input.value));
+input.addEventListener("input", e => doSearch(e.target.value));
 
 loadData();
 </script>
