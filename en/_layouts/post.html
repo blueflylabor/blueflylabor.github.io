@@ -1,0 +1,72 @@
+---
+layout: default
+---
+
+<!-- Link Gitalk 的支持文件 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<article class="container-post">
+  <div class="post-title">
+    <h1>{{ page.title }}</h1>
+  </div>
+  <div class="post-author">
+    <span>{{ site.name }}</span>
+  </div>
+  <div class="post-content">
+    {{ content }}
+  </div>
+  <div class="post-info">
+    <div class="post-date">
+      {{ site.data.lang[site.language].post_write_date }}{{ page.date | date: "%Y-%m-%d" }}{% if page.last_modified_at %}, {{ site.data.lang[site.language].post_update_date }}{{ page.last_modified_at | date: "%Y-%m-%d" }}{% endif %}.
+    </div>
+    <div class="post-categories">
+      <span>{{ site.data.lang[site.language].post_categories }}</span>
+      {% for category in page.categories %}
+      <a href="{{ site.baseurl }}/category/{{ category | slugify }}" class="post-category">{{ category }}</a>
+      {% endfor %}
+    </div>
+    <div class="post-tags">
+      <span>{{ site.data.lang[site.language].post_tags }}</span>
+      {% for tag in page.tags %}
+      <a href="{{ site.baseurl }}/tag/{{ tag | slugify }}" class="post-tag">{{ tag }}</a>
+      {% endfor %}
+    </div>
+    <div class="post-tools">
+      {% if page.next %}
+      <div>
+        <span>{{ site.data.lang[site.language].post_next }}</span><a href="{{ site.baseurl }}{{ page.next.url }}">{{ page.next.title }}</a>
+      </div>
+      {% endif %}
+      {% if page.previous %}
+      <div>
+        <span>{{ site.data.lang[site.language].post_previous }}</span><a href="{{ site.baseurl }}{{ page.previous.url }}">{{ page.previous.title }}</a>
+      </div>
+      {% endif %}
+    </div>
+    {% if site.comments %}
+      {% include comments.html %}
+    {% endif %}
+    <!-- Gitalk 评论 start  -->
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+  var title = location.pathname.substr(0, 50);//截取路径的前50个字符作为标识符
+  var gitalk = new Gitalk({
+
+  // gitalk的主要参数
+      clientID: `Ov23liR8EziibgRCvc1n`,
+      clientSecret: `ce66b1e85c5196d65b2c0ec9b3729d3e46566b1b`,
+      repo: `blueflylabor.github.io`,
+      owner: `blueflylabor`,
+      admin: [`blueflylabor`],
+      id: title,//因为这里不能超过50字符，所以做了处理，当超过50时自动截取前50
+ 
+  });
+  gitalk.render('gitalk-container');
+  </script>
+<!-- Gitalk end -->
+  </div>
+</article>

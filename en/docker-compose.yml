@@ -1,0 +1,17 @@
+services:
+  jekyll:
+    image: jekyll/jekyll:latest
+    ports:
+      - "4000:4000"
+      - "35729:35729"  # 热重载端口
+    volumes:
+      - .:/srv/jekyll
+      - jekyll_bundle:/usr/local/bundle  # 持久化依赖
+    environment:
+      - JEKYLL_ENV=development
+    command: >
+      sh -c "bundle install &&
+             jekyll serve --host 0.0.0.0 --livereload"
+
+volumes:
+  jekyll_bundle:

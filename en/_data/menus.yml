@@ -1,0 +1,23 @@
+- default: menu_index
+  url:   ""
+
+- default: menu_notes
+  url:   "notes"
+
+- default: menu_knowledge
+  url:   "knowledge"
+
+- default: menu_archive
+  url:   "archive"
+  
+- default: menu_category
+  url:   "category"
+
+- default: menu_about
+  url:   "about"
+
+- default: menu_talk
+  url: "talk"
+
+- default: menu_say
+  url: "saysth"

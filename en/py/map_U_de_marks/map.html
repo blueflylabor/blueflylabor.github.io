@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_1ec0e6440d7a7c903c617cedf55c4cfd {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_1ec0e6440d7a7c903c617cedf55c4cfd" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_1ec0e6440d7a7c903c617cedf55c4cfd = L.map(
+                "map_1ec0e6440d7a7c903c617cedf55c4cfd",
+                {
+                    center: [29.118959249999996, 177.6174155],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f6389ce34e7fcf0f3840e602a419b4eb = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_f6389ce34e7fcf0f3840e602a419b4eb.addTo(map_1ec0e6440d7a7c903c617cedf55c4cfd);
+        
+    
+            var marker_e0b53a504cb55907dd19ab2d06debdcf = L.marker(
+                [39.904211, 116.407394],
+                {
+}
+            ).addTo(map_1ec0e6440d7a7c903c617cedf55c4cfd);
+        
+    
+        var popup_fa36b289e59f0d5563f3a4bdce5662e5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1aa847598021268ff0a0938f509d754d = $(`<div id="html_1aa847598021268ff0a0938f509d754d" style="width: 100.0%; height: 100.0%;">北京</div>`)[0];
+                popup_fa36b289e59f0d5563f3a4bdce5662e5.setContent(html_1aa847598021268ff0a0938f509d754d);
+            
+        
+
+        marker_e0b53a504cb55907dd19ab2d06debdcf.bindPopup(popup_fa36b289e59f0d5563f3a4bdce5662e5)
+        ;
+
+        
+    
+    
+            var marker_34ad30d0717020548a026f77f027d2ef = L.marker(
+                [31.230416, 121.473701],
+                {
+}
+            ).addTo(map_1ec0e6440d7a7c903c617cedf55c4cfd);
+        
+    
+        var popup_63e59d4223b6b72857609a07f2a2336d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_62cb9b12d71a3b3e9509507df429c785 = $(`<div id="html_62cb9b12d71a3b3e9509507df429c785" style="width: 100.0%; height: 100.0%;">上海</div>`)[0];
+                popup_63e59d4223b6b72857609a07f2a2336d.setContent(html_62cb9b12d71a3b3e9509507df429c785);
+            
+        
+
+        marker_34ad30d0717020548a026f77f027d2ef.bindPopup(popup_63e59d4223b6b72857609a07f2a2336d)
+        ;
+
+        
+    
+    
+            var marker_531a16eb01b8f57483fe4e0def8f8935 = L.marker(
+                [23.12911, 113.264367],
+                {
+}
+            ).addTo(map_1ec0e6440d7a7c903c617cedf55c4cfd);
+        
+    
+        var popup_fadf53c40aa86e93ecc01dba6340094b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3f76ad0acc2731eefe13ce5898b961ad = $(`<div id="html_3f76ad0acc2731eefe13ce5898b961ad" style="width: 100.0%; height: 100.0%;">广州</div>`)[0];
+                popup_fadf53c40aa86e93ecc01dba6340094b.setContent(html_3f76ad0acc2731eefe13ce5898b961ad);
+            
+        
+
+        marker_531a16eb01b8f57483fe4e0def8f8935.bindPopup(popup_fadf53c40aa86e93ecc01dba6340094b)
+        ;
+
+        
+    
+    
+            var marker_d9c784439fc9ee010f24429724a8f3bd = L.marker(
+                [22.2121, 359.3242],
+                {
+}
+            ).addTo(map_1ec0e6440d7a7c903c617cedf55c4cfd);
+        
+    
+        var popup_083b85ff8665a48d68a0ace4b77beae3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e5863e3f60fa9cf85cc1645f326caea0 = $(`<div id="html_e5863e3f60fa9cf85cc1645f326caea0" style="width: 100.0%; height: 100.0%;">???</div>`)[0];
+                popup_083b85ff8665a48d68a0ace4b77beae3.setContent(html_e5863e3f60fa9cf85cc1645f326caea0);
+            
+        
+
+        marker_d9c784439fc9ee010f24429724a8f3bd.bindPopup(popup_083b85ff8665a48d68a0ace4b77beae3)
+        ;
+
+        
+    
+</script>
+</html>
