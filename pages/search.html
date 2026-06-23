@@ -20,7 +20,14 @@ const resBox = document.getElementById("result-box");
 const log = document.getElementById("log");
 const base = "{{ site.baseurl }}";
 
-// 加载索引
+// 1. 页面加载时，先从 URL 中提取关键词并直接填入输入框（让用户一进来就能看到词）
+const urlParams = new URLSearchParams(window.location.search);
+const initialKeyword = urlParams.get('topic') || urlParams.get('q');
+if (initialKeyword) {
+  document.getElementById("kw").value = decodeURIComponent(initialKeyword);
+}
+
+// 2. 异步加载索引数据
 fetch(base + "/search-data.json")
 .then(r => {
   if(!r.ok) throw "文件404";
@@ -30,8 +37,10 @@ fetch(base + "/search-data.json")
   list = data;
   log.innerText = "已加载文章：" + list.length + " 篇";
   
-  // 【新增】数据加载成功后，检查 URL 是否带有搜索参数
-  checkUrlParam();
+  // 3. 【核心修复】数据只要一加载完毕，且输入框里有通过 URL 带进来的词，立刻触发搜索
+  if (document.getElementById("kw").value.trim()) {
+    runSearch();
+  }
 })
 .catch(e => {
   console.error(e);
@@ -39,6 +48,7 @@ fetch(base + "/search-data.json")
   resBox.innerText = "无法读取文章数据";
 });
 
+// 核心搜索逻辑
 function runSearch(){
   const kw = document.getElementById("kw").value.toLowerCase().trim();
   resBox.innerHTML = "";
@@ -47,7 +57,6 @@ function runSearch(){
     return;
   }
 
-  // 过滤文章（带严格判空）
   const arr = list.filter(p => {
     const title = (p.title && typeof p.title === 'string') ? p.title.toLowerCase() : "";
     const content = (p.raw_content && typeof p.raw_content === 'string') ? p.raw_content.toLowerCase() : "";
@@ -67,28 +76,11 @@ function runSearch(){
     return;
   }
 
-  // 渲染结果
   let html = "";
   arr.forEach(item => {
     const displayTitle = item.title || item.url || "无标题文章";
     html += `<p><a href="${base}${item.url}">${displayTitle}</a></p>`;
   });
   resBox.innerHTML = html;
-}
-
-// 【新增函数】用于解析 URL 参数并自动搜索
-function checkUrlParam() {
-  // 获取当前 URL 的参数对象
-  const urlParams = new URLSearchParams(window.location.search);
-  
-  // 检查是否包含 'topic' 或 'q' 参数（兼容两种写法）
-  const keyword = urlParams.get('topic') || urlParams.get('q');
-  
-  if (keyword) {
-    // 1. 将关键词解码（防止中文或特殊字符乱码）并填入输入框
-    document.getElementById("kw").value = decodeURIComponent(keyword);
-    // 2. 自动触发搜索
-    runSearch();
-  }
 }
 </script>
