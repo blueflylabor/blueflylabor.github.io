@@ -20,6 +20,7 @@ en:
   menu_solution: "Solution"
   menu_notes: "Notes"
   menu_archive: "Archive"
+  menu_search: "Search"
 
 zh:
   menu_github: "Github"
@@ -43,3 +44,4 @@ zh:
   menu_solution: "問題解決"
   menu_notes: "筆記"
   menu_archive: "歸檔"
+  menu_search: "搜索"
