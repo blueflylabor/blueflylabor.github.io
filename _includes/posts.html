@@ -3,18 +3,22 @@
   <div class="category-section">
     <h3 class="category-label">最新</h3>
     {% assign count = 0 %}
+    {% assign showed_ids = "" | split: "" %}
     {% for post in site.posts %}
       {% if post.categories contains 'notes' or post.categories contains 'solution' %}
-        {% if count < 5 %}
-          <div class="posts-list-item">
-            <span class="posts-list-item-name float-left">
-              <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-              {% if post.categories contains 'solution' %}<small style="color: #888; font-size: 0.7em;"> [Solution]</small>{% endif %}
-            </span>
-            <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
-          </div>
-          {% assign count = count | plus: 1 %}
-        {% endif %}
+        {% unless showed_ids contains post.id %}
+          {% if count < 5 %}
+            <div class="posts-list-item">
+              <span class="posts-list-item-name float-left">
+                <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                {% if post.categories contains 'solution' %}<small style="color: #888; font-size: 0.7em;"> [Solution]</small>{% endif %}
+              </span>
+              <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
+            </div>
+            {% assign count = count | plus: 1 %}
+            {% assign showed_ids = showed_ids | push: post.id %}
+          {% endif %}
+        {% endunless %}
       {% endif %}
     {% endfor %}
   </div>
