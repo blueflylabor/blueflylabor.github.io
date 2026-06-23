@@ -4,33 +4,52 @@ title: Categories
 permalink: /category/
 ---
 
-<h1>Tag: {{ page.tag }}</h1>
-<a href="{{ site.baseurl }}/category/">← Back All Tags</a>
+
+
+{% assign target_tag = page.url | split: "?tag=" | last %}
+
+<h1>
+{% if target_tag == page.url %}
+All Tags
+{% else %}
+Tag: {{ target_tag }}
+<a href="{{ site.baseurl }}/tags/">← Back All Tags</a>
+{% endif %}
+</h1>
 <hr>
 
-{% assign target_slug = page.tag %}
-{% assign match_posts = "" | split: "" %}
-
-{% for post in site.posts %}
-  {% for raw_tag in post.tags %}
-    {% assign slug_t = raw_tag | slugify %}
-    {% if slug_t == target_slug %}
-      {% assign match_posts = match_posts | push: post %}
-    {% endif %}
-  {% endfor %}
+{% if target_tag == page.url %}
+<ul class="categories-list">
+{% for tag in site.tags %}
+{% assign tname = tag | first %}
+{% assign tposts = tag | last %}
+<li>
+<a href="{{ site.baseurl }}/tags/?tag={{ tname | slugify }}">
+{{ tname }} ({{ tposts.size }})
+</a>
+</li>
 {% endfor %}
+</ul>
+{% else %}
+{% assign list = "" | split: "" %}
+{% for post in site.posts %}
+{% for t in post.tags %}
+{% if t | slugify == target_tag %}
+{% assign list = list | push: post %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% assign list = list | sort: "date" | reverse %}
 
-{% assign match_posts = match_posts | sort: "date" | reverse %}
-
-{% if match_posts.size == 0 %}
+{% if list.size == 0 %}
 <p>No articles under this tag.</p>
 {% endif %}
-
-{% for post in match_posts %}
+{% for post in list %}
 <div class="posts-list-item">
-  <span class="posts-list-item-name float-left">
-    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-  </span>
-  <span class="posts-list-item-date float-right">{{ post.date | date:"%Y-%m-%d" }}</span>
+<span class="posts-list-item-name float-left">
+<a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+</span>
+<span class="posts-list-item-date float-right">{{ post.date | date:"%Y-%m-%d" }}</span>
 </div>
 {% endfor %}
+{% endif %}
