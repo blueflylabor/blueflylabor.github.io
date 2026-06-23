@@ -14,16 +14,6 @@ permalink: /search/
   border:1px solid #ccc;
   min-height:80px;
 }
-</style>
-
-<!-- 搜索框 -->
-<input id="kw" placeholder="输入关键词">
-<button onclick="runSearch()">搜索</button>
-
-<!-- 独立、带边框的结果展示区块 -->
-<div id="result-box">这里是搜索结果区域</div>
-
-<div id="log"></div>
 <script>
 let list = [];
 const resBox = document.getElementById("result-box");
@@ -39,12 +29,16 @@ fetch(base + "/search-data.json")
 .then(data => {
   list = data;
   log.innerText = "已加载文章：" + list.length + " 篇";
+  
+  // 【新增】数据加载成功后，检查 URL 是否带有搜索参数
+  checkUrlParam();
 })
 .catch(e => {
-  console.error(e); // 在控制台打印具体错误，方便调试
+  console.error(e);
   log.innerText = "加载失败：" + e;
   resBox.innerText = "无法读取文章数据";
 });
+
 function runSearch(){
   const kw = document.getElementById("kw").value.toLowerCase().trim();
   resBox.innerHTML = "";
@@ -53,17 +47,13 @@ function runSearch(){
     return;
   }
 
-  // 过滤文章
+  // 过滤文章（带严格判空）
   const arr = list.filter(p => {
-    // 严格判空：如果字段不存在或为 null，则给一个空字符串 "" 
     const title = (p.title && typeof p.title === 'string') ? p.title.toLowerCase() : "";
     const content = (p.raw_content && typeof p.raw_content === 'string') ? p.raw_content.toLowerCase() : "";
-    
-    // 分类和标签判空
     const categories = Array.isArray(p.categories) ? p.categories.join(" ").toLowerCase() : "";
     const tags = Array.isArray(p.tags) ? p.tags.join(" ").toLowerCase() : "";
 
-    // 只要有一个地方匹配成功就返回
     return title.includes(kw) || 
            categories.includes(kw) || 
            tags.includes(kw) || 
@@ -80,10 +70,25 @@ function runSearch(){
   // 渲染结果
   let html = "";
   arr.forEach(item => {
-    // 如果没有标题，就用 URL 或者提示文字顶替，防止页面显示空白
     const displayTitle = item.title || item.url || "无标题文章";
     html += `<p><a href="${base}${item.url}">${displayTitle}</a></p>`;
   });
   resBox.innerHTML = html;
+}
+
+// 【新增函数】用于解析 URL 参数并自动搜索
+function checkUrlParam() {
+  // 获取当前 URL 的参数对象
+  const urlParams = new URLSearchParams(window.location.search);
+  
+  // 检查是否包含 'topic' 或 'q' 参数（兼容两种写法）
+  const keyword = urlParams.get('topic') || urlParams.get('q');
+  
+  if (keyword) {
+    // 1. 将关键词解码（防止中文或特殊字符乱码）并填入输入框
+    document.getElementById("kw").value = decodeURIComponent(keyword);
+    // 2. 自动触发搜索
+    runSearch();
+  }
 }
 </script>
