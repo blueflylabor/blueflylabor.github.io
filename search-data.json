@@ -6,9 +6,9 @@ permalink: /search-data.json
 [
 {%- for post in posts -%}
 {
-  "title": {{ post.title | jsonify }},
+  "title": {{ post.title | strip_html | strip_newlines | jsonify }},
   "url": {{ post.url | jsonify }},
-  "raw_content": {{ post.content | jsonify }},
+  "raw_content": {{ post.content | strip_html | strip_newlines | jsonify }},
   "tags": {{ post.tags | jsonify }},
   "categories": {{ post.categories | jsonify }}
 }{% if forloop.last == false %},{% endif %}

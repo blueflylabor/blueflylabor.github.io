@@ -3,60 +3,148 @@ layout: default
 title: Search
 permalink: /search/
 ---
+
+<!-- 现代感极简样式 -->
 <style>
+.search-container {
+  max-width: 600px;
+  margin: 30px auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.search-wrapper {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
 .search-input {
-  padding: 8px;
-  width: 300px;
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.search-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+.search-btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.search-btn:hover {
+  background-color: #2563eb;
+}
+.search-btn:active {
+  transform: scale(0.98);
+}
+#log-info {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 12px;
 }
 #result-box {
-  margin-top:20px;
-  padding:15px;
-  border:1px solid #ccc;
-  min-height:80px;
+  padding: 10px 0;
+  min-height: 100px;
 }
+.search-item {
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  border: 1px solid #f1f5f9;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.search-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+.search-item a {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  text-decoration: none;
+}
+.search-item a:hover {
+  color: #3b82f6;
+}
+.search-msg {
+  color: #64748b;
+  font-style: italic;
+  padding: 20px 0;
+}
+</style>
+
+<div class="search-container">
+  <!-- 搜索输入区块（绑定回车键） -->
+  <div class="search-wrapper">
+    <input id="kw" class="search-input" placeholder="Type keywords to search..." onkeydown="if(event.key === 'Enter') runSearch()">
+    <button class="search-btn" onclick="runSearch()">Search</button>
+  </div>
+
+  <!-- 状态日志 -->
+  <div id="log-info">Loading search index...</div>
+
+  <!-- 结果展示区域 -->
+  <div id="result-box"></div>
+</div>
+
 <script>
 let list = [];
 const resBox = document.getElementById("result-box");
-const log = document.getElementById("log");
-const base = "{{ site.baseurl }}";
+const logInfo = document.getElementById("log-info");
 
-// 1. 页面加载时，先从 URL 中提取关键词并直接填入输入框（让用户一进来就能看到词）
+// 智能处理 Base URL 路径，防止线上环境找不到文件
+const base = "{{ site.baseurl }}".replace(/\/$/, ""); 
+
+// 1. 预先从 URL 中提取参数并填入输入框
 const urlParams = new URLSearchParams(window.location.search);
 const initialKeyword = urlParams.get('topic') || urlParams.get('q');
 if (initialKeyword) {
-  document.getElementById("kw").value = decodeURIComponent(initialKeyword);
+  document.getElementById("kw").value = decodeURIComponent(initialKeyword).trim();
 }
 
-// 2. 异步加载索引数据
+// 2. 异步拉取索引
 fetch(base + "/search-data.json")
 .then(r => {
-  if(!r.ok) throw "文件404";
+  if(!r.ok) throw "HTTP error " + r.status;
   return r.json();
 })
 .then(data => {
-  list = data;
-  log.innerText = "已加载文章：" + list.length + " 篇";
+  // 过滤掉可能导致系统崩溃的空数据
+  list = Array.isArray(data) ? data.filter(item => item && (item.title || item.url)) : [];
+  logInfo.innerText = "Indexed " + list.length + " articles.";
   
-  // 3. 【核心修复】数据只要一加载完毕，且输入框里有通过 URL 带进来的词，立刻触发搜索
+  // 3. 数据加载完毕后，如果输入框有值（URL带入的），立即自动搜索
   if (document.getElementById("kw").value.trim()) {
     runSearch();
   }
 })
 .catch(e => {
-  console.error(e);
-  log.innerText = "加载失败：" + e;
-  resBox.innerText = "无法读取文章数据";
+  console.error("Search index configuration error:", e);
+  logInfo.innerText = "Failed to load index.";
+  resBox.innerHTML = '<div class="search-msg">Unable to load search data. Please check connection.</div>';
 });
 
-// 核心搜索逻辑
+// 搜索主逻辑
 function runSearch(){
   const kw = document.getElementById("kw").value.toLowerCase().trim();
   resBox.innerHTML = "";
+  
   if(!kw){
-    resBox.innerText = "请输入关键词";
+    resBox.innerHTML = '<div class="search-msg">Please enter a keyword.</div>';
     return;
   }
 
+  // 严格安全的过滤逻辑
   const arr = list.filter(p => {
     const title = (p.title && typeof p.title === 'string') ? p.title.toLowerCase() : "";
     const content = (p.raw_content && typeof p.raw_content === 'string') ? p.raw_content.toLowerCase() : "";
@@ -69,17 +157,23 @@ function runSearch(){
            content.includes(kw);
   });
 
-  log.innerText = "匹配数量：" + arr.length;
+  logInfo.innerText = "Matches found: " + arr.length;
 
   if(arr.length === 0){
-    resBox.innerText = "没有找到相关文章";
+    resBox.innerHTML = '<div class="search-msg">No matching articles found.</div>';
     return;
   }
 
+  // 渲染美化后的结果
   let html = "";
   arr.forEach(item => {
-    const displayTitle = item.title || item.url || "无标题文章";
-    html += `<p><a href="${base}${item.url}">${displayTitle}</a></p>`;
+    const displayTitle = item.title || "Untitled Post";
+    const postUrl = item.url.startsWith('http') ? item.url : (base + item.url);
+    html += `
+      <div class="search-item">
+        <a href="${postUrl}">${displayTitle}</a>
+      </div>
+    `;
   });
   resBox.innerHTML = html;
 }
