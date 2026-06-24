@@ -5,7 +5,7 @@ last_modified_at: 2020-10-06
 categories: notes
 tags: [Database Systems]
 lang: en
-permalink: /en/:title/
+
 ---
 
 # Database Systems Overview

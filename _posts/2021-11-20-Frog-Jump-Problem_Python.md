@@ -6,7 +6,7 @@ last_modified_at: 2026-06-23
 categories: algorithms
 tags: [Algorithm, Dynamic Programming, Python]
 lang: en
-permalink: /en/:title/
+
 ---
 
 # Problem Statement

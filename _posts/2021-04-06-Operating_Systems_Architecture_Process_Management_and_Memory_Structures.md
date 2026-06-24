@@ -5,7 +5,7 @@ last_modified_at: 2020-10-06
 categories: notes
 tags: [Operating Systems]
 lang: en
-permalink: /en/:title/
+
 ---
 
 # Chapter 1: Computer System Architecture & Foundations

@@ -5,7 +5,7 @@ last_modified_at: 2020-10-06
 categories: notes
 tags: [Computer Network ]
 lang: en
-permalink: /en/:title/
+
 ---
 
 # The Network Layer

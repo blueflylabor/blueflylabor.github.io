@@ -6,7 +6,7 @@ last_modified_at: 2026-06-23
 categories: archive
 tags: [PyTorch, CNN, YOLO, Object Detection]
 lang: en
-permalink: /en/:title/
+
 ---
 
 # Part 1. Foundations of Convolutional Neural Networks (CNN)

@@ -5,7 +5,7 @@ last_modified_at: 2018-10-06
 categories: notes
 tags: [Computer Organization and Architecture]
 lang: en
-permalink: /en/:title/
+
 ---
 
 # Virtual Memory: Paged, Segmented, and Segmented-Paged Schemes

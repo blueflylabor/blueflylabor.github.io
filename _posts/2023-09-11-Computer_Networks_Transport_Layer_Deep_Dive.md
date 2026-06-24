@@ -5,7 +5,7 @@ last_modified_at: 2026-06-23
 categories: notes
 tags: [Computer Networks, TCP, UDP]
 lang: en
-permalink: /en/:title/
+
 ---
 
 # Module 1: Architectural Overview of the Transport Layer

@@ -5,7 +5,7 @@ last_modified_at: 2018-09-06
 categories: notes
 tags: [Advanced Mathematics]
 lang: en
-permalink: /en/:title/
+
 ---
 
 **1. Partial Differentiability of Functions of Two Variables**

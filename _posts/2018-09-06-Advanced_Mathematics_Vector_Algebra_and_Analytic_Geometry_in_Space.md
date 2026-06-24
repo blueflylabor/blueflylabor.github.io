@@ -5,7 +5,7 @@ last_modified_at: 2018-09-06
 categories: notes
 tags: [Advanced Mathematics]
 lang: en
-permalink: /en/:title/
+
 ---
 
 # Chapter 4 Vector Algebra and Analytic Geometry in Space
