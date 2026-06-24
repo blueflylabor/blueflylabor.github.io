@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Data Structures: Stacks and Queues
 date:   2018-10-06
