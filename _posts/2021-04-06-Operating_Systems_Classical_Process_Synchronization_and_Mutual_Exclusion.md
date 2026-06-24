@@ -1,4 +1,3 @@
-
 ---
 title: Operating Systems: Classical Process Synchronization and Mutual Exclusion
 date:   2021-04-06

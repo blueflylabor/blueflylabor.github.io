@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Operating Systems: Architecture, Process Management, and Memory Structures
 date:   2021-04-06

@@ -1,4 +1,3 @@
-
 ---
 title: Data Structures: Search Algorithms
 date:   2018-10-06
