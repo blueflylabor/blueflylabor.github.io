@@ -4,81 +4,177 @@ title: Search
 permalink: /search/
 ---
 
+<!-- 现代感极简样式 -->
 <style>
-.search-container { max-width: 600px; margin: 30px auto; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-.search-wrapper { display: flex; gap: 10px; margin-bottom: 15px; }
-.search-input { flex: 1; padding: 12px 16px; font-size: 16px; border: 2px solid #e2e8f0; border-radius: 8px; outline: none; }
-.search-btn { padding: 12px 24px; font-size: 16px; color: #fff; background-color: #3b82f6; border: none; border-radius: 8px; cursor: pointer; }
-/* 语言过滤栏样式 */
-.filter-group { margin-bottom: 20px; display: flex; gap: 15px; align-items: center; color: #64748b; font-size: 14px; }
-.filter-group label { cursor: pointer; display: flex; align-items: center; gap: 5px; }
-#log-info { font-size: 14px; color: #64748b; margin-bottom: 12px; }
-.search-item { padding: 12px 16px; margin-bottom: 12px; border-radius: 8px; background-color: #f8fafc; border: 1px solid #f1f5f9; }
-.search-item a { font-size: 18px; font-weight: 600; color: #1e293b; text-decoration: none; }
+.search-container {
+  max-width: 600px;
+  margin: 30px auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.search-wrapper {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.search-input {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.search-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+.search-btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.search-btn:hover {
+  background-color: #2563eb;
+}
+.search-btn:active {
+  transform: scale(0.98);
+}
+#log-info {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+#result-box {
+  padding: 10px 0;
+  min-height: 100px;
+}
+.search-item {
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  border: 1px solid #f1f5f9;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.search-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+.search-item a {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  text-decoration: none;
+}
+.search-item a:hover {
+  color: #3b82f6;
+}
+.search-msg {
+  color: #64748b;
+  font-style: italic;
+  padding: 20px 0;
+}
 </style>
 
 <div class="search-container">
+  <!-- 搜索输入区块（绑定回车键） -->
   <div class="search-wrapper">
-    <input id="kw" class="search-input" placeholder="Type keywords..." onkeydown="if(event.key === 'Enter') runSearch()">
+    <input id="kw" class="search-input" placeholder="Type keywords to search..." onkeydown="if(event.key === 'Enter') runSearch()">
     <button class="search-btn" onclick="runSearch()">Search</button>
   </div>
 
-  <div class="filter-group">
-    <span>Filter by:</span>
-    <label><input type="radio" name="lang" value="all" checked onchange="runSearch()"> All</label>
-    <label><input type="radio" name="lang" value="zh" onchange="runSearch()"> Chinese</label>
-    <label><input type="radio" name="lang" value="en" onchange="runSearch()"> English</label>
-  </div>
+  <!-- 状态日志 -->
+  <div id="log-info">Loading search index...</div>
 
-  <div id="log-info">Loading...</div>
+  <!-- 结果展示区域 -->
   <div id="result-box"></div>
 </div>
 
 <script>
 let list = [];
+const resBox = document.getElementById("result-box");
+const logInfo = document.getElementById("log-info");
+
+// 智能处理 Base URL 路径，防止线上环境找不到文件
 const base = "{{ site.baseurl }}".replace(/\/$/, ""); 
 
-// 初始化：检查 URL 参数
+// 1. 预先从 URL 中提取参数并填入输入框
 const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get('q')) document.getElementById("kw").value = decodeURIComponent(urlParams.get('q'));
-if (urlParams.get('lang')) {
-  const lang = urlParams.get('lang');
-  document.querySelectorAll('input[name="lang"]').forEach(el => {
-    if(el.value === lang) el.checked = true;
-  });
+const initialKeyword = urlParams.get('topic') || urlParams.get('q');
+if (initialKeyword) {
+  document.getElementById("kw").value = decodeURIComponent(initialKeyword).trim();
 }
 
+// 2. 异步拉取索引
 fetch(base + "/search-data.json")
-.then(r => r.json())
+.then(r => {
+  if(!r.ok) throw "HTTP error " + r.status;
+  return r.json();
+})
 .then(data => {
-  list = data;
-  document.getElementById("log-info").innerText = "Indexed " + list.length + " articles.";
-  if (document.getElementById("kw").value.trim()) runSearch();
+  // 过滤掉可能导致系统崩溃的空数据
+  list = Array.isArray(data) ? data.filter(item => item && (item.title || item.url)) : [];
+  logInfo.innerText = "Indexed " + list.length + " articles.";
+  
+  // 3. 数据加载完毕后，如果输入框有值（URL带入的），立即自动搜索
+  if (document.getElementById("kw").value.trim()) {
+    runSearch();
+  }
+})
+.catch(e => {
+  console.error("Search index configuration error:", e);
+  logInfo.innerText = "Failed to load index.";
+  resBox.innerHTML = '<div class="search-msg">Unable to load search data. Please check connection.</div>';
 });
 
+// 搜索主逻辑
 function runSearch(){
   const kw = document.getElementById("kw").value.toLowerCase().trim();
-  const selectedLang = document.querySelector('input[name="lang"]:checked').value;
-  const resBox = document.getElementById("result-box");
   resBox.innerHTML = "";
   
   if(!kw){
-    document.getElementById("log-info").innerText = "Please enter a keyword.";
+    resBox.innerHTML = '<div class="search-msg">Please enter a keyword.</div>';
     return;
   }
 
+  // 严格安全的过滤逻辑
   const arr = list.filter(p => {
-    // 语言过滤
-    const langMatch = (selectedLang === 'all' || p.lang === selectedLang);
-    // 内容匹配
-    const content = (p.title + p.raw_content + (p.tags||[]).join(" ") + (p.categories||[]).join(" ")).toLowerCase();
-    
-    return langMatch && content.includes(kw);
+    const title = (p.title && typeof p.title === 'string') ? p.title.toLowerCase() : "";
+    const content = (p.raw_content && typeof p.raw_content === 'string') ? p.raw_content.toLowerCase() : "";
+    const categories = Array.isArray(p.categories) ? p.categories.join(" ").toLowerCase() : "";
+    const tags = Array.isArray(p.tags) ? p.tags.join(" ").toLowerCase() : "";
+
+    return title.includes(kw) || 
+           categories.includes(kw) || 
+           tags.includes(kw) || 
+           content.includes(kw);
   });
 
-  document.getElementById("log-info").innerText = "Matches found: " + arr.length;
+  logInfo.innerText = "Matches found: " + arr.length;
+
+  if(arr.length === 0){
+    resBox.innerHTML = '<div class="search-msg">No matching articles found.</div>';
+    return;
+  }
+
+  // 渲染美化后的结果
+  let html = "";
   arr.forEach(item => {
-    resBox.innerHTML += `<div class="search-item"><a href="${base + item.url}">${item.title}</a></div>`;
+    const displayTitle = item.title || "Untitled Post";
+    const postUrl = item.url.startsWith('http') ? item.url : (base + item.url);
+    html += `
+      <div class="search-item">
+        <a href="${postUrl}">${displayTitle}</a>
+      </div>
+    `;
   });
+  resBox.innerHTML = html;
 }
 </script>

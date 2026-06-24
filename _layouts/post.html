@@ -8,7 +8,7 @@
         {% if count < 5 %}
           <div class="posts-list-item">
             <span class="posts-list-item-name float-left">
-              <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+              <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
               {% if post.categories contains 'solution' %}<small style="color: #888; font-size: 0.7em;"> [Solution]</small>{% endif %}
             </span>
             <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
@@ -27,15 +27,13 @@
     {% for post in site.posts %}
       {% if post.categories contains 'notes' and notes_count < 5 %}
         <div class="posts-list-item">
-          <span class="posts-list-item-name float-left">
-            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-          </span>
+          <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
           <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
         </div>
         {% assign notes_count = notes_count | plus: 1 %}
       {% endif %}
     {% endfor %}
-    <a href="{{ '/notes/' | relative_url }}" style="font-size: 0.8em; color: #888; display: block; text-align: right;">查看全部 →</a>
+    <a href="{{ site.baseurl }}/notes/" style="font-size: 0.8em; color: #888; display: block; text-align: right;">查看全部 →</a>
   </div>
 
   <hr style="margin: 40px 0; border: 0; border-top: 1px dashed #eee;">
@@ -46,15 +44,13 @@
     {% for post in site.posts %}
       {% if post.categories contains 'knowledge' and know_count < 5 %}
         <div class="posts-list-item">
-          <span class="posts-list-item-name float-left">
-            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-          </span>
+          <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
           <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
         </div>
         {% assign know_count = know_count | plus: 1 %}
       {% endif %}
     {% endfor %}
-    <a href="{{ '/knowledge/' | relative_url }}" style="font-size: 0.8em; color: #888; display: block; text-align: right;">查看全部 →</a>
+    <a href="{{ site.baseurl }}/knowledge/" style="font-size: 0.8em; color: #888; display: block; text-align: right;">查看全部 →</a>
   </div>
   
 </div>
