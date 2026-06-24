@@ -4,6 +4,7 @@ sdate:   2018-10-06
 last_modified_at: 2018-10-06
 categories: notes
 tags: [Computer Organization and Architecture]
+lang: en
 ---
 
 # Cache-Main Memory Mapping, Replacement Algorithms, and Write Policies

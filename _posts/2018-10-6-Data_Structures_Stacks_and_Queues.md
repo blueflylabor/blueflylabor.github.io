@@ -4,8 +4,7 @@ date:   2018-10-06
 last_modified_at: 2018-10-06
 categories: notes
 tags: [Data Structures]
-
-
+lang: en
 ---
 
 # Stacks
