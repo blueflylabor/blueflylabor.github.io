@@ -12,11 +12,11 @@ A beginner, this website is recording something.
 ## Website
 - [new site](https://www.cnblogs.com/blueflylabor)
 - [old site](https://www.cnblogs.com/Carrawayang)
-- [blueflylabor.github.io](https://blueflylabor.github.io)
+- [github](https://github.com/blueflylabor)
 
 Hi guys, welcome!
 
-Here is blueskylabor.
+Here is blueflylabor.
 
 ![](https://komarev.com/ghpvc/?username=blueflylabor)
 
@@ -49,7 +49,3 @@ Here is blueskylabor.
 <a href="https://github.com/blueflylabor">
 <img height="190" src="https://github-readme-stats-psi-amber.vercel.app/api/top-langs/?username=blueflylabor&layout=compact&langs_count=8" />
 </a>
-
-
-[jekyll-paper]: https://github.com/ghosind/Jekyll-Paper
-[jekyll-paper-issues]: https://github.com/ghosind/Jekyll-Paper/issues
