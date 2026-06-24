@@ -4,8 +4,6 @@ date:   2018-09-06
 last_modified_at: 2018-09-06
 categories: notes
 tags: [Advanced Mathematics]
-
-
 ---
 
 # Chapter 4 Differential Calculus of Functions of Several Variables

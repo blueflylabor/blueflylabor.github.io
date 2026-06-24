@@ -2,10 +2,7 @@
 layout: post
 title: "Intel-epp-packaging: managing your intel-cpu scheduling by [tuned-adm]"
 categories: solution
-tags:
-  - linux
-  - intel
-  - OS
+tags: [channel, linux, OS]
 ---
 
 # intel-tuned-epp-packaging-tools

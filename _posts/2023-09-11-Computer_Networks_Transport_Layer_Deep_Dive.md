@@ -4,8 +4,6 @@ date: 2023-09-11
 last_modified_at: 2026-06-23
 categories: notes
 tags: [Computer Networks, TCP, UDP]
-
-
 ---
 
 # Module 1: Architectural Overview of the Transport Layer

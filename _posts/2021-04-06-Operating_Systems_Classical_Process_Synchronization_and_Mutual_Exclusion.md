@@ -4,8 +4,6 @@ date:   2021-04-06
 last_modified_at: 2026-06-23
 categories: notes
 tags: [Operating Systems, Concurrency]
-
-
 ---
 
 # Classical Process Synchronization Problems

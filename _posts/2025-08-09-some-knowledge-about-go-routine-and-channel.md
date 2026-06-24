@@ -2,10 +2,7 @@
 layout: post
 title: "Some knowledge about go routine and channel"
 categories: archive
-tags:
-  - go
-  - routines
-  - channel
+tags: [go, routines, channel]
 ---
 
 ### 一、通道缓冲区的基本概念

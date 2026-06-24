@@ -4,8 +4,6 @@ date:   2023-09-11
 last_modified_at: 2020-10-06
 categories: notes
 tags: [Computer Network ]
-
-
 ---
 
 # The Network Layer
