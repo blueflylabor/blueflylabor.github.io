@@ -9,10 +9,9 @@ permalink: /notes/
     <h1>{{ page.title }}</h1>
   </div>
   <ul class="category-list">
-    {% assign sorted_posts = site.posts | sort: "date" | reverse %}
-    
-    {% for post in sorted_posts %}
-      {% if post.categories contains 'notes' or post.category == 'notes' %}
+    {% for post in site.posts %}
+      {% assign lowercase_categories = post.categories | join: ',' | downcase | split: ',' %}
+      {% if lowercase_categories contains 'notes' %}
         <li>
           <span>{{ post.date | date: "%b %e, %Y" }}: </span>
           <a href="{{ post.url | relative_url }}">{{ post.title | default: "Untitled Post" }}</a>
