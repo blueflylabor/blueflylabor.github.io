@@ -4,19 +4,16 @@
     <h3 class="category-label">最新</h3>
     {% assign count = 0 %}
     {% for post in site.posts %}
-      {% assign post_lang = post.lang | default: 'zh' %}
-      {% if post_lang == 'zh' %}
-        {% if post.categories contains 'notes' or post.categories contains 'solution' %}
-          {% if count < 5 %}
-            <div class="posts-list-item">
-              <span class="posts-list-item-name float-left">
-                <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-                {% if post.categories contains 'solution' %}<small style="color: #888; font-size: 0.7em;"> [Solution]</small>{% endif %}
-              </span>
-              <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
-            </div>
-            {% assign count = count | plus: 1 %}
-          {% endif %}
+      {% if post.categories contains 'notes' or post.categories contains 'solution' %}
+        {% if count < 5 %}
+          <div class="posts-list-item">
+            <span class="posts-list-item-name float-left">
+              <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+              {% if post.categories contains 'solution' %}<small style="color: #888; font-size: 0.7em;"> [Solution]</small>{% endif %}
+            </span>
+            <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
+          </div>
+          {% assign count = count | plus: 1 %}
         {% endif %}
       {% endif %}
     {% endfor %}
@@ -28,8 +25,7 @@
     <h3 class="category-label">筆記</h3>
     {% assign notes_count = 0 %}
     {% for post in site.posts %}
-      {% assign post_lang = post.lang | default: 'zh' %}
-      {% if post_lang == 'zh' and post.categories contains 'notes' and notes_count < 5 %}
+      {% if post.categories contains 'notes' and notes_count < 5 %}
         <div class="posts-list-item">
           <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
           <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
@@ -46,13 +42,12 @@
     <h3 class="category-label">見聞</h3>
     {% assign know_count = 0 %}
     {% for post in site.posts %}
-      {% assign post_lang = post.lang | default: 'zh' %}
-      {% if post_lang == 'zh' and post.categories contains 'knowledge' and know_count < 5 %}
+      {% if post.categories contains 'knowledge' and know_count < 5 %}
         <div class="posts-list-item">
           <span class="posts-list-item-name float-left"><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></span>
           <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
         </div>
-        {% assign know_count = plus: 1 %}
+        {% assign know_count = know_count | plus: 1 %}
       {% endif %}
     {% endfor %}
     <a href="{{ site.baseurl }}/knowledge/" style="font-size: 0.8em; color: #888; display: block; text-align: right;">查看全部 →</a>
