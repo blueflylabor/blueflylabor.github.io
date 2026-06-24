@@ -6,7 +6,7 @@
     {% for post in site.posts %}
       {% assign post_cats = post.categories | join: ',' | downcase %}
       {% if post_cats contains 'notes' or post_cats contains 'solution' %}
-        {% if count < 5 %}
+        {% if count < 4 %}
           <div class="posts-list-item">
             <span class="posts-list-item-name float-left">
               <a href="{{ post.url | relative_url }}">{{ post.title | default: "Untitled" }}</a>
@@ -30,7 +30,7 @@
     {% for post in site.posts %}
       {% assign post_cats = post.categories | join: ',' | downcase %}
       {% if post_cats contains 'notes' %}
-        {% if notes_count < 5 %}
+        {% if notes_count < 10 %}
           <div class="posts-list-item">
             <span class="posts-list-item-name float-left">
               <a href="{{ post.url | relative_url }}">{{ post.title | default: "Untitled" }}</a>
@@ -52,7 +52,7 @@
     {% for post in site.posts %}
       {% assign post_cats = post.categories | join: ',' | downcase %}
       {% if post_cats contains 'knowledge' %}
-        {% if know_count < 5 %}
+        {% if know_count < 10 %}
           <div class="posts-list-item">
             <span class="posts-list-item-name float-left">
               <a href="{{ post.url | relative_url }}">{{ post.title | default: "Untitled" }}</a>
