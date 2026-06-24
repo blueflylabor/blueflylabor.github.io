@@ -1,5 +1,5 @@
 ---
-title: Advanced Mathematics: Vector Algebra and Analytic Geometry in Space
+title: "Advanced Mathematics: Vector Algebra and Analytic Geometry in Space"
 date:   2018-09-06
 last_modified_at: 2018-09-06
 categories: notes

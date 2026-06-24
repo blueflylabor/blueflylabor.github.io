@@ -1,5 +1,5 @@
 ---
-title: Advanced Mathematics: Indefinite, Definite, and Improper Integrals
+title: "Advanced Mathematics: Indefinite, Definite, and Improper Integrals"
 date:   2018-09-06
 last_modified_at: 2018-09-06
 categories: notes

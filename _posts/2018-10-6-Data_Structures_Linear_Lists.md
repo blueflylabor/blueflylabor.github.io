@@ -1,5 +1,5 @@
 ---
-title: Data Structures: Linear Lists
+title: "Data Structures: Linear Lists"
 date:   2018-10-06
 last_modified_at: 2018-10-06
 categories: notes

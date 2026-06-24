@@ -1,6 +1,6 @@
 
 ---
-title: Frog Jump Problem: Dynamic Programming Optimization
+title: "Frog Jump Problem: Dynamic Programming Optimization"
 date:   2021-11-20
 last_modified_at: 2026-06-23
 categories: algorithms

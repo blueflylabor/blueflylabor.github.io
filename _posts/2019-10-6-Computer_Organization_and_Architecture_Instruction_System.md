@@ -1,5 +1,5 @@
 ---
-title: Computer Organization and Architecture - Instruction System
+title: "Computer Organization and Architecture - Instruction System"
 date:   2018-10-06
 last_modified_at: 2018-10-06
 categories: notes

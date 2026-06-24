@@ -1,5 +1,5 @@
 ---
-title: Advanced Mathematics: Derivatives and Differentials
+title: "Advanced Mathematics: Derivatives and Differentials"
 date:   2018-09-06
 last_modified_at: 2018-09-06
 categories: notes

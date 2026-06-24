@@ -1,5 +1,5 @@
 ---
-title: Database Management Systems: An Introduction
+title: "Database Management Systems: An Introduction"
 date:   2020-10-06
 last_modified_at: 2020-10-06
 categories: notes

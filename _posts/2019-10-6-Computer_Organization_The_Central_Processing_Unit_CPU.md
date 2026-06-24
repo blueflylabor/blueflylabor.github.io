@@ -1,6 +1,5 @@
-
 ---
-title: Computer Organization: The Central Processing Unit (CPU)
+title: "Computer Organization: The Central Processing Unit (CPU)"
 date:   2018-10-06
 last_modified_at: 2018-10-06
 categories: notes

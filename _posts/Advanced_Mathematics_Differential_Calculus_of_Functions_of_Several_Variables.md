@@ -1,5 +1,5 @@
 ---
-title: Advanced Mathematics: Differential Calculus of Functions of Several Variables
+title: "Advanced Mathematics: Differential Calculus of Functions of Several Variables"
 date:   2018-09-06
 last_modified_at: 2018-09-06
 categories: notes

@@ -17,45 +17,45 @@ layout: default
   </div>
   <div class="post-info">
     <div class="post-date">
-      {{ site.data.lang[site.language].post_write_date }}{{ page.date | date: "%Y-%m-%d" }}{% if page.last_modified_at %}, {{ site.data.lang[site.language].post_update_date }}{{ page.last_modified_at | date: "%Y-%m-%d" }}{% endif %}.
+      发布于：{{ page.date | date: "%Y-%m-%d" }}{% if page.last_modified_at %}, 更新于：{{ page.last_modified_at | date: "%Y-%m-%d" }}{% endif %}.
     </div>
     
     <div class="post-categories">
-      <span>{{ site.data.lang[site.language].post_categories }}</span>
+      <span>分类：</span>
       {% for category in page.categories %}
-      <a href="{{ '/category/' | append: (category | slugify) | relative_url }}" class="post-category">{{ category }}</a>
+        {% assign cat_slug = category | slugify %}
+        {% capture cat_url %}/category/{{ cat_slug }}{% endcapture %}
+        <a href="{{ cat_url | relative_url }}" class="post-category">{{ category }}</a>
       {% endfor %}
     </div>
     
     <div class="post-tags">
-      <span>{{ site.data.lang[site.language].post_tags }}</span>
+      <span>标签：</span>
       {% for tag in page.tags %}
-      <a href="{{ '/tag/' | append: (tag | slugify) | relative_url }}" class="post-tag">{{ tag }}</a>
+        {% assign tag_slug = tag | slugify %}
+        {% capture tag_url %}/tag/{{ tag_slug }}{% endcapture %}
+        <a href="{{ tag_url | relative_url }}" class="post-tag">{{ tag }}</a>
       {% endfor %}
     </div>
     
     <div class="post-tools">
       {% if page.next %}
       <div>
-        <span>{{ site.data.lang[site.language].post_next }}</span>
-        <a href="{{ page.next.url | relative_url }}">{{ page.next.title }}</a>
+        <span>下一篇：</span><a href="{{ page.next.url | relative_url }}">{{ page.next.title }}</a>
       </div>
       {% endif %}
       {% if page.previous %}
       <div>
-        <span>{{ site.data.lang[site.language].post_previous }}</span>
-        <a href="{{ page.previous.url | relative_url }}">{{ page.previous.title }}</a>
+        <span>上一篇：</span><a href="{{ page.previous.url | relative_url }}">{{ page.previous.title }}</a>
       </div>
       {% endif %}
     </div>
-    
     {% if site.comments %}
       {% include comments.html %}
     {% endif %}
-    
     <div id="gitalk-container"></div>
     <script type="text/javascript">
-      var title = location.pathname.substr(0, 50); //截取路径的前50个字符作为标识符
+      var title = location.pathname.substr(0, 50);
       var gitalk = new Gitalk({
           clientID: `Ov23liR8EziibgRCvc1n`,
           clientSecret: `ce66b1e85c5196d65b2c0ec9b3729d3e46566b1b`,

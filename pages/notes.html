@@ -9,14 +9,8 @@ permalink: /notes/
     <h1>{{ page.title }}</h1>
   </div>
   <ul class="category-list">
-    {% for post in site.posts %}
-      {% assign lowercase_categories = post.categories | join: ',' | downcase | split: ',' %}
-      {% if lowercase_categories contains 'notes' %}
-        <li>
-          <span>{{ post.date | date: "%b %e, %Y" }}: </span>
-          <a href="{{ post.url | relative_url }}">{{ post.title | default: "Untitled Post" }}</a>
-        </li>
-      {% endif %}
+    {% for post in site.categories.notes %}
+      <li><span>{{ post.date | date: "%b %e, %Y" }}: </span><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></li>
     {% endfor %}
   </ul>
 </article>

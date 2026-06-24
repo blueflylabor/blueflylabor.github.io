@@ -1,5 +1,5 @@
 ---
-title: Operating Systems: Architecture, Process Management, and Memory Structures
+title: "Operating Systems: Architecture, Process Management, and Memory Structures"
 date:   2021-04-06
 last_modified_at: 2020-10-06
 categories: notes
