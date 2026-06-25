@@ -77,7 +77,7 @@ const i18n = {
   en:{back:"Back",listTitle:"File list (/filestore/files/)",noFile:"No files, put PDFs into /filestore/files/",download:"Download",copyLink:"Copy URL",close:"Close",copied:"Link copied"},
   de:{back:"Zurück",listTitle:"Dateiliste (/filestore/files/)",noFile:"Keine Dateien, PDFs in /filestore/files/ ablegen",download:"Herunterladen",copyLink:"URL kopieren",close:"Schließen",copied:"Link kopiert"}
 };
-let currentLang = localStorage.getItem("siteLang") || "zh";
+let currentLang = localStorage.getItem("siteLang") || "de";
 function setLang(lang){localStorage.setItem("siteLang",lang);renderLang(lang);updateBtn(lang);}
 function updateBtn(lang){document.querySelectorAll(".lang-btn").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));}
 function renderLang(lang){

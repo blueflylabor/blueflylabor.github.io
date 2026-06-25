@@ -120,7 +120,7 @@ const i18nDict = {
     emptyParam:"文件名或密钥不能为空",
     fileNotFound:"加密文件不存在",
     decrypting:"正在下载加密文件...",
-    decryptProcess:"文件下载完成，正在执行 SHA512 深度解密。提示：由于迭代强度较高，解密可能会持续 15s 左右，请耐心等待，谢谢使用！",
+    decryptProcess:"文件下载完成，正在执行 SHA512 深度解密。提示：由于迭代强度较高，解密可能会持续 7-15s 左右，请耐心等待，谢谢使用！",
     decryptOk:"✅ 解密成功",
     decryptFail:"❌ 解密失败，密钥错误、加密方式不匹配或文件损坏",
     renderFail:"解密成功，但不是合法PDF文件",
@@ -140,7 +140,7 @@ const i18nDict = {
     emptyParam:"File name or key empty",
     fileNotFound:"Encrypted file not found",
     decrypting:"Downloading encrypted file...",
-    decryptProcess:"File loaded, performing SHA512 deep decryption... Note: Due to high iteration strength, it may take about 15s. Please be patient, thank you!",
+    decryptProcess:"File loaded, performing SHA512 deep decryption... Note: Due to high iteration strength, it may take about 7-15s. Please be patient, thank you!",
     decryptOk:"✅ Decrypt success",
     decryptFail:"❌ Decrypt failed, wrong key or mismatched encrypt method",
     renderFail:"Decrypted but not valid PDF",
@@ -160,14 +160,14 @@ const i18nDict = {
     emptyParam:"Dateiname oder Schlüssel leer",
     fileNotFound:"Verschlüsselte Datei nicht gefunden",
     decrypting:"Verschlüsselte Datei herunterladen...",
-    decryptProcess:"Datei geladen, SHA512-Tiefenentschlüsselung wird ausgeführt... Hinweis: Aufgrund der hohen Iterationsstärke kann dies etwa 15 Sek. dauern. Bitte haben Sie Geduld, danke!",
+    decryptProcess:"Datei geladen, SHA512-Tiefenentschlüsselung wird ausgeführt... Hinweis: Aufgrund der hohen Iterationsstärke kann dies etwa 7-15 Sek. dauern. Bitte haben Sie Geduld, danke!",
     decryptOk:"✅ Entschlüsselung erfolgreich",
     decryptFail:"❌ Entschlüsselung fehlgeschlagen, falscher Schlüssel",
     renderFail:"Entschlüsselt, aber kein gültiges PDF",
     displayFile:"Aktuelle Datei: "
   }
 };
-let activeLang = localStorage.getItem("siteLang") || "zh";
+let activeLang = localStorage.getItem("siteLang") || "de";
 
 function switchLang(lang) {
   activeLang = lang;
@@ -346,18 +346,28 @@ async function runDecrypt(fileName, key){
   tip.className = "tip";
   tip.innerText = getText("decrypting");
   
+  // 🟢 第一次对齐：一旦开始下载文件，页面平滑滚动，把提示框锁在屏幕正中央
+  tip.scrollIntoView({ behavior: "smooth", block: "center" });
+  
   const url = `{{ '/filestore/encrypted/' | relative_url }}${fileName}`;
   let res;
   try{
     res = await fetch(url);
     if(!res.ok) throw new Error("Fetch failed");
-  }catch(err){ // <--- 修复：加上了 err 参数确保不报语法错误
+  }catch(err){ // 🟢 修复：显式加上了 err 参数，防止 JavaScript 编译引发意外中断
     tip.className = "tip err";
     tip.innerText = getText("fileNotFound");
+    // 如果文件找不到了，也贴心地滚动提示一下
+    tip.scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
   
   tip.innerText = getText("decryptProcess");
+  
+  // 🟢 第二次对齐：进入最消耗性能的 SHA512 解密和 15 秒漫长等待前，再次强制对焦
+  // 确保用户不论是在大屏电脑还是手机端，视线都死死盯着这行“耐心等待”的黄色提示
+  tip.scrollIntoView({ behavior: "smooth", block: "center" });
+
   const buf = await res.arrayBuffer();
   try{
     const pdfBin = decryptOpenSSL(buf, key);
@@ -366,11 +376,17 @@ async function runDecrypt(fileName, key){
     tip.innerText = getText("decryptOk");
     downBtn.disabled = false;
     copyBtn.disabled = false;
+    
+    // 🟢 第三次对齐：解密成功的一瞬间，稍微把视口往上抬一点，对准即将渲染的 PDF 画布最顶部
+    pdfBoxEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    
     await renderPdf(pdfBin);
   }catch(e){
     console.error(e);
     tip.className = "tip err";
     tip.innerText = getText("decryptFail");
+    // 解密失败（如密码错误），也把报错信息滚到屏幕中央
+    tip.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 }
 
