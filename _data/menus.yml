@@ -25,5 +25,8 @@
 - default: menu_say
   url: "saysth"
 
+- default: menu_filestore
+  url: "filestore"
+
 - default: menu_search
   url: "search"

@@ -21,6 +21,7 @@ en:
   menu_notes: "Notes"
   menu_archive: "Archive"
   menu_search: "Search"
+  menu_filestore: "FileStore"
 
 zh:
   menu_github: "Github"
@@ -45,3 +46,4 @@ zh:
   menu_notes: "筆記"
   menu_archive: "歸檔"
   menu_search: "搜索"
+  menu_filestore: "文件櫃"
