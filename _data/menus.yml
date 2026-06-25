@@ -7,6 +7,9 @@
 - default: menu_knowledge
   url:   "knowledge"
 
+- default: menu_solution
+  url:   "solution"
+
 - default: menu_archive
   url:   "archive"
   
