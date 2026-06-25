@@ -51,7 +51,7 @@
     {% assign know_count = 0 %}
     {% for post in site.posts %}
       {% assign post_cats = post.categories | join: ',' | downcase %}
-      {% if post_cats contains 'knowledge' %}
+      {% if post_cats contains 'insights' %}
         {% if know_count < 10 %}
           <div class="posts-list-item">
             <span class="posts-list-item-name float-left">
@@ -63,7 +63,30 @@
         {% endif %}
       {% endif %}
     {% endfor %}
-    <a href="{{ '/knowledge/' | relative_url }}" style="font-size: 0.8em; color: #888; display: block; text-align: right;">查看全部 →</a>
+    <a href="{{ '/insights/' | relative_url }}" style="font-size: 0.8em; color: #888; display: block; text-align: right;">查看全部 →</a>
+  </div>
+
+
+    <hr style="margin: 40px 0; border: 0; border-top: 1px dashed #eee;">
+
+  <div class="category-section">
+    <h3 class="category-label">求解</h3>
+    {% assign know_count = 0 %}
+    {% for post in site.posts %}
+      {% assign post_cats = post.categories | join: ',' | downcase %}
+      {% if post_cats contains 'solution' %}
+        {% if know_count < 10 %}
+          <div class="posts-list-item">
+            <span class="posts-list-item-name float-left">
+              <a href="{{ post.url | relative_url }}">{{ post.title | default: "Untitled" }}</a>
+            </span>
+            <span class="posts-list-item-date float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
+          </div>
+          {% assign know_count = know_count | plus: 1 %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    <a href="{{ '/solution/' | relative_url }}" style="font-size: 0.8em; color: #888; display: block; text-align: right;">查看全部 →</a>
   </div>
   
 </div>

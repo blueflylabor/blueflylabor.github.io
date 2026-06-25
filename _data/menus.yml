@@ -4,8 +4,8 @@
 - default: menu_notes
   url:   "notes"
 
-- default: menu_knowledge
-  url:   "knowledge"
+- default: menu_insights
+  url:   "insights"
 
 - default: menu_solution
   url:   "solution"

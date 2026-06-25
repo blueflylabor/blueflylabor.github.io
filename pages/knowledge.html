@@ -1,7 +1,7 @@
 ---
 layout: default
 title: 見聞
-permalink: /knowledge/
+permalink: /insights/
 ---
 
 <article class="container-page">
@@ -9,7 +9,7 @@ permalink: /knowledge/
     <h1>{{ page.title }}</h1>
   </div>
   <ul class="category-list">
-    {% for post in site.categories.knowledge %}
+    {% for post in site.categories.insights %}
       <li><span>{{ post.date | date: "%b %e, %Y" }}: </span><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></li>
     {% endfor %}
   </ul>

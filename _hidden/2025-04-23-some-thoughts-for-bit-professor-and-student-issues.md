@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "some thoughts for issues that BIT professor and student"
-categories: knowledge
+categories: insights
 ---
 
 Recently, this issues let amount of people awaring it, shocked by this traditional type but refreshing and dramatic contents, specially university students and individuals own similar backgrounds or past experience.

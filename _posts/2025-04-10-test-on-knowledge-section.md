@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "示例見聞文章"
-categories: knowledge
+categories: insights
 tags: [test]
 ---
 
