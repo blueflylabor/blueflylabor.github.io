@@ -1,0 +1,420 @@
+---
+layout: default
+permalink: /filestore/decrypt/
+title: Decrypt File
+---
+<style>
+.lang-bar { margin:10px 0 20px; }
+.lang-btn { padding:4px 10px; margin:0 4px; border:1px solid #999; background:#fff; cursor:pointer; border-radius:4px; }
+.lang-btn.active { background:#0066cc; color:#fff; border-color:#0066cc; }
+.back{margin-bottom:20px;display:inline-block;color:#0066cc;}
+.form-box{margin:30px 0;padding:20px;border:1px solid #eee;border-radius:8px;max-width:700px;}
+input{width:100%;padding:10px;margin:8px 0;box-sizing:border-box;border:1px solid #ddd;border-radius:4px;}
+.btn-row{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
+button{padding:10px 22px;border:none;border-radius:4px;cursor:pointer;}
+.btn-decrypt{background:#0066cc;color:#fff;}
+.btn-down{background:#2e7d32;color:#fff;}
+.btn-copy{background:#666;color:#fff;}
+.tip{margin:10px 0;}
+.err{color:#d32f2f;}
+.ok{color:#2e7d32;}
+#pdf-box{margin-top:10px;width:100%;min-height:70vh;border:1px solid #eee;padding:1rem;background:#fafafa;}
+.canvas-item {
+  display: block;
+  margin: 20px auto;          /* 增加上下间距，居中显示 */
+  max-width: 100%;            /* 🟢 核心修复：强制最大宽度为容器的100%，防止溢出 */
+  height: auto !important;    /* 🟢 核心修复：高度等比例自动缩放，绝对不拉伸变形 */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* 稍微美化一下阴影 */
+  background: #fff;
+  
+  /* 🟢 关键：针对 Retina/4K 屏或高清PDF，强制平滑缩放，解决模糊与锯齿 */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* 顺便优化一下 PDF 预览外壳容器 */
+#pdf-box {
+  margin-top: 20px;
+  width: 100%;
+  box-sizing: border-box;     /* 防止内边距把容器撑爆 */
+  min-height: 70vh;
+  border: 1px solid #ddd;
+  padding: 1.5rem;
+  background: #f5f5f5;        /* 稍微加深底色，衬托出白色的 PDF 纸张 */
+  overflow-x: hidden;         /* 彻底切断横向滚动条 */
+}
+.copy-tip{font-size:0.8em;color:#2e7d32;margin-left:8px;opacity:0;transition:0.3s;}
+.current-file-name{font-size:18px;margin:10px 0;font-weight:bold;}
+
+/* 加密文件列表 */
+/* 加密文件列表 */
+.enc-list{margin:20px 0;line-height:2.2;border:1px solid #eee;padding:12px;border-radius:8px;}
+.enc-item{cursor:pointer;color:#0066cc;}
+</style>
+
+<div class="lang-bar">
+  <button class="lang-btn" data-lang="zh">中文</button>
+  <button class="lang-btn" data-lang="en">English</button>
+  <button class="lang-btn" data-lang="de">Deutsch</button>
+</div>
+<a class="back" href="{{ '/filestore/' | relative_url }}">← <span data-i18n="back">返回首页</span></a>
+<h3 data-i18n="pageTitle">加密PDF解密查看</h3>
+
+<div class="enc-list">
+  <h4 data-i18n="encListTitle">加密文件列表（/filestore/encrypted/）</h4>
+  
+  <p style="margin: 0 0 10px; color: #666; font-size: 0.9em;">
+    💡 <span data-i18n="clickTip">提示：点击下方列表中的文件名，可快速填充到输入框中。</span>
+  </p>
+
+{% assign hasEnc = false %}
+{% for f in site.static_files %}
+{% if f.path contains '/filestore/encrypted/' and f.extname == '.enc' %}
+{% assign hasEnc = true %}
+<div class="enc-item" onclick="fillFileName('{{ f.name }}')">
+• {{ f.name }}
+</div>
+{% endif %}
+{% endfor %}
+{% if hasEnc == false %}
+<p data-i18n="noEncFile">暂无加密文件，请上传 .enc 文件到 /filestore/encrypted/</p>
+{% endif %}
+</div>
+
+<div class="form-box">
+  <div class="tip" data-i18n="guide">手动输入解密：填写加密文件名(.enc)与密钥，点击解密；分享链接格式：/filestore/decrypt/?f=xxx.enc&k=密钥</div>
+  <input id="fileInput" placeholder="math01.enc">
+  <input id="keyInput" placeholder="Decrypt Key">
+  <div class="btn-row">
+    <button class="btn-decrypt" onclick="manualDecrypt()" data-i18n="startDecrypt">开始解密预览</button>
+    <button class="btn-down" id="decryptDownloadBtn" disabled data-i18n="downloadFile">下载解密PDF</button>
+    <div style="display:flex;align-items:center;">
+      <button class="btn-copy" id="copyShareBtn" disabled onclick="copyShareLink(this)" data-i18n="copyShare">复制分享链接</button>
+      <span class="copy-tip"></span>
+    </div>
+  </div>
+</div>
+<div class="tip" id="msgTip"></div>
+<!-- 当前解密文件名展示 -->
+<div class="current-file-name" id="showFileName"></div>
+<div id="pdf-box"></div>
+
+<script src="{{ '/assets/js/crypto-js.min.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/pdf.min.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/crypto-js.min.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/pdf.min.js' | relative_url }}"></script>
+<script>
+// ============ 多语言配置（已隔离） ============
+const i18nDict = {
+  zh:{
+    back:"返回首页",
+    pageTitle:"加密PDF解密查看",
+    encListTitle:"加密文件列表（/filestore/encrypted/）",
+    clickTip:"提示：点击下方列表中的文件名，可快速填充到输入框中。",
+    noEncFile:"暂无加密文件，请上传 .enc 文件到 /filestore/encrypted/",
+    guide:"手动输入解密：填写加密文件名(.enc)与密钥，点击解密；分享链接格式：/filestore/decrypt/?f=xxx.enc&k=密钥",
+    startDecrypt:"开始解密预览",
+    downloadFile:"下载解密PDF",
+    copyShare:"复制分享链接",
+    copied:"已复制",
+    emptyParam:"文件名或密钥不能为空",
+    fileNotFound:"加密文件不存在",
+    decrypting:"正在下载加密文件...",
+    decryptProcess:"文件下载完成，正在执行 SHA512 深度解密。提示：由于迭代强度较高，解密可能会持续 15s 左右，请耐心等待，谢谢使用！",
+    decryptOk:"✅ 解密成功",
+    decryptFail:"❌ 解密失败，密钥错误、加密方式不匹配或文件损坏",
+    renderFail:"解密成功，但不是合法PDF文件",
+    displayFile:"当前文件："
+  },
+  en:{
+    back:"Back",
+    pageTitle:"Decrypt Encrypted PDF",
+    encListTitle:"Encrypted Files List (/filestore/encrypted/)",
+    clickTip:"Tip: Click on a file name below to quickly fill it into the input box.",
+    noEncFile:"No encrypted files, upload .enc to /filestore/encrypted/",
+    guide:"Enter file name (.enc) & key to decrypt; Share link format: /filestore/decrypt/?f=xxx.enc&k=key",
+    startDecrypt:"Start Decrypt Preview",
+    downloadFile:"Download Decrypted PDF",
+    copyShare:"Copy Share Link",
+    copied:"Copied",
+    emptyParam:"File name or key empty",
+    fileNotFound:"Encrypted file not found",
+    decrypting:"Downloading encrypted file...",
+    decryptProcess:"File loaded, performing SHA512 deep decryption... Note: Due to high iteration strength, it may take about 15s. Please be patient, thank you!",
+    decryptOk:"✅ Decrypt success",
+    decryptFail:"❌ Decrypt failed, wrong key or mismatched encrypt method",
+    renderFail:"Decrypted but not valid PDF",
+    displayFile:"Current File: "
+  },
+  de:{
+    back:"Zurück",
+    pageTitle:"Verschlüsseltes PDF entschlüsseln",
+    encListTitle:"Liste verschlüsselter Dateien (/filestore/encrypted/)",
+    clickTip:"Hinweis: Klicken Sie unten auf einen Dateinamen, um ihn schnell in das Eingabefeld einzufügen.",
+    noEncFile:"Keine verschlüsselten Dateien, lade .enc nach /filestore/encrypted/ hoch",
+    guide:"Dateiname (.enc) und Schlüssel eingeben; Linkformat: /filestore/decrypt/?f=schluessel",
+    startDecrypt:"Entschlüsselung starten",
+    downloadFile:"Entschlüsseltes PDF herunterladen",
+    copyShare:"Teil-Link kopieren",
+    copied:"Kopiert",
+    emptyParam:"Dateiname oder Schlüssel leer",
+    fileNotFound:"Verschlüsselte Datei nicht gefunden",
+    decrypting:"Verschlüsselte Datei herunterladen...",
+    decryptProcess:"Datei geladen, SHA512-Tiefenentschlüsselung wird ausgeführt... Hinweis: Aufgrund der hohen Iterationsstärke kann dies etwa 15 Sek. dauern. Bitte haben Sie Geduld, danke!",
+    decryptOk:"✅ Entschlüsselung erfolgreich",
+    decryptFail:"❌ Entschlüsselung fehlgeschlagen, falscher Schlüssel",
+    renderFail:"Entschlüsselt, aber kein gültiges PDF",
+    displayFile:"Aktuelle Datei: "
+  }
+};
+let activeLang = localStorage.getItem("siteLang") || "zh";
+
+function switchLang(lang) {
+  activeLang = lang;
+  localStorage.setItem("siteLang", lang);
+  renderAllText();
+  updateLangBtnStatus();
+}
+
+function updateLangBtnStatus() {
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.lang === activeLang);
+  });
+}
+
+function renderAllText() {
+  const textMap = i18nDict[activeLang];
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.dataset.i18n;
+    if(textMap[key]) el.innerText = textMap[key];
+  });
+}
+
+function getText(key) {
+  return i18nDict[activeLang][key];
+}
+
+document.querySelectorAll(".lang-btn").forEach(btn => {
+  btn.onclick = () => switchLang(btn.dataset.lang);
+});
+
+// ========== 全局变量与PDF初始化 ==========
+let decryptedBlob = null;
+let currFile = "";
+let currKey = "";
+const pdfBoxEl = document.getElementById("pdf-box");
+const fileNameShowEl = document.getElementById("showFileName");
+
+// 提前初始化 PDF.js 防止异步调用时未就绪
+const pdfjsLib = window['pdfjs-dist/build/pdf'];
+pdfjsLib.GlobalWorkerOptions.workerSrc = '{{ '/assets/js/pdf.worker.min.js' | relative_url }}';
+
+// 点击列表填充文件名
+function fillFileName(name) {
+  document.getElementById("fileInput").value = name;
+  currFile = name;
+  fileNameShowEl.innerText = getText("displayFile") + name;
+}
+
+function getParam(name){
+  return new URLSearchParams(location.search).get(name);
+}
+
+
+
+CryptoJS.EvpKDF = function(password, salt, cfg) {
+  cfg = cfg || {};
+  const keySize = cfg.keySize || 8;  // 256位 = 8 words
+  const ivSize = cfg.ivSize || 4;    // 128位 = 4 words
+  const iterations = cfg.iterations || 204800;
+  // 确保这里锁死为 SHA512 适配你刚才的修改
+  const hashAlgo = CryptoJS.algo.SHA512; 
+
+  const passwordWA = typeof password === "string" ? CryptoJS.enc.Utf8.parse(password) : password;
+  const saltWA = salt;
+
+  // 核心修复：直接使用大厂验证的标准 PBKDF2 顺次截取
+  // OpenSSL 在这种情况下等同于直接调用 PBKDF2 派生总计长度的密钥流
+  const derivedKeyStream = CryptoJS.PBKDF2(passwordWA, saltWA, {
+    keySize: keySize + ivSize, // 强行指定总共只需要 12 words (48字节)
+    iterations: iterations,
+    hasher: hashAlgo
+  });
+
+  // 精准切割 0-8 属于 Key，8-12 属于 IV
+  const key = CryptoJS.lib.WordArray.create(derivedKeyStream.words.slice(0, keySize), keySize * 4);
+  const iv = CryptoJS.lib.WordArray.create(derivedKeyStream.words.slice(keySize, keySize + ivSize), ivSize * 4);
+  
+  return { key, iv };
+};
+
+
+function decryptOpenSSL(buffer, password) {
+  const data = new Uint8Array(buffer);
+  const header = String.fromCharCode(...data.slice(0, 8));
+  if (header !== "Salted__") throw new Error("非openssl加密文件");
+
+  const salt = data.slice(8, 16);
+  const cipherText = data.slice(16);
+  const saltWA = CryptoJS.lib.WordArray.create(salt);
+
+  const keyIv = CryptoJS.EvpKDF(
+    password,
+    saltWA,
+    { keySize: 256 / 32, ivSize: 128 / 32, iterations: 204800 }
+  );
+
+  const cipherWA = CryptoJS.lib.WordArray.create(cipherText);
+  const decryptedWA = CryptoJS.AES.decrypt(
+    { ciphertext: cipherWA },
+    keyIv.key,
+    { iv: keyIv.iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
+  );
+
+  // ==================== 🛠️ 官方标准无损转换引擎 ====================
+  const rawHex = decryptedWA.toString(CryptoJS.enc.Hex);
+  if (!rawHex || rawHex.length % 2 !== 0) {
+    throw new Error("解密失败，生成了不完整或空的十六进制流");
+  }
+
+  const outLen = rawHex.length / 2;
+  const result = new Uint8Array(outLen);
+  for (let i = 0; i < outLen; i++) {
+    result[i] = parseInt(rawHex.substr(i * 2, 2), 16);
+  }
+
+  // ==================== 🔍 终极全线防御与诊断 ====================
+  // PDF标准头： %PDF (十六进制: 25 50 44 46)
+  if (result[0] !== 0x25 || result[1] !== 0x50 || result[2] !== 0x44 || result[3] !== 0x46) {
+    // 核心诊断：把解错的前4个字节和对应的字符打出来，抓出具体妖蛾子
+    const errHeaderHex = Array.from(result.slice(0, 4)).map(b => b.toString(16).padStart(2, '0')).join(' ');
+    let errHeaderStr = "";
+    try { errHeaderStr = String.fromCharCode(...result.slice(0, 4)); } catch(e){}
+    
+    console.error(`[诊断数据] 解密后的文件头十六进制为: ${errHeaderHex} | 转换文本: "${errHeaderStr}"`);
+    throw new Error("密码错误或密文损坏");
+  }
+  
+  return result;
+}
+
+// 高清PDF渲染
+async function renderPdf(bin){
+  pdfBoxEl.innerHTML = "Rendering...";
+  try{
+    const doc = await pdfjsLib.getDocument({data: bin}).promise; // 修复：此处应显式传对象传递 Uint8Array
+    pdfBoxEl.innerHTML = "";
+    for(let i=1; i<=doc.numPages; i++){
+      const pg = await doc.getPage(i);
+      const vp = pg.getViewport({scale:1.8});
+      const c = document.createElement("canvas");
+      c.className = "canvas-item";
+      c.width = vp.width;
+      c.height = vp.height;
+      pdfBoxEl.appendChild(c);
+      const ctx = c.getContext("2d");
+      ctx.imageSmoothingEnabled = true;
+      await pg.render({canvasContext:ctx, viewport:vp}).promise;
+    }
+  }catch(e){
+    console.error(e);
+    pdfBoxEl.innerHTML = getText("renderFail");
+  }
+}
+
+// 解密主逻辑
+async function runDecrypt(fileName, key){
+  currFile = fileName;
+  currKey = key;
+  fileNameShowEl.innerText = getText("displayFile") + fileName;
+
+  const tip = document.getElementById("msgTip");
+  const downBtn = document.getElementById("decryptDownloadBtn");
+  const copyBtn = document.getElementById("copyShareBtn");
+  
+  downBtn.disabled = true;
+  copyBtn.disabled = true;
+  decryptedBlob = null;
+  pdfBoxEl.innerHTML = "";
+
+  if(!fileName || !key){
+    tip.className = "tip err";
+    tip.innerText = getText("emptyParam");
+    return;
+  }
+  
+  tip.className = "tip";
+  tip.innerText = getText("decrypting");
+  
+  const url = `{{ '/filestore/encrypted/' | relative_url }}${fileName}`;
+  let res;
+  try{
+    res = await fetch(url);
+    if(!res.ok) throw new Error("Fetch failed");
+  }catch(err){ // <--- 修复：加上了 err 参数确保不报语法错误
+    tip.className = "tip err";
+    tip.innerText = getText("fileNotFound");
+    return;
+  }
+  
+  tip.innerText = getText("decryptProcess");
+  const buf = await res.arrayBuffer();
+  try{
+    const pdfBin = decryptOpenSSL(buf, key);
+    decryptedBlob = new Blob([pdfBin], {type:"application/pdf"});
+    tip.className = "tip ok";
+    tip.innerText = getText("decryptOk");
+    downBtn.disabled = false;
+    copyBtn.disabled = false;
+    await renderPdf(pdfBin);
+  }catch(e){
+    console.error(e);
+    tip.className = "tip err";
+    tip.innerText = getText("decryptFail");
+  }
+}
+
+// 手动解密按钮
+function manualDecrypt(){
+  const f = document.getElementById("fileInput").value.trim();
+  const k = document.getElementById("keyInput").value.trim();
+  runDecrypt(f, k);
+}
+
+// 下载解密后的PDF
+document.getElementById("decryptDownloadBtn").onclick = ()=>{
+  if(!decryptedBlob) return;
+  const a = document.createElement("a");
+  const name = currFile.replace(".enc", ".pdf");
+  a.href = URL.createObjectURL(decryptedBlob);
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// 复制分享链接
+async function copyShareLink(btnEl){
+  const base = window.location.origin + window.location.pathname;
+  const link = `${base}?f=${encodeURIComponent(currFile)}&k=${encodeURIComponent(currKey)}`;
+  await navigator.clipboard.writeText(link);
+  const tip = btnEl.nextElementSibling;
+  tip.innerText = getText("copied");
+  tip.style.opacity = 1;
+  setTimeout(()=>tip.style.opacity=0, 1500);
+}
+
+// 确保 DOM 加载完毕后执行初始化与自动解密
+document.addEventListener("DOMContentLoaded", () => {
+  renderAllText();
+  updateLangBtnStatus();
+
+  const f = getParam("f");
+  const k = getParam("k");
+  if(f && k){
+    document.getElementById("fileInput").value = f;
+    document.getElementById("keyInput").value = k;
+    fillFileName(f);
+    runDecrypt(f, k);
+  }
+});
+</script>

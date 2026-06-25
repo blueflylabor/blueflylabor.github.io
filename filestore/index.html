@@ -1,0 +1,138 @@
+---
+layout: default
+permalink: /filestore/
+title: File Manager
+---
+<style>
+/* 🟢 页面整体基础居中配置 */
+.page-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center; /* 强制让文字、标题、语言栏默认居中 */
+}
+
+/* 语言栏水平居中 */
+.lang-bar { 
+  margin: 10px auto 30px; 
+  display: flex;
+  justify-content: center; /* 按钮行内居中 */
+}
+
+.lang-btn { 
+  padding: 4px 10px; 
+  margin: 0 6px; 
+  border: 1px solid #999; 
+  background:#fff; 
+  cursor:pointer; 
+  border-radius:4px; 
+}
+.lang-btn.active { background:#0066cc; color:#fff; border-color:#0066cc; }
+
+/* 🟢 核心修复：文件卡片容器完美居中 */
+.box-wrap {
+  display: flex;
+  gap: 30px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+  justify-content: center; /* 关键：当卡片未撑满时，整体在屏幕正中间对齐 */
+}
+
+.box {
+  width: 320px;
+  border: 1px solid #eee;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+  background: #fff;
+  box-sizing: border-box; /* 防止 padding 撑大卡片导致错位 */
+}
+.box:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transform: translateY(-2px); /* 悬浮时微微抬起，更有点击感 */
+}
+.box h3 { margin-top: 0; }
+.box p { color: #666; font-size: 0.95em; line-height: 1.5; }
+</style>
+
+<div class="page-container">
+
+  <div class="lang-bar">
+    <button class="lang-btn" data-lang="zh">中文</button>
+    <button class="lang-btn" data-lang="en">English</button>
+    <button class="lang-btn" data-lang="de">Deutsch</button>
+  </div>
+
+  <h2 id="page-title">文件工具</h2>
+  
+  <div class="box-wrap">
+    <div class="box" onclick="location.href='{{ '/filestore/cabinet/' | relative_url }}'">
+      <h3>📂 <span data-i18n="cabinetTitle">文件柜</span></h3>
+      <p data-i18n="cabinetDesc">浏览公开明文PDF文件列表，直接点开预览</p>
+    </div>
+    <div class="box" onclick="location.href='{{ '/filestore/decrypt/' | relative_url }}'">
+      <h3>🔐 <span data-i18n="decryptTitle">加密文件解密</span></h3>
+      <p data-i18n="decryptDesc">输入文件名+密钥解密，或直接使用带密钥分享链接自动打开</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 多语言字典
+const i18n = {
+  zh: {
+    pageTitle: "文件工具",
+    cabinetTitle: "文件柜",
+    cabinetDesc: "浏览公开明文PDF文件列表，直接点开预览",
+    decryptTitle: "加密文件解密",
+    decryptDesc: "输入文件名+密钥解密，或直接使用带密钥分享链接自动打开"
+  },
+  en: {
+    pageTitle: "File Tools",
+    cabinetTitle: "File Cabinet",
+    cabinetDesc: "Browse public plain PDF files and preview directly",
+    decryptTitle: "Decrypt Encrypted File",
+    decryptDesc: "Enter file name & key, or open via shared link with key"
+  },
+  de: {
+    pageTitle: "Datei-Tools",
+    cabinetTitle: "Dateischrank",
+    cabinetDesc: "Öffentliche PDF-Dateien durchsuchen und direkt anzeigen",
+    decryptTitle: "Verschlüsselte Datei entschlüsseln",
+    decryptDesc: "Dateiname & Schlüssel eingeben oder per geteiltem Link öffnen"
+  }
+};
+
+// 获取/设置语言
+function getLang() {
+  return localStorage.getItem("siteLang") || "zh";
+}
+function setLang(lang) {
+  localStorage.setItem("siteLang", lang);
+  renderLang(lang);
+  updateBtnActive(lang);
+}
+function updateBtnActive(lang) {
+  document.querySelectorAll(".lang-btn").forEach(b=>{
+    b.classList.toggle("active", b.dataset.lang === lang);
+  })
+}
+function renderLang(lang) {
+  const t = i18n[lang];
+  document.getElementById("page-title").innerText = t.pageTitle;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k = el.dataset.i18n;
+    if(t[k]) el.innerText = t[k];
+  })
+}
+
+// 绑定按钮
+document.querySelectorAll(".lang-btn").forEach(btn=>{
+  btn.onclick = ()=> setLang(btn.dataset.lang);
+})
+renderLang(getLang());
+updateBtnActive(getLang());
+</script>

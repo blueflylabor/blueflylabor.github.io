@@ -1,0 +1,144 @@
+---
+layout: default
+permalink: /filestore/cabinet/
+title: File Cabinet
+---
+<style>
+.lang-bar { margin:10px 0 20px; }
+.lang-btn { padding:4px 10px; margin:0 4px; border:1px solid #999; background:#fff; cursor:pointer; border-radius:4px; }
+.lang-btn.active { background:#0066cc; color:#fff; border-color:#0066cc; }
+.back{margin-bottom:20px;display:inline-block;color:#0066cc;}
+.file-list{line-height:2.3;}
+.item{border-bottom:1px solid #eee;padding:8px 4px;}
+a{text-decoration:none;}
+.btn-group{margin:8px 0; display:flex; gap:10px;}
+.btn{padding:5px 12px; border:none; border-radius:4px; cursor:pointer; font-size:0.85em;}
+.btn-down{background:#2e7d32; color:#fff;}
+.btn-copy{background:#666; color:#fff;}
+.copy-tip{font-size:0.8em; color:#2e7d32; margin-left:8px; opacity:0; transition:0.3s;}
+
+/* PDF弹窗 */
+.pdf-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:999;}
+.modal-inner{width:92%;height:92vh;margin:4vh auto;background:#fff;border-radius:8px;display:flex;flex-direction:column;}
+.modal-head{padding:12px 16px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center;gap:10px; flex-wrap:wrap;}
+.modal-body{flex:1;overflow:auto;padding:20px;text-align:center;}
+canvas{display:block;margin:14px auto;box-shadow:0 2px 10px #0001; image-rendering: crisp-edges;}
+.close-btn{padding:4px 14px;background:#eee;border-radius:4px;cursor:pointer;}
+</style>
+
+<div class="lang-bar">
+  <button class="lang-btn" data-lang="zh">中文</button>
+  <button class="lang-btn" data-lang="en">English</button>
+  <button class="lang-btn" data-lang="de">Deutsch</button>
+</div>
+<a class="back" href="{{ '/filestore/' | relative_url }}">← <span data-i18n="back">返回首页</span></a>
+
+<h3 data-i18n="listTitle">文件列表（/filestore/files/）</h3>
+
+<div class="file-list">
+{% assign has_file = false %}
+{% for f in site.static_files %}
+{% if f.path contains '/filestore/files/' and f.extname == '.pdf' %}
+{% assign has_file = true %}
+<div class="item">
+  <a href="javascript:openPdf('{{ f.path | relative_url }}','{{ f.name }}')">{{ f.name }}</a>
+  <div class="btn-group">
+    <button class="btn btn-down" onclick="downloadPdf('{{ f.path | relative_url }}','{{ f.name }}')" data-i18n="download">下载</button>
+    <button class="btn btn-copy" onclick="copyUrl('{{ f.path | absolute_url }}', this)" data-i18n="copyLink">复制下载链接</button>
+    <span class="copy-tip" data-i18n="copied">Copied!</span>
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+{% if has_file == false %}
+<p data-i18n="noFile">暂无文件，请放入PDF至 /filestore/files/</p>
+{% endif %}
+</div>
+
+<!-- PDF弹窗 -->
+<div class="pdf-modal" id="pdfModal">
+  <div class="modal-inner">
+    <div class="modal-head">
+      <span id="pdf-name"></span>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <button class="btn btn-down" id="modalDownloadBtn" data-i18n="download">下载当前文件</button>
+        <span class="close-btn" onclick="closeModal()" data-i18n="close">关闭</span>
+      </div>
+    </div>
+    <div class="modal-body" id="pdf-view"></div>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/pdf.min.js' | relative_url }}"></script>
+<script>
+// 多语言
+const i18n = {
+  zh:{back:"返回首页",listTitle:"文件列表（/filestore/files/）",noFile:"暂无文件，请放入PDF至 /filestore/files/",download:"下载",copyLink:"复制下载链接",close:"关闭",copied:"已复制链接"},
+  en:{back:"Back",listTitle:"File list (/filestore/files/)",noFile:"No files, put PDFs into /filestore/files/",download:"Download",copyLink:"Copy URL",close:"Close",copied:"Link copied"},
+  de:{back:"Zurück",listTitle:"Dateiliste (/filestore/files/)",noFile:"Keine Dateien, PDFs in /filestore/files/ ablegen",download:"Herunterladen",copyLink:"URL kopieren",close:"Schließen",copied:"Link kopiert"}
+};
+let currentLang = localStorage.getItem("siteLang") || "zh";
+function setLang(lang){localStorage.setItem("siteLang",lang);renderLang(lang);updateBtn(lang);}
+function updateBtn(lang){document.querySelectorAll(".lang-btn").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));}
+function renderLang(lang){
+  currentLang=lang; const t=i18n[lang];
+  document.querySelectorAll("[data-i18n]").forEach(el=>el.innerText=t[el.dataset.i18n]);
+}
+document.querySelectorAll(".lang-btn").forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+renderLang(currentLang); updateBtn(currentLang);
+
+// PDF渲染高清 scale=1.8 解决模糊
+const pdfjsLib = window['pdfjs-dist/build/pdf'];
+pdfjsLib.GlobalWorkerOptions.workerSrc = '{{ '/assets/js/pdf.worker.min.js' | relative_url }}';
+let globalPdfUrl = "";
+function openPdf(url, name){
+  globalPdfUrl = url;
+  const modal = document.getElementById('pdfModal');
+  const view = document.getElementById('pdf-view');
+  document.getElementById('pdf-name').innerText = name;
+  modal.style.display = 'block';
+  view.innerHTML = "Loading...";
+  pdfjsLib.getDocument(url).promise.then(doc=>{
+    view.innerHTML = "";
+    let renderAll = async ()=>{
+      for(let i=1;i<=doc.numPages;i++){
+        let page = await doc.getPage(i);
+        let vp = page.getViewport({scale:1.8}); // 高清
+        let canvas = document.createElement("canvas");
+        canvas.width = vp.width;
+        canvas.height = vp.height;
+        view.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        await page.render({canvasContext:ctx,viewport:vp}).promise;
+      }
+    }
+    renderAll();
+  }).catch(e=>view.innerHTML="Load failed");
+}
+function closeModal(){
+  document.getElementById('pdfModal').style.display = 'none';
+  document.getElementById('pdf-view').innerHTML = "";
+}
+document.getElementById('pdfModal').addEventListener('click',e=>{if(e.target.id==="pdfModal") closeModal();})
+
+// 下载PDF
+async function downloadPdf(url, filename){
+  const res = await fetch(url);
+  const blob = await res.blob();
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+document.getElementById("modalDownloadBtn").onclick = ()=> downloadPdf(globalPdfUrl, globalPdfUrl.split("/").pop());
+
+// 复制链接
+async function copyUrl(url, btnEl){
+  await navigator.clipboard.writeText(url);
+  const tip = btnEl.nextElementSibling;
+  tip.style.opacity = 1;
+  setTimeout(()=>tip.style.opacity=0,1500);
+}
+</script>
