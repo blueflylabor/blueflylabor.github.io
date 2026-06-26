@@ -60,9 +60,10 @@ title: File Manager
 <div class="page-container">
 
   <div class="lang-bar">
-    <button class="lang-btn" data-lang="zh">中文</button>
     <button class="lang-btn" data-lang="en">English</button>
     <button class="lang-btn" data-lang="de">Deutsch</button>
+    <button class="lang-btn" data-lang="es">Español</button>
+    <button class="lang-btn" data-lang="zh">中文</button>
   </div>
 
   <h2 id="page-title">文件工具</h2>
@@ -103,12 +104,19 @@ const i18n = {
     cabinetDesc: "Öffentliche PDF-Dateien durchsuchen und direkt anzeigen",
     decryptTitle: "Verschlüsselte Datei entschlüsseln",
     decryptDesc: "Dateiname & Schlüssel eingeben oder per geteiltem Link öffnen"
+  },
+  es: {
+      pageTitle: "Herramientas de Archivos",
+    cabinetTitle: "Archivero de Archivos",
+    cabinetDesc: "Navega por archivos PDF públicos sin cifrar y prévisualízalos directamente",
+    decryptTitle: "Descifrar Archivo Cifrado",
+    decryptDesc: "Ingresa el nombre del archivo y la clave, o abre mediante un enlace compartido con clave"
   }
 };
 
 // 获取/设置语言
 function getLang() {
-  return localStorage.getItem("siteLang") || "de";
+  return localStorage.getItem("siteLang") || "en";
 }
 function setLang(lang) {
   localStorage.setItem("siteLang", lang);

@@ -12,9 +12,6 @@
 
 - default: menu_archive
   url:   "archive"
-  
-- default: menu_category
-  url:   "category"
 
 - default: menu_about
   url:   "about"

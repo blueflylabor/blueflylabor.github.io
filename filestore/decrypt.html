@@ -53,9 +53,11 @@ button{padding:10px 22px;border:none;border-radius:4px;cursor:pointer;}
 </style>
 
 <div class="lang-bar">
-  <button class="lang-btn" data-lang="zh">中文</button>
+  
   <button class="lang-btn" data-lang="en">English</button>
   <button class="lang-btn" data-lang="de">Deutsch</button>
+  <button class="lang-btn" data-lang="es">Español</button>
+  <button class="lang-btn" data-lang="zh">中文</button>
 </div>
 <a class="back" href="{{ '/filestore/' | relative_url }}">← <span data-i18n="back">返回首页</span></a>
 <h3 data-i18n="pageTitle">加密PDF解密查看</h3>
@@ -165,9 +167,29 @@ const i18nDict = {
     decryptFail:"❌ Entschlüsselung fehlgeschlagen, falscher Schlüssel",
     renderFail:"Entschlüsselt, aber kein gültiges PDF",
     displayFile:"Aktuelle Datei: "
+  },
+  es: {    
+    back:"Volver",
+    pageTitle:"Descifrar PDF Cifrado",
+    encListTitle:"Lista de Archivos Cifrados (/filestore/encrypted/)",
+    clickTip:"Consejo: Haz clic en un nombre de archivo a continuación para rellenarlo rápidamente en el campo de entrada.",
+    noEncFile:"No hay archivos cifrados, sube archivos .enc a /filestore/encrypted/",
+    guide:"Ingresa el nombre del archivo (.enc) y la clave para descifrar; Formato de enlace compartido: /filestore/decrypt/?f=xxx.enc&k=clave",
+    startDecrypt:"Iniciar Vista Previa Descifrada",
+    downloadFile:"Descargar PDF Descifrado",
+    copyShare:"Copiar Enlace Compartido",
+    copied:"Copiado",
+    emptyParam:"Nombre de archivo o clave vacíos",
+    fileNotFound:"No se encontró el archivo cifrado",
+    decrypting:"Descargando archivo cifrado...",
+    decryptProcess:"Archivo cargado, ejecutando descifrado profundo SHA512... Nota: Debido a la alta intensidad de iteración, puede tardar entre 7 y 15 segundos. Ten paciencia, ¡gracias!",
+    decryptOk:"✅ Descifrado exitoso",
+    decryptFail:"❌ Error al descifrar, clave incorrecta o método de cifrado incompatible",
+    renderFail:"El archivo se descifró pero no es un PDF válido",
+    displayFile:"Archivo actual: "
   }
 };
-let activeLang = localStorage.getItem("siteLang") || "de";
+let activeLang = localStorage.getItem("siteLang") || "en";
 
 function switchLang(lang) {
   activeLang = lang;
