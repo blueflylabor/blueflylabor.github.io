@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Complete Solution for Brightness Adjustment Failure on M1 MacBook Air After Image Restoration/Downgrade (Including DFU Reinstal)"
+title: "Complete Solution for Brightness Adjustment Failure on M1 MacBook Air After Image Restoration/Downgrade (Including DFU Reinstall)"
 categories: solution
 tags: [MacOS, OSbug, tools]
 ---
 
-# Complete Solution for Brightness Adjustment Failure on M1 MacBook Air After Image Restoration/Downgrade (Including DFU Reinstal)
+# Complete Solution for Brightness Adjustment Failure on M1 MacBook Air After Image Restoration/Downgrade (Including DFU Reinstall)
 
 ### 1. Core Cause of the Issue (Newly Added)
 
