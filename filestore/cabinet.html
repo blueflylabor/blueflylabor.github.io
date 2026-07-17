@@ -37,7 +37,7 @@ title: File Cabinet
     gap: 6px;
   }
   
-  /* 📄 文件列表项 */
+  /* 📄 文件列表项 - 强制单行并建立防挤压保护 */
   .file-list { line-height: 2.3; }
   .item {
     border-bottom: 1px solid #eee;
@@ -45,13 +45,27 @@ title: File Cabinet
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
+    flex-wrap: nowrap; /* 🟢 强制不允许换行，为截断奠定基础 */
+    gap: 16px;         /* 文件名与按钮组之间的安全边界 */
   }
   .item:last-child { border-bottom: none; }
 
+  /* 🟢 核心新增：长文件名超强截断与自适应对齐 */
+  .file-link {
+    color: #0066cc;
+    font-weight: 500;
+    white-space: nowrap;      /* 强行单行 */
+    overflow: hidden;         /* 超出外壳隐藏 */
+    text-overflow: ellipsis;  /* 超出部分优雅变身为 ... */
+    flex: 1;                  /* 霸道地蚕食左侧所有剩余空间 */
+    min-width: 0;             /* 极其核心：Flex容器内使 ellipsis 生效的必备开关 */
+  }
+  .file-link:hover {
+    text-decoration: underline;
+  }
+
   /* 按钮及交互组件 */
-  .btn-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .btn-group { display: flex; gap: 8px; align-items: center; flex-shrink: 0; /* 🟢 保证右侧按钮永远不会被长文件名压扁变形 */ }
   .btn {
     padding: 6px 14px;
     border: none;
@@ -96,7 +110,7 @@ title: File Cabinet
   .close-btn:hover { background: #ddd; }
 </style>
 
-<!-- 顶部全局语言按钮组 -->
+<!-- 全局语言切换面板 -->
 <div class="lang-bar">
   <button class="lang-btn" data-lang="en">English</button>
   <button class="lang-btn" data-lang="de">Deutsch</button>
@@ -117,7 +131,6 @@ title: File Cabinet
     {% if f.path contains '/filestore/files/' and f.extname == '.pdf' %}
       {% assign has_file = true %}
       {% assign parts = f.path | split: '/' %}
-      <!-- 如果切割出来第三位不等于文件名，证明它包裹在多级子文件夹内 -->
       {% if parts[3] != f.name %}
         {% assign folders = folders | append: parts[3] | append: "," %}
       {% endif %}
@@ -132,7 +145,6 @@ title: File Cabinet
     <div class="folder-section">
       <div class="folder-head">
         <h4 class="folder-title">📁 {{ folder }}</h4>
-        <!-- ⚡ 核心新增：一键纯前端离线打包 ZIP 触发点 -->
         <button class="btn btn-zip" onclick="downloadFolderAsZip('{{ folder }}')" data-folder="{{ folder }}">
           ⚡ <span data-i18n="zipDownload">打包下载整个文件夹</span>
         </button>
@@ -143,7 +155,8 @@ title: File Cabinet
           {% assign parts = f.path | split: '/' %}
           {% if parts[3] == folder %}
             <div class="item">
-              <a href="javascript:openPdf('{{ f.path | relative_url }}','{{ f.name }}')">📄 {{ f.name }}</a>
+              <!-- 🟢 优化：附加 file-link 样式，并在 title 属性注入全称实现悬停气泡提示 -->
+              <a class="file-link" href="javascript:openPdf('{{ f.path | relative_url }}','{{ f.name }}')" title="{{ f.name }}">📄 {{ f.name }}</a>
               <div class="btn-group">
                 <button class="btn btn-down" onclick="downloadPdf('{{ f.path | relative_url }}','{{ f.name }}')" data-i18n="download">下载</button>
                 <button class="btn btn-copy" onclick="copyUrl('{{ f.path | absolute_url }}', this)" data-i18n="copyLink">复制下载链接</button>
@@ -169,7 +182,8 @@ title: File Cabinet
           {% assign has_root_file = true %}
         {% endif %}
         <div class="item">
-          <a href="javascript:openPdf('{{ f.path | relative_url }}','{{ f.name }}')">📄 {{ f.name }}</a>
+          <!-- 🟢 优化：根目录下的长文件名同样添加 file-link 样式与全称悬停保护 -->
+          <a class="file-link" href="javascript:openPdf('{{ f.path | relative_url }}','{{ f.name }}')" title="{{ f.name }}">📄 {{ f.name }}</a>
           <div class="btn-group">
             <button class="btn btn-down" onclick="downloadPdf('{{ f.path | relative_url }}','{{ f.name }}')" data-i18n="download">下载</button>
             <button class="btn btn-copy" onclick="copyUrl('{{ f.path | absolute_url }}', this)" data-i18n="copyLink">复制下载链接</button>
@@ -205,7 +219,7 @@ title: File Cabinet
 <script src="{{ '/assets/js/pdf.min.js' | relative_url }}"></script>
 
 <script>
-// ============ 🌍 全语言字典矩阵（追更压缩打包控制词） ============
+// ============ 🌍 全语言字典矩阵 ============
 const i18nDict = {
   zh: { back: "返回首页", listTitle: "文件列表（/filestore/files/）", noFile: "暂无文件，请放入PDF至 /filestore/files/", download: "下载", copyLink: "复制下载链接", close: "关闭", copied: "已复制链接", zipDownload: "打包下载整个文件夹", zipPackaging: "正在打包中...", rootFolder: "根目录独立文件" },
   en: { back: "Back", listTitle: "File List (/filestore/files/)", noFile: "No files, put PDFs into /filestore/files/", download: "Download", copyLink: "Copy URL", close: "Close", copied: "Link Copied", zipDownload: "Download Folder (.zip)", zipPackaging: "Packaging...", rootFolder: "Root Files" },
@@ -262,7 +276,7 @@ function openPdf(url, name) {
     let renderAll = async () => {
       for (let i = 1; i <= doc.numPages; i++) {
         let page = await doc.getPage(i);
-        let vp = page.getViewport({ scale: 1.8 }); // 高清抗锯齿配比
+        let vp = page.getViewport({ scale: 1.8 }); 
         let canvas = document.createElement("canvas");
         canvas.width = vp.width;
         canvas.height = vp.height;
@@ -287,7 +301,6 @@ async function downloadFolderAsZip(folderName) {
   const btn = document.querySelector(`button[data-folder="${folderName}"]`);
   const originalText = btn.innerHTML;
   
-  // 冻结操作，呈现多语言包装状态提示
   btn.disabled = true;
   btn.style.opacity = "0.7";
   btn.innerText = "⏳ " + getText("zipPackaging");
@@ -296,7 +309,6 @@ async function downloadFolderAsZip(folderName) {
     const zip = new JSZip();
     const fileUrls = [];
 
-    // 寻踪 DOM，精确定位对应的文件夹容器
     const sections = document.querySelectorAll('.folder-section');
     let targetSection = null;
     sections.forEach(sec => {
@@ -308,7 +320,6 @@ async function downloadFolderAsZip(folderName) {
 
     if (!targetSection) return;
 
-    // 遍历内部子项，解析出下载地址和文件名对
     targetSection.querySelectorAll('.item').forEach(item => {
       const downBtn = item.querySelector('.btn-down');
       const clickAttr = downBtn.getAttribute('onclick');
@@ -318,17 +329,15 @@ async function downloadFolderAsZip(folderName) {
       }
     });
 
-    // 高并发快速管道下载
     const downloadPromises = fileUrls.map(async (fObj) => {
       const res = await fetch(fObj.url);
       if(!res.ok) throw new Error(`Fetch err: ${fObj.name}`);
       const blob = await res.blob();
-      zip.file(fObj.name, blob); // 存入压缩包流缓存
+      zip.file(fObj.name, blob); 
     });
 
     await Promise.all(downloadPromises);
 
-    // 触发 JSZip 本地无缝高压缩率交付
     const content = await zip.generateAsync({ type: "blob" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(content);
@@ -338,7 +347,6 @@ async function downloadFolderAsZip(folderName) {
   } catch (err) {
     alert("ZIP packaging failed: " + err.message);
   } finally {
-    // 释放保护锁，恢复按钮
     btn.disabled = false;
     btn.style.opacity = "1";
     btn.innerHTML = originalText;
@@ -365,7 +373,6 @@ async function copyUrl(url, btnEl) {
   setTimeout(() => tip.style.opacity = 0, 1500);
 }
 
-// 统一生命周期：挂载完毕即刻翻译同步状态
 document.addEventListener("DOMContentLoaded", () => {
   renderAllText();
   updateLangBtnStatus();
