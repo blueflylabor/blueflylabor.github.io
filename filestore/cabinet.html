@@ -8,11 +8,19 @@ title: File Cabinet
   .back { margin-bottom: 20px; display: inline-block; color: #0066cc; text-decoration: none; }
   a { text-decoration: none; }
 
-  /* 🔍 搜尋框精美樣式（原生自帶一鍵清空按鈕） */
-  .search-wrapper {
+  /* 🔍 頂部工具列（搜尋框 + 全站打包按鈕）並排響應式佈局 */
+  .toolbar-wrapper {
     margin: 15px 0 25px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    max-width: 750px;
+    flex-wrap: wrap;
+  }
+  .search-wrapper {
     position: relative;
-    max-width: 500px;
+    flex: 1;
+    min-width: 260px;
   }
   .search-input {
     width: 100%;
@@ -25,7 +33,6 @@ title: File Cabinet
     box-sizing: border-box;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  /* 🛠️ 優化1：啟用原生 Chrome/Safari 的清除小叉叉並進行美化 */
   .search-input::-webkit-search-cancel-button {
     cursor: pointer;
     position: relative;
@@ -43,6 +50,18 @@ title: File Cabinet
     color: #94a3b8;
     pointer-events: none;
   }
+  
+  /* 🚀 全站一鍵下載按鈕特製樣式 */
+  .btn-all-zip {
+    background: #1e3a8a;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 18px;
+    height: 40px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(30, 58, 138, 0.2);
+  }
+  .btn-all-zip:hover { background: #172554; }
   
   /* 📁 資料夾外殼設計 */
   .folder-section {
@@ -131,7 +150,7 @@ title: File Cabinet
     transition: 0.3s;
   }
 
-  /* 弹出层 */
+  /* 彈出層 */
   .pdf-modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); z-index: 999; }
   .modal-inner { width: 92%; height: 92vh; margin: 4vh auto; background: #fff; border-radius: 8px; display: flex; flex-direction: column; }
   .modal-head { padding: 12px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -150,29 +169,24 @@ title: File Cabinet
   .close-btn { padding: 6px 16px; background: #eee; border-radius: 4px; cursor: pointer; font-size: 0.85em; }
   .close-btn:hover { background: #ddd; }
 
-  /* 📱 針對大長文件名與窄屏手機端的極致響應式媒體查詢 */
+  /* 📱 針對窄屏手機端的極致響應式媒體查詢 */
   @media (max-width: 550px) {
+    .toolbar-wrapper { flex-direction: column; align-items: stretch; }
+    .search-wrapper { width: 100%; }
+    .btn-all-zip { width: 100%; justify-content: center; }
     .item {
       flex-direction: column;
       align-items: flex-start;
       gap: 6px;
       padding: 12px 4px;
     }
-    .file-link {
-      width: 100%;
-      flex: none;
-    }
-    .btn-group {
-      width: 100%;
-      justify-content: flex-start;
-    }
-    .btn {
-      padding: 5px 10px;
-      font-size: 0.8em;
-    }
+    .file-link { width: 100%; flex: none; }
+    .btn-group { width: 100%; justify-content: flex-start; }
+    .btn { padding: 5px 10px; font-size: 0.8em; }
   }
 </style>
 
+<!-- 全域語言切換面板 -->
 <div class="lang-bar">
   <button class="lang-btn" data-lang="en">English</button>
   <button class="lang-btn" data-lang="de">Deutsch</button>
@@ -184,14 +198,22 @@ title: File Cabinet
 
 <h3 data-i18n="listTitle">文件列表（/filestore/files/）</h3>
 
-<div class="search-wrapper">
-  <span class="search-icon">🔍</span>
-  <input type="search" id="globalSearch" class="search-input" placeholder="搜索文件名..." data-i18n-placeholder="searchPlaceholder">
+<!-- 🔍 頂部工具列 -->
+<div class="toolbar-wrapper">
+  <div class="search-wrapper">
+    <span class="search-icon">🔍</span>
+    <input type="search" id="globalSearch" class="search-input" placeholder="搜索文件名..." data-i18n-placeholder="searchPlaceholder">
+  </div>
+  <!-- 🛠️ 核心功能：全站一鍵打包下載按鈕 -->
+  <button class="btn btn-all-zip" id="downloadAllZipBtn" onclick="downloadAllFoldersAsZip()">
+    📦 <span data-i18n="downloadAllZip">打包下載全站文件 (.zip)</span>
+  </button>
 </div>
 
 <div class="file-list" id="mainFileList">
   {% assign has_file = false %}
   
+  <!-- 【第一階段】：分析物理目錄，智能聚合虛擬資料夾 -->
   {% assign folders = "" %}
   {% for f in site.static_files %}
     {% if f.path contains '/filestore/files/' and f.extname == '.pdf' %}
@@ -205,6 +227,7 @@ title: File Cabinet
   
   {% assign folder_array = folders | split: ',' | uniq %}
 
+  <!-- 【第二階段】：歸類渲染屬於特定子資料夾裡的文件 -->
   {% for folder in folder_array %}
     {% if folder != "" %}
     <div class="folder-section" data-folder-target="{{ folder }}">
@@ -234,6 +257,7 @@ title: File Cabinet
     {% endif %}
   {% endfor %}
 
+  <!-- 【第三階段】：無父級子資料夾的孤立文件 -->
   {% assign has_root_file = false %}
   {% for f in site.static_files %}
     {% if f.path contains '/filestore/files/' and f.extname == '.pdf' %}
@@ -257,6 +281,7 @@ title: File Cabinet
   {% endfor %}
   {% if has_root_file %} </div> {% endif %}
 
+  <!-- 無搜尋結果時的全局佔位詞 -->
   <p id="noSearchResult" style="display:none; text-align:center; color:#64748b; padding: 30px 0;" data-i18n="noMatch">沒有找到匹配的文件</p>
 
   {% if has_file == false %}
@@ -264,6 +289,7 @@ title: File Cabinet
   {% endif %}
 </div>
 
+<!-- PDF 彈窗結構 -->
 <div class="pdf-modal" id="pdfModal">
   <div class="modal-inner">
     <div class="modal-head">
@@ -277,16 +303,17 @@ title: File Cabinet
   </div>
 </div>
 
+<!-- 依賴本地化 -->
 <script src="{{ '/assets/js/jszip.min.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/pdf.min.js' | relative_url }}"></script>
 
 <script>
 // ============ 🌍 全語言字典矩陣 ============
 const i18nDict = {
-  zh: { back: "返回首頁", listTitle: "文件列表（/filestore/files/）", noFile: "暫無文件，請放入PDF至 /filestore/files/", download: "下載", copyLink: "複製下載連結", close: "關閉", copied: "已複製連結", zipDownload: "打包下載整個資料夾", zipPackaging: "正在打包", rootFolder: "根目錄獨立文件", searchPlaceholder: "搜尋文件名...", noMatch: "沒有找到匹配的文件" },
-  en: { back: "Back", listTitle: "File List (/filestore/files/)", noFile: "No files, put PDFs into /filestore/files/", download: "Download", copyLink: "Copy URL", close: "Close", copied: "Link Copied", zipDownload: "Download Folder (.zip)", zipPackaging: "Packaging", rootFolder: "Root Files", searchPlaceholder: "Search files...", noMatch: "No matching files found" },
-  de: { back: "Zurück", listTitle: "Dateiliste (/filestore/files/)", noFile: "Keine Dateien, PDFs in /filestore/files/ ablegen", download: "Herunterladen", copyLink: "URL kopieren", close: "Schließen", copied: "Link kopiert", zipDownload: "Ordner herunterladen (.zip)", zipPackaging: "Packen", rootFolder: "Stammverzeichnis-Dateien", searchPlaceholder: "Dateien suchen...", noMatch: "Keine übereinstimmenden Dateien gefunden" },
-  es: { back: "Volver", listTitle: "Lista de archivos (/filestore/files/)", noFile: "Sin archivos, coloca los PDFs en /filestore/files/", download: "Descargar", copyLink: "Copiar URL", close: "Cerrar", copied: "Enlace copiado", zipDownload: "Descargar carpeta (.zip)", zipPackaging: "Empacando", rootFolder: "Archivos Raíz", searchPlaceholder: "Buscar archivos...", noMatch: "No se encontraron archivos coincidentes" }
+  zh: { back: "返回首頁", listTitle: "文件列表（/filestore/files/）", noFile: "暫無文件，請放入PDF至 /filestore/files/", download: "下載", copyLink: "複製下載連結", close: "關閉", copied: "已複製連結", zipDownload: "打包下載整個資料夾", zipPackaging: "正在打包", rootFolder: "根目錄獨立文件", searchPlaceholder: "搜尋文件名...", noMatch: "沒有找到匹配的文件", downloadAllZip: "打包下載全站文件 (.zip)" },
+  en: { back: "Back", listTitle: "File List (/filestore/files/)", noFile: "No files, put PDFs into /filestore/files/", download: "Download", copyLink: "Copy URL", close: "Close", copied: "Link Copied", zipDownload: "Download Folder (.zip)", zipPackaging: "Packaging", rootFolder: "Root Files", searchPlaceholder: "Search files...", noMatch: "No matching files found", downloadAllZip: "Download All as ZIP" },
+  de: { back: "Zurück", listTitle: "Dateiliste (/filestore/files/)", noFile: "Keine Dateien, PDFs in /filestore/files/ ablegen", download: "Herunterladen", copyLink: "URL kopieren", close: "Schließen", copied: "Link kopiert", zipDownload: "Ordner herunterladen (.zip)", zipPackaging: "Packen", rootFolder: "Stammverzeichnis-Dateien", searchPlaceholder: "Dateien suchen...", noMatch: "Keine übereinstimmenden Dateien gefunden", downloadAllZip: "Alle als ZIP herunterladen" },
+  es: { back: "Volver", listTitle: "Lista de archivos (/filestore/files/)", noFile: "Sin archivos, coloca los PDFs en /filestore/files/", download: "Descargar", copyLink: "Copiar URL", close: "Cerrar", copied: "Enlace copiado", zipDownload: "Descargar carpeta (.zip)", zipPackaging: "Empacando", rootFolder: "Archivos Raíz", searchPlaceholder: "Buscar archivos...", noMatch: "No se encontraron archivos coincidentes", downloadAllZip: "Descargar todo como ZIP" }
 };
 
 let activeLang = localStorage.getItem("siteLang") || "en";
@@ -340,16 +367,13 @@ function openPdf(url, name) {
   pdfjsLib.getDocument(url).promise.then(doc => {
     view.innerHTML = "";
     
-    // 🛠️ 優化2：動態計算最佳寬度比率（防溢出、極致清晰）
     const containerWidth = view.clientWidth - 40; 
     
     let renderAll = async () => {
       for (let i = 1; i <= doc.numPages; i++) {
         let page = await doc.getPage(i);
         
-        // 先獲取基準尺寸
         let unscaledViewport = page.getViewport({ scale: 1.0 });
-        // 精準計算適配當前畫面的最佳 scale（上限設為 1.8 保證清晰度）
         let dynamicScale = Math.min(containerWidth / unscaledViewport.width, 1.8);
         if (dynamicScale < 1.0) dynamicScale = 1.0; 
 
@@ -373,7 +397,6 @@ function closeModal() {
 }
 document.getElementById('pdfModal').addEventListener('click', e => { if (e.target.id === "pdfModal") closeModal(); })
 
-// 🛠️ 優化3：鍵盤 Esc 快捷鍵一鍵閉環退出彈窗
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' || e.key === 'Esc') {
     const modal = document.getElementById('pdfModal');
@@ -383,7 +406,7 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// ============ 📂 1. 升級：高精度精確查找的打包邏輯 ============
+// ============ 📂 單個資料夾打包邏輯 ============
 async function downloadFolderAsZip(folderName) {
   const btn = document.querySelector(`button[data-folder="${folderName}"]`);
   const originalHtml = btn.innerHTML;
@@ -395,7 +418,6 @@ async function downloadFolderAsZip(folderName) {
   try {
     const zip = new JSZip();
     const fileUrls = [];
-
     const targetSection = document.querySelector(`.folder-section[data-folder-target="${folderName}"]`);
 
     if (!targetSection) return;
@@ -436,6 +458,80 @@ async function downloadFolderAsZip(folderName) {
   }
 }
 
+// ============ 📦 核心追加：全站所有資料夾一鍵打包下載 ============
+async function downloadAllFoldersAsZip() {
+  const btn = document.getElementById('downloadAllZipBtn');
+  const originalHtml = btn.innerHTML;
+  
+  btn.disabled = true;
+  btn.style.opacity = "0.7";
+  btn.innerText = "⏳ " + getText("zipPackaging") + " (0%)...";
+
+  try {
+    const zip = new JSZip();
+    const allFiles = [];
+
+    // 掃描頁面上所有的資料夾區塊
+    const sections = document.querySelectorAll('.folder-section');
+    sections.forEach(section => {
+      const folderName = section.getAttribute('data-folder-target');
+      
+      section.querySelectorAll('.item').forEach(item => {
+        const downBtn = item.querySelector('.btn-down');
+        const clickAttr = downBtn.getAttribute('onclick');
+        const match = clickAttr.match(/downloadPdf\('([^']+)','([^']+)'\)/);
+        
+        if (match) {
+          allFiles.push({
+            url: match[1],
+            name: match[2],
+            folder: folderName === '__root__' ? '' : folderName // 根目錄文件不放到子資料夾內
+          });
+        }
+      });
+    });
+
+    if (allFiles.length === 0) {
+      alert("No files found to download.");
+      return;
+    }
+
+    // 異步併發請求下載全站所有物理 PDF
+    const downloadPromises = allFiles.map(async (fObj) => {
+      const res = await fetch(fObj.url);
+      if (!res.ok) throw new Error(`Fetch err: ${fObj.name}`);
+      const blob = await res.blob();
+      
+      if (fObj.folder) {
+        // 自動在 ZIP 中為對應文件創建並歸類到子資料夾
+        zip.folder(fObj.folder).file(fObj.name, blob);
+      } else {
+        // 根目錄文件直接放外層
+        zip.file(fObj.name, blob);
+      }
+    });
+
+    await Promise.all(downloadPromises);
+
+    // 壓縮並生成全站大壓縮包
+    const content = await zip.generateAsync({ type: "blob" }, (metadata) => {
+      btn.innerText = `⏳ ${getText("zipPackaging")} (${Math.floor(metadata.percent)}%)...`;
+    });
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(content);
+    link.download = `Filestore_All_Backup.zip`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+  } catch (err) {
+    alert("Global ZIP packaging failed: " + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.style.opacity = "1";
+    btn.innerHTML = originalHtml;
+  }
+}
+
 // 基礎下載與複製輔助
 async function downloadPdf(url, filename) {
   const res = await fetch(url);
@@ -448,10 +544,9 @@ async function downloadPdf(url, filename) {
 }
 document.getElementById("modalDownloadBtn").onclick = () => downloadPdf(globalPdfUrl, globalPdfUrl.split("/").pop());
 
-// 前端通過 window.location.origin 智能捕獲、組裝無瑕的完整下載 URL 
+// 前端通過 window.location.origin 智能組裝無瑕的完整下載 URL 
 async function copyUrl(relativeUrl, btnEl) {
   const absoluteUrl = window.location.origin + relativeUrl;
-  
   await navigator.clipboard.writeText(absoluteUrl);
   const tip = btnEl.nextElementSibling;
   tip.innerText = getText("copied") === "已複製" ? "已複製" : "Copied!";
@@ -459,7 +554,7 @@ async function copyUrl(relativeUrl, btnEl) {
   setTimeout(() => tip.style.opacity = 0, 1500);
 }
 
-// ============ 🔍 2. 新增：高表現前端模糊搜尋聯動核心 ============
+// ============ 🔍 前端模糊搜尋聯動核心 ============
 function performSearch(keyword) {
   const folderSections = document.querySelectorAll('.folder-section');
   let totalVisibleItems = 0;
@@ -494,7 +589,6 @@ function performSearch(keyword) {
   }
 }
 
-// 監聽輸入框與原生清空事件
 document.getElementById('globalSearch').addEventListener('input', function(e) {
   performSearch(e.target.value.trim().toLowerCase());
 });
