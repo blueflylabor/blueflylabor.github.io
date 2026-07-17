@@ -4,11 +4,11 @@ permalink: /filestore/cabinet/
 title: File Cabinet
 ---
 <style>
-  /* 基础控制与版面防御 */
+  /* 基礎控制與版面防禦 */
   .back { margin-bottom: 20px; display: inline-block; color: #0066cc; text-decoration: none; }
   a { text-decoration: none; }
 
-  /* 🔍 2. 新增：搜索框精美样式 */
+  /* 🔍 搜尋框精美樣式（原生自帶一鍵清空按鈕） */
   .search-wrapper {
     margin: 15px 0 25px;
     position: relative;
@@ -25,6 +25,12 @@ title: File Cabinet
     box-sizing: border-box;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
+  /* 🛠️ 優化1：啟用原生 Chrome/Safari 的清除小叉叉並進行美化 */
+  .search-input::-webkit-search-cancel-button {
+    cursor: pointer;
+    position: relative;
+    right: 0px;
+  }
   .search-input:focus {
     border-color: #0066cc;
     box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.15);
@@ -38,7 +44,7 @@ title: File Cabinet
     pointer-events: none;
   }
   
-  /* 📁 文件夹外壳设计 */
+  /* 📁 資料夾外殼設計 */
   .folder-section {
     background: #fcfcfc;
     border: 1px solid #eef0f2;
@@ -68,7 +74,7 @@ title: File Cabinet
     gap: 6px;
   }
   
-  /* 📄 文件列表项 */
+  /* 📄 文件列表項 */
   .file-list { line-height: 2.3; }
   .item {
     border-bottom: 1px solid #eee;
@@ -82,7 +88,7 @@ title: File Cabinet
   }
   .item:last-child { border-bottom: none; }
 
-  /* 长文件名截断 */
+  /* 長文件名截斷 */
   .file-link {
     color: #0066cc;
     font-weight: 500;
@@ -96,7 +102,7 @@ title: File Cabinet
     text-decoration: underline;
   }
 
-  /* 按钮及交互组件 */
+  /* 按鈕及互動組件 */
   .btn-group { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
   .btn {
     padding: 6px 14px;
@@ -144,7 +150,7 @@ title: File Cabinet
   .close-btn { padding: 6px 16px; background: #eee; border-radius: 4px; cursor: pointer; font-size: 0.85em; }
   .close-btn:hover { background: #ddd; }
 
-  /* 📱 3. 新增：针对大长文件名与窄屏手机端的极致响应式媒体查询 */
+  /* 📱 針對大長文件名與窄屏手機端的極致響應式媒體查詢 */
   @media (max-width: 550px) {
     .item {
       flex-direction: column;
@@ -167,7 +173,6 @@ title: File Cabinet
   }
 </style>
 
-<!-- 全局语言切换面板 -->
 <div class="lang-bar">
   <button class="lang-btn" data-lang="en">English</button>
   <button class="lang-btn" data-lang="de">Deutsch</button>
@@ -175,20 +180,18 @@ title: File Cabinet
   <button class="lang-btn" data-lang="zh">中文</button>
 </div>
 
-<a class="back" href="{{ '/filestore/' | relative_url }}">← <span data-i18n="back">返回首页</span></a>
+<a class="back" href="{{ '/filestore/' | relative_url }}">← <span data-i18n="back">返回首頁</span></a>
 
 <h3 data-i18n="listTitle">文件列表（/filestore/files/）</h3>
 
-<!-- 🔍 2. 新增：前端动态搜索框 -->
 <div class="search-wrapper">
   <span class="search-icon">🔍</span>
-  <input type="text" id="globalSearch" class="search-input" placeholder="搜索文件名..." data-i18n-placeholder="searchPlaceholder">
+  <input type="search" id="globalSearch" class="search-input" placeholder="搜索文件名..." data-i18n-placeholder="searchPlaceholder">
 </div>
 
 <div class="file-list" id="mainFileList">
   {% assign has_file = false %}
   
-  <!-- 【第一阶段】：分析物理目录，智能聚合虚拟文件夹 -->
   {% assign folders = "" %}
   {% for f in site.static_files %}
     {% if f.path contains '/filestore/files/' and f.extname == '.pdf' %}
@@ -202,15 +205,13 @@ title: File Cabinet
   
   {% assign folder_array = folders | split: ',' | uniq %}
 
-  <!-- 【第二阶段】：归类渲染属于特定子文件夹里的文件 -->
   {% for folder in folder_array %}
     {% if folder != "" %}
-    <!-- 关键改进：在这里为 folder-section 添加了明确的 data-folder-target 标记 -->
     <div class="folder-section" data-folder-target="{{ folder }}">
       <div class="folder-head">
         <h4 class="folder-title">📁 {{ folder }}</h4>
         <button class="btn btn-zip" onclick="downloadFolderAsZip('{{ folder }}')" data-folder="{{ folder }}">
-          ⚡ <span data-i18n="zipDownload">打包下载整个文件夹</span>
+          ⚡ <span data-i18n="zipDownload">打包下載整個資料夾</span>
         </button>
       </div>
       
@@ -221,8 +222,8 @@ title: File Cabinet
             <div class="item">
               <a class="file-link" href="javascript:openPdf('{{ f.path | relative_url }}','{{ f.name }}')" title="{{ f.name }}">📄 {{ f.name }}</a>
               <div class="btn-group">
-                <button class="btn btn-down" onclick="downloadPdf('{{ f.path | relative_url }}','{{ f.name }}')" data-i18n="download">下载</button>
-                <button class="btn btn-copy" onclick="copyUrl('{{ f.path | absolute_url }}', this)" data-i18n="copyLink">复制下载链接</button>
+                <button class="btn btn-down" onclick="downloadPdf('{{ f.path | relative_url }}','{{ f.name }}')" data-i18n="download">下載</button>
+                <button class="btn btn-copy" onclick="copyUrl('{{ f.path | relative_url }}', this)" data-i18n="copyLink">複製下載連結</button>
                 <span class="copy-tip" data-i18n="copied">Copied!</span>
               </div>
             </div>
@@ -233,22 +234,21 @@ title: File Cabinet
     {% endif %}
   {% endfor %}
 
-  <!-- 【第三阶段】：无父级子文件夹的孤立文件 -->
   {% assign has_root_file = false %}
   {% for f in site.static_files %}
     {% if f.path contains '/filestore/files/' and f.extname == '.pdf' %}
       {% assign parts = f.path | split: '/' %}
       {% if parts[3] == f.name %}
         {% if has_root_file == false %}
-          <div class="folder-section" style="background: transparent; border-style: dashed;">
-            <div class="folder-head"><h4 class="folder-title">📍 <span data-i18n="rootFolder">根目录文件</span></h4></div>
+          <div class="folder-section" data-folder-target="__root__" style="background: transparent; border-style: dashed;">
+            <div class="folder-head"><h4 class="folder-title">📍 <span data-i18n="rootFolder">根目錄文件</span></h4></div>
           {% assign has_root_file = true %}
         {% endif %}
         <div class="item">
           <a class="file-link" href="javascript:openPdf('{{ f.path | relative_url }}','{{ f.name }}')" title="{{ f.name }}">📄 {{ f.name }}</a>
           <div class="btn-group">
-            <button class="btn btn-down" onclick="downloadPdf('{{ f.path | relative_url }}','{{ f.name }}')" data-i18n="download">下载</button>
-            <button class="btn btn-copy" onclick="copyUrl('{{ f.path | absolute_url }}', this)" data-i18n="copyLink">复制下载链接</button>
+            <button class="btn btn-down" onclick="downloadPdf('{{ f.path | relative_url }}','{{ f.name }}')" data-i18n="download">下載</button>
+            <button class="btn btn-copy" onclick="copyUrl('{{ f.path | relative_url }}', this)" data-i18n="copyLink">複製下載連結</button>
             <span class="copy-tip" data-i18n="copied">Copied!</span>
           </div>
         </div>
@@ -257,36 +257,33 @@ title: File Cabinet
   {% endfor %}
   {% if has_root_file %} </div> {% endif %}
 
-  <!-- 🔍 2. 新增：无搜索结果时的全局占位词 -->
-  <p id="noSearchResult" style="display:none; text-align:center; color:#64748b; padding: 30px 0;" data-i18n="noMatch">没有找到匹配的文件</p>
+  <p id="noSearchResult" style="display:none; text-align:center; color:#64748b; padding: 30px 0;" data-i18n="noMatch">沒有找到匹配的文件</p>
 
   {% if has_file == false %}
-    <p data-i18n="noFile">暂无文件，请放入PDF至 /filestore/files/</p>
+    <p data-i18n="noFile">暫無文件，請放入PDF至 /filestore/files/</p>
   {% endif %}
 </div>
 
-<!-- PDF 弹窗结构 -->
 <div class="pdf-modal" id="pdfModal">
   <div class="modal-inner">
     <div class="modal-head">
       <span id="pdf-name" style="font-weight:bold; color:#333;"></span>
       <div style="display:flex;gap:10px;align-items:center;">
-        <button class="btn btn-down" id="modalDownloadBtn" data-i18n="download">下载当前文件</button>
-        <span class="close-btn" onclick="closeModal()" data-i18n="close">关闭</span>
+        <button class="btn btn-down" id="modalDownloadBtn" data-i18n="download">下載當前文件</button>
+        <span class="close-btn" onclick="closeModal()" data-i18n="close">關閉</span>
       </div>
     </div>
     <div class="modal-body" id="pdf-view"></div>
   </div>
 </div>
 
-<!-- 依赖本地化 -->
 <script src="{{ '/assets/js/jszip.min.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/pdf.min.js' | relative_url }}"></script>
 
 <script>
-// ============ 🌍 全语言字典矩阵 ============
+// ============ 🌍 全語言字典矩陣 ============
 const i18nDict = {
-  zh: { back: "返回首页", listTitle: "文件列表（/filestore/files/）", noFile: "暂无文件，请放入PDF至 /filestore/files/", download: "下载", copyLink: "复制下载链接", close: "关闭", copied: "已复制链接", zipDownload: "打包下载整个文件夹", zipPackaging: "正在打包", rootFolder: "根目录独立文件", searchPlaceholder: "搜索文件名...", noMatch: "没有找到匹配的文件" },
+  zh: { back: "返回首頁", listTitle: "文件列表（/filestore/files/）", noFile: "暫無文件，請放入PDF至 /filestore/files/", download: "下載", copyLink: "複製下載連結", close: "關閉", copied: "已複製連結", zipDownload: "打包下載整個資料夾", zipPackaging: "正在打包", rootFolder: "根目錄獨立文件", searchPlaceholder: "搜尋文件名...", noMatch: "沒有找到匹配的文件" },
   en: { back: "Back", listTitle: "File List (/filestore/files/)", noFile: "No files, put PDFs into /filestore/files/", download: "Download", copyLink: "Copy URL", close: "Close", copied: "Link Copied", zipDownload: "Download Folder (.zip)", zipPackaging: "Packaging", rootFolder: "Root Files", searchPlaceholder: "Search files...", noMatch: "No matching files found" },
   de: { back: "Zurück", listTitle: "Dateiliste (/filestore/files/)", noFile: "Keine Dateien, PDFs in /filestore/files/ ablegen", download: "Herunterladen", copyLink: "URL kopieren", close: "Schließen", copied: "Link kopiert", zipDownload: "Ordner herunterladen (.zip)", zipPackaging: "Packen", rootFolder: "Stammverzeichnis-Dateien", searchPlaceholder: "Dateien suchen...", noMatch: "Keine übereinstimmenden Dateien gefunden" },
   es: { back: "Volver", listTitle: "Lista de archivos (/filestore/files/)", noFile: "Sin archivos, coloca los PDFs en /filestore/files/", download: "Descargar", copyLink: "Copiar URL", close: "Cerrar", copied: "Enlace copiado", zipDownload: "Descargar carpeta (.zip)", zipPackaging: "Empacando", rootFolder: "Archivos Raíz", searchPlaceholder: "Buscar archivos...", noMatch: "No se encontraron archivos coincidentes" }
@@ -327,7 +324,7 @@ document.querySelectorAll(".lang-btn").forEach(btn => {
   btn.onclick = () => switchLang(btn.dataset.lang);
 });
 
-// ============ PDF 核心渲染驱动 ============
+// ============ PDF 核心渲染驅動 ============
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = "{{ '/assets/js/pdf.worker.min.js' | relative_url }}";
 let globalPdfUrl = "";
@@ -342,10 +339,21 @@ function openPdf(url, name) {
   
   pdfjsLib.getDocument(url).promise.then(doc => {
     view.innerHTML = "";
+    
+    // 🛠️ 優化2：動態計算最佳寬度比率（防溢出、極致清晰）
+    const containerWidth = view.clientWidth - 40; 
+    
     let renderAll = async () => {
       for (let i = 1; i <= doc.numPages; i++) {
         let page = await doc.getPage(i);
-        let vp = page.getViewport({ scale: 1.8 }); 
+        
+        // 先獲取基準尺寸
+        let unscaledViewport = page.getViewport({ scale: 1.0 });
+        // 精準計算適配當前畫面的最佳 scale（上限設為 1.8 保證清晰度）
+        let dynamicScale = Math.min(containerWidth / unscaledViewport.width, 1.8);
+        if (dynamicScale < 1.0) dynamicScale = 1.0; 
+
+        let vp = page.getViewport({ scale: dynamicScale }); 
         let canvas = document.createElement("canvas");
         canvas.width = vp.width;
         canvas.height = vp.height;
@@ -365,7 +373,17 @@ function closeModal() {
 }
 document.getElementById('pdfModal').addEventListener('click', e => { if (e.target.id === "pdfModal") closeModal(); })
 
-// ============ 📂 1. 升级：修正高精度精确查找的打包逻辑 ============
+// 🛠️ 優化3：鍵盤 Esc 快捷鍵一鍵閉環退出彈窗
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' || e.key === 'Esc') {
+    const modal = document.getElementById('pdfModal');
+    if (modal && modal.style.display === 'block') {
+      closeModal();
+    }
+  }
+});
+
+// ============ 📂 1. 升級：高精度精確查找的打包邏輯 ============
 async function downloadFolderAsZip(folderName) {
   const btn = document.querySelector(`button[data-folder="${folderName}"]`);
   const originalHtml = btn.innerHTML;
@@ -378,7 +396,6 @@ async function downloadFolderAsZip(folderName) {
     const zip = new JSZip();
     const fileUrls = [];
 
-    // 修复点：利用严格相等的属性选择器，直接锁定对应的 DOM 容器，避免模糊名称冲突
     const targetSection = document.querySelector(`.folder-section[data-folder-target="${folderName}"]`);
 
     if (!targetSection) return;
@@ -419,7 +436,7 @@ async function downloadFolderAsZip(folderName) {
   }
 }
 
-// 基础下载与复制辅助
+// 基礎下載與複製輔助
 async function downloadPdf(url, filename) {
   const res = await fetch(url);
   const blob = await res.blob();
@@ -431,17 +448,19 @@ async function downloadPdf(url, filename) {
 }
 document.getElementById("modalDownloadBtn").onclick = () => downloadPdf(globalPdfUrl, globalPdfUrl.split("/").pop());
 
-async function copyUrl(url, btnEl) {
-  await navigator.clipboard.writeText(url);
+// 前端通過 window.location.origin 智能捕獲、組裝無瑕的完整下載 URL 
+async function copyUrl(relativeUrl, btnEl) {
+  const absoluteUrl = window.location.origin + relativeUrl;
+  
+  await navigator.clipboard.writeText(absoluteUrl);
   const tip = btnEl.nextElementSibling;
-  tip.innerText = getText("copied") === "已复制" ? "已复制" : "Copied!";
+  tip.innerText = getText("copied") === "已複製" ? "已複製" : "Copied!";
   tip.style.opacity = 1;
   setTimeout(() => tip.style.opacity = 0, 1500);
 }
 
-// ============ 🔍 2. 新增：高表现前端模糊搜索联动核心 ============
-document.getElementById('globalSearch').addEventListener('input', function(e) {
-  const keyword = e.target.value.trim().toLowerCase();
+// ============ 🔍 2. 新增：高表現前端模糊搜尋聯動核心 ============
+function performSearch(keyword) {
   const folderSections = document.querySelectorAll('.folder-section');
   let totalVisibleItems = 0;
 
@@ -473,6 +492,11 @@ document.getElementById('globalSearch').addEventListener('input', function(e) {
   } else {
     noResultEl.style.display = 'none';
   }
+}
+
+// 監聽輸入框與原生清空事件
+document.getElementById('globalSearch').addEventListener('input', function(e) {
+  performSearch(e.target.value.trim().toLowerCase());
 });
 
 document.addEventListener("DOMContentLoaded", () => {
