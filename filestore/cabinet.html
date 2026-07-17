@@ -4,62 +4,69 @@ permalink: /filestore/cabinet/
 title: File Cabinet
 ---
 <style>
-  /* 基础微调与对齐防御 */
+  /* 基础控制与版面防御 */
   .back { margin-bottom: 20px; display: inline-block; color: #0066cc; text-decoration: none; }
   a { text-decoration: none; }
   
-  /* 文件夹区块设计 */
+  /* 📁 文件夹外壳设计 */
   .folder-section {
     background: #fcfcfc;
     border: 1px solid #eef0f2;
     border-radius: 8px;
-    padding: 16px;
+    padding: 18px;
     margin-bottom: 24px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
   }
   .folder-head {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px solid #e2e8f0;
-    padding-bottom: 8px;
-    margin-bottom: 12px;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
   }
   .folder-title {
-    font-size: 1.1em;
+    font-size: 1.15em;
     font-weight: bold;
-    color: #2d3748;
+    color: #1a202c;
     margin: 0;
     display: flex;
     align-items: center;
     gap: 6px;
   }
   
-  /* 文件列表项 */
+  /* 📄 文件列表项 */
   .file-list { line-height: 2.3; }
   .item {
     border-bottom: 1px solid #eee;
-    padding: 8px 4px;
+    padding: 10px 4px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
   }
   .item:last-child { border-bottom: none; }
 
-  .btn-group { display: flex; gap: 8px; align-items: center; }
+  /* 按钮及交互组件 */
+  .btn-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
   .btn {
-    padding: 5px 12px;
+    padding: 6px 14px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.85em;
     white-space: nowrap;
+    transition: background 0.2s;
   }
   .btn-down { background: #2e7d32; color: #fff; }
-  .btn-zip { background: #d97706; color: #fff; } /* 橙色打包按钮 */
+  .btn-down:hover { background: #1b5e20; }
+  .btn-zip { background: #d97706; color: #fff; font-weight: 500; }
+  .btn-zip:hover { background: #b45309; }
   .btn-copy { background: #666; color: #fff; }
+  .btn-copy:hover { background: #444; }
   
   .copy-tip {
     font-size: 0.8em;
@@ -69,16 +76,34 @@ title: File Cabinet
     transition: 0.3s;
   }
 
-  /* PDF弹窗 */
+  /* 弹出层（PDF 高清预览大厅） */
   .pdf-modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); z-index: 999; }
   .modal-inner { width: 92%; height: 92vh; margin: 4vh auto; background: #fff; border-radius: 8px; display: flex; flex-direction: column; }
   .modal-head { padding: 12px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .modal-body { flex: 1; overflow: auto; padding: 20px; text-align: center; }
-  canvas { display: block; margin: 14px auto; box-shadow: 0 2px 10px #0001; image-rendering: crisp-edges; }
-  .close-btn { padding: 4px 14px; background: #eee; border-radius: 4px; cursor: pointer; }
+  .modal-body { flex: 1; overflow: auto; padding: 20px; text-align: center; background: #f5f5f5; }
+  
+  canvas {
+    display: block;
+    margin: 18px auto;
+    max-width: 100%;
+    height: auto !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    background: #fff;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  .close-btn { padding: 6px 16px; background: #eee; border-radius: 4px; cursor: pointer; font-size: 0.85em; }
+  .close-btn:hover { background: #ddd; }
 </style>
 
-<!-- 顶部全局引入已经自带 lang-bar，这里直接承接业务 -->
+<!-- 顶部全局语言按钮组 -->
+<div class="lang-bar">
+  <button class="lang-btn" data-lang="en">English</button>
+  <button class="lang-btn" data-lang="de">Deutsch</button>
+  <button class="lang-btn" data-lang="es">Español</button>
+  <button class="lang-btn" data-lang="zh">中文</button>
+</div>
+
 <a class="back" href="{{ '/filestore/' | relative_url }}">← <span data-i18n="back">返回首页</span></a>
 
 <h3 data-i18n="listTitle">文件列表（/filestore/files/）</h3>
@@ -86,14 +111,13 @@ title: File Cabinet
 <div class="file-list">
   {% assign has_file = false %}
   
-  <!-- 1. 首先提取出所有可能存在的子文件夹名称 -->
+  <!-- 【第一阶段】：分析物理目录，智能聚合虚拟文件夹 -->
   {% assign folders = "" %}
   {% for f in site.static_files %}
     {% if f.path contains '/filestore/files/' and f.extname == '.pdf' %}
       {% assign has_file = true %}
-      <!-- 将路径按 / 切割，提取出子文件夹名 -->
       {% assign parts = f.path | split: '/' %}
-      <!-- parts[3] 对应的就是子文件夹目录名 -->
+      <!-- 如果切割出来第三位不等于文件名，证明它包裹在多级子文件夹内 -->
       {% if parts[3] != f.name %}
         {% assign folders = folders | append: parts[3] | append: "," %}
       {% endif %}
@@ -102,13 +126,13 @@ title: File Cabinet
   
   {% assign folder_array = folders | split: ',' | uniq %}
 
-  <!-- 2. 渲染带有子文件夹包裹的文件 -->
+  <!-- 【第二阶段】：归类渲染属于特定子文件夹里的文件 -->
   {% for folder in folder_array %}
     {% if folder != "" %}
     <div class="folder-section">
       <div class="folder-head">
         <h4 class="folder-title">📁 {{ folder }}</h4>
-        <!-- 一键打包下载当前文件夹按钮 -->
+        <!-- ⚡ 核心新增：一键纯前端离线打包 ZIP 触发点 -->
         <button class="btn btn-zip" onclick="downloadFolderAsZip('{{ folder }}')" data-folder="{{ folder }}">
           ⚡ <span data-i18n="zipDownload">打包下载整个文件夹</span>
         </button>
@@ -133,15 +157,15 @@ title: File Cabinet
     {% endif %}
   {% endfor %}
 
-  <!-- 3. 渲染直接放在 /files/ 根目录下、没有被任何子文件夹包裹的散落 PDF -->
+  <!-- 【第三阶段】：捞出散落在 /files/ 目录下、无父级子文件夹的孤立文件 -->
   {% assign has_root_file = false %}
   {% for f in site.static_files %}
     {% if f.path contains '/filestore/files/' and f.extname == '.pdf' %}
       {% assign parts = f.path | split: '/' %}
       {% if parts[3] == f.name %}
         {% if has_root_file == false %}
-          <div class="folder-section" style="background: transparent; border-color: #e2e8f0;">
-            <div class="folder-head"><h4 class="folder-title">📍 根目录根文件</h4></div>
+          <div class="folder-section" style="background: transparent; border-style: dashed;">
+            <div class="folder-head"><h4 class="folder-title">📍 <span data-i18n="rootFolder">根目录文件</span></h4></div>
           {% assign has_root_file = true %}
         {% endif %}
         <div class="item">
@@ -162,11 +186,11 @@ title: File Cabinet
   {% endif %}
 </div>
 
-<!-- PDF弹窗 -->
+<!-- PDF 弹窗结构 -->
 <div class="pdf-modal" id="pdfModal">
   <div class="modal-inner">
     <div class="modal-head">
-      <span id="pdf-name"></span>
+      <span id="pdf-name" style="font-weight:bold; color:#333;"></span>
       <div style="display:flex;gap:10px;align-items:center;">
         <button class="btn btn-down" id="modalDownloadBtn" data-i18n="download">下载当前文件</button>
         <span class="close-btn" onclick="closeModal()" data-i18n="close">关闭</span>
@@ -176,141 +200,174 @@ title: File Cabinet
   </div>
 </div>
 
-<!-- 🟢 引入前端自动打包核心依赖依赖库 (JSZip) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- 🟢 依赖本地化：全部采用 relative_url 引入本地核心 JS 库 -->
+<script src="{{ '/assets/js/jszip.min.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/pdf.min.js' | relative_url }}"></script>
 
 <script>
-  // 多语言字典配置（追加了打包提示语）
-  const i18nDict = {
-    zh: { back: "返回首页", listTitle: "文件列表（/filestore/files/）", noFile: "暂无文件，请放入PDF至 /filestore/files/", download: "下载", copyLink: "复制下载链接", close: "关闭", copied: "已复制链接", zipDownload: "打包下载文件夹", zipPackaging: "正在打包中..." },
-    en: { back: "Back", listTitle: "File List (/filestore/files/)", noFile: "No files, put PDFs into /filestore/files/", download: "Download", copyLink: "Copy URL", close: "Close", copied: "Link Copied", zipDownload: "Download Folder (.zip)", zipPackaging: "Packaging..." },
-    de: { back: "Zurück", listTitle: "Dateiliste (/filestore/files/)", noFile: "Keine Dateien, PDFs in /filestore/files/ ablegen", download: "Herunterladen", copyLink: "URL kopieren", close: "Schließen", copied: "Link kopiert", zipDownload: "Ordner herunterladen (.zip)", zipPackaging: "Packen..." },
-    es: { back: "Volver", listTitle: "Lista de archivos (/filestore/files/)", noFile: "Sin archivos, coloca los PDFs en /filestore/files/", download: "Descargar", copyLink: "Copiar URL", close: "Cerrar", copied: "Enlace copiado", zipDownload: "Descargar carpeta (.zip)", zipPackaging: "Empacando..." }
-  };
+// ============ 🌍 全语言字典矩阵（追更压缩打包控制词） ============
+const i18nDict = {
+  zh: { back: "返回首页", listTitle: "文件列表（/filestore/files/）", noFile: "暂无文件，请放入PDF至 /filestore/files/", download: "下载", copyLink: "复制下载链接", close: "关闭", copied: "已复制链接", zipDownload: "打包下载整个文件夹", zipPackaging: "正在打包中...", rootFolder: "根目录独立文件" },
+  en: { back: "Back", listTitle: "File List (/filestore/files/)", noFile: "No files, put PDFs into /filestore/files/", download: "Download", copyLink: "Copy URL", close: "Close", copied: "Link Copied", zipDownload: "Download Folder (.zip)", zipPackaging: "Packaging...", rootFolder: "Root Files" },
+  de: { back: "Zurück", listTitle: "Dateiliste (/filestore/files/)", noFile: "Keine Dateien, PDFs in /filestore/files/ ablegen", download: "Herunterladen", copyLink: "URL kopieren", close: "Schließen", copied: "Link kopiert", zipDownload: "Ordner herunterladen (.zip)", zipPackaging: "Packen...", rootFolder: "Stammverzeichnis-Dateien" },
+  es: { back: "Volver", listTitle: "Lista de archivos (/filestore/files/)", noFile: "Sin archivos, coloca los PDFs en /filestore/files/", download: "Descargar", copyLink: "Copiar URL", close: "Cerrar", copied: "Enlace copiado", zipDownload: "Descargar carpeta (.zip)", zipPackaging: "Empacando...", rootFolder: "Archivos Raíz" }
+};
 
-  // PDFjsLib 全局核心配置
-  const pdfjsLib = window['pdfjs-dist/build/pdf'];
-  pdfjsLib.GlobalWorkerOptions.workerSrc = "{{ '/assets/js/pdf.worker.min.js' | relative_url }}";
-  let globalPdfUrl = "";
+let activeLang = localStorage.getItem("siteLang") || "en";
 
-  // 1. 核心高级逻辑：一键前端打包整个子文件夹
-  async function downloadFolderAsZip(folderName) {
-    const btn = document.querySelector(`button[data-folder="${folderName}"]`);
-    const originalText = btn.innerHTML;
-    
-    // 切换为正在打包状态提示
-    btn.disabled = true;
-    btn.style.opacity = "0.7";
-    btn.innerText = "⏳ " + (i18nDict[localStorage.getItem("siteLang") || "zh"]["zipPackaging"] || "Packaging...");
+function switchLang(lang) {
+  activeLang = lang;
+  localStorage.setItem("siteLang", lang);
+  renderAllText();
+  updateLangBtnStatus();
+}
 
-    try {
-      const zip = new JSZip();
-      const fileUrls = [];
+function updateLangBtnStatus() {
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.lang === activeLang);
+  });
+}
 
-      // 动态收集当前文件夹下在 DOM 中渲染的所有下载地址和文件名
-      const folderSections = document.querySelectorAll('.folder-section');
-      let targetSection = null;
-      folderSections.forEach(sec => {
-        if(sec.querySelector('.folder-title') && sec.querySelector('.folder-title').innerText.includes(folderName)) {
-          targetSection = sec;
-        }
-      });
+function renderAllText() {
+  const textMap = i18nDict[activeLang];
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.dataset.i18n;
+    if(textMap[key]) el.innerText = textMap[key];
+  });
+}
 
-      if (!targetSection) return;
+function getText(key) {
+  return i18nDict[activeLang][key];
+}
 
-      // 抓取该文件夹分类下所有的下载按钮，从而逆向抓取真实路径
-      const itemLinks = targetSection.querySelectorAll('.item');
-      itemLinks.forEach(item => {
-        const docLink = item.querySelector('a');
-        const downBtn = item.querySelector('.btn-down');
-        // 从绑定的 onclick 属性中提取下载相对路径
-        const clickAttr = downBtn.getAttribute('onclick');
-        const match = clickAttr.match(/downloadPdf\('([^']+)','([^']+)'\)/);
-        if(match) {
-          fileUrls.push({ url: match[1], name: match[2] });
-        }
-      });
+document.querySelectorAll(".lang-btn").forEach(btn => {
+  btn.onclick = () => switchLang(btn.dataset.lang);
+});
 
-      // 并行异步下载所有 PDF 文件流
-      const downloadPromises = fileUrls.map(async (fileObj) => {
-        const response = await fetch(fileObj.url);
-        if(!response.ok) throw new Error(`Failed to fetch ${fileObj.name}`);
-        const blob = await response.blob();
-        zip.file(fileObj.name, blob); // 塞入虚拟 ZIP 核心目录
-      });
+// ============ PDF 核心渲染驱动 ============
+const pdfjsLib = window['pdfjs-dist/build/pdf'];
+pdfjsLib.GlobalWorkerOptions.workerSrc = "{{ '/assets/js/pdf.worker.min.js' | relative_url }}";
+let globalPdfUrl = "";
 
-      await Promise.all(downloadPromises);
-
-      // 前端纯内存高强度压缩生成
-      const content = await zip.generateAsync({ type: "blob" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(content);
-      link.download = `${folderName}.zip`;
-      link.click();
-      URL.revokeObjectURL(link.href);
-    } catch (err) {
-      alert("ZIP Download failed: " + err.message);
-      console.error(err);
-    } finally {
-      // 还原按钮状态
-      btn.disabled = false;
-      btn.style.opacity = "1";
-      btn.innerHTML = originalText;
-    }
-  }
-
-  // 2. 弹窗打开 PDF 渲染
-  function openPdf(url, name) {
-    globalPdfUrl = url;
-    const modal = document.getElementById('pdfModal');
-    const view = document.getElementById('pdf-view');
-    document.getElementById('pdf-name').innerText = name;
-    modal.style.display = 'block';
-    view.innerHTML = "Loading...";
-    
-    pdfjsLib.getDocument(url).promise.then(doc => {
-      view.innerHTML = "";
-      let renderAll = async () => {
-        for (let i = 1; i <= doc.numPages; i++) {
-          let page = await doc.getPage(i);
-          let vp = page.getViewport({ scale: 1.8 }); // 高清对齐
-          let canvas = document.createElement("canvas");
-          canvas.width = vp.width;
-          canvas.height = vp.height;
-          view.appendChild(canvas);
-          const ctx = canvas.getContext('2d');
-          ctx.imageSmoothingEnabled = true;
-          await page.render({ canvasContext: ctx, viewport: vp }).promise;
-        }
+function openPdf(url, name) {
+  globalPdfUrl = url;
+  const modal = document.getElementById('pdfModal');
+  const view = document.getElementById('pdf-view');
+  document.getElementById('pdf-name').innerText = name;
+  modal.style.display = 'block';
+  view.innerHTML = "Loading...";
+  
+  pdfjsLib.getDocument(url).promise.then(doc => {
+    view.innerHTML = "";
+    let renderAll = async () => {
+      for (let i = 1; i <= doc.numPages; i++) {
+        let page = await doc.getPage(i);
+        let vp = page.getViewport({ scale: 1.8 }); // 高清抗锯齿配比
+        let canvas = document.createElement("canvas");
+        canvas.width = vp.width;
+        canvas.height = vp.height;
+        view.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        await page.render({ canvasContext: ctx, viewport: vp }).promise;
       }
-      renderAll();
-    }).catch(e => view.innerHTML = "Load failed");
-  }
+    }
+    renderAll();
+  }).catch(e => view.innerHTML = "Load failed");
+}
 
-  function closeModal() {
-    document.getElementById('pdfModal').style.display = 'none';
-    document.getElementById('pdf-view').innerHTML = "";
-  }
-  document.getElementById('pdfModal').addEventListener('click', e => { if (e.target.id === "pdfModal") closeModal(); })
+function closeModal() {
+  document.getElementById('pdfModal').style.display = 'none';
+  document.getElementById('pdf-view').innerHTML = "";
+}
+document.getElementById('pdfModal').addEventListener('click', e => { if (e.target.id === "pdfModal") closeModal(); })
 
-  // 3. 单个 PDF 普通下载
-  async function downloadPdf(url, filename) {
-    const res = await fetch(url);
-    const blob = await res.blob();
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(a.href);
-  }
-  document.getElementById("modalDownloadBtn").onclick = () => downloadPdf(globalPdfUrl, globalPdfUrl.split("/").pop());
+// ============ 📂 纯前端异步并发打包核心逻辑 ============
+async function downloadFolderAsZip(folderName) {
+  const btn = document.querySelector(`button[data-folder="${folderName}"]`);
+  const originalText = btn.innerHTML;
+  
+  // 冻结操作，呈现多语言包装状态提示
+  btn.disabled = true;
+  btn.style.opacity = "0.7";
+  btn.innerText = "⏳ " + getText("zipPackaging");
 
-  // 4. 一键复制绝对路径 URL
-  async function copyUrl(url, btnEl) {
-    await navigator.clipboard.writeText(url);
-    const tip = btnEl.nextElementSibling;
-    tip.style.opacity = 1;
-    setTimeout(() => tip.style.opacity = 0, 1500);
+  try {
+    const zip = new JSZip();
+    const fileUrls = [];
+
+    // 寻踪 DOM，精确定位对应的文件夹容器
+    const sections = document.querySelectorAll('.folder-section');
+    let targetSection = null;
+    sections.forEach(sec => {
+      const titleEl = sec.querySelector('.folder-title');
+      if(titleEl && titleEl.innerText.includes(folderName)) {
+        targetSection = sec;
+      }
+    });
+
+    if (!targetSection) return;
+
+    // 遍历内部子项，解析出下载地址和文件名对
+    targetSection.querySelectorAll('.item').forEach(item => {
+      const downBtn = item.querySelector('.btn-down');
+      const clickAttr = downBtn.getAttribute('onclick');
+      const match = clickAttr.match(/downloadPdf\('([^']+)','([^']+)'\)/);
+      if(match) {
+        fileUrls.push({ url: match[1], name: match[2] });
+      }
+    });
+
+    // 高并发快速管道下载
+    const downloadPromises = fileUrls.map(async (fObj) => {
+      const res = await fetch(fObj.url);
+      if(!res.ok) throw new Error(`Fetch err: ${fObj.name}`);
+      const blob = await res.blob();
+      zip.file(fObj.name, blob); // 存入压缩包流缓存
+    });
+
+    await Promise.all(downloadPromises);
+
+    // 触发 JSZip 本地无缝高压缩率交付
+    const content = await zip.generateAsync({ type: "blob" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(content);
+    link.download = `${folderName}.zip`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+  } catch (err) {
+    alert("ZIP packaging failed: " + err.message);
+  } finally {
+    // 释放保护锁，恢复按钮
+    btn.disabled = false;
+    btn.style.opacity = "1";
+    btn.innerHTML = originalText;
   }
+}
+
+// 基础下载与复制辅助
+async function downloadPdf(url, filename) {
+  const res = await fetch(url);
+  const blob = await res.blob();
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+document.getElementById("modalDownloadBtn").onclick = () => downloadPdf(globalPdfUrl, globalPdfUrl.split("/").pop());
+
+async function copyUrl(url, btnEl) {
+  await navigator.clipboard.writeText(url);
+  const tip = btnEl.nextElementSibling;
+  tip.innerText = getText("copied") === "已复制" ? "已复制" : "Copied!";
+  tip.style.opacity = 1;
+  setTimeout(() => tip.style.opacity = 0, 1500);
+}
+
+// 统一生命周期：挂载完毕即刻翻译同步状态
+document.addEventListener("DOMContentLoaded", () => {
+  renderAllText();
+  updateLangBtnStatus();
+});
 </script>
