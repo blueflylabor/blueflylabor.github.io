@@ -19,29 +19,25 @@
   "task-list",
   "mermaid"
 ;
-
 /* ==========================================
-   暗黑模式强效修复版
+   1. 暗黑模式全局反转与变量修复
    ========================================== */
-
-/* 1. 当开启暗黑模式时，对整页进行颠倒 */
 html.dark-mode {
   filter: invert(1) hue-rotate(180deg) !important;
   background-color: #000000 !important;
 }
 
-/* 2. 强制修复 body 及所有页面主要容器的背景与文字颜色，防止被主题原本的 Sass 样式覆盖 */
 html.dark-mode,
 html.dark-mode body,
 html.dark-mode .container-wrapper,
 html.dark-mode .container-main,
 html.dark-mode header,
 html.dark-mode footer {
-  background-color: #ffffff !important; /* 这里的白会被外层的 invert(1) 自动反转成纯黑 */
-  color: #000000 !important;            /* 这里的黑会被外层的 invert(1) 自动反转成纯白 */
+  background-color: #ffffff !important;
+  color: #000000 !important;
 }
 
-/* 3. 保护图片、视频、SVG 图标和代码块，防止它们变成“X光片”或颜色混乱 */
+/* 保护图片、SVG 和代码块不变成 X 光片 */
 html.dark-mode img,
 html.dark-mode video,
 html.dark-mode iframe,
@@ -51,28 +47,37 @@ html.dark-mode .highlight {
   filter: invert(1) hue-rotate(180deg) !important;
 }
 
-/* 4. 暗黑模式切换按钮样式 */
+/* ==========================================
+   2. 主题切换按钮（绝对防偏移、强制右下角悬浮）
+   ========================================== */
 .theme-toggle-btn {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 99999;
-  padding: 10px 18px;
-  background-color: #222222;
-  color: #ffffff;
-  border: 1px solid #444444;
-  border-radius: 30px;
-  cursor: pointer;
-  font-size: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  transition: all 0.2s ease;
+  position: fixed !important;
+  bottom: 25px !important;
+  right: 25px !important;
+  left: auto !important;
+  top: auto !important;
+  z-index: 999999 !important;
+  margin: 0 !important;
+  padding: 10px 18px !important;
+  background-color: #222222 !important;
+  color: #ffffff !important;
+  border: 1px solid #444444 !important;
+  border-radius: 30px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  font-family: inherit !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  transition: transform 0.2s ease, background-color 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .theme-toggle-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) !important;
 }
 
-/* 5. 按钮自身的反转保护（保持按钮样式正常） */
+/* 暗黑模式下反转按钮自身颜色，保持视觉统一 */
 html.dark-mode .theme-toggle-btn {
   filter: invert(1) hue-rotate(180deg) !important;
 }
