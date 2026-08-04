@@ -32,6 +32,10 @@
     <span id="theme-btn-text">🌙 Dark Mode</span>
   </button>
 
+  <button id="back-to-top-btn" class="back-to-top-btn" type="button" aria-label="Back to Top">
+    <span>⬆ TOP</span>
+  </button>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const btn = document.getElementById('theme-btn');
@@ -57,6 +61,29 @@
         
         localStorage.setItem('site_theme', nextState ? 'dark' : 'light');
         updateUI(nextState);
+      });
+    });
+  </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const topBtn = document.getElementById('back-to-top-btn');
+
+      // 1. 监听滚动条显示/隐藏回到顶部按钮
+      window.addEventListener('scroll', function () {
+        if (window.scrollY > 300) { // 当页面向下滚动超过 300px 时显示
+          topBtn.classList.add('is-visible');
+        } else {
+          topBtn.classList.remove('is-visible');
+        }
+      });
+
+      // 2. 点击平滑滚动回顶部
+      topBtn.addEventListener('click', function () {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
       });
     });
   </script>
