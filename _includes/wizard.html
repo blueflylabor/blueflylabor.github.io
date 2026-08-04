@@ -1,8 +1,23 @@
 <!-- 
-  巫师 Loading 动画专属样式（三 Logo 精致修复增强版） 
-  修复重点：macOS Logo 的叶子位置与标准校对
+  巫师 Loading 动画专属样式（支持主题跟随与暗黑模式版）
 -->
 <style>
+  /* 1. 定义主题颜色变量 */
+  :root {
+    --wz-loader-bg: #358561;               /* 默认浅色/绿豆沙背景 */
+    --wz-progress-bg: rgba(255, 255, 255, 0.2);
+    --wz-progress-fill: #2d503f;           /* 进度条填充色 */
+    --wz-mac-logo-color: #E2E8F0;          /* macOS Logo 颜色 */
+  }
+
+  /* 2. 暗黑模式下的变量重写 */
+  html.dark-mode {
+    --wz-loader-bg: #c6a2f5;               /* 深色模式背景（深灰黑） */
+    --wz-progress-bg: rgba(255, 255, 255, 0.08);
+    --wz-progress-fill: #3f64ce;           /* 深色模式下用巫师衣服的同系蓝色作为进度条 */
+    --wz-mac-logo-color: #94A3B8;
+  }
+
   #loader.wz-loader-screen {
     position: fixed;
     top: 0;
@@ -10,8 +25,8 @@
     width: 100vw;
     height: 100vh;
     z-index: 999999;
-    /* 深色系绿豆沙色背景 */
-    background-color: #358561;
+    /* 关键：动态使用变量，支持无缝切换 */
+    background-color: var(--wz-loader-bg);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,7 +35,7 @@
     overflow: hidden;
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition: opacity 0.5s ease, visibility 0.5s ease, background-color 0.3s ease;
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
@@ -58,7 +73,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* 增强投影，提升立体感 */
     filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
   }
 
@@ -86,15 +100,15 @@
     animation: wz_path_python 10s ease-in-out infinite;
   }
 
-  /* 3. macOS Logo (Apple) - 精致增强 */
+  /* 3. macOS Logo (Apple) */
   #loader .logo-mac {
     bottom: -50px;
-    left: 45px; /* 微调起始位置 */
+    left: 45px;
     width: 52px;
     height: 52px;
-    /* 银灰色，适配深色背景 */
-    color: #E2E8F0; 
+    color: var(--wz-mac-logo-color); 
     animation: wz_path_mac 10s ease-in-out infinite;
+    transition: color 0.3s ease;
   }
 
   /* Wizard Core */
@@ -370,9 +384,19 @@
     margin-top: 60px;
     width: 400px;
     height: 20px;
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--wz-progress-bg);
     border-radius: 10px;
     overflow: hidden;
+    transition: background 0.3s ease;
+  }
+
+  #loader .progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--wz-progress-fill);
+    transition: width 0.4s linear, background 0.3s ease;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
   }
 
   /* Noise Overlay */
@@ -461,9 +485,7 @@
     56% { transform: rotate(-3deg); }
   }
 
-  /* --- 三 Logo 轨迹动画 --- */
-
-  /* 1. Linux 轨迹 */
+  /* 三 Logo 轨迹动画 */
   @keyframes wz_path_linux {
     0% { transform: translateY(0) rotate(0deg); opacity: 1; }
     10% { transform: translateY(-165px) translateX(-35px) rotate(-12deg); }
@@ -471,12 +493,10 @@
     50% { transform: translateY(-165px) translateX(-35px) rotate(10deg); }
     58% { transform: translateY(-160px) translateX(-35px) rotate(0deg); }
     65% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    /* 增加一个回落后滑出的阶段，配合整体淡出 */
     66% { opacity: 0.8; }
     100% { opacity: 0; transform: translateY(20px) scale(0.8); }
   }
 
-  /* 2. Python 轨迹 */
   @keyframes wz_path_python {
     0% { transform: translateY(0) rotate(0deg); opacity: 1; }
     10% { transform: translateY(-135px) translateX(0px) rotate(15deg); }
@@ -487,19 +507,13 @@
     100% { opacity: 0; transform: translateY(20px) scale(0.8); }
   }
 
-  /* 3. macOS 轨迹 - 优化 */
   @keyframes wz_path_mac {
     0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    /* 升起 */
     10% { transform: translateY(-185px) translateX(35px) rotate(8deg); }
-    /* 漂浮波动 */
     30% { transform: translateY(-195px) translateX(45px) rotate(-12deg); }
     50% { transform: translateY(-180px) translateX(30px) rotate(6deg); }
-    /* 准备回落 */
     58% { transform: translateY(-180px) translateX(35px) rotate(0deg); }
-    /* 回落到手 */
     65% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    /* 消失 */
     100% { opacity: 0; transform: translateY(20px) scale(0.8); }
   }
 </style>
@@ -509,26 +523,21 @@
   <div class="scene">
     <div class="objects">
       
-      <!-- 1. 精致版 Linux Logo (Tux) -->
+      <!-- 1. Linux Logo (Tux) -->
       <div class="logo-item logo-linux" title="Linux">
         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-          <!-- 黑色身体主体 -->
           <path fill="#231F20" d="M256 32c-68.5 0-112 52-112 120 0 35 12 73 24 100-18 15-32 36-32 64 0 35 25 56 60 56 8 0 16-2 24-5 11 9 23 13 36 13s25-4 36-13c8 3 16 5 24 5 35 0 60-21 60-56 0-28-14-49-32-64 12-27 24-65 24-100 0-68-43.5-120-112-120z"/>
-          <!-- 白色腹部与头部 -->
           <path fill="#FFFFFF" d="M256 100c-42 0-64 36-64 84 0 52 14 108 64 108s64-56 64-108c0-48-22-84-64-84z"/>
-          <!-- 眼睛 -->
           <ellipse cx="225" cy="150" rx="10" ry="15" fill="#FFFFFF"/>
           <ellipse cx="287" cy="150" rx="10" ry="15" fill="#FFFFFF"/>
           <circle cx="228" cy="152" r="5" fill="#231F20"/>
           <circle cx="284" cy="152" r="5" fill="#231F20"/>
-          <!-- 嘴巴 -->
           <path fill="#FF9800" d="M216 180c0 0 18 20 40 20s40-20 40-20-14 30-40 30-40-30-40-30z"/>
-          <!-- 双脚 -->
           <path fill="#FF9800" d="M125 430c-25 0-45 15-45 32 0 20 30 25 65 25 25 0 45-12 45-25 0-18-35-32-65-32zm262 0c-30 0-65 14-65 32 0 13 20 25 45 25 35 0 65-5 65-25 0-17-20-32-45-32z"/>
         </svg>
       </div>
 
-      <!-- 2. 精致标准版 Python Logo -->
+      <!-- 2. Python Logo -->
       <div class="logo-item logo-python" title="Python">
         <svg viewBox="0 0 256 255" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -546,16 +555,10 @@
         </svg>
       </div>
 
-      <!-- 
-        3. macOS Logo (Apple) - 彻底修复叶子对齐版 
-        使用标准官方矢量路径，并将画布校对为 170x170 以获得最佳兼容性
-      -->
+      <!-- 3. macOS Logo (Apple) -->
       <div class="logo-item logo-mac" title="macOS">
-        <!-- 注意：viewBox 设为标准尺寸，且移除了冲突的 xml:space -->
         <svg viewBox="0 0 170 170" xmlns="http://www.w3.org/2000/svg">
-          <!-- 苹果主体：填充色设为 currentColor，使其颜色由外层 .logo-mac CSS 的 color 属性控制 -->
           <path fill="currentColor" d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.34.13-9.16-1.9-14.49-6.08-3.48-2.8-7.42-7.55-11.83-14.26-6.53-9.93-11.75-20.8-15.66-32.61-3.91-11.81-5.87-23.23-5.87-34.27 0-14.67 3.8-26.85 11.41-36.54 7.61-9.69 17.18-14.63 28.71-14.83 4.89 0 10.12 1.2 15.69 3.59 5.57 2.39 9.38 3.59 11.42 3.59 1.85 0 5.72-1.26 11.61-3.79 5.89-2.52 10.96-3.68 15.21-3.48 10.22.65 18.66 4.3 25.32 10.94 2.28 2.28 4.35 4.89 6.2 7.83-11.09 6.74-16.53 16.09-16.31 28.05.22 9.35 3.81 17.18 10.77 23.49 6.96 6.31 15.22 9.79 24.79 10.44-2.5 7.4-5.87 14.89-10.11 22.48z"/>
-          <!-- 彻底修复的叶子路径：使用了与主体匹配的标准坐标和旋转角度，完美对齐顶部缺口，且不会被裁剪 -->
           <path fill="currentColor" d="M119.22 12.01c-5.71 6.86-13.63 11.41-22.18 10.74-1.02-7.85 2.65-16.27 8.01-22.58 5.71-6.73 14.18-11.43 21.92-11.16 1.12 8.04-2.39 16.14-7.75 22.99z" transform="matrix(1.15 0 0 1.15 -40 12.1)"/>
         </svg>
       </div>
@@ -598,8 +601,7 @@
     
     // 创建内部填充条
     var progressFill = document.createElement('div');
-    // 使用一个更有质感的深灰色作为填充色
-    progressFill.style.cssText = 'height: 100%; width: 0%; background: #637373; transition: width 0.4s linear; border-radius: 10px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);';
+    progressFill.className = 'progress-bar-fill';
     if (progressBar) {
       progressBar.appendChild(progressFill);
     }
@@ -646,7 +648,6 @@
         var loader = document.getElementById('loader');
         if (loader) {
           loader.classList.add('is-hidden');
-          // 淡出动画结束后彻底隐藏 DOM
           setTimeout(function () {
             loader.style.display = 'none';
           }, 500);
@@ -656,7 +657,7 @@
 
     // 5. 加载事件绑定
     if (document.readyState === 'complete') {
-      setTimeout(dismissLoader, 600); /* 稍微增加一点显示时间，展示精致的 Logo */
+      setTimeout(dismissLoader, 600);
     } else {
       window.addEventListener('load', function () {
         setTimeout(dismissLoader, 500);
