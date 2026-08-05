@@ -131,7 +131,7 @@
       }
 
       function fetchSohuIP() {
-        fetch('https://pv.sohu.com/cityjson?ie=utf-8')
+        fetch('https://www.cloudflare.com/cdn-cgi/trace')
           .then(res => res.text())
           .then(text => {
             let match = text.match(/\{.*?\}/);
