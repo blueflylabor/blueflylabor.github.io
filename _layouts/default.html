@@ -88,9 +88,9 @@
     });
   </script>
 <!-- 访客 IP 显示容器 -->
-<div id="visitor-ip-box" style="position: fixed; bottom: 70px; left: 25px; z-index: 999; font-size: 12px; opacity: 0.7; font-family: monospace;">
+<!--<div id="visitor-ip-box" style="position: fixed; bottom: 70px; left: 25px; z-index: 999; font-size: 12px; opacity: 0.7; font-family: monospace;">
   📍 IP: <span id="ip-display">获取中...</span>
-</div>
+</div>-->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     // 调用免费的 IP 查寻接口
@@ -113,45 +113,59 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    // 确保每个会话只记录一次，避免重复请求
     if (!sessionStorage.getItem('ip_logged')) {
 
-      // 使用国内完全直连、多地 CDN 缓存的 cip.cc 接口
-      fetch('https://www.cip.cc/', {
-        method: 'GET',
-        headers: {
-          'User-Agent': 'Mozilla/5.0'
-        }
-      })
-      .then(res => res.text())
-      .then(text => {
-        // cip.cc 返回的是文本格式，包含 IP、地址等
-        const visitTime = new Date().toLocaleString();
-        const pageTitle = document.title;
+      // 使用 Cloudflare 官方公开的 trace 接口（全球 CDN 加速，最标准的国际方案）
+      fetch('https://www.cloudflare.com/cdn-cgi/trace')
+        .then(res => {
+          if (!res.ok) throw new Error('Network response was not ok');
+          return res.text();
+        })
+        .then(text => {
+          // 解析 Cloudflare 返回的文本格式 (key=value)
+          let lines = text.split('\n');
+          let data = {};
+          lines.forEach(line => {
+            let parts = line.split('=');
+            if (parts.length === 2) {
+              data[parts[0].trim()] = parts[1].trim();
+            }
+          });
 
-        const formData = {
-          access_key: '4b66843b-f05b-4f98-a7a2-afff28ade021',
-          subject: '📢 博客新访客记录',
-          'IP与详细信息': text.trim(), // 包含国内精准归属地
-          '访问时间': visitTime,
-          '访问页面': pageTitle
-        };
+          const visitorIp = data.ip || '未知IP';
+          const visitorLocation = data.loc || 'Global';
+          const visitTime = new Date().toLocaleString();
+          const pageTitle = document.title;
 
-        return fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(formData)
+          // 组装数据发送到 Web3Forms 云端后台
+          const formData = {
+            access_key: '4b66843b-f05b-4f98-a7a2-afff28ade021', 
+            subject: '📢 博客新访客记录',
+            'IP 地址': visitorIp,
+            '地区代码': visitorLocation,
+            '访问时间': visitTime,
+            '访问页面': pageTitle
+          };
+
+          return fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json', 
+              'Accept': 'application/json' 
+            },
+            body: JSON.stringify(formData)
+          });
+        })
+        .then(response => {
+          if (response && response.ok) {
+            sessionStorage.setItem('ip_logged', 'true');
+          }
+        })
+        .catch(err => {
+          // 即使在某些严格网络环境下被拦截，也会静默处理，绝对不影响网页其他功能
+          console.log('Visitor log skipped.');
         });
-      })
-      .then(res => res.json())
-      .then(result => {
-        if (result && result.success) {
-          console.log('国内访客记录成功保存！');
-          sessionStorage.setItem('ip_logged', 'true');
-        }
-      })
-      .catch(err => {
-        console.log('网络拦截或请求失败，已静默处理');
-      });
     }
   });
 </script>
