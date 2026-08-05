@@ -87,6 +87,74 @@
       });
     });
   </script>
+<!-- 访客 IP 显示容器 -->
+<div id="visitor-ip-box" style="position: fixed; bottom: 70px; left: 25px; z-index: 999; font-size: 12px; opacity: 0.7; font-family: monospace;">
+  📍 IP: <span id="ip-display">获取中...</span>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // 调用免费的 IP 查寻接口
+    fetch('https://api.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => {
+        const ipSpan = document.getElementById('ip-display');
+        if (ipSpan) {
+          ipSpan.textContent = data.ip;
+        }
+      })
+      .catch(error => {
+        const ipSpan = document.getElementById('ip-display');
+        if (ipSpan) {
+          ipSpan.textContent = '获取失败';
+        }
+      });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // 保证每个访客在一个会话（Session）中只记录一次，避免刷数据
+    if (!sessionStorage.getItem('ip_logged')) {
+      
+      // 1. 先获取访客 IP
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          const visitorIp = data.ip;
+          const visitTime = new Date().toLocaleString(); // 获取当前精确时间
+          const pageTitle = document.title;
+
+          // 2. 组装要保存的数据
+          const formData = {
+            access_key: 'YOUR_WEB3FORMS_ACCESS_KEY', // 换成你在 Web3Forms 申请的 Key
+            subject: '📢 博客新访客记录',
+            'IP 地址': visitorIp,
+            '访问时间': visitTime,
+            '访问页面': pageTitle
+          };
+
+          // 3. 提交到云端保存
+          fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify(formData)
+          })
+          .then(res => res.json())
+          .then(result => {
+            if (result.success) {
+              console.log('访客记录已成功存入云端！');
+              sessionStorage.setItem('ip_logged', 'true');
+            }
+          })
+          .catch(err => console.log('保存失败', err));
+        })
+        .catch(e => console.log('获取IP失败', e));
+    }
+  });
+</script>
 
   <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "940dfefdbc6d434d9a79d25fae9b173e"}'></script>
 </body>
