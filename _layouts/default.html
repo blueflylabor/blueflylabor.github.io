@@ -113,57 +113,54 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // 确保每个会话只记录一次
     if (!sessionStorage.getItem('ip_logged')) {
-      
-      // 使用 Cloudflare 官方 trace 接口（国内直连极快、全球通用、永不失效）
-      fetch('https://www.cloudflare.com/cdn-cgi/trace')
-        .then(res => res.text())
-        .then(text => {
-          // 解析 Cloudflare 返回的文本格式 (key=value)
-          let lines = text.split('\n');
-          let data = {};
-          lines.forEach(line => {
-            let parts = line.split('=');
-            if (parts.length === 2) {
-              data[parts[0].trim()] = parts[1].trim();
-            }
-          });
 
-          const visitorIp = data.ip || '未知IP';
-          const visitorLocation = data.loc || 'Global';
-          const visitTime = new Date().toLocaleString();
-          const pageTitle = document.title;
+      // 定义一个全局回调函数，用来接收国内接口返回的 IP 数据
+      window.getVisitorIPData = function (data) {
+        // data.cip 或 data.ip 即为用户的真实 IP
+        const visitorIp = data.cip || data.ip || '未知IP';
+        const visitorCity = data.cname || data.addr || '国内用户';
+        const visitTime = new Date().toLocaleString();
+        const pageTitle = document.title;
 
-          // 组装数据发送到 Web3Forms
-          const formData = {
-            access_key: '4b66843b-f05b-4f98-a7a2-afff28ade021', 
-            subject: '📢 博客新访客记录',
-            'IP 地址': visitorIp,
-            '归属/来源': 'Cloudflare-' + visitorLocation,
-            '访问时间': visitTime,
-            '访问页面': pageTitle
-          };
+        // 组装数据提交到 Web3Forms 云端
+        const formData = {
+          access_key: '4b66843b-f05b-4f98-a7a2-afff28ade021',
+          subject: '📢 博客新访客记录',
+          'IP 地址': visitorIp,
+          '归属/来源': visitorCity,
+          '访问时间': visitTime,
+          '访问页面': pageTitle
+        };
 
-          return fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: { 
-              'Content-Type': 'application/json', 
-              'Accept': 'application/json' 
-            },
-            body: JSON.stringify(formData)
-          });
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(formData)
         })
-        .then(response => response.json())
+        .then(res => res.json())
         .then(result => {
           if (result && result.success) {
             console.log('访客记录已成功保存！');
             sessionStorage.setItem('ip_logged', 'true');
           }
         })
-        .catch(err => {
-          console.log('获取或提交 IP 失败:', err);
-        });
+        .catch(err => console.log('云端保存失败:', err));
+      };
+
+      // 动态创建一个 script 标签以 JSONP 形式请求搜狐国内接口（完美绕过跨域，国内秒通）
+      var script = document.createElement('script');
+      script.src = 'https://pv.sohu.com/cityjson?ie=utf-8';
+      script.onload = function () {
+        // 搜狐接口加载后会全局生成一个 returnCitySN 对象
+        if (typeof returnCitySN !== 'undefined') {
+          window.getVisitorIPData(returnCitySN);
+        }
+      };
+      script.onerror = function () {
+        console.log('国内IP接口加载失败');
+      };
+      document.body.appendChild(script);
     }
   });
 </script>
