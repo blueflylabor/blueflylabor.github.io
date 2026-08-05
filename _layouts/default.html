@@ -113,45 +113,58 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // 保证每个访客在一个会话（Session）中只记录一次，避免刷数据
     if (!sessionStorage.getItem('ip_logged')) {
       
-      // 1. 先获取访客 IP
-      fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => {
-          const visitorIp = data.ip;
-          const visitTime = new Date().toLocaleString(); // 获取当前精确时间
-          const pageTitle = document.title;
-
-          // 2. 组装要保存的数据
-          const formData = {
-            access_key: '4b66843b-f05b-4f98-a7a2-afff28ade021', // 换成你在 Web3Forms 申请的 Key
-            subject: '📢 博客新访客记录',
-            'IP 地址': visitorIp,
-            '访问时间': visitTime,
-            '访问页面': pageTitle
-          };
-
-          // 3. 提交到云端保存
-          fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            body: JSON.stringify(formData)
-          })
+      // 核心获取 IP 函数
+      function fetchVisitorIP() {
+        // 方案 A：优先尝试国际通用接口（适合海外用户，全球 CDN 加速）
+        fetch('https://api.ipify.org?format=json')
           .then(res => res.json())
-          .then(result => {
-            if (result.success) {
-              console.log('访客记录已成功存入云端！');
-              sessionStorage.setItem('ip_logged', 'true');
+          .then(data => {
+            sendVisitorData(data.ip, 'Global-IPify');
+          })
+          .catch(() => {
+            console.log('国际接口超时，切换国内备用接口...');
+            // 方案 B：如果国际接口失败（说明在国内且被墙），自动切换搜狐国内接口
+            fetchSohuIP();
+          });
+      }
+
+      function fetchSohuIP() {
+        fetch('https://pv.sohu.com/cityjson?ie=utf-8')
+          .then(res => res.text())
+          .then(text => {
+            let match = text.match(/\{.*?\}/);
+            if (match) {
+              let data = JSON.parse(match[0]);
+              sendVisitorData(data.cip, data.cname || '国内用户');
             }
           })
-          .catch(err => console.log('保存失败', err));
-        })
-        .catch(e => console.log('获取IP失败', e));
+          .catch(err => console.log('所有 IP 接口获取均失败', err));
+      }
+
+      // 统一发送数据到云端（Web3Forms）
+      function sendVisitorData(ip, locationInfo) {
+        const formData = {
+          access_key: '4b66843b-f05b-4f98-a7a2-afff28ade021', 
+          subject: '📢 博客新访客记录',
+          'IP 地址': ip,
+          '归属/来源': locationInfo,
+          '访问时间': new Date().toLocaleString(),
+          '访问页面': document.title
+        };
+
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(formData)
+        }).catch(err => console.log('云端保存失败', err));
+
+        sessionStorage.setItem('ip_logged', 'true');
+      }
+
+      // 执行获取
+      fetchVisitorIP();
     }
   });
 </script>
