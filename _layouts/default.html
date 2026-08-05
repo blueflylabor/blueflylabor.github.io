@@ -115,52 +115,43 @@
   document.addEventListener('DOMContentLoaded', function () {
     if (!sessionStorage.getItem('ip_logged')) {
 
-      // 定义一个全局回调函数，用来接收国内接口返回的 IP 数据
-      window.getVisitorIPData = function (data) {
-        // data.cip 或 data.ip 即为用户的真实 IP
-        const visitorIp = data.cip || data.ip || '未知IP';
-        const visitorCity = data.cname || data.addr || '国内用户';
+      // 使用国内完全直连、多地 CDN 缓存的 cip.cc 接口
+      fetch('https://www.cip.cc/', {
+        method: 'GET',
+        headers: {
+          'User-Agent': 'Mozilla/5.0'
+        }
+      })
+      .then(res => res.text())
+      .then(text => {
+        // cip.cc 返回的是文本格式，包含 IP、地址等
         const visitTime = new Date().toLocaleString();
         const pageTitle = document.title;
 
-        // 组装数据提交到 Web3Forms 云端
         const formData = {
           access_key: '4b66843b-f05b-4f98-a7a2-afff28ade021',
           subject: '📢 博客新访客记录',
-          'IP 地址': visitorIp,
-          '归属/来源': visitorCity,
+          'IP与详细信息': text.trim(), // 包含国内精准归属地
           '访问时间': visitTime,
           '访问页面': pageTitle
         };
 
-        fetch('https://api.web3forms.com/submit', {
+        return fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify(formData)
-        })
-        .then(res => res.json())
-        .then(result => {
-          if (result && result.success) {
-            console.log('访客记录已成功保存！');
-            sessionStorage.setItem('ip_logged', 'true');
-          }
-        })
-        .catch(err => console.log('云端保存失败:', err));
-      };
-
-      // 动态创建一个 script 标签以 JSONP 形式请求搜狐国内接口（完美绕过跨域，国内秒通）
-      var script = document.createElement('script');
-      script.src = 'https://pv.sohu.com/cityjson?ie=utf-8';
-      script.onload = function () {
-        // 搜狐接口加载后会全局生成一个 returnCitySN 对象
-        if (typeof returnCitySN !== 'undefined') {
-          window.getVisitorIPData(returnCitySN);
+        });
+      })
+      .then(res => res.json())
+      .then(result => {
+        if (result && result.success) {
+          console.log('国内访客记录成功保存！');
+          sessionStorage.setItem('ip_logged', 'true');
         }
-      };
-      script.onerror = function () {
-        console.log('国内IP接口加载失败');
-      };
-      document.body.appendChild(script);
+      })
+      .catch(err => {
+        console.log('网络拦截或请求失败，已静默处理');
+      });
     }
   });
 </script>
