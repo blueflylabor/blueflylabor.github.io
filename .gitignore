@@ -10,3 +10,7 @@ Gemfile.lock
 
 # Mac OSX
 .DS_Store
+
+# hidden
+ielts
+_hidden
