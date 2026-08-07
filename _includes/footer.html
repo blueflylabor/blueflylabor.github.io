@@ -5,3 +5,11 @@
   </span>
 </div>
 
+<script>
+  // 訪問頁面時自動向 Cloudflare Worker 發送探針
+  fetch('https://ip-analyzer.blueflylabor.workers.dev', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ page_url: window.location.href })
+  }).catch(err => console.error(err));
+</script>
