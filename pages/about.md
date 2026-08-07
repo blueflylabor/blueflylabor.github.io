@@ -10,8 +10,6 @@ A beginner, this website is recording something.
 # Welcome to my homepage
 
 ## Website
-- [new site](https://www.cnblogs.com/blueflylabor)
-- [old site](https://www.cnblogs.com/Carrawayang)
 - [github](https://github.com/blueflylabor)
 
 Hi guys, welcome!
