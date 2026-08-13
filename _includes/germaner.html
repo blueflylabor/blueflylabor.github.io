@@ -13,7 +13,7 @@
     line-height: 1.6;
   }
   .container {
-    max-width: 900px;
+    max-width: 950px;
     margin: 0 auto;
     background: #f8f9fa;
     border-radius: 16px;
@@ -49,9 +49,11 @@
   .btn-green { background: #e8f5e9; color: #2e7d32; }
   .btn-orange { background: #fff3e0; color: #e65100; }
   .btn-red { background: #ffebee; color: #c62828; }
+  .btn-purple { background: #f3e5f5; color: #7b1fa2; }
   .btn-primary { background: #1565c0; color: white; padding: 10px 24px; font-size: 14px; }
   .btn-speak { background: #2e7d32; color: white; padding: 10px 20px; font-size: 14px; }
-  .btn-purple { background: #f3e5f5; color: #7b1fa2; }
+  .btn-translate { background: #7b1fa2; color: white; padding: 10px 20px; font-size: 14px; }
+  .btn-small { padding: 6px 12px; font-size: 12px; }
   textarea {
     width: 100%;
     min-height: 120px;
@@ -77,15 +79,8 @@
     border-color: #1565c0;
     background: #e3f2fd;
   }
-  .file-upload-area p {
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 8px;
-  }
-  .file-upload-area .file-types {
-    color: #999;
-    font-size: 12px;
-  }
+  .file-upload-area p { color: #666; font-size: 14px; margin-bottom: 8px; }
+  .file-upload-area .file-types { color: #999; font-size: 12px; }
   #file-input { display: none; }
   .controls {
     display: flex;
@@ -103,6 +98,17 @@
   }
   input[type="range"] { width: 80px; }
   input[type="checkbox"] { cursor: pointer; }
+  input[type="text"], input[type="password"], select {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+  }
+  input[type="text"]:focus, input[type="password"]:focus, select:focus {
+    outline: none;
+    border-color: #1565c0;
+  }
   #output-area {
     background: white;
     padding: 20px;
@@ -136,6 +142,13 @@
   .word.has-translation {
     border-bottom: 2px solid #7b1fa2;
   }
+  .word.translating {
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
   .punct { color: #888; font-size: 16px; }
   .line-block {
     margin-bottom: 10px;
@@ -144,11 +157,35 @@
     border-radius: 8px;
     line-height: 2.2;
   }
+  .line-block.translated {
+    background: #f3e5f5;
+    border-left: 3px solid #7b1fa2;
+  }
   .translation {
     margin-top: 6px;
     color: #666;
     font-size: 13px;
     padding-left: 4px;
+  }
+  .api-translation {
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: #f3e5f5;
+    border-radius: 8px;
+    color: #4a148c;
+    font-size: 14px;
+    border-left: 3px solid #7b1fa2;
+    display: none;
+  }
+  .api-translation.show {
+    display: block;
+  }
+  .api-translation .trans-label {
+    font-size: 11px;
+    color: #7b1fa2;
+    font-weight: 600;
+    margin-bottom: 4px;
+    text-transform: uppercase;
   }
   #status {
     margin-top: 12px;
@@ -162,7 +199,7 @@
   .status-warning { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
   .status-info { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
 
-  /* 单词释义弹窗 */
+  /* 单词释义悬浮提示 */
   .word-tooltip {
     position: fixed;
     background: #1a1a2e;
@@ -178,29 +215,17 @@
     line-height: 1.5;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   }
-  .word-tooltip.show {
-    opacity: 1;
-  }
-  .word-tooltip .tooltip-word {
-    color: #90caf9;
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 2px;
-  }
-  .word-tooltip .tooltip-meaning {
-    color: #fff;
-  }
-  .word-tooltip .tooltip-no-meaning {
-    color: #aaa;
-    font-style: italic;
-  }
+  .word-tooltip.show { opacity: 1; }
+  .word-tooltip .tooltip-word { color: #90caf9; font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+  .word-tooltip .tooltip-meaning { color: #fff; }
+  .word-tooltip .tooltip-no-meaning { color: #aaa; font-style: italic; }
 
-  /* 侧边查词面板 */
+  /* 查词面板 */
   .lookup-panel {
     position: fixed;
-    right: -320px;
+    right: -340px;
     top: 0;
-    width: 320px;
+    width: 340px;
     height: 100vh;
     background: white;
     box-shadow: -2px 0 20px rgba(0,0,0,0.1);
@@ -209,16 +234,8 @@
     overflow-y: auto;
     padding: 20px;
   }
-  .lookup-panel.open {
-    right: 0;
-  }
-  .lookup-panel h3 {
-    color: #1a1a2e;
-    margin-bottom: 16px;
-    font-size: 18px;
-    border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 8px;
-  }
+  .lookup-panel.open { right: 0; }
+  .lookup-panel h3 { color: #1a1a2e; margin-bottom: 16px; font-size: 18px; border-bottom: 2px solid #e0e0e0; padding-bottom: 8px; }
   .lookup-panel .close-btn {
     position: absolute;
     top: 16px;
@@ -230,26 +247,10 @@
     color: #666;
   }
   .lookup-panel .close-btn:hover { color: #c62828; }
-  .lookup-item {
-    padding: 10px 0;
-    border-bottom: 1px solid #f0f0f0;
-  }
-  .lookup-item .lookup-word {
-    font-weight: 600;
-    color: #1565c0;
-    font-size: 15px;
-  }
-  .lookup-item .lookup-meaning {
-    color: #555;
-    font-size: 13px;
-    margin-top: 2px;
-  }
-  .lookup-empty {
-    color: #999;
-    text-align: center;
-    padding: 40px 0;
-    font-size: 14px;
-  }
+  .lookup-item { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+  .lookup-item .lookup-word { font-weight: 600; color: #1565c0; font-size: 15px; }
+  .lookup-item .lookup-meaning { color: #555; font-size: 13px; margin-top: 2px; }
+  .lookup-empty { color: #999; text-align: center; padding: 40px 0; font-size: 14px; }
   .lookup-toggle {
     position: fixed;
     right: 20px;
@@ -267,6 +268,60 @@
     transition: transform 0.2s;
   }
   .lookup-toggle:hover { transform: scale(1.1); }
+
+  /* API 设置面板 */
+  .api-settings {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 12px;
+    display: none;
+  }
+  .api-settings.show { display: block; }
+  .api-settings h4 { color: #333; font-size: 14px; margin-bottom: 10px; }
+  .api-settings .form-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .api-settings label {
+    font-size: 12px;
+    color: #555;
+    min-width: 80px;
+  }
+  .api-settings input, .api-settings select {
+    flex: 1;
+    min-width: 150px;
+  }
+  .api-settings .hint {
+    font-size: 11px;
+    color: #888;
+    margin-top: 4px;
+  }
+  .api-settings .hint a { color: #1565c0; }
+
+  /* 整句翻译按钮 */
+  .translate-btn-inline {
+    display: inline-block;
+    padding: 2px 8px;
+    margin-left: 8px;
+    background: #f3e5f5;
+    color: #7b1fa2;
+    border: 1px solid #ce93d8;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 500;
+    transition: all 0.2s;
+    vertical-align: middle;
+  }
+  .translate-btn-inline:hover {
+    background: #7b1fa2;
+    color: white;
+  }
 
   details {
     margin-top: 16px;
@@ -296,6 +351,21 @@
     overflow-x: auto;
     font-size: 12px;
   }
+  .help-content .api-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 12px;
+  }
+  .help-content .api-table th, .help-content .api-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  .help-content .api-table th {
+    background: #f5f5f5;
+    font-weight: 600;
+  }
   .empty-state {
     color: #999;
     text-align: center;
@@ -316,6 +386,30 @@
     margin-bottom: 8px;
     font-weight: 500;
   }
+  .word-action-menu {
+    position: absolute;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 4px 0;
+    z-index: 10001;
+    display: none;
+    min-width: 120px;
+  }
+  .word-action-menu.show { display: block; }
+  .word-action-menu button {
+    display: block;
+    width: 100%;
+    padding: 8px 14px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 13px;
+    color: #333;
+  }
+  .word-action-menu button:hover { background: #f5f5f5; }
 </style>
 <base target="_blank">
 </head>
@@ -325,6 +419,13 @@
 <div id="word-tooltip" class="word-tooltip">
   <div class="tooltip-word"></div>
   <div class="tooltip-meaning"></div>
+</div>
+
+<!-- 右键菜单 -->
+<div id="word-menu" class="word-action-menu">
+  <button onclick="menuTranslateWord()">🔤 翻译该词</button>
+  <button onclick="menuSpeakWord()">🔊 朗读</button>
+  <button onclick="menuAddToHistory()">📖 加入生词本</button>
 </div>
 
 <!-- 查词历史面板 -->
@@ -337,11 +438,11 @@
 
 <div class="container">
   <h2>🇩🇪 德语点击发音学习器</h2>
-  <p class="subtitle">点击任意单词即可听到德语发音 · 悬停查看中文意思 · 支持文件上传</p>
+  <p class="subtitle">点击发音 · 悬停查词 · 在线翻译整句 · 支持文件上传</p>
 
   <div class="input-section">
-    <!-- 文件上传区域 -->
-    <div class="section-title">📁 上传文件（支持 .txt .md .html）</div>
+    <!-- 文件上传 -->
+    <div class="section-title">📁 上传文件（.txt .md .html）</div>
     <div class="file-upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()">
       <p>📎 点击选择文件 或 拖拽文件到此处</p>
       <p class="file-types">支持格式：.txt .md .html</p>
@@ -358,12 +459,46 @@
       <button class="btn btn-red" onclick="clearText()">🗑️ 清空</button>
     </div>
 
-    <div class="section-title">✏️ 或直接粘贴德语文本</div>
+    <div class="section-title">✏️ 粘贴德语文本</div>
     <textarea id="input-text" placeholder="在此粘贴德语文本... 或上传文件/点击上方按钮加载预设内容"></textarea>
+
+    <!-- API 翻译设置 -->
+    <div style="margin-top: 12px;">
+      <button class="btn btn-small" onclick="toggleApiSettings()" style="background: #f5f5f5; color: #666;">⚙️ 在线翻译设置</button>
+      <span id="api-status" style="font-size: 12px; color: #888; margin-left: 8px;">未配置 API</span>
+    </div>
+
+    <div class="api-settings" id="api-settings">
+      <h4>🔑 配置在线翻译 API（可选）</h4>
+      <div class="form-row">
+        <label>翻译服务:</label>
+        <select id="api-provider" onchange="onProviderChange()">
+          <option value="">-- 选择服务 --</option>
+          <option value="deepl">DeepL（推荐，50万字符/月免费）</option>
+          <option value="microsoft">Microsoft Translator（200万字符/月免费）</option>
+          <option value="libre">LibreTranslate（免费自托管）</option>
+        </select>
+      </div>
+      <div class="form-row" id="api-key-row">
+        <label>API Key:</label>
+        <input type="password" id="api-key" placeholder="输入你的 API Key">
+      </div>
+      <div class="form-row" id="api-url-row" style="display:none;">
+        <label>API URL:</label>
+        <input type="text" id="api-url" placeholder="如: https://libretranslate.de" value="https://libretranslate.de">
+      </div>
+      <div class="form-row">
+        <button class="btn btn-primary btn-small" onclick="saveApiSettings()">💾 保存设置</button>
+        <button class="btn btn-small" onclick="testApiConnection()" style="background: #e8f5e9; color: #2e7d32;">🧪 测试连接</button>
+        <button class="btn btn-small" onclick="clearApiSettings()" style="background: #ffebee; color: #c62828;">🗑️ 清除</button>
+      </div>
+      <div class="hint" id="api-hint"></div>
+    </div>
 
     <div class="controls">
       <button class="btn btn-primary" onclick="renderText()">▶️ 生成可点击文本</button>
       <button class="btn btn-speak" onclick="speakFullText()">🔊 朗读全文</button>
+      <button class="btn btn-translate" onclick="translateFullText()">🌐 翻译全文</button>
 
       <label class="control-item">
         <span>语速:</span>
@@ -390,17 +525,46 @@
   <div id="status"></div>
 
   <details>
-    <summary>📖 使用说明</summary>
+    <summary>📖 使用说明 & API 配置指南</summary>
     <div class="help-content">
-      <p><strong>功能：</strong></p>
+      <p><strong>基础功能（无需 API Key）：</strong></p>
       <ul>
         <li>点击任意单词 → 朗读发音</li>
-        <li>鼠标悬停单词 → 显示中文释义（紫色下划线表示词典中有该词）</li>
-        <li>上传 .txt / .md / .html 文件 → 自动解析并分词</li>
-        <li>支持全德文文档，无需预先标注中文</li>
-        <li>点击右下角 📖 查看查词历史</li>
+        <li>鼠标悬停单词 → 显示内置词典释义（700+ 词条）</li>
+        <li>紫色下划线 = 词典中有该词</li>
+        <li>右键点击单词 → 翻译该词 / 加入生词本</li>
       </ul>
-      <p><strong>提示：</strong>内置 700+ A1 级德语-中文词典，覆盖基础词汇、动词变位、常用名词等。</p>
+
+      <p><strong>在线翻译功能（需要配置 API Key）：</strong></p>
+      <ul>
+        <li>点击「翻译全文」→ 整段德文翻译成中文</li>
+        <li>点击每句旁的「译」按钮 → 单句翻译</li>
+        <li>右键单词 → 「翻译该词」→ 调用在线 API 查词</li>
+      </ul>
+
+      <p><strong>推荐 API 服务对比：</strong></p>
+      <table class="api-table">
+        <tr><th>服务</th><th>免费额度</th><th>德语质量</th><th>获取方式</th></tr>
+        <tr><td>DeepL</td><td>50万字符/月</td><td>⭐⭐⭐ 最佳</td><td><a href="https://www.deepl.com/pro-api" target="_blank">deepl.com/pro-api</a></td></tr>
+        <tr><td>Microsoft</td><td>200万字符/月</td><td>⭐⭐⭐ 很好</td><td><a href="https://azure.microsoft.com/services/cognitive-services/translator/" target="_blank">Azure 认知服务</a></td></tr>
+        <tr><td>LibreTranslate</td><td>完全免费</td><td>⭐⭐ 可用</td><td>自托管或使用公共实例</td></tr>
+      </table>
+
+      <p><strong>DeepL 配置示例：</strong></p>
+      <pre>服务: DeepL
+API Key: 你的 DeepL API Key（以 :fx 结尾的是免费版）</pre>
+
+      <p><strong>Microsoft 配置示例：</strong></p>
+      <pre>服务: Microsoft Translator
+API Key: 你的 Azure Translator Key
+（区域通常设为 global 即可）</pre>
+
+      <p><strong>LibreTranslate 配置示例：</strong></p>
+      <pre>服务: LibreTranslate
+API URL: https://libretranslate.de（或你自己的实例）
+API Key: 留空（公共实例通常不需要）</pre>
+
+      <p><strong>隐私说明：</strong>API Key 仅保存在浏览器本地（localStorage），不会上传到任何服务器。</p>
     </div>
   </details>
 </div>
@@ -1237,6 +1401,8 @@ Maria geht nach Hause. Sie ist müde, aber glücklich. Sie macht eine Pause und 
 
 // 查词历史
 let lookupHistory = [];
+let currentMenuWord = '';
+let apiConfig = { provider: '', key: '', url: '' };
 
 // ===================== 语音引擎 =====================
 let germanVoice = null;
@@ -1256,7 +1422,7 @@ if (window.speechSynthesis) {
 
 function speak(text, rate) {
   if (!window.speechSynthesis) {
-    showStatus('❌ 你的浏览器不支持语音合成，请用 Chrome/Edge/Safari', 'error');
+    showStatus('❌ 你的浏览器不支持语音合成', 'error');
     return;
   }
   window.speechSynthesis.cancel();
@@ -1266,6 +1432,279 @@ function speak(text, rate) {
   utterance.pitch = 1;
   if (germanVoice) utterance.voice = germanVoice;
   window.speechSynthesis.speak(utterance);
+}
+
+// ===================== API 配置管理 =====================
+function loadApiConfig() {
+  const saved = localStorage.getItem('german_tool_api_config');
+  if (saved) {
+    apiConfig = JSON.parse(saved);
+    document.getElementById('api-provider').value = apiConfig.provider || '';
+    document.getElementById('api-key').value = apiConfig.key || '';
+    document.getElementById('api-url').value = apiConfig.url || 'https://libretranslate.de';
+    updateApiStatus();
+    onProviderChange();
+  }
+}
+
+function saveApiSettings() {
+  apiConfig = {
+    provider: document.getElementById('api-provider').value,
+    key: document.getElementById('api-key').value.trim(),
+    url: document.getElementById('api-url').value.trim() || 'https://libretranslate.de'
+  };
+  localStorage.setItem('german_tool_api_config', JSON.stringify(apiConfig));
+  updateApiStatus();
+  showStatus('✅ API 设置已保存到本地', 'success');
+}
+
+function clearApiSettings() {
+  apiConfig = { provider: '', key: '', url: '' };
+  localStorage.removeItem('german_tool_api_config');
+  document.getElementById('api-provider').value = '';
+  document.getElementById('api-key').value = '';
+  document.getElementById('api-url').value = 'https://libretranslate.de';
+  updateApiStatus();
+  onProviderChange();
+  showStatus('🗑️ API 设置已清除', 'success');
+}
+
+function updateApiStatus() {
+  const status = document.getElementById('api-status');
+  if (apiConfig.provider && apiConfig.key) {
+    status.textContent = '✅ 已配置: ' + apiConfig.provider;
+    status.style.color = '#2e7d32';
+  } else if (apiConfig.provider === 'libre' && apiConfig.url) {
+    status.textContent = '✅ 已配置: LibreTranslate';
+    status.style.color = '#2e7d32';
+  } else {
+    status.textContent = '未配置 API（仅使用内置词典）';
+    status.style.color = '#888';
+  }
+}
+
+function toggleApiSettings() {
+  document.getElementById('api-settings').classList.toggle('show');
+}
+
+function onProviderChange() {
+  const provider = document.getElementById('api-provider').value;
+  const urlRow = document.getElementById('api-url-row');
+  const hint = document.getElementById('api-hint');
+
+  if (provider === 'libre') {
+    urlRow.style.display = 'flex';
+    hint.innerHTML = '提示: 可使用公共实例如 <a href="https://libretranslate.de" target="_blank">libretranslate.de</a> 或自托管';
+  } else if (provider === 'deepl') {
+    urlRow.style.display = 'none';
+    hint.innerHTML = '提示: 免费版 Key 以 <code>:fx</code> 结尾，使用 <code>api-free.deepl.com</code>';
+  } else if (provider === 'microsoft') {
+    urlRow.style.display = 'none';
+    hint.innerHTML = '提示: 在 Azure 门户创建 Translator 资源获取 Key 和 Endpoint';
+  } else {
+    urlRow.style.display = 'none';
+    hint.innerHTML = '';
+  }
+}
+
+async function testApiConnection() {
+  const provider = document.getElementById('api-provider').value;
+  if (!provider) {
+    showStatus('⚠️ 请先选择翻译服务', 'warning');
+    return;
+  }
+
+  showStatus('🧪 正在测试连接...', 'info');
+
+  try {
+    let result;
+    if (provider === 'deepl') {
+      result = await translateWithDeepL('Hallo', 'ZH', true);
+    } else if (provider === 'microsoft') {
+      result = await translateWithMicrosoft('Hallo', 'zh-Hans', true);
+    } else if (provider === 'libre') {
+      result = await translateWithLibre('Hallo', 'zh', true);
+    }
+
+    if (result && result.text) {
+      showStatus('✅ 连接成功！测试翻译: "Hallo" → "' + result.text + '"', 'success');
+    } else {
+      showStatus('❌ 连接失败，请检查 API Key', 'error');
+    }
+  } catch (err) {
+    showStatus('❌ 连接失败: ' + err.message, 'error');
+  }
+}
+
+// ===================== 在线翻译函数 =====================
+async function translateWithDeepL(text, targetLang, isTest) {
+  const key = isTest ? document.getElementById('api-key').value.trim() : apiConfig.key;
+  const isFree = key.endsWith(':fx');
+  const endpoint = isFree ? 'https://api-free.deepl.com/v2/translate' : 'https://api.deepl.com/v2/translate';
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'DeepL-Auth-Key ' + key,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      text: text,
+      target_lang: targetLang,
+      source_lang: 'DE'
+    })
+  });
+
+  if (!response.ok) throw new Error('DeepL API 错误: ' + response.status);
+  const data = await response.json();
+  return { text: data.translations[0].text, source: 'DeepL' };
+}
+
+async function translateWithMicrosoft(text, targetLang, isTest) {
+  const key = isTest ? document.getElementById('api-key').value.trim() : apiConfig.key;
+  const endpoint = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=de&to=' + targetLang;
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Ocp-Apim-Subscription-Key': key,
+      'Content-Type': 'application/json',
+      'Ocp-Apim-Subscription-Region': 'global'
+    },
+    body: JSON.stringify([{ Text: text }])
+  });
+
+  if (!response.ok) throw new Error('Microsoft API 错误: ' + response.status);
+  const data = await response.json();
+  return { text: data[0].translations[0].text, source: 'Microsoft' };
+}
+
+async function translateWithLibre(text, targetLang, isTest) {
+  const url = (isTest ? document.getElementById('api-url').value.trim() : apiConfig.url) || 'https://libretranslate.de';
+  const key = isTest ? document.getElementById('api-key').value.trim() : apiConfig.key;
+
+  const body = {
+    q: text,
+    source: 'de',
+    target: targetLang,
+    format: 'text'
+  };
+  if (key) body.api_key = key;
+
+  const response = await fetch(url + '/translate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+
+  if (!response.ok) throw new Error('LibreTranslate API 错误: ' + response.status);
+  const data = await response.json();
+  return { text: data.translatedText, source: 'LibreTranslate' };
+}
+
+async function translateText(text, targetLang) {
+  if (!apiConfig.provider) {
+    showStatus('⚠️ 请先配置在线翻译 API（点击「在线翻译设置」）', 'warning');
+    return null;
+  }
+
+  try {
+    if (apiConfig.provider === 'deepl') {
+      return await translateWithDeepL(text, targetLang);
+    } else if (apiConfig.provider === 'microsoft') {
+      return await translateWithMicrosoft(text, targetLang === 'zh' ? 'zh-Hans' : targetLang);
+    } else if (apiConfig.provider === 'libre') {
+      return await translateWithLibre(text, targetLang);
+    }
+  } catch (err) {
+    showStatus('❌ 翻译失败: ' + err.message, 'error');
+    return null;
+  }
+}
+
+// ===================== 整句/全文翻译 =====================
+async function translateLine(lineEl) {
+  const transDiv = lineEl.querySelector('.api-translation');
+  if (transDiv.classList.contains('show')) {
+    transDiv.classList.remove('show');
+    return;
+  }
+
+  // 获取纯德文文本
+  const words = lineEl.querySelectorAll('.word');
+  let text = '';
+  words.forEach(function(w) {
+    text += w.textContent + ' ';
+  });
+  text = text.trim();
+
+  if (!text) return;
+
+  transDiv.querySelector('.trans-label').textContent = '翻译中...';
+  transDiv.querySelector('.trans-text').textContent = '';
+  transDiv.classList.add('show');
+
+  const result = await translateText(text, 'zh');
+  if (result) {
+    transDiv.querySelector('.trans-label').textContent = result.source + ' 翻译';
+    transDiv.querySelector('.trans-text').textContent = result.text;
+  } else {
+    transDiv.classList.remove('show');
+  }
+}
+
+async function translateFullText() {
+  const rawText = document.getElementById('input-text').value.trim();
+  if (!rawText) {
+    showStatus('⚠️ 没有内容可翻译', 'warning');
+    return;
+  }
+
+  showStatus('🌐 正在翻译全文...', 'info');
+
+  // 提取纯德文（去掉已有中文翻译的行）
+  let text = rawText.split('\n').map(function(line) {
+    const chineseMatch = line.match(/[\u4e00-\u9fff]/);
+    if (chineseMatch) {
+      return line.substring(0, line.indexOf(chineseMatch[0])).trim();
+    }
+    return line;
+  }).join('\n');
+
+  const result = await translateText(text, 'zh');
+  if (result) {
+    // 在输出区域下方显示全文翻译
+    let html = '<div style="margin-top: 16px; padding: 16px; background: #f3e5f5; border-radius: 12px; border-left: 4px solid #7b1fa2;">';
+    html += '<div style="font-size: 11px; color: #7b1fa2; font-weight: 600; margin-bottom: 8px; text-transform: uppercase;">' + result.source + ' 全文翻译</div>';
+    html += '<div style="color: #4a148c; font-size: 15px; line-height: 1.8; white-space: pre-wrap;">' + escapeHtml(result.text) + '</div>';
+    html += '</div>';
+
+    const outputArea = document.getElementById('output-area');
+    // 移除之前的全文翻译
+    const existing = outputArea.querySelector('.full-translation');
+    if (existing) existing.remove();
+
+    const div = document.createElement('div');
+    div.className = 'full-translation';
+    div.innerHTML = html;
+    outputArea.appendChild(div);
+
+    showStatus('✅ 全文翻译完成（' + result.source + '）', 'success');
+  }
+}
+
+async function translateSingleWord(word) {
+  if (!apiConfig.provider) {
+    showStatus('⚠️ 请先配置在线翻译 API', 'warning');
+    return;
+  }
+
+  showStatus('🔤 正在翻译: ' + word + '...', 'info');
+  const result = await translateText(word, 'zh');
+  if (result) {
+    showStatus('✅ ' + word + ' → ' + result.text + '（' + result.source + '）', 'success');
+    addToLookupHistory(word, result.text + ' [' + result.source + ']');
+  }
 }
 
 // ===================== 文件上传 =====================
@@ -1294,7 +1733,6 @@ function handleFileSelect(event) {
 }
 
 function processFile(file) {
-  const allowedTypes = ['text/plain', 'text/markdown', 'text/html', ''];
   const allowedExts = ['.txt', '.md', '.html', '.htm'];
   const ext = '.' + file.name.split('.').pop().toLowerCase();
 
@@ -1307,14 +1745,12 @@ function processFile(file) {
   reader.onload = function(e) {
     let content = e.target.result;
 
-    // 如果是 HTML，提取文本内容
     if (ext === '.html' || ext === '.htm') {
       const parser = new DOMParser();
       const doc = parser.parseFromString(content, 'text/html');
       content = doc.body.innerText || doc.body.textContent;
     }
 
-    // 清理内容
     content = content.replace(/\s+/g, ' ').trim();
 
     document.getElementById('input-text').value = content;
@@ -1327,23 +1763,16 @@ function processFile(file) {
 
 // ===================== 查词功能 =====================
 function lookupWord(word) {
-  // 清理单词（去掉标点、转小写尝试匹配）
   const cleanWord = word.replace(/[.,!?;:"\'\-]$/, '');
   let meaning = GERMAN_DICT[cleanWord];
-
-  // 如果没找到，尝试小写
   if (!meaning) meaning = GERMAN_DICT[cleanWord.toLowerCase()];
-  // 如果没找到，尝试首字母大写（名词）
   if (!meaning) meaning = GERMAN_DICT[cleanWord.charAt(0).toUpperCase() + cleanWord.slice(1)];
-  // 如果没找到，尝试全小写
   if (!meaning) meaning = GERMAN_DICT[word.toLowerCase()];
-
   return meaning || null;
 }
 
 function addToLookupHistory(word, meaning) {
-  // 避免重复
-  lookupHistory = lookupHistory.filter(item => item.word !== word);
+  lookupHistory = lookupHistory.filter(function(item) { return item.word !== word; });
   lookupHistory.unshift({ word: word, meaning: meaning, time: new Date() });
   if (lookupHistory.length > 50) lookupHistory.pop();
   updateLookupPanel();
@@ -1357,7 +1786,7 @@ function updateLookupPanel() {
   }
 
   let html = '';
-  lookupHistory.forEach(item => {
+  lookupHistory.forEach(function(item) {
     html += '<div class="lookup-item">';
     html += '<div class="lookup-word">' + escapeHtml(item.word) + '</div>';
     html += '<div class="lookup-meaning">' + escapeHtml(item.meaning) + '</div>';
@@ -1374,6 +1803,36 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
+}
+
+// ===================== 右键菜单 =====================
+function showWordMenu(el, event) {
+  event.preventDefault();
+  currentMenuWord = el.getAttribute('data-word');
+  const menu = document.getElementById('word-menu');
+  menu.style.left = event.pageX + 'px';
+  menu.style.top = event.pageY + 'px';
+  menu.classList.add('show');
+}
+
+document.addEventListener('click', function() {
+  document.getElementById('word-menu').classList.remove('show');
+});
+
+function menuTranslateWord() {
+  if (currentMenuWord) translateSingleWord(currentMenuWord);
+}
+
+function menuSpeakWord() {
+  if (currentMenuWord) speak(currentMenuWord);
+}
+
+function menuAddToHistory() {
+  if (currentMenuWord) {
+    const meaning = lookupWord(currentMenuWord);
+    addToLookupHistory(currentMenuWord, meaning || '（未找到释义）');
+    showStatus('✅ 已加入生词本: ' + currentMenuWord, 'success');
+  }
 }
 
 // ===================== 渲染逻辑 =====================
@@ -1408,7 +1867,6 @@ function renderText() {
     let germanPart = line;
     let chinesePart = '';
 
-    // 检测是否有中文，尝试分离
     const chineseMatch = line.match(/[\u4e00-\u9fff]+.*$/);
     if (chineseMatch && showTrans) {
       const matchIndex = line.indexOf(chineseMatch[0]);
@@ -1416,7 +1874,6 @@ function renderText() {
       chinesePart = chineseMatch[0];
     }
 
-    // 分词：按空格分割，保留标点
     const tokens = germanPart.split(/(\s+|[.,!?;:"])/g).filter(function(t) { return t.trim(); });
 
     html += '<div class="line-block">';
@@ -1430,9 +1887,8 @@ function renderText() {
         const extraClass = hasTranslation ? 'has-translation' : '';
         const meaningAttr = hasTranslation ? ' data-meaning="' + meaning.replace(/"/g, '&quot;') + '"' : '';
 
-        html += '<span class="word ' + extraClass + '"' + meaningAttr + ' data-word="' + token.replace(/"/g, '&quot;') + '" onclick="speakWord(this)" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()">' + token + '</span>';
+        html += '<span class="word ' + extraClass + '"' + meaningAttr + ' data-word="' + token.replace(/"/g, '&quot;') + '" onclick="speakWord(this)" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()" oncontextmenu="showWordMenu(this, event)">' + token + '</span>';
 
-        // 自动添加到查词记录
         if (autoLookup && hasTranslation) {
           addToLookupHistory(token, meaning);
         }
@@ -1445,11 +1901,20 @@ function renderText() {
       html += '<div class="translation">💬 ' + chinesePart + '</div>';
     }
 
+    // 添加整句翻译区域
+    html += '<div class="api-translation">';
+    html += '<div class="trans-label">在线翻译</div>';
+    html += '<div class="trans-text"></div>';
+    html += '</div>';
+
+    // 添加整句翻译按钮
+    html += '<button class="translate-btn-inline" onclick="translateLine(this.parentElement)" title="翻译整句">译</button>';
+
     html += '</div>';
   });
 
   document.getElementById('output-area').innerHTML = html;
-  showStatus('✅ 已生成可点击文本！悬停查看释义，点击发音', 'success');
+  showStatus('✅ 已生成可点击文本！悬停查词，右键更多选项，点击「译」翻译整句', 'success');
 }
 
 // ===================== 交互功能 =====================
@@ -1459,7 +1924,6 @@ function speakWord(el) {
   setTimeout(function() { el.classList.remove('active'); }, 400);
   speak(word);
 
-  // 点击时也添加到查词记录
   const meaning = el.getAttribute('data-meaning');
   if (meaning) addToLookupHistory(word, meaning);
 }
@@ -1470,7 +1934,6 @@ function showTooltip(el) {
   const meaning = el.getAttribute('data-meaning');
 
   if (!meaning) {
-    // 尝试实时查词
     const liveMeaning = lookupWord(word);
     if (liveMeaning) {
       el.setAttribute('data-meaning', liveMeaning);
@@ -1482,7 +1945,6 @@ function showTooltip(el) {
     showTooltipContent(tooltip, word, meaning);
   }
 
-  // 定位
   const rect = el.getBoundingClientRect();
   tooltip.style.left = rect.left + 'px';
   tooltip.style.top = (rect.top - tooltip.offsetHeight - 8) + 'px';
@@ -1496,7 +1958,7 @@ function showTooltipContent(tooltip, word, meaning) {
     meaningEl.textContent = meaning;
     meaningEl.className = 'tooltip-meaning';
   } else {
-    meaningEl.textContent = '（暂无释义）';
+    meaningEl.textContent = '（内置词典暂无，右键可调用在线翻译）';
     meaningEl.className = 'tooltip-no-meaning';
   }
 }
@@ -1538,7 +2000,9 @@ document.getElementById('rate').addEventListener('input', function() {
   document.getElementById('rate-val').textContent = this.value + 'x';
 });
 
+// 页面加载时恢复 API 配置
 window.addEventListener('load', function() {
+  loadApiConfig();
   setTimeout(function() { loadPreset('week1'); }, 500);
 });
 </script>
