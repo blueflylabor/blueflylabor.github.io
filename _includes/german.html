@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇩🇪 德语点击发音学习器</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #f0f2f5;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    padding: 24px;
+  }
+  h2 { color: #1a1a2e; margin-bottom: 4px; font-size: 24px; }
+  .subtitle { color: #666; margin-bottom: 20px; font-size: 14px; }
+  .input-section {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #e0e0e0;
+  }
+  .btn-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-blue { background: #e3f2fd; color: #1565c0; }
+  .btn-green { background: #e8f5e9; color: #2e7d32; }
+  .btn-orange { background: #fff3e0; color: #e65100; }
+  .btn-red { background: #ffebee; color: #c62828; }
+  .btn-primary { background: #1565c0; color: white; padding: 10px 24px; font-size: 14px; }
+  .btn-speak { background: #2e7d32; color: white; padding: 10px 20px; font-size: 14px; }
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    resize: vertical;
+    font-family: inherit;
+  }
+  textarea:focus { outline: none; border-color: #1565c0; }
+  .controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .control-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #555;
+  }
+  input[type="range"] { width: 80px; }
+  input[type="checkbox"] { cursor: pointer; }
+  #output-area {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    min-height: 100px;
+  }
+  .word {
+    display: inline-block;
+    padding: 4px 10px;
+    margin: 2px;
+    background: #e3f2fd;
+    color: #1565c0;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .word:hover {
+    background: #bbdefb;
+    transform: scale(1.05);
+  }
+  .word.active {
+    background: #1565c0;
+    color: white;
+    transform: scale(1.1);
+  }
+  .punct { color: #888; font-size: 16px; }
+  .line-block {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #fafafa;
+    border-radius: 8px;
+    line-height: 2.2;
+  }
+  .translation {
+    margin-top: 6px;
+    color: #666;
+    font-size: 13px;
+    padding-left: 4px;
+  }
+  #status {
+    margin-top: 12px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    display: none;
+  }
+  .status-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+  .status-error { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+  .status-warning { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+  details {
+    margin-top: 16px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+  }
+  summary {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #333;
+    background: #fafafa;
+  }
+  .help-content {
+    padding: 16px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: #555;
+  }
+  .help-content ul { margin: 8px 0; padding-left: 20px; }
+  .help-content pre {
+    background: #f5f5f5;
+    padding: 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 12px;
+  }
+  .empty-state {
+    color: #999;
+    text-align: center;
+    padding: 40px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>🇩🇪 德语点击发音学习器</h2>
+  <p class="subtitle">点击任意单词即可听到德语发音 · 支持自定义文本输入</p>
+
+  <div class="input-section">
+    <div class="btn-group">
+      <button class="btn btn-blue" onclick="loadPreset('week1')">📚 加载第一周词汇</button>
+      <button class="btn btn-green" onclick="loadPreset('week1-sentences')">🗣️ 加载第一周句型</button>
+      <button class="btn btn-orange" onclick="loadPreset('demo')">✨ 加载示例文章</button>
+      <button class="btn btn-red" onclick="clearText()">🗑️ 清空</button>
+    </div>
+
+    <textarea id="input-text" placeholder="在此粘贴德语文本... 或点击上方按钮加载预设内容"></textarea>
+
+    <div class="controls">
+      <button class="btn btn-primary" onclick="renderText()">▶️ 生成可点击文本</button>
+      <button class="btn btn-speak" onclick="speakFullText()">🔊 朗读全文</button>
+
+      <label class="control-item">
+        <span>语速:</span>
+        <input type="range" id="rate" min="0.3" max="1.5" step="0.1" value="0.8">
+        <span id="rate-val">0.8x</span>
+      </label>
+
+      <label class="control-item">
+        <input type="checkbox" id="show-translation" checked>
+        <span>显示中文</span>
+      </label>
+    </div>
+  </div>
+
+  <div id="output-area">
+    <p class="empty-state">👆 点击上方按钮加载内容，或粘贴你自己的德语文本</p>
+  </div>
+
+  <div id="status"></div>
+
+  <details>
+    <summary>📖 使用说明 & 嵌入博客方法</summary>
+    <div class="help-content">
+      <p><strong>功能：</strong></p>
+      <ul>
+        <li>点击任意单词 → 浏览器语音合成朗读</li>
+        <li>支持自定义文本输入、文件粘贴</li>
+        <li>可调节语速（建议初学者用 0.6-0.8x）</li>
+        <li>内置第一周词汇和句型数据</li>
+      </ul>
+      <p><strong>嵌入博客：</strong>复制下方代码到你的博客 HTML 中即可</p>
+      <pre>&lt;iframe src="你的网页地址" width="100%" height="750" frameborder="0"&gt;&lt;/iframe&gt;</pre>
+      <p><strong>注意：</strong>需要浏览器支持 Web Speech API（Chrome/Edge/Safari 均支持）。首次使用可能需要联网下载语音包。</p>
+    </div>
+  </details>
+</div>
+
+<script>
+// ===================== 数据区 =====================
+const PRESETS = {
+  'week1': {
+    title: '📚 第一周 · 核心词汇',
+    content: `ich 我
+du 你
+er 他
+sie 她
+es 它
+wir 我们
+sein 是
+haben 有
+machen 做
+gehen 走
+essen 吃
+trinken 喝
+wollen 想要
+können 能
+mögen 喜欢
+das Wasser 水
+das Brot 面包
+die Milch 牛奶
+die Mama 妈妈
+der Papa 爸爸
+das Haus 房子
+der Hund 狗
+die Katze 猫
+der Ball 球
+das Auto 汽车
+der Tisch 桌子
+der Stuhl 椅子
+gut 好
+schlecht 坏
+groß 大
+klein 小
+hier 这里
+da 那里
+jetzt 现在
+ja 是
+nein 不
+bitte 请
+danke 谢谢
+hallo 你好
+tschüss 再见
+guten Morgen 早安
+guten Tag 你好`
+  },
+  'week1-sentences': {
+    title: '🗣️ 第一周 · 万能句型',
+    content: `Das ist gut. 这是好的。
+Das ist Wasser. 这是水。
+Das ist Mama. 这是妈妈。
+Ich bin müde. 我累了。
+Ich bin hier. 我在这里。
+Ich habe Wasser. 我有水。
+Ich habe Hunger. 我饿了。
+Ich möchte Wasser. 我想要水。
+Ich möchte essen. 我想要吃饭。
+Ich esse Brot. 我吃面包。
+Ich trinke Milch. 我喝牛奶。
+Wo ist das Wasser? 水在哪里？
+Wo ist Papa? 爸爸在哪里？
+Ich kann gehen. 我能走。
+Ich kann essen. 我能吃。`
+  },
+  'demo': {
+    title: '✨ 示例 · 简单对话',
+    content: `Hallo! Wie geht es dir? 你好！你好吗？
+Mir geht es gut, danke. 我很好，谢谢。
+Ich heiße Anna. 我叫安娜。
+Ich komme aus China. 我来自中国。
+Ich lerne Deutsch. 我在学德语。
+Das ist mein Hund. 这是我的狗。
+Er ist sehr süß. 他很可爱。
+Ich möchte ein Glas Wasser. 我想要一杯水。
+Bitte schön! 请！
+Danke schön! 非常感谢！`
+  }
+};
+
+// ===================== 语音引擎 =====================
+let germanVoice = null;
+
+function findGermanVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  germanVoice = voices.find(v => v.lang === 'de-DE') || 
+               voices.find(v => v.lang && v.lang.startsWith('de')) ||
+               voices.find(v => v.name && v.name.toLowerCase().includes('german')) ||
+               voices[0];
+}
+
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = findGermanVoice;
+  findGermanVoice();
+}
+
+function speak(text, rate) {
+  if (!window.speechSynthesis) {
+    showStatus('❌ 你的浏览器不支持语音合成，请用 Chrome/Edge/Safari', 'error');
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'de-DE';
+  utterance.rate = rate || parseFloat(document.getElementById('rate').value);
+  utterance.pitch = 1;
+
+  if (germanVoice) {
+    utterance.voice = germanVoice;
+  }
+
+  window.speechSynthesis.speak(utterance);
+}
+
+// ===================== 渲染逻辑 =====================
+function loadPreset(key) {
+  const preset = PRESETS[key];
+  document.getElementById('input-text').value = preset.content;
+  showStatus('✅ 已加载：' + preset.title, 'success');
+  renderText();
+}
+
+function clearText() {
+  document.getElementById('input-text').value = '';
+  document.getElementById('output-area').innerHTML = '<p class="empty-state">👆 点击上方按钮加载内容，或粘贴你自己的德语文本</p>';
+}
+
+function renderText() {
+  const rawText = document.getElementById('input-text').value.trim();
+  if (!rawText) {
+    showStatus('⚠️ 请先输入或加载德语文本', 'warning');
+    return;
+  }
+
+  const showTrans = document.getElementById('show-translation').checked;
+  const lines = rawText.split('\n').filter(function(l) { return l.trim(); });
+
+  let html = '';
+
+  lines.forEach(function(line) {
+    let germanPart = line;
+    let chinesePart = '';
+
+    const chineseMatch = line.match(/[\u4e00-\u9fff]+.*$/);
+    if (chineseMatch && showTrans) {
+      const matchIndex = line.indexOf(chineseMatch[0]);
+      germanPart = line.substring(0, matchIndex).trim();
+      chinesePart = chineseMatch[0];
+    }
+
+    const tokens = germanPart.split(/(\s+|[.,!?;:"])/g).filter(function(t) { return t.trim(); });
+
+    html += '<div class="line-block">';
+
+    tokens.forEach(function(token) {
+      const isWord = /[a-zA-ZäöüÄÖÜß]/.test(token);
+
+      if (isWord) {
+        html += '<span class="word" data-word="' + token.replace(/"/g, '&quot;') + '" onclick="speakWord(this)">' + token + '</span>';
+      } else {
+        html += '<span class="punct">' + token + '</span>';
+      }
+    });
+
+    if (chinesePart && showTrans) {
+      html += '<div class="translation">💬 ' + chinesePart + '</div>';
+    }
+
+    html += '</div>';
+  });
+
+  document.getElementById('output-area').innerHTML = html;
+  showStatus('✅ 已生成可点击文本！点击任意蓝色单词即可发音', 'success');
+}
+
+function speakWord(el) {
+  const word = el.getAttribute('data-word');
+
+  el.classList.add('active');
+
+  setTimeout(function() {
+    el.classList.remove('active');
+  }, 400);
+
+  speak(word);
+}
+
+function speakFullText() {
+  const rawText = document.getElementById('input-text').value.trim();
+  if (!rawText) {
+    showStatus('⚠️ 没有内容可朗读', 'warning');
+    return;
+  }
+
+  let text = rawText.split('\n').map(function(line) {
+    const chineseMatch = line.match(/[\u4e00-\u9fff]/);
+    if (chineseMatch) {
+      return line.substring(0, line.indexOf(chineseMatch[0])).trim();
+    }
+    return line;
+  }).join('. ');
+
+  speak(text);
+  showStatus('🔊 正在朗读全文...', 'success');
+}
+
+// ===================== 辅助功能 =====================
+function showStatus(msg, type) {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = '';
+  el.classList.add('status-' + type);
+  el.style.display = 'block';
+
+  setTimeout(function() {
+    el.style.display = 'none';
+  }, 4000);
+}
+
+// 语速滑块实时更新
+document.getElementById('rate').addEventListener('input', function() {
+  document.getElementById('rate-val').textContent = this.value + 'x';
+});
+
+// 自动加载第一周词汇作为默认内容
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    loadPreset('week1');
+  }, 500);
+});
+</script>
+
+</body>
+</html>

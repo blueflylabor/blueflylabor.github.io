@@ -27,3 +27,6 @@
 
 - default: menu_search
   url: "search"
+
+- default: menu_german
+  url: "german"

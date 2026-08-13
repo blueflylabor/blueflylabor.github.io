@@ -22,6 +22,7 @@ en:
   menu_archive: "Archive"
   menu_search: "Search"
   menu_filestore: "FileStore"
+  menu_german: "German"
 
 zh:
   menu_github: "Github"
@@ -47,3 +48,4 @@ zh:
   menu_archive: "歸檔"
   menu_search: "搜索"
   menu_filestore: "文件櫃"
+  menu_german: "德語"
