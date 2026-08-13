@@ -51,6 +51,7 @@
   .btn-red { background: #ffebee; color: #c62828; }
   .btn-primary { background: #1565c0; color: white; padding: 10px 24px; font-size: 14px; }
   .btn-speak { background: #2e7d32; color: white; padding: 10px 20px; font-size: 14px; }
+  .btn-purple { background: #f3e5f5; color: #7b1fa2; }
   textarea {
     width: 100%;
     min-height: 120px;
@@ -62,6 +63,30 @@
     font-family: inherit;
   }
   textarea:focus { outline: none; border-color: #1565c0; }
+  .file-upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 12px;
+    background: #fafafa;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .file-upload-area:hover, .file-upload-area.dragover {
+    border-color: #1565c0;
+    background: #e3f2fd;
+  }
+  .file-upload-area p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .file-upload-area .file-types {
+    color: #999;
+    font-size: 12px;
+  }
+  #file-input { display: none; }
   .controls {
     display: flex;
     gap: 10px;
@@ -97,6 +122,7 @@
     font-weight: 500;
     transition: all 0.2s;
     user-select: none;
+    position: relative;
   }
   .word:hover {
     background: #bbdefb;
@@ -106,6 +132,9 @@
     background: #1565c0;
     color: white;
     transform: scale(1.1);
+  }
+  .word.has-translation {
+    border-bottom: 2px solid #7b1fa2;
   }
   .punct { color: #888; font-size: 16px; }
   .line-block {
@@ -131,6 +160,114 @@
   .status-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
   .status-error { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
   .status-warning { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+  .status-info { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+
+  /* 单词释义弹窗 */
+  .word-tooltip {
+    position: fixed;
+    background: #1a1a2e;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    z-index: 10000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    max-width: 250px;
+    line-height: 1.5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  .word-tooltip.show {
+    opacity: 1;
+  }
+  .word-tooltip .tooltip-word {
+    color: #90caf9;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  .word-tooltip .tooltip-meaning {
+    color: #fff;
+  }
+  .word-tooltip .tooltip-no-meaning {
+    color: #aaa;
+    font-style: italic;
+  }
+
+  /* 侧边查词面板 */
+  .lookup-panel {
+    position: fixed;
+    right: -320px;
+    top: 0;
+    width: 320px;
+    height: 100vh;
+    background: white;
+    box-shadow: -2px 0 20px rgba(0,0,0,0.1);
+    transition: right 0.3s ease;
+    z-index: 9999;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  .lookup-panel.open {
+    right: 0;
+  }
+  .lookup-panel h3 {
+    color: #1a1a2e;
+    margin-bottom: 16px;
+    font-size: 18px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 8px;
+  }
+  .lookup-panel .close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+  }
+  .lookup-panel .close-btn:hover { color: #c62828; }
+  .lookup-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .lookup-item .lookup-word {
+    font-weight: 600;
+    color: #1565c0;
+    font-size: 15px;
+  }
+  .lookup-item .lookup-meaning {
+    color: #555;
+    font-size: 13px;
+    margin-top: 2px;
+  }
+  .lookup-empty {
+    color: #999;
+    text-align: center;
+    padding: 40px 0;
+    font-size: 14px;
+  }
+  .lookup-toggle {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #1565c0;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 9998;
+    transition: transform 0.2s;
+  }
+  .lookup-toggle:hover { transform: scale(1.1); }
+
   details {
     margin-top: 16px;
     background: white;
@@ -164,23 +301,65 @@
     text-align: center;
     padding: 40px 0;
   }
+  .file-info {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 10px;
+    display: none;
+  }
+  .section-title {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
 </style>
+<base target="_blank">
 </head>
 <body>
 
+<!-- 单词释义悬浮提示 -->
+<div id="word-tooltip" class="word-tooltip">
+  <div class="tooltip-word"></div>
+  <div class="tooltip-meaning"></div>
+</div>
+
+<!-- 查词历史面板 -->
+<div id="lookup-panel" class="lookup-panel">
+  <button class="close-btn" onclick="toggleLookupPanel()">×</button>
+  <h3>📖 查词记录</h3>
+  <div id="lookup-list"></div>
+</div>
+<button class="lookup-toggle" onclick="toggleLookupPanel()" title="查词记录">📖</button>
+
 <div class="container">
   <h2>🇩🇪 德语点击发音学习器</h2>
-  <p class="subtitle">点击任意单词即可听到德语发音 · 支持自定义文本输入</p>
+  <p class="subtitle">点击任意单词即可听到德语发音 · 悬停查看中文意思 · 支持文件上传</p>
 
   <div class="input-section">
+    <!-- 文件上传区域 -->
+    <div class="section-title">📁 上传文件（支持 .txt .md .html）</div>
+    <div class="file-upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()">
+      <p>📎 点击选择文件 或 拖拽文件到此处</p>
+      <p class="file-types">支持格式：.txt .md .html</p>
+    </div>
+    <input type="file" id="file-input" accept=".txt,.md,.html,.htm" onchange="handleFileSelect(event)">
+    <div class="file-info" id="file-info"></div>
+
+    <!-- 预设按钮 -->
     <div class="btn-group">
-      <button class="btn btn-blue" onclick="loadPreset('week1')">📚 加载第一周词汇</button>
-      <button class="btn btn-green" onclick="loadPreset('week1-sentences')">🗣️ 加载第一周句型</button>
-      <button class="btn btn-orange" onclick="loadPreset('demo')">✨ 加载示例文章</button>
+      <button class="btn btn-blue" onclick="loadPreset('week1')">📚 第一周词汇</button>
+      <button class="btn btn-green" onclick="loadPreset('week1-sentences')">🗣️ 第一周句型</button>
+      <button class="btn btn-orange" onclick="loadPreset('demo')">✨ 示例对话</button>
+      <button class="btn btn-purple" onclick="loadPreset('a1-story')">📖 A1小故事</button>
       <button class="btn btn-red" onclick="clearText()">🗑️ 清空</button>
     </div>
 
-    <textarea id="input-text" placeholder="在此粘贴德语文本... 或点击上方按钮加载预设内容"></textarea>
+    <div class="section-title">✏️ 或直接粘贴德语文本</div>
+    <textarea id="input-text" placeholder="在此粘贴德语文本... 或上传文件/点击上方按钮加载预设内容"></textarea>
 
     <div class="controls">
       <button class="btn btn-primary" onclick="renderText()">▶️ 生成可点击文本</button>
@@ -196,33 +375,776 @@
         <input type="checkbox" id="show-translation" checked>
         <span>显示中文</span>
       </label>
+
+      <label class="control-item">
+        <input type="checkbox" id="auto-lookup" checked>
+        <span>自动查词</span>
+      </label>
     </div>
   </div>
 
   <div id="output-area">
-    <p class="empty-state">👆 点击上方按钮加载内容，或粘贴你自己的德语文本</p>
+    <p class="empty-state">👆 上传文件、粘贴文本，或点击上方按钮加载预设内容</p>
   </div>
 
   <div id="status"></div>
 
   <details>
-    <summary>📖 使用说明 & 嵌入博客方法</summary>
+    <summary>📖 使用说明</summary>
     <div class="help-content">
       <p><strong>功能：</strong></p>
       <ul>
-        <li>点击任意单词 → 浏览器语音合成朗读</li>
-        <li>支持自定义文本输入、文件粘贴</li>
-        <li>可调节语速（建议初学者用 0.6-0.8x）</li>
-        <li>内置第一周词汇和句型数据</li>
+        <li>点击任意单词 → 朗读发音</li>
+        <li>鼠标悬停单词 → 显示中文释义（紫色下划线表示词典中有该词）</li>
+        <li>上传 .txt / .md / .html 文件 → 自动解析并分词</li>
+        <li>支持全德文文档，无需预先标注中文</li>
+        <li>点击右下角 📖 查看查词历史</li>
       </ul>
-      <p><strong>嵌入博客：</strong>复制下方代码到你的博客 HTML 中即可</p>
-      <pre>&lt;iframe src="你的网页地址" width="100%" height="750" frameborder="0"&gt;&lt;/iframe&gt;</pre>
-      <p><strong>注意：</strong>需要浏览器支持 Web Speech API（Chrome/Edge/Safari 均支持）。首次使用可能需要联网下载语音包。</p>
+      <p><strong>提示：</strong>内置 700+ A1 级德语-中文词典，覆盖基础词汇、动词变位、常用名词等。</p>
     </div>
   </details>
 </div>
 
 <script>
+// ===================== 德语-中文词典 =====================
+const GERMAN_DICT = {
+
+    "Abend": "晚上",
+    "Abendessen": "晚餐",
+    "Ach": "啊",
+    "Alles Gute": "一切顺利",
+    "Angst": "害怕",
+    "Antwort": "答案",
+    "Apfel": "苹果",
+    "Apotheke": "药房",
+    "Arzt": "医生",
+    "Auge": "眼睛",
+    "Auto": "汽车",
+    "Baby": "婴儿",
+    "Bad": "浴室",
+    "Ball": "球",
+    "Banane": "香蕉",
+    "Baum": "树",
+    "Beispiel": "例子",
+    "Berg": "山",
+    "Bett": "床",
+    "Bier": "啤酒",
+    "Bild": "图片/画",
+    "Blau": "蓝色",
+    "Blume": "花",
+    "Blut": "血",
+    "Bon appetit": "祝胃口好",
+    "Braun": "棕色",
+    "Brief": "信",
+    "Brille": "眼镜",
+    "Brot": "面包",
+    "Bruder": "兄弟",
+    "Buch": "书",
+    "Buchstabe": "字母",
+    "Butter": "黄油",
+    "Chinesisch": "中文/中国的",
+    "Computer": "电脑",
+    "Deutsch": "德语/德国的",
+    "E-Mail": "电子邮件",
+    "Eis": "冰/冰淇淋",
+    "Englisch": "英语/英国的",
+    "Ente": "鸭子",
+    "Entschuldigung": "对不起/打扰",
+    "Erfolg": "成功",
+    "Es darf": "它可以（允许）",
+    "Es gefällt mir": "我喜欢它",
+    "Es geht": "还行",
+    "Es gibt": "有",
+    "Es gibt nicht": "没有",
+    "Es ist": "它是",
+    "Es ist Uhr": "...点了",
+    "Es ist Zeit": "到时间了",
+    "Es ist bewölkt": "多云",
+    "Es ist billig": "这很便宜",
+    "Es ist einfach": "这很简单",
+    "Es ist falsch": "这是错的",
+    "Es ist früh": "还早",
+    "Es ist genug": "够了",
+    "Es ist heiß": "天热",
+    "Es ist interessant": "这很有趣",
+    "Es ist kalt": "天冷",
+    "Es ist langweilig": "这很无聊",
+    "Es ist möglich": "这是可能的",
+    "Es ist richtig": "这是对的",
+    "Es ist schwer": "这很难",
+    "Es ist schön": "天气好",
+    "Es ist sonnig": "晴天",
+    "Es ist spät": "晚了",
+    "Es ist teuer": "这很贵",
+    "Es ist unmöglich": "这是不可能的",
+    "Es ist wahr": "这是真的",
+    "Es ist warm": "天暖",
+    "Es ist wichtig": "这很重要",
+    "Es ist windig": "刮风",
+    "Es kann": "它可以",
+    "Es macht nichts": "没关系",
+    "Es muss": "它必须",
+    "Es regnet": "下雨",
+    "Es scheint": "似乎",
+    "Es schneit": "下雪",
+    "Es sind": "它们是",
+    "Es soll": "它应该",
+    "Es tut mir leid": "我很抱歉",
+    "Es war": "它曾是",
+    "Es wird": "它将要",
+    "Essen": "食物",
+    "Euro": "欧元",
+    "Familie": "家庭",
+    "Farbe": "颜色",
+    "Fehler": "错误",
+    "Fenster": "窗户",
+    "Fisch": "鱼",
+    "Fleisch": "肉",
+    "Fluss": "河",
+    "Frage": "问题",
+    "Frau": "女人/妻子",
+    "Freude": "快乐",
+    "Freund": "朋友（男）",
+    "Freundin": "朋友（女）",
+    "Freundschaft": "友谊",
+    "Frühling": "春天",
+    "Frühstück": "早餐",
+    "Fuß": "脚",
+    "Gelb": "黄色",
+    "Geld": "钱",
+    "Gemüse": "蔬菜",
+    "Gern geschehen": "不客气",
+    "Gesicht": "脸",
+    "Gestern": "昨天",
+    "Gesundheit": "健康",
+    "Gras": "草",
+    "Grau": "灰色",
+    "Grün": "绿色",
+    "Grüß Gott": "你好（奥地利/南德）",
+    "Gute Besserung": "早日康复",
+    "Haar": "头发",
+    "Hand": "手",
+    "Hase": "兔子",
+    "Hass": "恨",
+    "Haus": "房子",
+    "Hemd": "衬衫",
+    "Herbst": "秋天",
+    "Herz": "心",
+    "Herzlichen Glückwunsch": "恭喜",
+    "Heute": "今天",
+    "Hey": "嘿",
+    "Hoffnung": "希望",
+    "Hose": "裤子",
+    "Huhn": "鸡",
+    "Hund": "狗",
+    "Hut": "帽子",
+    "Ich arbeite als": "我的工作",
+    "Ich bin Jahre alt": "我...岁了",
+    "Ich bin krank": "我生病了",
+    "Ich brauche einen Arzt": "我需要医生",
+    "Ich denke": "我认为",
+    "Ich finde": "我觉得",
+    "Ich glaube": "我相信",
+    "Ich habe Bauchschmerzen": "我肚子疼",
+    "Ich habe Durst": "我渴了",
+    "Ich habe Fieber": "我发烧了",
+    "Ich habe Hunger": "我饿了",
+    "Ich habe Kopfschmerzen": "我头疼",
+    "Ich heiße": "我叫",
+    "Ich hoffe": "我希望",
+    "Ich komme aus": "我来自",
+    "Ich studiere": "我学习",
+    "Ich verstehe": "我懂",
+    "Ich verstehe nicht": "我不懂",
+    "Ich weiß nicht": "我不知道",
+    "Ich wohne in": "我住在",
+    "Idee": "想法",
+    "Ihre": "您的（阴性/复数）",
+    "Internet": "互联网",
+    "Jahr": "年",
+    "Kaffee": "咖啡",
+    "Karte": "卡片/地图",
+    "Kartoffel": "土豆",
+    "Katze": "猫",
+    "Kein Problem": "没问题",
+    "Kind": "孩子",
+    "Kleid": "连衣裙",
+    "Kopf": "头",
+    "Kopfschmerz": "头痛",
+    "Krankenhaus": "医院",
+    "Krankheit": "疾病",
+    "Kuchen": "蛋糕",
+    "Kuh": "牛",
+    "Käse": "奶酪",
+    "Können Sie das wiederholen": "您能重复一遍吗",
+    "Können Sie langsamer sprechen": "您能说慢点吗",
+    "Körper": "身体",
+    "Küche": "厨房",
+    "Lampe": "灯",
+    "Land": "国家/土地",
+    "Lehrer": "老师（男）",
+    "Lehrerin": "老师（女）",
+    "Liebe": "爱",
+    "Lila": "紫色",
+    "Lösung": "解决方案",
+    "Mama": "妈妈",
+    "Mann": "男人/丈夫",
+    "Mantel": "外套",
+    "Maus": "老鼠",
+    "Medizin": "药",
+    "Meer": "海",
+    "Mein Name ist": "我的名字是",
+    "Mensch": "人",
+    "Milch": "牛奶",
+    "Minute": "分钟",
+    "Mir geht es gut": "我很好",
+    "Mir geht es schlecht": "我不好",
+    "Mittagessen": "午餐",
+    "Moin": "你好（北德）",
+    "Monat": "月",
+    "Morgen": "早晨/明天",
+    "Mund": "嘴",
+    "Mutter": "母亲",
+    "Na": "好吧/那么",
+    "Nachricht": "消息",
+    "Nacht": "夜晚",
+    "Name": "名字",
+    "Nase": "鼻子",
+    "Nicht schlecht": "不错",
+    "Nicht so gut": "不太好",
+    "Obst": "水果",
+    "Oh": "哦",
+    "Ohr": "耳朵",
+    "Orange": "橙子",
+    "Papa": "爸爸",
+    "Papier": "纸",
+    "Park": "公园",
+    "Pferd": "马",
+    "Plan": "计划",
+    "Platz": "广场/位置",
+    "Preis": "价格",
+    "Problem": "问题",
+    "Prost": "干杯",
+    "Regen": "雨",
+    "Rosa": "粉色",
+    "Rot": "红色",
+    "Saft": "果汁",
+    "Salz": "盐",
+    "Satz": "句子",
+    "Schaf": "羊",
+    "Schmerz": "疼痛",
+    "Schnee": "雪",
+    "Schrank": "柜子",
+    "Schuh": "鞋",
+    "Schule": "学校",
+    "Schwarz": "黑色",
+    "Schwein": "猪",
+    "Schwester": "姐妹",
+    "Schüler": "学生（男）",
+    "Schülerin": "学生（女）",
+    "Sehr gut": "很好",
+    "Seife": "肥皂",
+    "Servus": "你好/再见（南德）",
+    "Sie": "您/您们",
+    "Sohn": "儿子",
+    "Sommer": "夏天",
+    "Sonne": "太阳",
+    "Sprache": "语言",
+    "Stadt": "城市",
+    "Stift": "笔",
+    "Straße": "街道",
+    "Stuhl": "椅子",
+    "Stunde": "小时",
+    "Suppe": "汤",
+    "Tag": "天/日子",
+    "Tasche": "包",
+    "Tee": "茶",
+    "Telefon": "电话",
+    "Tier": "动物",
+    "Tisch": "桌子",
+    "Tochter": "女儿",
+    "Tomate": "西红柿",
+    "Traube": "葡萄",
+    "Traum": "梦",
+    "Traurigkeit": "悲伤",
+    "Tschau": "再见（口语）",
+    "Tut mir leid": "抱歉",
+    "Tür": "门",
+    "Uhr": "钟/点",
+    "Ui": "哎呀",
+    "Vater": "父亲",
+    "Verzeihung": "原谅",
+    "Viel Glück": "祝好运",
+    "Vogel": "鸟",
+    "Wald": "森林",
+    "Wann": "什么时候",
+    "Warum": "为什么",
+    "Was": "什么",
+    "Was ist das": "这是什么",
+    "Was machst du": "你做什么",
+    "Wasser": "水",
+    "Weg": "路",
+    "Wein": "葡萄酒",
+    "Weiß": "白色",
+    "Welcher": "哪个",
+    "Wer": "谁",
+    "Wessen": "谁的",
+    "Wetter": "天气",
+    "Wie": "怎样",
+    "Wie alt bist du": "你多大了",
+    "Wie geht es dir": "你好吗",
+    "Wie heißt du": "你叫什么名字",
+    "Wie ist das Wetter": "天气怎么样",
+    "Wie sagt man auf Deutsch": "...用德语怎么说",
+    "Wie schreibt man das": "这个怎么写",
+    "Wie spät ist es": "几点了",
+    "Wie viel kostet das": "这个多少钱",
+    "Willkommen": "欢迎",
+    "Wind": "风",
+    "Winter": "冬天",
+    "Wo": "哪里",
+    "Wo ist": "...在哪里",
+    "Wo wohnst du": "你住在哪里",
+    "Woche": "星期",
+    "Woher": "从哪里来",
+    "Woher kommst du": "你来自哪里",
+    "Wohin": "去哪里",
+    "Wolke": "云",
+    "Wort": "单词",
+    "Zahl": "数字",
+    "Zahn": "牙齿",
+    "Zeit": "时间",
+    "Ziel": "目标",
+    "Zimmer": "房间",
+    "Zucker": "糖",
+    "aber": "但是",
+    "acht": "八",
+    "achtzehn": "十八",
+    "achtzig": "八十",
+    "afrikanisch": "非洲",
+    "alle": "所有的",
+    "allein": "单独",
+    "als": "当...时/比",
+    "alt": "旧/老",
+    "amerikanisch": "美国",
+    "an": "在...旁",
+    "anders": "不同",
+    "antworte": "回答（我）",
+    "antworten": "回答",
+    "antwortest": "回答（你）",
+    "antwortet": "回答（他/她/它/复数）",
+    "arbeite": "工作（我）",
+    "arbeiten": "工作",
+    "arbeitest": "工作（你）",
+    "arbeitet": "工作（他/她/它/复数）",
+    "asiatisch": "亚洲",
+    "auch": "也",
+    "auf": "在...上",
+    "auf Wiedersehen": "再见（正式）",
+    "aus": "从...出来",
+    "australisch": "澳洲",
+    "aß": "吃（过去）",
+    "bald": "很快",
+    "bei": "在...处",
+    "beide": "两个都（复数）",
+    "bekannt": "著名/已知",
+    "bereit": "准备好",
+    "bereits": "已经",
+    "besonders": "尤其",
+    "bestimmt": "一定",
+    "bevor": "在...之前",
+    "billig": "便宜",
+    "bin": "是（我）",
+    "bis": "直到",
+    "bist": "是（你）",
+    "bitte": "请",
+    "bleibe": "停留（我）",
+    "bleiben": "停留/保持",
+    "bleibst": "停留（你）",
+    "bleibt": "停留（他/她/它/复数）",
+    "brauche": "需要（我）",
+    "brauchen": "需要",
+    "brauchst": "需要（你）",
+    "braucht": "需要（他/她/它/复数）",
+    "da": "那里",
+    "damit": "为了",
+    "danke": "谢谢",
+    "dann": "然后",
+    "darf": "允许（变位）",
+    "darfst": "允许（你）",
+    "das": "这/那（中性）",
+    "dass": "that（从句）",
+    "dein": "你的",
+    "deine": "你的（阴性/复数）",
+    "denke": "想（我）",
+    "denken": "想/思考",
+    "denkst": "想（你）",
+    "denkt": "想（他/她/它/复数）",
+    "denn": "因为",
+    "der": "这/那（阳性）",
+    "die": "这/那（阴性/复数）",
+    "diese": "这个（阴性/复数）",
+    "dieser": "这个",
+    "dieses": "这个（中性）",
+    "dort": "那边",
+    "drei": "三",
+    "dreizehn": "十三",
+    "dreißig": "三十",
+    "dritte": "第三",
+    "du": "你",
+    "durch": "通过",
+    "durstig": "渴",
+    "dürfen": "允许",
+    "ein": "一/一个（阳性/中性）",
+    "eine": "一/一个（阴性）",
+    "einfach": "简单",
+    "einige": "一些",
+    "eins": "一",
+    "elf": "十一",
+    "er": "他",
+    "erst": "才/首先",
+    "erste": "第一",
+    "es": "它",
+    "esse": "吃（我）",
+    "essen": "吃",
+    "etwa": "大约",
+    "euer": "你们的",
+    "eure": "你们的（阴性/复数）",
+    "europäisch": "欧洲",
+    "fahre": "开车（我）",
+    "fahren": "开车/乘坐",
+    "falsch": "错误",
+    "fast": "几乎",
+    "finde": "找到（我）",
+    "finden": "找到/认为",
+    "findest": "找到（你）",
+    "findet": "找到（他/她/它/复数）",
+    "fliege": "飞（我）",
+    "fliegen": "飞",
+    "fliegst": "飞（你）",
+    "fliegt": "飞（他/她/它/复数）",
+    "frage": "问（我）",
+    "fragen": "问",
+    "fragst": "问（你）",
+    "fragt": "问（他/她/它/复数）",
+    "frei": "自由/空闲",
+    "früher": "以前",
+    "fährst": "开车（你）",
+    "fährt": "开车（他/她/它）",
+    "fünf": "五",
+    "fünfte": "第五",
+    "fünfzehn": "十五",
+    "fünfzig": "五十",
+    "für": "为了",
+    "ganz": "完全",
+    "gebe": "给（我）",
+    "geben": "给",
+    "gegen": "反对/对着",
+    "gehe": "走（我）",
+    "gehen": "走/去",
+    "gehst": "走（你）",
+    "geht": "走（他/她/它/复数）",
+    "genau": "精确/正是",
+    "genug": "足够",
+    "gesund": "健康",
+    "gibst": "给（你）",
+    "gibt": "给（他/她/它）",
+    "ging": "走（过去）",
+    "glaube": "相信（我）",
+    "glauben": "相信/认为",
+    "glaubst": "相信（你）",
+    "glaubt": "相信（他/她/它/复数）",
+    "gleich": "相同/马上",
+    "glücklich": "幸福",
+    "groß": "大",
+    "gut": "好",
+    "gute Nacht": "晚安",
+    "guten Abend": "晚上好",
+    "guten Morgen": "早安",
+    "guten Tag": "你好（白天）",
+    "habe": "有（我）",
+    "haben": "有",
+    "hallo": "你好",
+    "hast": "有（你）",
+    "hat": "有（他/她/它）",
+    "heiß": "热",
+    "heiße": "叫（我）",
+    "heißen": "叫/名叫",
+    "heißt": "叫（你/他/她/它）",
+    "hier": "这里",
+    "hinter": "在...后",
+    "hundert": "一百",
+    "hungrig": "饿",
+    "hässlich": "丑",
+    "höchstens": "最多",
+    "höre": "听（我）",
+    "hören": "听",
+    "hörst": "听（你）",
+    "hört": "听（他/她/它/复数）",
+    "ich": "我",
+    "ihr": "你们",
+    "ihre": "她的/他们的（阴性/复数）",
+    "immer": "总是",
+    "in": "在...里",
+    "interessant": "有趣",
+    "international": "国际",
+    "isst": "吃（你/他/她/它）",
+    "ist": "是（他/她/它）",
+    "ja": "是",
+    "jede": "每个（阴性）",
+    "jeder": "每个",
+    "jedes": "每个（中性）",
+    "jene": "那个（阴性/复数）",
+    "jener": "那个",
+    "jenes": "那个（中性）",
+    "jetzt": "现在",
+    "jung": "年轻",
+    "kalt": "冷",
+    "kann": "能（变位）",
+    "kannst": "能（你）",
+    "kaufe": "买（我）",
+    "kaufen": "买",
+    "kaufst": "买（你）",
+    "kauft": "买（他/她/它/复数）",
+    "kein": "没有（的）",
+    "keine": "没有一个（阴性/复数）",
+    "kenne": "认识（我）",
+    "kennen": "认识/了解",
+    "kennst": "认识（你）",
+    "kennt": "认识（他/她/它/复数）",
+    "klein": "小",
+    "komme": "来（我）",
+    "kommen": "来",
+    "kommst": "来（你）",
+    "kommt": "来（他/她/它/复数）",
+    "konnte": "能（过去）",
+    "krank": "生病",
+    "kurz": "短",
+    "können": "能/会",
+    "lang": "长",
+    "langsam": "慢",
+    "langweilig": "无聊",
+    "laufe": "跑（我）",
+    "laufen": "跑",
+    "laut": "大声",
+    "leer": "空",
+    "lerne": "学习（我）",
+    "lernen": "学习",
+    "lernst": "学习（你）",
+    "lernt": "学习（他/她/它/复数）",
+    "lese": "读（我）",
+    "lesen": "读",
+    "letzte": "最后",
+    "liest": "读（你/他/她/它）",
+    "lokal": "本地",
+    "läufst": "跑（你）",
+    "läuft": "跑（他/她/它）",
+    "mache": "做（我）",
+    "machen": "做/制作",
+    "machst": "做（你）",
+    "macht": "做（他/她/它/复数）",
+    "mag": "喜欢（变位）",
+    "magst": "喜欢（你）",
+    "manche": "某些（阴性/复数）",
+    "mancher": "某些",
+    "manches": "某些（中性）",
+    "manchmal": "有时",
+    "mehr": "更多",
+    "mehrere": "几个（复数）",
+    "mein": "我的",
+    "meine": "我的（阴性/复数）",
+    "milliarde": "十亿",
+    "million": "百万",
+    "mindestens": "至少",
+    "mit": "和...一起/用",
+    "muss": "必须（变位）",
+    "musst": "必须（你）",
+    "möchte": "想要（礼貌）",
+    "mögen": "喜欢",
+    "möglich": "可能",
+    "müde": "累",
+    "müssen": "必须",
+    "nach": "在...后/向",
+    "nachdem": "在...之后",
+    "national": "国家",
+    "natürlich": "自然/当然",
+    "neben": "在...旁边",
+    "nehme": "拿（我）",
+    "nehmen": "拿/取",
+    "nein": "不",
+    "nervös": "紧张",
+    "neu": "新",
+    "neun": "九",
+    "neunzehn": "十九",
+    "neunzig": "九十",
+    "nie": "从不",
+    "nimmst": "拿（你）",
+    "nimmt": "拿（他/她/它）",
+    "noch": "还/仍然",
+    "null": "零",
+    "nur": "只/仅仅",
+    "nächste": "下一个",
+    "ob": "是否",
+    "obwohl": "虽然",
+    "oder": "或",
+    "offen": "开",
+    "oft": "经常",
+    "ohne": "没有",
+    "richtig": "正确",
+    "ruhig": "安静",
+    "sage": "说（我）",
+    "sagen": "说/告诉",
+    "sagst": "说（你）",
+    "sagt": "说（他/她/它/复数）",
+    "sauber": "干净",
+    "schlecht": "坏",
+    "schmutzig": "脏",
+    "schnell": "快",
+    "schon": "已经",
+    "schreibe": "写（我）",
+    "schreiben": "写",
+    "schreibst": "写（你）",
+    "schreibt": "写（他/她/它/复数）",
+    "schwer": "难/重",
+    "schwimme": "游泳（我）",
+    "schwimmen": "游泳",
+    "schwimmst": "游泳（你）",
+    "schwimmt": "游泳（他/她/它/复数）",
+    "schön": "漂亮",
+    "sechs": "六",
+    "sechzehn": "十六",
+    "sechzig": "六十",
+    "sehe": "看（我）",
+    "sehen": "看/看见",
+    "sehr": "非常",
+    "sein": "是",
+    "seine": "他的（阴性/复数）",
+    "seit": "自从",
+    "seitdem": "自从",
+    "selten": "很少",
+    "sicher": "当然",
+    "sie": "她/他们/您",
+    "sieben": "七",
+    "siebzehn": "十七",
+    "siebzig": "七十",
+    "siehst": "看（你）",
+    "sieht": "看（他/她/它）",
+    "sind": "是（复数/您）",
+    "singe": "唱（我）",
+    "singen": "唱歌",
+    "singst": "唱（你）",
+    "singt": "唱（他/她/它/复数）",
+    "sobald": "一...就",
+    "sodass": "以便",
+    "sofort": "立刻",
+    "sogar": "甚至",
+    "solche": "这样的（阴性/复数）",
+    "solcher": "这样的",
+    "solches": "这样的（中性）",
+    "soll": "应该（变位）",
+    "sollen": "应该",
+    "sollst": "应该（你）",
+    "sondern": "而是",
+    "sowie": "以及/一...就",
+    "spiele": "玩（我）",
+    "spielen": "玩/演奏",
+    "spielst": "玩（你）",
+    "spielt": "玩（他/她/它/复数）",
+    "spreche": "说（我）",
+    "sprechen": "说/讲",
+    "sprichst": "说（你）",
+    "spricht": "说（他/她/它）",
+    "später": "稍后",
+    "statt": "代替",
+    "tanze": "跳舞（我）",
+    "tanzen": "跳舞",
+    "tanzt": "跳舞（你/他/她/它/复数）",
+    "tausend": "一千",
+    "teilweise": "部分",
+    "teuer": "贵",
+    "traurig": "悲伤",
+    "trinke": "喝（我）",
+    "trinken": "喝",
+    "trinkst": "喝（你）",
+    "trinkt": "喝（他/她/它/复数）",
+    "trotz": "尽管",
+    "tschüss": "再见",
+    "um": "围绕/大约",
+    "unbekannt": "未知",
+    "und": "和",
+    "ungefähr": "大约",
+    "unmöglich": "不可能",
+    "unser": "我们的",
+    "unsere": "我们的（阴性/复数）",
+    "unter": "在...下",
+    "verkaufe": "卖（我）",
+    "verkaufen": "卖",
+    "verkaufst": "卖（你）",
+    "verkauft": "卖（他/她/它/复数）",
+    "verstehe": "理解（我）",
+    "verstehen": "理解",
+    "verstehst": "理解（你）",
+    "versteht": "理解（他/她/它/复数）",
+    "viel": "多（不可数）",
+    "viele": "很多",
+    "vielleicht": "也许",
+    "vier": "四",
+    "vierte": "第四",
+    "vierzehn": "十四",
+    "vierzig": "四十",
+    "voll": "满",
+    "von": "从",
+    "vor": "在...前",
+    "vor allem": "首先",
+    "vorherige": "上一个",
+    "wach": "醒着",
+    "wahr": "真",
+    "wahrscheinlich": "可能",
+    "war": "是（过去）",
+    "warm": "温暖",
+    "wegen": "因为",
+    "weil": "因为",
+    "weiß": "知道（变位）",
+    "welche": "哪个（阴性/复数）",
+    "welcher": "哪个",
+    "welches": "哪个（中性）",
+    "wenig": "很少",
+    "wenige": "很少（复数）",
+    "weniger": "更少",
+    "wenn": "如果/当",
+    "werde": "成为（我）",
+    "werden": "成为/将要",
+    "wichtig": "重要",
+    "wieder": "再/又",
+    "will": "想要（变位）",
+    "wir": "我们",
+    "wird": "成为（他/她/它）",
+    "wirklich": "真的",
+    "wirst": "成为（你）",
+    "wissen": "知道（事实）",
+    "wohne": "居住（我）",
+    "wohnen": "居住",
+    "wohnst": "居住（你）",
+    "wohnt": "居住（他/她/它/复数）",
+    "wollen": "想要",
+    "wollte": "想要（过去）",
+    "während": "在...期间",
+    "wütend": "生气",
+    "zehn": "十",
+    "ziemlich": "相当",
+    "zu": "到/向",
+    "zusammen": "一起",
+    "zwanzig": "二十",
+    "zwei": "二",
+    "zweite": "第二",
+    "zwischen": "在...之间",
+    "zwölf": "十二",
+    "ängstlich": "害怕",
+    "über": "在...上/关于",
+    "überall": "到处"
+
+};
+
 // ===================== 数据区 =====================
 const PRESETS = {
   'week1': {
@@ -300,8 +1222,21 @@ Er ist sehr süß. 他很可爱。
 Ich möchte ein Glas Wasser. 我想要一杯水。
 Bitte schön! 请！
 Danke schön! 非常感谢！`
+  },
+  'a1-story': {
+    title: '📖 A1 · 小故事（全德文）',
+    content: `Maria geht in den Supermarkt. Sie möchte Brot und Milch kaufen. Der Supermarkt ist groß und hell. Maria nimmt einen Einkaufswagen.
+
+Zuerst geht sie zur Bäckerei-Abteilung. Das Brot riecht gut. Sie kauft ein frisches Brot. Dann geht sie zur Milch-Abteilung. Die Milch ist kalt. Sie nimmt eine Flasche Milch.
+
+Am Ende kauft Maria noch einen Apfel. Der Apfel ist rot und süß. Sie geht zur Kasse. Die Kassiererin ist freundlich. Maria bezahlt zehn Euro.
+
+Maria geht nach Hause. Sie ist müde, aber glücklich. Sie macht eine Pause und trinkt eine Tasse Kaffee. Der Kaffee ist heiß und schmeckt gut.`
   }
 };
+
+// 查词历史
+let lookupHistory = [];
 
 // ===================== 语音引擎 =====================
 let germanVoice = null;
@@ -324,42 +1259,147 @@ function speak(text, rate) {
     showStatus('❌ 你的浏览器不支持语音合成，请用 Chrome/Edge/Safari', 'error');
     return;
   }
-
   window.speechSynthesis.cancel();
-
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = 'de-DE';
   utterance.rate = rate || parseFloat(document.getElementById('rate').value);
   utterance.pitch = 1;
+  if (germanVoice) utterance.voice = germanVoice;
+  window.speechSynthesis.speak(utterance);
+}
 
-  if (germanVoice) {
-    utterance.voice = germanVoice;
+// ===================== 文件上传 =====================
+const dropZone = document.getElementById('drop-zone');
+
+dropZone.addEventListener('dragover', function(e) {
+  e.preventDefault();
+  this.classList.add('dragover');
+});
+
+dropZone.addEventListener('dragleave', function(e) {
+  e.preventDefault();
+  this.classList.remove('dragover');
+});
+
+dropZone.addEventListener('drop', function(e) {
+  e.preventDefault();
+  this.classList.remove('dragover');
+  const files = e.dataTransfer.files;
+  if (files.length > 0) processFile(files[0]);
+});
+
+function handleFileSelect(event) {
+  const file = event.target.files[0];
+  if (file) processFile(file);
+}
+
+function processFile(file) {
+  const allowedTypes = ['text/plain', 'text/markdown', 'text/html', ''];
+  const allowedExts = ['.txt', '.md', '.html', '.htm'];
+  const ext = '.' + file.name.split('.').pop().toLowerCase();
+
+  if (!allowedExts.includes(ext)) {
+    showStatus('⚠️ 仅支持 .txt .md .html 文件', 'warning');
+    return;
   }
 
-  window.speechSynthesis.speak(utterance);
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    let content = e.target.result;
+
+    // 如果是 HTML，提取文本内容
+    if (ext === '.html' || ext === '.htm') {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(content, 'text/html');
+      content = doc.body.innerText || doc.body.textContent;
+    }
+
+    // 清理内容
+    content = content.replace(/\s+/g, ' ').trim();
+
+    document.getElementById('input-text').value = content;
+    document.getElementById('file-info').style.display = 'block';
+    document.getElementById('file-info').textContent = '✅ 已加载: ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+    showStatus('✅ 文件加载成功！点击「生成可点击文本」查看', 'success');
+  };
+  reader.readAsText(file);
+}
+
+// ===================== 查词功能 =====================
+function lookupWord(word) {
+  // 清理单词（去掉标点、转小写尝试匹配）
+  const cleanWord = word.replace(/[.,!?;:"\'\-]$/, '');
+  let meaning = GERMAN_DICT[cleanWord];
+
+  // 如果没找到，尝试小写
+  if (!meaning) meaning = GERMAN_DICT[cleanWord.toLowerCase()];
+  // 如果没找到，尝试首字母大写（名词）
+  if (!meaning) meaning = GERMAN_DICT[cleanWord.charAt(0).toUpperCase() + cleanWord.slice(1)];
+  // 如果没找到，尝试全小写
+  if (!meaning) meaning = GERMAN_DICT[word.toLowerCase()];
+
+  return meaning || null;
+}
+
+function addToLookupHistory(word, meaning) {
+  // 避免重复
+  lookupHistory = lookupHistory.filter(item => item.word !== word);
+  lookupHistory.unshift({ word: word, meaning: meaning, time: new Date() });
+  if (lookupHistory.length > 50) lookupHistory.pop();
+  updateLookupPanel();
+}
+
+function updateLookupPanel() {
+  const list = document.getElementById('lookup-list');
+  if (lookupHistory.length === 0) {
+    list.innerHTML = '<div class="lookup-empty">暂无查词记录<br>点击单词即可查看释义</div>';
+    return;
+  }
+
+  let html = '';
+  lookupHistory.forEach(item => {
+    html += '<div class="lookup-item">';
+    html += '<div class="lookup-word">' + escapeHtml(item.word) + '</div>';
+    html += '<div class="lookup-meaning">' + escapeHtml(item.meaning) + '</div>';
+    html += '</div>';
+  });
+  list.innerHTML = html;
+}
+
+function toggleLookupPanel() {
+  document.getElementById('lookup-panel').classList.toggle('open');
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
 }
 
 // ===================== 渲染逻辑 =====================
 function loadPreset(key) {
   const preset = PRESETS[key];
   document.getElementById('input-text').value = preset.content;
+  document.getElementById('file-info').style.display = 'none';
   showStatus('✅ 已加载：' + preset.title, 'success');
   renderText();
 }
 
 function clearText() {
   document.getElementById('input-text').value = '';
-  document.getElementById('output-area').innerHTML = '<p class="empty-state">👆 点击上方按钮加载内容，或粘贴你自己的德语文本</p>';
+  document.getElementById('file-info').style.display = 'none';
+  document.getElementById('output-area').innerHTML = '<p class="empty-state">👆 上传文件、粘贴文本，或点击上方按钮加载预设内容</p>';
 }
 
 function renderText() {
   const rawText = document.getElementById('input-text').value.trim();
   if (!rawText) {
-    showStatus('⚠️ 请先输入或加载德语文本', 'warning');
+    showStatus('⚠️ 请先输入、上传或加载德语文本', 'warning');
     return;
   }
 
   const showTrans = document.getElementById('show-translation').checked;
+  const autoLookup = document.getElementById('auto-lookup').checked;
   const lines = rawText.split('\n').filter(function(l) { return l.trim(); });
 
   let html = '';
@@ -368,6 +1408,7 @@ function renderText() {
     let germanPart = line;
     let chinesePart = '';
 
+    // 检测是否有中文，尝试分离
     const chineseMatch = line.match(/[\u4e00-\u9fff]+.*$/);
     if (chineseMatch && showTrans) {
       const matchIndex = line.indexOf(chineseMatch[0]);
@@ -375,6 +1416,7 @@ function renderText() {
       chinesePart = chineseMatch[0];
     }
 
+    // 分词：按空格分割，保留标点
     const tokens = germanPart.split(/(\s+|[.,!?;:"])/g).filter(function(t) { return t.trim(); });
 
     html += '<div class="line-block">';
@@ -383,7 +1425,17 @@ function renderText() {
       const isWord = /[a-zA-ZäöüÄÖÜß]/.test(token);
 
       if (isWord) {
-        html += '<span class="word" data-word="' + token.replace(/"/g, '&quot;') + '" onclick="speakWord(this)">' + token + '</span>';
+        const meaning = lookupWord(token);
+        const hasTranslation = meaning !== null;
+        const extraClass = hasTranslation ? 'has-translation' : '';
+        const meaningAttr = hasTranslation ? ' data-meaning="' + meaning.replace(/"/g, '&quot;') + '"' : '';
+
+        html += '<span class="word ' + extraClass + '"' + meaningAttr + ' data-word="' + token.replace(/"/g, '&quot;') + '" onclick="speakWord(this)" onmouseenter="showTooltip(this)" onmouseleave="hideTooltip()">' + token + '</span>';
+
+        // 自动添加到查词记录
+        if (autoLookup && hasTranslation) {
+          addToLookupHistory(token, meaning);
+        }
       } else {
         html += '<span class="punct">' + token + '</span>';
       }
@@ -397,19 +1449,60 @@ function renderText() {
   });
 
   document.getElementById('output-area').innerHTML = html;
-  showStatus('✅ 已生成可点击文本！点击任意蓝色单词即可发音', 'success');
+  showStatus('✅ 已生成可点击文本！悬停查看释义，点击发音', 'success');
 }
 
+// ===================== 交互功能 =====================
 function speakWord(el) {
   const word = el.getAttribute('data-word');
-
   el.classList.add('active');
-
-  setTimeout(function() {
-    el.classList.remove('active');
-  }, 400);
-
+  setTimeout(function() { el.classList.remove('active'); }, 400);
   speak(word);
+
+  // 点击时也添加到查词记录
+  const meaning = el.getAttribute('data-meaning');
+  if (meaning) addToLookupHistory(word, meaning);
+}
+
+function showTooltip(el) {
+  const tooltip = document.getElementById('word-tooltip');
+  const word = el.getAttribute('data-word');
+  const meaning = el.getAttribute('data-meaning');
+
+  if (!meaning) {
+    // 尝试实时查词
+    const liveMeaning = lookupWord(word);
+    if (liveMeaning) {
+      el.setAttribute('data-meaning', liveMeaning);
+      showTooltipContent(tooltip, word, liveMeaning);
+    } else {
+      showTooltipContent(tooltip, word, null);
+    }
+  } else {
+    showTooltipContent(tooltip, word, meaning);
+  }
+
+  // 定位
+  const rect = el.getBoundingClientRect();
+  tooltip.style.left = rect.left + 'px';
+  tooltip.style.top = (rect.top - tooltip.offsetHeight - 8) + 'px';
+  tooltip.classList.add('show');
+}
+
+function showTooltipContent(tooltip, word, meaning) {
+  tooltip.querySelector('.tooltip-word').textContent = word;
+  const meaningEl = tooltip.querySelector('.tooltip-meaning');
+  if (meaning) {
+    meaningEl.textContent = meaning;
+    meaningEl.className = 'tooltip-meaning';
+  } else {
+    meaningEl.textContent = '（暂无释义）';
+    meaningEl.className = 'tooltip-no-meaning';
+  }
+}
+
+function hideTooltip() {
+  document.getElementById('word-tooltip').classList.remove('show');
 }
 
 function speakFullText() {
@@ -438,22 +1531,15 @@ function showStatus(msg, type) {
   el.className = '';
   el.classList.add('status-' + type);
   el.style.display = 'block';
-
-  setTimeout(function() {
-    el.style.display = 'none';
-  }, 4000);
+  setTimeout(function() { el.style.display = 'none'; }, 4000);
 }
 
-// 语速滑块实时更新
 document.getElementById('rate').addEventListener('input', function() {
   document.getElementById('rate-val').textContent = this.value + 'x';
 });
 
-// 自动加载第一周词汇作为默认内容
 window.addEventListener('load', function() {
-  setTimeout(function() {
-    loadPreset('week1');
-  }, 500);
+  setTimeout(function() { loadPreset('week1'); }, 500);
 });
 </script>
 
