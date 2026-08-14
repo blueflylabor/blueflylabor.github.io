@@ -348,6 +348,15 @@
     color: #888;
     margin-top: 8px;
   }
+  .api-source-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-radius: 12px;
+    font-size: 11px;
+    margin-left: 8px;
+  }
 </style>
 <base target="_blank">
 </head>
@@ -374,7 +383,9 @@
 
 <div class="container">
   <h2>🇩🇪 德语点击发音学习器</h2>
-  <p class="subtitle">点击发音 · 点击查词（DeepL） · 整句翻译 · 支持文件上传</p>
+  <p class="subtitle">点击发音 · 点击查词 · 整句翻译 · 支持文件上传
+    <span class="api-source-badge">MyMemory API</span>
+  </p>
 
   <div class="input-section">
     <div class="section-title">📁 上传文件（.txt .md .html）</div>
@@ -425,17 +436,18 @@
     <div class="help-content">
       <p><strong>操作方式：</strong></p>
       <ul>
-        <li><strong>单击单词</strong> → 朗读发音 + 显示 DeepL 中文翻译（已缓存的单词直接显示）</li>
+        <li><strong>单击单词</strong> → 朗读发音 + 显示 MyMemory 中文翻译（已缓存的直接显示）</li>
         <li><strong>右键单词</strong> → 菜单：翻译该词 / 朗读 / 加入生词本</li>
         <li><strong>悬停单词</strong> → 显示提示（如果已缓存则显示翻译）</li>
         <li><strong>「译」按钮</strong> → 翻译整句</li>
-        <li><strong>「翻译全文」</strong> → 翻译整个文档</li>
+        <li><strong>「翻译全文」</strong> → 逐句翻译整个文档</li>
       </ul>
-      <p><strong>关于 DeepL API：</strong></p>
+      <p><strong>关于 MyMemory API：</strong></p>
       <ul>
-        <li>使用内置 DeepL 免费版 API Key</li>
+        <li>免费翻译 API，无需注册，浏览器直接调用</li>
+        <li>每天约 5000 字符免费额度（按 IP 计算）</li>
         <li>翻译结果自动缓存到浏览器本地，避免重复调用</li>
-        <li>如果看到 CORS 错误，说明 DeepL 限制了浏览器直接调用，需要通过代理服务器</li>
+        <li>单次请求限 500 字节，超长句子会自动分段翻译</li>
       </ul>
       <p><strong>文件上传：</strong>支持 .txt .md .html，自动提取文本并分词</p>
     </div>
@@ -443,16 +455,15 @@
 </div>
 
 <script>
-// ===================== DeepL API 配置 =====================
-const DEEPL_API_KEY = 'e74f42ec-2edb-4fd3-9e2a-f5a34015e6e1:fx';
-const DEEPL_ENDPOINT = 'https://api-free.deepl.com/v2/translate';
+// ===================== MyMemory API 配置 =====================
+const MYMEMORY_API = 'https://api.mymemory.translated.net/get';
 
 // ===================== 翻译缓存 =====================
 let translationCache = {};
 
 function loadCache() {
   try {
-    const saved = localStorage.getItem('german_deepl_cache');
+    const saved = localStorage.getItem('german_mymemory_cache');
     if (saved) translationCache = JSON.parse(saved);
   } catch(e) {}
   updateCacheInfo();
@@ -460,7 +471,7 @@ function loadCache() {
 
 function saveCache() {
   try {
-    localStorage.setItem('german_deepl_cache', JSON.stringify(translationCache));
+    localStorage.setItem('german_mymemory_cache', JSON.stringify(translationCache));
   } catch(e) {}
   updateCacheInfo();
 }
@@ -603,40 +614,76 @@ function speak(text, rate) {
   window.speechSynthesis.speak(utterance);
 }
 
-// ===================== DeepL 翻译 =====================
-async function translateWithDeepL(text) {
+// ===================== MyMemory 翻译 =====================
+async function translateWithMyMemory(text) {
   // 检查缓存
   const cached = getCached(text);
-  if (cached) return { text: cached, source: 'DeepL (缓存)' };
+  if (cached) return { text: cached, source: 'MyMemory (缓存)' };
 
-  try {
-    const response = await fetch(DEEPL_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        'Authorization': 'DeepL-Auth-Key ' + DEEPL_API_KEY,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        text: text,
-        target_lang: 'ZH',
-        source_lang: 'DE'
-      })
-    });
+  // MyMemory 限 500 字节/请求，超长需分段
+  const MAX_BYTES = 450;
+  const encoder = new TextEncoder();
+  const bytes = encoder.encode(text);
 
-    if (!response.ok) {
-      if (response.status === 0) {
-        throw new Error('CORS 错误：DeepL 不允许浏览器直接调用。建议通过后端代理，或使用其他方式。');
-      }
-      throw new Error('DeepL API 错误: ' + response.status);
-    }
-
-    const data = await response.json();
-    const result = data.translations[0].text;
-    setCached(text, result);
-    return { text: result, source: 'DeepL' };
-  } catch (err) {
-    throw err;
+  if (bytes.length <= MAX_BYTES) {
+    return await translateChunk(text);
   }
+
+  // 分段翻译（按句子分割）
+  const sentences = text.split(/(?<=[.!?])\s+/);
+  let results = [];
+  let currentChunk = '';
+  let currentBytes = 0;
+
+  for (let i = 0; i < sentences.length; i++) {
+    const s = sentences[i];
+    const sBytes = encoder.encode(s).length;
+
+    if (currentBytes + sBytes > MAX_BYTES && currentChunk) {
+      const res = await translateChunk(currentChunk);
+      results.push(res.text);
+      currentChunk = s;
+      currentBytes = sBytes;
+    } else {
+      currentChunk += (currentChunk ? ' ' : '') + s;
+      currentBytes += sBytes + (currentChunk ? 1 : 0);
+    }
+  }
+
+  if (currentChunk) {
+    const res = await translateChunk(currentChunk);
+    results.push(res.text);
+  }
+
+  const fullResult = results.join(' ');
+  setCached(text, fullResult);
+  return { text: fullResult, source: 'MyMemory' };
+}
+
+async function translateChunk(text) {
+  const cached = getCached(text);
+  if (cached) return { text: cached, source: 'MyMemory (缓存)' };
+
+  const params = new URLSearchParams({
+    q: text,
+    langpair: 'de|zh-CN'
+  });
+
+  const response = await fetch(MYMEMORY_API + '?' + params.toString());
+
+  if (!response.ok) {
+    throw new Error('MyMemory API 错误: ' + response.status);
+  }
+
+  const data = await response.json();
+
+  if (data.responseStatus !== 200) {
+    throw new Error(data.responseDetails || '翻译失败');
+  }
+
+  const result = data.responseData.translatedText;
+  setCached(text, result);
+  return { text: result, source: 'MyMemory' };
 }
 
 // ===================== 文件上传 =====================
@@ -701,12 +748,11 @@ async function lookupAndShowWord(el) {
   el.classList.add('translating');
 
   try {
-    const result = await translateWithDeepL(cleanWord);
+    const result = await translateWithMyMemory(cleanWord);
     el.classList.remove('translating');
     el.classList.add('has-translation');
     el.setAttribute('data-meaning', result.text);
 
-    // 显示在 tooltip
     const tooltip = document.getElementById('word-tooltip');
     tooltip.querySelector('.tooltip-word').textContent = cleanWord;
     tooltip.querySelector('.tooltip-meaning').textContent = result.text;
@@ -717,10 +763,8 @@ async function lookupAndShowWord(el) {
     tooltip.style.top = (rect.top - tooltip.offsetHeight - 8) + 'px';
     tooltip.classList.add('show');
 
-    // 3秒后隐藏
     setTimeout(function() { tooltip.classList.remove('show'); }, 3000);
 
-    // 加入生词本
     addToLookupHistory(cleanWord, result.text);
 
   } catch (err) {
@@ -741,7 +785,7 @@ function showTooltip(el) {
     meaningEl.textContent = meaning;
     meaningEl.className = 'tooltip-meaning';
   } else {
-    meaningEl.textContent = '点击单词查看 DeepL 翻译';
+    meaningEl.textContent = '点击单词查看翻译';
     meaningEl.className = 'tooltip-loading';
   }
 
@@ -810,7 +854,7 @@ async function menuTranslateWord() {
   showStatus('🔤 正在翻译: ' + cleanWord + '...', 'info');
 
   try {
-    const result = await translateWithDeepL(cleanWord);
+    const result = await translateWithMyMemory(cleanWord);
     showStatus('✅ ' + cleanWord + ' → ' + result.text, 'success');
     addToLookupHistory(cleanWord, result.text);
   } catch (err) {
@@ -834,6 +878,7 @@ async function translateLine(lineEl) {
   const transDiv = lineEl.querySelector('.api-translation');
   if (transDiv.classList.contains('show')) {
     transDiv.classList.remove('show');
+    lineEl.classList.remove('translated');
     return;
   }
 
@@ -844,12 +889,12 @@ async function translateLine(lineEl) {
 
   if (!text) return;
 
-  transDiv.querySelector('.trans-label').textContent = 'DeepL 翻译中...';
+  transDiv.querySelector('.trans-label').textContent = 'MyMemory 翻译中...';
   transDiv.querySelector('.trans-text').textContent = '';
   transDiv.classList.add('show');
 
   try {
-    const result = await translateWithDeepL(text);
+    const result = await translateWithMyMemory(text);
     transDiv.querySelector('.trans-label').textContent = result.source;
     transDiv.querySelector('.trans-text').textContent = result.text;
     lineEl.classList.add('translated');
@@ -866,7 +911,7 @@ async function translateFullText() {
     return;
   }
 
-  showStatus('🌐 正在通过 DeepL 翻译全文...', 'info');
+  showStatus('🌐 正在通过 MyMemory 翻译全文...', 'info');
 
   let text = rawText.split('\n').map(function(line) {
     const chineseMatch = line.match(/[\u4e00-\u9fff]/);
@@ -877,7 +922,7 @@ async function translateFullText() {
   }).join('\n');
 
   try {
-    const result = await translateWithDeepL(text);
+    const result = await translateWithMyMemory(text);
 
     let html = '<div style="margin-top: 16px; padding: 16px; background: #f3e5f5; border-radius: 12px; border-left: 4px solid #7b1fa2;">';
     html += '<div style="font-size: 11px; color: #7b1fa2; font-weight: 600; margin-bottom: 8px;">' + result.source + ' 全文翻译</div>';
@@ -961,7 +1006,7 @@ function renderText() {
     }
 
     html += '<div class="api-translation">';
-    html += '<div class="trans-label">DeepL 翻译</div>';
+    html += '<div class="trans-label">MyMemory 翻译</div>';
     html += '<div class="trans-text"></div>';
     html += '</div>';
 
