@@ -23,7 +23,7 @@ en:
   menu_search: "Search"
   menu_filestore: "FileStore"
   menu_german: "German"
-
+  menu_deumap: "DeUMap"
 zh:
   menu_github: "Github"
   menu_device: "我的裝置"
@@ -49,3 +49,4 @@ zh:
   menu_search: "搜索"
   menu_filestore: "文件櫃"
   menu_german: "德語"
+  menu_deumap: "德國大學"

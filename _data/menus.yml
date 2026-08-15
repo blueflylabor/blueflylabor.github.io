@@ -30,3 +30,6 @@
 
 - default: menu_german
   url: "german"
+
+- default: menu_deumap
+  url: "deu"
