@@ -27,7 +27,640 @@
 
 <script>
 // ===================== 数据 =====================
-const UNIVERSITIES = [{"name": "Max Planck Society", "rank": 1, "city": "慕尼黑", "lat": 48.1351, "lng": 11.582}, {"name": "LMU Munich", "rank": 2, "city": "慕尼黑", "lat": 48.15, "lng": 11.58}, {"name": "TU Munich", "rank": 3, "city": "慕尼黑", "lat": 49.150114008686174, "lng": 12.579987002285574}, {"name": "TU Darmstadt", "rank": 4, "city": "达姆施塔特", "lat": 49.8728, "lng": 8.6512}, {"name": "University of Tübingen", "rank": 5, "city": "图宾根", "lat": 48.4011, "lng": 9.0625}, {"name": "CISPA Helmholtz Center", "rank": 6, "city": "萨尔布吕肯", "lat": 49.2402, "lng": 7.0132}, {"name": "Saarland University", "rank": 7, "city": "萨尔布吕肯", "lat": 50.240221557177534, "lng": 8.01346104007499}, {"name": "RWTH Aachen University", "rank": 8, "city": "亚琛", "lat": 50.7753, "lng": 6.0839}, {"name": "University of Stuttgart", "rank": 9, "city": "斯图加特", "lat": 48.7753, "lng": 9.1829}, {"name": "University of Würzburg", "rank": 10, "city": "维尔茨堡", "lat": 49.79, "lng": 9.953}, {"name": "Heidelberg University", "rank": 11, "city": "海德堡", "lat": 49.3983, "lng": 8.6724}, {"name": "TU Berlin", "rank": 12, "city": "柏林", "lat": 52.52, "lng": 13.405}, {"name": "University of Freiburg", "rank": 13, "city": "弗赖堡", "lat": 47.999, "lng": 7.8423}, {"name": "Hasso Plattner Institute", "rank": 14, "city": "波茨坦", "lat": 52.3963, "lng": 13.0674}, {"name": "TU Dresden", "rank": 15, "city": "德累斯顿", "lat": 51.0504, "lng": 13.7373}, {"name": "Friedrich Schiller University Jena", "rank": 16, "city": "耶拿", "lat": 50.927, "lng": 11.5884}, {"name": "University of Bonn", "rank": 17, "city": "波恩", "lat": 50.7374, "lng": 7.0982}, {"name": "University of Hannover", "rank": 18, "city": "汉诺威", "lat": 52.3759, "lng": 9.732}, {"name": "University of Hamburg", "rank": 19, "city": "汉堡", "lat": 53.5511, "lng": 9.9937}, {"name": "Karlsruhe Institute of Technology", "rank": 20, "city": "卡尔斯鲁厄", "lat": 49.0148, "lng": 8.4044}, {"name": "Goethe University Frankfurt", "rank": 21, "city": "法兰克福", "lat": 50.1109, "lng": 8.6821}, {"name": "University of Leipzig", "rank": 22, "city": "莱比锡", "lat": 51.3397, "lng": 12.3731}, {"name": "TU Kaiserslautern", "rank": 23, "city": "凯泽斯劳滕", "lat": 49.4208, "lng": 7.7591}, {"name": "University of Göttingen", "rank": 24, "city": "哥廷根", "lat": 51.5413, "lng": 9.9333}, {"name": "University of Mannheim", "rank": 25, "city": "曼海姆", "lat": 49.4875, "lng": 8.464}, {"name": "TU Dortmund", "rank": 26, "city": "多特蒙德", "lat": 51.5136, "lng": 7.4628}, {"name": "Ruhr-University Bochum", "rank": 27, "city": "波鸿", "lat": 51.4826, "lng": 7.2269}, {"name": "University of Potsdam", "rank": 28, "city": "波茨坦", "lat": 53.3963044371972, "lng": 14.067334294800617}, {"name": "University of Düsseldorf", "rank": 29, "city": "杜塞尔多夫", "lat": 51.2277, "lng": 6.7735}, {"name": "Bauhaus University Weimar", "rank": 30, "city": "魏玛", "lat": 50.9792, "lng": 11.329}, {"name": "University of Lübeck", "rank": 31, "city": "吕贝克", "lat": 53.8655, "lng": 10.6865}, {"name": "University of Ulm", "rank": 32, "city": "乌尔姆", "lat": 48.4011, "lng": 9.9876}, {"name": "University of Cologne", "rank": 33, "city": "科隆", "lat": 50.9375, "lng": 6.9603}, {"name": "University of Konstanz", "rank": 34, "city": "康斯坦茨", "lat": 47.68, "lng": 9.1733}, {"name": "University of Mainz", "rank": 35, "city": "美因茨", "lat": 50.0, "lng": 8.27}, {"name": "Bielefeld University", "rank": 36, "city": "比勒费尔德", "lat": 52.0302, "lng": 8.5325}, {"name": "University of Bamberg", "rank": 37, "city": "班贝格", "lat": 49.8899, "lng": 10.888}, {"name": "University of Siegen", "rank": 38, "city": "锡根", "lat": 50.8836, "lng": 8.04}, {"name": "TU Clausthal", "rank": 39, "city": "克劳斯塔尔", "lat": 51.8835, "lng": 10.2832}, {"name": "Freie Universität Berlin", "rank": 40, "city": "柏林", "lat": 53.52002423706262, "lng": 14.404887847818996}, {"name": "Humboldt University of Berlin", "rank": 41, "city": "柏林", "lat": 53.52003693701944, "lng": 14.405122549429343}, {"name": "Paderborn University", "rank": 42, "city": "帕德博恩", "lat": 51.7134, "lng": 8.7575}, {"name": "University of Erlangen–Nuremberg", "rank": 43, "city": "纽伦堡", "lat": 49.4774, "lng": 11.077}, {"name": "University of Koblenz-Landau", "rank": 44, "city": "科布伦茨/兰道", "lat": 50.356, "lng": 7.5981}, {"name": "University of Bremen", "rank": 45, "city": "不来梅", "lat": 53.0793, "lng": 8.8017}, {"name": "University of Magdeburg", "rank": 46, "city": "马格德堡", "lat": 52.1205, "lng": 11.6276}, {"name": "University of Passau", "rank": 47, "city": "帕绍", "lat": 48.5667, "lng": 13.45}, {"name": "University of Hildesheim", "rank": 48, "city": "希尔德斯海姆", "lat": 52.1537, "lng": 9.953}, {"name": "Bundeswehr University Munich", "rank": 49, "city": "慕尼黑", "lat": 49.13509768761974, "lng": 12.581760132618417}, {"name": "THWS", "rank": 50, "city": "维尔茨堡", "lat": 49.791, "lng": 9.953}, {"name": "University of Bayreuth", "rank": 51, "city": "拜罗伊特", "lat": 49.944, "lng": 11.571}, {"name": "University of Duisburg-Essen", "rank": 52, "city": "杜伊斯堡/埃森", "lat": 51.4535, "lng": 7.0111}, {"name": "Hamburg University of Technology", "rank": 53, "city": "汉堡", "lat": 54.55101254639814, "lng": 10.993624078039772}, {"name": "TU Braunschweig", "rank": 54, "city": "布伦瑞克", "lat": 52.265, "lng": 10.5236}, {"name": "TU Ilmenau", "rank": 55, "city": "伊尔梅瑙", "lat": 50.6828, "lng": 11.0175}, {"name": "University of Halle-Wittenberg", "rank": 56, "city": "哈雷/威滕贝格", "lat": 51.481, "lng": 11.9685}, {"name": "University of Kassel", "rank": 57, "city": "卡塞尔", "lat": 51.3121, "lng": 9.482}, {"name": "University of Kiel", "rank": 58, "city": "基尔", "lat": 54.3233, "lng": 10.1343}, {"name": "University of Münster", "rank": 59, "city": "明斯特", "lat": 51.9607, "lng": 7.6261}, {"name": "University of Oldenburg", "rank": 60, "city": "奥尔登堡", "lat": 53.143, "lng": 8.2125}, {"name": "University of Regensburg", "rank": 61, "city": "雷根斯堡", "lat": 49.0134, "lng": 12.1016}, {"name": "University of Wuppertal", "rank": 62, "city": "伍珀塔尔", "lat": 51.255, "lng": 7.1482}, {"name": "University of Augsburg", "rank": 63, "city": "奥格斯堡", "lat": 48.401, "lng": 10.8961}, {"name": "University of Marburg", "rank": 64, "city": "马尔堡", "lat": 50.808, "lng": 8.763}, {"name": "University of Rostock", "rank": 65, "city": "罗斯托克", "lat": 54.0924, "lng": 12.14}];
+const UNIVERSITIES1 = [{"name": "Max Planck Society", "rank": 1, "city": "慕尼黑", "lat": 48.1351, "lng": 11.582}, {"name": "LMU Munich", "rank": 2, "city": "慕尼黑", "lat": 48.15, "lng": 11.58}, {"name": "TU Munich", "rank": 3, "city": "慕尼黑", "lat": 49.150114008686174, "lng": 12.579987002285574}, {"name": "TU Darmstadt", "rank": 4, "city": "达姆施塔特", "lat": 49.8728, "lng": 8.6512}, {"name": "University of Tübingen", "rank": 5, "city": "图宾根", "lat": 48.4011, "lng": 9.0625}, {"name": "CISPA Helmholtz Center", "rank": 6, "city": "萨尔布吕肯", "lat": 49.2402, "lng": 7.0132}, {"name": "Saarland University", "rank": 7, "city": "萨尔布吕肯", "lat": 50.240221557177534, "lng": 8.01346104007499}, {"name": "RWTH Aachen University", "rank": 8, "city": "亚琛", "lat": 50.7753, "lng": 6.0839}, {"name": "University of Stuttgart", "rank": 9, "city": "斯图加特", "lat": 48.7753, "lng": 9.1829}, {"name": "University of Würzburg", "rank": 10, "city": "维尔茨堡", "lat": 49.79, "lng": 9.953}, {"name": "Heidelberg University", "rank": 11, "city": "海德堡", "lat": 49.3983, "lng": 8.6724}, {"name": "TU Berlin", "rank": 12, "city": "柏林", "lat": 52.52, "lng": 13.405}, {"name": "University of Freiburg", "rank": 13, "city": "弗赖堡", "lat": 47.999, "lng": 7.8423}, {"name": "Hasso Plattner Institute", "rank": 14, "city": "波茨坦", "lat": 52.3963, "lng": 13.0674}, {"name": "TU Dresden", "rank": 15, "city": "德累斯顿", "lat": 51.0504, "lng": 13.7373}, {"name": "Friedrich Schiller University Jena", "rank": 16, "city": "耶拿", "lat": 50.927, "lng": 11.5884}, {"name": "University of Bonn", "rank": 17, "city": "波恩", "lat": 50.7374, "lng": 7.0982}, {"name": "University of Hannover", "rank": 18, "city": "汉诺威", "lat": 52.3759, "lng": 9.732}, {"name": "University of Hamburg", "rank": 19, "city": "汉堡", "lat": 53.5511, "lng": 9.9937}, {"name": "Karlsruhe Institute of Technology", "rank": 20, "city": "卡尔斯鲁厄", "lat": 49.0148, "lng": 8.4044}, {"name": "Goethe University Frankfurt", "rank": 21, "city": "法兰克福", "lat": 50.1109, "lng": 8.6821}, {"name": "University of Leipzig", "rank": 22, "city": "莱比锡", "lat": 51.3397, "lng": 12.3731}, {"name": "TU Kaiserslautern", "rank": 23, "city": "凯泽斯劳滕", "lat": 49.4208, "lng": 7.7591}, {"name": "University of Göttingen", "rank": 24, "city": "哥廷根", "lat": 51.5413, "lng": 9.9333}, {"name": "University of Mannheim", "rank": 25, "city": "曼海姆", "lat": 49.4875, "lng": 8.464}, {"name": "TU Dortmund", "rank": 26, "city": "多特蒙德", "lat": 51.5136, "lng": 7.4628}, {"name": "Ruhr-University Bochum", "rank": 27, "city": "波鸿", "lat": 51.4826, "lng": 7.2269}, {"name": "University of Potsdam", "rank": 28, "city": "波茨坦", "lat": 53.3963044371972, "lng": 14.067334294800617}, {"name": "University of Düsseldorf", "rank": 29, "city": "杜塞尔多夫", "lat": 51.2277, "lng": 6.7735}, {"name": "Bauhaus University Weimar", "rank": 30, "city": "魏玛", "lat": 50.9792, "lng": 11.329}, {"name": "University of Lübeck", "rank": 31, "city": "吕贝克", "lat": 53.8655, "lng": 10.6865}, {"name": "University of Ulm", "rank": 32, "city": "乌尔姆", "lat": 48.4011, "lng": 9.9876}, {"name": "University of Cologne", "rank": 33, "city": "科隆", "lat": 50.9375, "lng": 6.9603}, {"name": "University of Konstanz", "rank": 34, "city": "康斯坦茨", "lat": 47.68, "lng": 9.1733}, {"name": "University of Mainz", "rank": 35, "city": "美因茨", "lat": 50.0, "lng": 8.27}, {"name": "Bielefeld University", "rank": 36, "city": "比勒费尔德", "lat": 52.0302, "lng": 8.5325}, {"name": "University of Bamberg", "rank": 37, "city": "班贝格", "lat": 49.8899, "lng": 10.888}, {"name": "University of Siegen", "rank": 38, "city": "锡根", "lat": 50.8836, "lng": 8.04}, {"name": "TU Clausthal", "rank": 39, "city": "克劳斯塔尔", "lat": 51.8835, "lng": 10.2832}, {"name": "Freie Universität Berlin", "rank": 40, "city": "柏林", "lat": 53.52002423706262, "lng": 14.404887847818996}, {"name": "Humboldt University of Berlin", "rank": 41, "city": "柏林", "lat": 53.52003693701944, "lng": 14.405122549429343}, {"name": "Paderborn University", "rank": 42, "city": "帕德博恩", "lat": 51.7134, "lng": 8.7575}, {"name": "University of Erlangen–Nuremberg", "rank": 43, "city": "纽伦堡", "lat": 49.4774, "lng": 11.077}, {"name": "University of Koblenz-Landau", "rank": 44, "city": "科布伦茨/兰道", "lat": 50.356, "lng": 7.5981}, {"name": "University of Bremen", "rank": 45, "city": "不来梅", "lat": 53.0793, "lng": 8.8017}, {"name": "University of Magdeburg", "rank": 46, "city": "马格德堡", "lat": 52.1205, "lng": 11.6276}, {"name": "University of Passau", "rank": 47, "city": "帕绍", "lat": 48.5667, "lng": 13.45}, {"name": "University of Hildesheim", "rank": 48, "city": "希尔德斯海姆", "lat": 52.1537, "lng": 9.953}, {"name": "Bundeswehr University Munich", "rank": 49, "city": "慕尼黑", "lat": 49.13509768761974, "lng": 12.581760132618417}, {"name": "THWS", "rank": 50, "city": "维尔茨堡", "lat": 49.791, "lng": 9.953}, {"name": "University of Bayreuth", "rank": 51, "city": "拜罗伊特", "lat": 49.944, "lng": 11.571}, {"name": "University of Duisburg-Essen", "rank": 52, "city": "杜伊斯堡/埃森", "lat": 51.4535, "lng": 7.0111}, {"name": "Hamburg University of Technology", "rank": 53, "city": "汉堡", "lat": 54.55101254639814, "lng": 10.993624078039772}, {"name": "TU Braunschweig", "rank": 54, "city": "布伦瑞克", "lat": 52.265, "lng": 10.5236}, {"name": "TU Ilmenau", "rank": 55, "city": "伊尔梅瑙", "lat": 50.6828, "lng": 11.0175}, {"name": "University of Halle-Wittenberg", "rank": 56, "city": "哈雷/威滕贝格", "lat": 51.481, "lng": 11.9685}, {"name": "University of Kassel", "rank": 57, "city": "卡塞尔", "lat": 51.3121, "lng": 9.482}, {"name": "University of Kiel", "rank": 58, "city": "基尔", "lat": 54.3233, "lng": 10.1343}, {"name": "University of Münster", "rank": 59, "city": "明斯特", "lat": 51.9607, "lng": 7.6261}, {"name": "University of Oldenburg", "rank": 60, "city": "奥尔登堡", "lat": 53.143, "lng": 8.2125}, {"name": "University of Regensburg", "rank": 61, "city": "雷根斯堡", "lat": 49.0134, "lng": 12.1016}, {"name": "University of Wuppertal", "rank": 62, "city": "伍珀塔尔", "lat": 51.255, "lng": 7.1482}, {"name": "University of Augsburg", "rank": 63, "city": "奥格斯堡", "lat": 48.401, "lng": 10.8961}, {"name": "University of Marburg", "rank": 64, "city": "马尔堡", "lat": 50.808, "lng": 8.763}, {"name": "University of Rostock", "rank": 65, "city": "罗斯托克", "lat": 54.0924, "lng": 12.14}];
+
+const UNIVERSITIES = [
+  {
+    "rank":1,
+    "institution":"Max Planck Society",
+    "score":7.1,
+    "count":51,
+    "city":"慕尼黑",
+    "lat":48.1351,
+    "lng":11.582
+  },
+  {
+    "rank":2,
+    "institution":"TU Munich",
+    "score":5.9,
+    "count":76,
+    "city":"慕尼黑",
+    "lat":48.1496,
+    "lng":11.5679
+  },
+  {
+    "rank":3,
+    "institution":"TU Darmstadt",
+    "score":4.1,
+    "count":38,
+    "city":"达姆施塔特",
+    "lat":49.8728,
+    "lng":8.6512
+  },
+  {
+    "rank":4,
+    "institution":"CISPA Helmholtz Center",
+    "score":3.7,
+    "count":50,
+    "city":"萨尔布吕肯",
+    "lat":49.2514,
+    "lng":6.9962
+  },
+  {
+    "rank":5,
+    "institution":"RWTH Aachen University",
+    "score":3.0,
+    "count":35,
+    "city":"亚琛",
+    "lat":50.7753,
+    "lng":6.0839
+  },
+  {
+    "rank":6,
+    "institution":"Karlsruhe Inst. of Technology",
+    "score":2.9,
+    "count":37,
+    "city":"卡尔斯鲁厄",
+    "lat":49.0069,
+    "lng":8.4037
+  },
+  {
+    "rank":6,
+    "institution":"Saarland University",
+    "score":2.9,
+    "count":29,
+    "city":"萨尔布吕肯",
+    "lat":49.2511,
+    "lng":7.0014
+  },
+  {
+    "rank":8,
+    "institution":"TU Berlin",
+    "score":2.8,
+    "count":36,
+    "city":"柏林",
+    "lat":52.5193,
+    "lng":13.4022
+  },
+  {
+    "rank":9,
+    "institution":"Ruhr‑University Bochum",
+    "score":2.5,
+    "count":30,
+    "city":"波鸿",
+    "lat":51.4483,
+    "lng":7.2637
+  },
+  {
+    "rank":9,
+    "institution":"TU Dresden",
+    "score":2.5,
+    "count":28,
+    "city":"德累斯顿",
+    "lat":51.0279,
+    "lng":13.7384
+  },
+  {
+    "rank":11,
+    "institution":"LMU Munich",
+    "score":2.4,
+    "count":26,
+    "city":"慕尼黑",
+    "lat":48.1499,
+    "lng":11.5742
+  },
+  {
+    "rank":11,
+    "institution":"University of Stuttgart",
+    "score":2.4,
+    "count":30,
+    "city":"斯图加特",
+    "lat":48.7784,
+    "lng":9.1800
+  },
+  {
+    "rank":13,
+    "institution":"Hasso Plattner Institute",
+    "score":2.2,
+    "count":23,
+    "city":"波茨坦",
+    "lat":52.3964,
+    "lng":13.0643
+  },
+  {
+    "rank":14,
+    "institution":"University of Bonn",
+    "score":2.1,
+    "count":15,
+    "city":"波恩",
+    "lat":50.7374,
+    "lng":7.0955
+  },
+  {
+    "rank":14,
+    "institution":"University of Tübingen",
+    "score":2.1,
+    "count":28,
+    "city":"蒂宾根",
+    "lat":48.5222,
+    "lng":9.0522
+  },
+  {
+    "rank":16,
+    "institution":"TU Kaiserslautern",
+    "score":1.9,
+    "count":21,
+    "city":"凯泽斯劳滕",
+    "lat":49.4227,
+    "lng":7.7613
+  },
+  {
+    "rank":16,
+    "institution":"University of Freiburg",
+    "score":1.9,
+    "count":16,
+    "city":"弗莱堡",
+    "lat":47.9990,
+    "lng":7.8421
+  },
+  {
+    "rank":16,
+    "institution":"University of Würzburg",
+    "score":1.9,
+    "count":17,
+    "city":"维尔茨堡",
+    "lat":49.7913,
+    "lng":9.9534
+  },
+  {
+    "rank":19,
+    "institution":"TU Dortmund",
+    "score":1.8,
+    "count":25,
+    "city":"多特蒙德",
+    "lat":51.5136,
+    "lng":7.4653
+  },
+  {
+    "rank":20,
+    "institution":"Heidelberg University",
+    "score":1.7,
+    "count":20,
+    "city":"海德堡",
+    "lat":49.4123,
+    "lng":8.6851
+  },
+  {
+    "rank":20,
+    "institution":"University of Hamburg",
+    "score":1.7,
+    "count":16,
+    "city":"汉堡",
+    "lat":53.5511,
+    "lng":9.9937
+  },
+  {
+    "rank":20,
+    "institution":"University of Hannover",
+    "score":1.7,
+    "count":15,
+    "city":"汉诺威",
+    "lat":52.3744,
+    "lng":9.7386
+  },
+  {
+    "rank":23,
+    "institution":"University of Bremen",
+    "score":1.6,
+    "count":14,
+    "city":"不来梅",
+    "lat":53.0793,
+    "lng":8.8017
+  },
+  {
+    "rank":23,
+    "institution":"University of Lübeck",
+    "score":1.6,
+    "count":22,
+    "city":"吕贝克",
+    "lat":53.8692,
+    "lng":10.6864
+  },
+  {
+    "rank":25,
+    "institution":"Friedrich Schiller University Jena",
+    "score":1.5,
+    "count":8,
+    "city":"耶拿",
+    "lat":50.9281,
+    "lng":11.5899
+  },
+  {
+    "rank":25,
+    "institution":"Paderborn University",
+    "score":1.5,
+    "count":14,
+    "city":"帕德博恩",
+    "lat":51.7128,
+    "lng":8.7579
+  },
+  {
+    "rank":25,
+    "institution":"TU Braunschweig",
+    "score":1.5,
+    "count":9,
+    "city":"布伦瑞克",
+    "lat":52.2674,
+    "lng":10.5267
+  },
+  {
+    "rank":25,
+    "institution":"University of Konstanz",
+    "score":1.5,
+    "count":11,
+    "city":"康斯坦茨",
+    "lat":47.6811,
+    "lng":9.1772
+  },
+  {
+    "rank":25,
+    "institution":"University of Mannheim",
+    "score":1.5,
+    "count":8,
+    "city":"曼海姆",
+    "lat":49.4875,
+    "lng":8.4660
+  },
+  {
+    "rank":30,
+    "institution":"Humboldt University of Berlin",
+    "score":1.4,
+    "count":9,
+    "city":"柏林",
+    "lat":52.5170,
+    "lng":13.4017
+  },
+  {
+    "rank":30,
+    "institution":"University of Augsburg",
+    "score":1.4,
+    "count":11,
+    "city":"奥格斯堡",
+    "lat":48.3697,
+    "lng":10.8978
+  },
+  {
+    "rank":30,
+    "institution":"University of Erlangen–Nuremberg",
+    "score":1.4,
+    "count":14,
+    "city":"埃尔朗根",
+    "lat":49.5892,
+    "lng":11.0097
+  },
+  {
+    "rank":30,
+    "institution":"University of Göttingen",
+    "score":1.4,
+    "count":12,
+    "city":"哥廷根",
+    "lat":51.5330,
+    "lng":9.9350
+  },
+  {
+    "rank":30,
+    "institution":"University of Leipzig",
+    "score":1.4,
+    "count":9,
+    "city":"莱比锡",
+    "lat":51.3397,
+    "lng":12.3731
+  },
+  {
+    "rank":30,
+    "institution":"University of Oldenburg",
+    "score":1.4,
+    "count":11,
+    "city":"奥尔登堡",
+    "lat":53.1410,
+    "lng":8.2147
+  },
+  {
+    "rank":30,
+    "institution":"University of Regensburg",
+    "score":1.4,
+    "count":13,
+    "city":"雷根斯堡",
+    "lat":49.0194,
+    "lng":12.0973
+  },
+  {
+    "rank":30,
+    "institution":"University of Ulm",
+    "score":1.4,
+    "count":9,
+    "city":"乌尔姆",
+    "lat":48.4011,
+    "lng":9.9872
+  },
+  {
+    "rank":38,
+    "institution":"Bauhaus University Weimar",
+    "score":1.3,
+    "count":4,
+    "city":"魏玛",
+    "lat":50.9803,
+    "lng":11.3288
+  },
+  {
+    "rank":38,
+    "institution":"Freie Universitaet Berlin",
+    "score":1.3,
+    "count":13,
+    "city":"柏林",
+    "lat":52.4565,
+    "lng":13.2814
+  },
+  {
+    "rank":38,
+    "institution":"Goethe University Frankfurt",
+    "score":1.3,
+    "count":9,
+    "city":"法兰克福",
+    "lat":50.1109,
+    "lng":8.6821
+  },
+  {
+    "rank":38,
+    "institution":"TU Clausthal",
+    "score":1.3,
+    "count":7,
+    "city":"克劳斯塔尔‑采勒费尔德",
+    "lat":51.8010,
+    "lng":10.3390
+  },
+  {
+    "rank":38,
+    "institution":"University of Bayreuth",
+    "score":1.3,
+    "count":7,
+    "city":"拜罗伊特",
+    "lat":49.9483,
+    "lng":11.5770
+  },
+  {
+    "rank":38,
+    "institution":"University of Magdeburg",
+    "score":1.3,
+    "count":12,
+    "city":"马格德堡",
+    "lat":52.1306,
+    "lng":11.6228
+  },
+  {
+    "rank":38,
+    "institution":"University of Mainz",
+    "score":1.3,
+    "count":7,
+    "city":"美因茨",
+    "lat":49.9929,
+    "lng":8.2473
+  },
+  {
+    "rank":38,
+    "institution":"University of Passau",
+    "score":1.3,
+    "count":6,
+    "city":"帕绍",
+    "lat":48.5731,
+    "lng":13.4681
+  },
+  {
+    "rank":38,
+    "institution":"University of Siegen",
+    "score":1.3,
+    "count":13,
+    "city":"锡根",
+    "lat":50.8748,
+    "lng":8.0203
+  },
+  {
+    "rank":47,
+    "institution":"Bielefeld University",
+    "score":1.2,
+    "count":4,
+    "city":"比勒费尔德",
+    "lat":52.0311,
+    "lng":8.5325
+  },
+  {
+    "rank":47,
+    "institution":"Hamburg University of Technology",
+    "score":1.2,
+    "count":8,
+    "city":"汉堡",
+    "lat":53.4679,
+    "lng":10.0346
+  },
+  {
+    "rank":47,
+    "institution":"TU Chemnitz",
+    "score":1.2,
+    "count":5,
+    "city":"开姆尼茨",
+    "lat":50.8333,
+    "lng":12.9214
+  },
+  {
+    "rank":47,
+    "institution":"TU Ilmenau",
+    "score":1.2,
+    "count":6,
+    "city":"伊尔默瑙",
+    "lat":50.6824,
+    "lng":10.9181
+  },
+  {
+    "rank":47,
+    "institution":"University of Cologne",
+    "score":1.2,
+    "count":4,
+    "city":"科隆",
+    "lat":50.9375,
+    "lng":6.9603
+  },
+  {
+    "rank":47,
+    "institution":"University of Duisburg‑Essen",
+    "score":1.2,
+    "count":10,
+    "city":"杜伊斯堡",
+    "lat":51.4344,
+    "lng":6.7507
+  },
+  {
+    "rank":47,
+    "institution":"University of Düsseldorf",
+    "score":1.2,
+    "count":5,
+    "city":"杜塞尔多夫",
+    "lat":51.2217,
+    "lng":6.7762
+  },
+  {
+    "rank":47,
+    "institution":"University of Kiel",
+    "score":1.2,
+    "count":8,
+    "city":"基尔",
+    "lat":54.3227,
+    "lng":10.1497
+  },
+  {
+    "rank":47,
+    "institution":"University of Münster",
+    "score":1.2,
+    "count":11,
+    "city":"明斯特",
+    "lat":51.9607,
+    "lng":7.6261
+  },
+  {
+    "rank":47,
+    "institution":"University of Potsdam",
+    "score":1.2,
+    "count":8,
+    "city":"波茨坦",
+    "lat":52.4003,
+    "lng":13.0599
+  },
+  {
+    "rank":47,
+    "institution":"University of Wuppertal",
+    "score":1.2,
+    "count":4,
+    "city":"伍珀塔尔",
+    "lat":51.2655,
+    "lng":7.1837
+  },
+  {
+    "rank":58,
+    "institution":"Bundeswehr University Munich",
+    "score":1.1,
+    "count":5,
+    "city":"慕尼黑",
+    "lat":48.0792,
+    "lng":11.6317
+  },
+  {
+    "rank":58,
+    "institution":"Jacobs University Bremen",
+    "score":1.1,
+    "count":1,
+    "city":"不来梅",
+    "lat":53.1033,
+    "lng":8.6444
+  },
+  {
+    "rank":58,
+    "institution":"THWS",
+    "score":1.1,
+    "count":4,
+    "city":"维尔茨堡",
+    "lat":49.7944,
+    "lng":9.9451
+  },
+  {
+    "rank":58,
+    "institution":"TU Freiberg",
+    "score":1.1,
+    "count":3,
+    "city":"弗赖贝格",
+    "lat":50.9173,
+    "lng":13.3423
+  },
+  {
+    "rank":58,
+    "institution":"University of Bamberg",
+    "score":1.1,
+    "count":5,
+    "city":"班贝格",
+    "lat":49.8917,
+    "lng":10.8871
+  },
+  {
+    "rank":58,
+    "institution":"University of Hildesheim",
+    "score":1.1,
+    "count":1,
+    "city":"希尔德斯海姆",
+    "lat":52.1493,
+    "lng":9.9506
+  },
+  {
+    "rank":58,
+    "institution":"University of Kassel",
+    "score":1.1,
+    "count":5,
+    "city":"卡塞尔",
+    "lat":51.3127,
+    "lng":9.4797
+  },
+  {
+    "rank":58,
+    "institution":"University of Koblenz‑Landau",
+    "score":1.1,
+    "count":3,
+    "city":"科布伦茨",
+    "lat":50.3536,
+    "lng":7.5933
+  },
+  {
+    "rank":58,
+    "institution":"University of Osnabrück",
+    "score":1.1,
+    "count":4,
+    "city":"奥斯纳布吕克",
+    "lat":52.2793,
+    "lng":8.0422
+  },
+  {
+    "rank":58,
+    "institution":"University of Trier",
+    "score":1.1,
+    "count":3,
+    "city":"特里尔",
+    "lat":49.7570,
+    "lng":6.6413
+  },
+  {
+    "rank":68,
+    "institution":"Brandenburg Univ. of Technology",
+    "score":1.0,
+    "count":2,
+    "city":"科特布斯",
+    "lat":51.7653,
+    "lng":14.3374
+  },
+  {
+    "rank":68,
+    "institution":"University of Marburg",
+    "score":1.0,
+    "count":4,
+    "city":"马尔堡",
+    "lat":50.8093,
+    "lng":8.7770
+  },
+  {
+    "rank":68,
+    "institution":"University of Rostock",
+    "score":1.0,
+    "count":5,
+    "city":"罗斯托克",
+    "lat":54.0887,
+    "lng":12.1405
+  }
+];
 
 let map = null;
 let markers = [];
